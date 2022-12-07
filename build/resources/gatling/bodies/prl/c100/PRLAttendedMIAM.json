@@ -1,0 +1,16 @@
+{
+  "data": {
+    "applicantAttendedMiam": "Yes"
+  },
+  "event": {
+    "id": "miam",
+    "summary": "",
+    "description": ""
+  },
+  "event_data": {
+    "applicantAttendedMiam": "Yes"
+  },
+  "event_token": "${event_token}",
+  "ignore_warning": false,
+  "case_reference": "${caseId}"
+}

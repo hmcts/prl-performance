@@ -1,0 +1,40 @@
+{
+  "data": {
+    "labelContentMarriageOrCivilPartnership": "marriage",
+    "labelContentDivorceOrLegallyEnd": "get a divorce",
+    "applicant2ScreenHasMarriageBroken": "Yes",
+    "applicant2FinancialOrder": "No",
+    "applicant2ConfirmApplicant1Information": "No",
+    "applicant2FinancialOrdersFor": [],
+    "applicant1SolicitorAnswersLink": {
+      "document_url": "${app1AnswersDocumentURL}",
+      "document_binary_url": "${app1AnswersDocumentURL}/binary",
+      "document_filename": "${app1AnswersFilename}"
+    },
+    "divorceOrDissolution": "divorce",
+    "solStatementOfReconciliationCertify": "Yes",
+    "solStatementOfReconciliationDiscussed": "Yes",
+    "applicant2PrayerDissolveDivorce": [
+      "dissolveDivorce"
+    ],
+    "applicant2PrayerEndCivilPartnership": [],
+    "applicant2PrayerFinancialOrdersThemselves": [
+      "financialOrdersThemselves"
+    ],
+    "applicant2PrayerFinancialOrdersChild": [
+      "financialOrdersChild"
+    ],
+    "applicant2StatementOfTruth": "Yes",
+    "applicant2SolSignStatementOfTruth": "Yes",
+    "applicant2SolStatementOfReconciliationName": "RespSolicitor",
+    "applicant2SolStatementOfReconciliationFirm": "${orgname2}",
+    "applicant2StatementOfReconciliationComments": null
+  },
+  "event": {
+    "id": "solicitor-submit-joint-application",
+    "summary": "",
+    "description": ""
+  },
+  "event_token": "${event_token}",
+  "ignore_warning": false
+}

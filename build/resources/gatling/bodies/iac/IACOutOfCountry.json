@@ -1,0 +1,24 @@
+{
+  "data": {
+     "appellantInUk": "Yes"
+  },
+  "event": {
+     "id": "startAppeal",
+     "summary": "",
+     "description": ""
+  },
+  "event_data": {
+     "isOutOfCountryEnabled": "Yes",
+     "checklist": {
+        "checklist2": [
+           "isNotDetained"
+        ],
+        "checklist7": [
+           "isNotEUDecision"
+        ]
+     },
+     "appellantInUk": "Yes"
+  },
+  "event_token": "${event_token}",
+  "ignore_warning": false
+}

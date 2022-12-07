@@ -1,0 +1,122 @@
+{
+   "data": {
+      "children1": [
+         {
+            "value": {
+               "representative": null,
+               "solicitor": null,
+               "finalOrderIssued": null,
+               "finalOrderIssuedType": null,
+               "finalDecisionReason": null,
+               "finalDecisionDate": null,
+               "party": {
+                  "firstName": "${childFirstName}",
+                  "lastName": "${childLastName}",
+                  "dateOfBirth": "${dobYearChild}-${dobMonth}-${dobDay}",
+                  "gender": "Boy",
+                  "genderIdentification": null,
+                  "livingSituation": "Living with respondents",
+                  "livingSituationDetails": null,
+                  "addressChangeDate": "${livingWithSinceYear}-${livingWithSinceMonth}-${livingWithSinceDay}",
+                  "keyDates": null,
+                  "careAndContactPlan": null,
+                  "adoption": "No",
+                  "placementOrderApplication": null,
+                  "placementCourt": null,
+                  "mothersName": "Mother Name",
+                  "fathersName": "Father Name",
+                  "fathersResponsibility": "Yes",
+                  "socialWorkerName": null,
+                  "additionalNeeds": "No",
+                  "additionalNeedsDetails": null,
+                  "detailsHidden": "No",
+                  "detailsHiddenReason": null,
+                  "litigationIssues": "NO",
+                  "litigationIssuesDetails": null,
+                  "partyId": "${partyId}",
+                  "partyType": null,
+                  "showAddressInConfidentialTab": null,
+                  "address": {
+                     "AddressLine1": "${addressLines(0)}",
+                     "AddressLine2": "${addressLines(1)}",
+                     "AddressLine3": "",
+                     "PostTown": "${addressLines(2)}",
+                     "County": "",
+                     "PostCode": "${addressLines(3)}",
+                     "Country": "United Kingdom"
+                  },
+                  "socialWorkerTelephoneNumber": {
+                     "telephoneNumber": "07000000000",
+                     "contactDirection": null
+                  }
+               }
+            },
+            "id": "${id}"
+         }
+      ]
+   },
+   "event": {
+      "id": "enterChildren",
+      "summary": "",
+      "description": ""
+   },
+   "event_data": {
+      "children1": [
+         {
+            "value": {
+               "representative": null,
+               "solicitor": null,
+               "finalOrderIssued": null,
+               "finalOrderIssuedType": null,
+               "finalDecisionReason": null,
+               "finalDecisionDate": null,
+               "party": {
+                  "firstName": "${childFirstName}",
+                  "lastName": "${childLastName}",
+                  "dateOfBirth": "${dobYearChild}-${dobMonth}-${dobDay}",
+                  "gender": "Boy",
+                  "genderIdentification": null,
+                  "livingSituation": "Living with respondents",
+                  "livingSituationDetails": null,
+                  "addressChangeDate": "${livingWithSinceYear}-${livingWithSinceMonth}-${livingWithSinceDay}",
+                  "keyDates": null,
+                  "careAndContactPlan": null,
+                  "adoption": "No",
+                  "placementOrderApplication": null,
+                  "placementCourt": null,
+                  "mothersName": "Mother Name",
+                  "fathersName": "Father Name",
+                  "fathersResponsibility": "Yes",
+                  "socialWorkerName": null,
+                  "additionalNeeds": "No",
+                  "additionalNeedsDetails": null,
+                  "detailsHidden": "No",
+                  "detailsHiddenReason": null,
+                  "litigationIssues": "NO",
+                  "litigationIssuesDetails": null,
+                  "partyId": "${partyId}",
+                  "partyType": null,
+                  "showAddressInConfidentialTab": null,
+                  "address": {
+                     "AddressLine1": "${addressLines(0)}",
+                     "AddressLine2": "${addressLines(1)}",
+                     "AddressLine3": "",
+                     "PostTown": "${addressLines(2)}",
+                     "County": "",
+                     "PostCode": "${addressLines(3)}",
+                     "Country": "United Kingdom"
+                  },
+                  "socialWorkerTelephoneNumber": {
+                     "telephoneNumber": "07000000000",
+                     "contactDirection": null
+                  }
+               }
+            },
+            "id": "${id}"
+         }
+      ]
+   },
+   "event_token": "${event_token}",
+   "ignore_warning": false,
+   "case_reference": "${caseId}"
+}

@@ -1,0 +1,26 @@
+{
+  "data": {
+    "grounds": {
+      "thresholdDetails": "Free text",
+      "thresholdReason": [
+        "beyondControl"
+      ]
+    }
+  },
+  "event": {
+    "id": "enterGrounds",
+    "summary": "",
+    "description": ""
+  },
+  "event_data": {
+    "grounds": {
+      "thresholdDetails": "Free text",
+      "thresholdReason": [
+        "beyondControl"
+      ]
+    }
+  },
+  "event_token": "${event_token}",
+  "ignore_warning": false,
+  "case_reference": "${caseId}"
+}

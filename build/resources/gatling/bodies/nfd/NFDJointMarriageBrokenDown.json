@@ -1,0 +1,20 @@
+{
+  "data": {
+    "labelContentMarriageOrCivilPartnership": "marriage",
+    "labelContentDivorceOrLegallyEnd": "get a divorce",
+    "applicant2ScreenHasMarriageBroken": "Yes"
+  },
+  "event": {
+    "id": "solicitor-submit-joint-application",
+    "summary": "",
+    "description": ""
+  },
+  "event_data": {
+    "labelContentMarriageOrCivilPartnership": "marriage",
+    "labelContentDivorceOrLegallyEnd": "get a divorce",
+    "applicant2ScreenHasMarriageBroken": "Yes"
+  },
+  "event_token": "${event_token}",
+  "ignore_warning": false,
+  "case_reference": "${caseId}"
+}

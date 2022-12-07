@@ -1,0 +1,26 @@
+{
+  "data": {
+    "SolPaymentHowToPay": "feePayByAccount"
+  },
+  "event": {
+    "id": "solicitorStatementOfTruthPaySubmit",
+    "summary": "",
+    "description": ""
+  },
+  "event_data": {
+    "SolUrgentCase": "No",
+    "SolServiceMethod": "courtService",
+    "SolStatementOfReconciliationCertify": "Yes",
+    "SolStatementOfReconciliationDiscussed": "Yes",
+    "D8StatementOfTruth": "Yes",
+    "solSignStatementofTruth": "Yes",
+    "SolStatementOfReconciliationName": "PerfSolicitorFirst SolicitorLast",
+    "SolStatementOfReconciliationFirm": "${orgname}",
+    "StatementOfReconciliationComments": null,
+    "solApplicationFeeInPounds": "593",
+    "SolPaymentHowToPay": "feePayByAccount"
+  },
+  "event_token": "${event_token}",
+  "ignore_warning": false,
+  "case_reference": "${caseId}"
+}

@@ -1,0 +1,31 @@
+{
+  "data": {
+    "homeOfficeReferenceNumber": "${BailsRandomNumber}"
+  },
+  "event": {
+    "id": "startApplication",
+    "summary": "",
+    "description": ""
+  },
+  "event_data": {
+    "hasPreviousBailApplication": "No",
+    "previousApplicationDoneViaAria": "No",
+    "previousApplicationDoneViaCcd": "No",
+    "applicantGivenNames": "Bails${BailsRandomString}",
+    "applicantFamilyName": "Test${BailsRandomString}",
+    "applicantDateOfBirth": "${BailsDobYear}-${BailsDobMonth}-${BailsDobDay}",
+    "applicantGender": "Male",
+    "applicantNationality": "HAS_NATIONALITY",
+    "applicantNationalities": [
+      {
+        "value": {
+          "code": "English"
+        },
+        "id": null
+      }
+    ],
+    "homeOfficeReferenceNumber": "${BailsRandomNumber}"
+  },
+  "event_token": "${event_token}",
+  "ignore_warning": false
+}

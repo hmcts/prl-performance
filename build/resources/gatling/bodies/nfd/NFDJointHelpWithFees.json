@@ -1,0 +1,20 @@
+{
+  "data": {
+    "applicant2NeedsHelpWithFees": "No"
+  },
+  "event": {
+    "id": "solicitor-submit-joint-application",
+    "summary": "",
+    "description": ""
+  },
+  "event_data": {
+    "labelContentMarriageOrCivilPartnership": "marriage",
+    "labelContentDivorceOrLegallyEnd": "get a divorce",
+    "applicant2ScreenHasMarriageBroken": "Yes",
+    "applicant2FinancialOrder": "No",
+    "applicant2NeedsHelpWithFees": "No"
+  },
+  "event_token": "${event_token}",
+  "ignore_warning": false,
+  "case_reference": "${caseId}"
+}

@@ -1,0 +1,26 @@
+{
+  "data": {
+    "hearing": {
+      "timeFrame": "Within 7 days",
+      "reason": null,
+      "reason2Days": null,
+      "reason7Days": null,
+      "reason12Days": null,
+      "type": "Standard case management hearing",
+      "type_GiveReason": "Reason text",
+      "withoutNotice": "No",
+      "withoutNoticeReason": null,
+      "reducedNotice": "No",
+      "reducedNoticeReason": null,
+      "respondentsAware": "No",
+      "respondentsAwareReason": null
+    }
+  },
+  "event": {
+    "id": "hearingNeeded",
+    "summary": "",
+    "description": ""
+  },
+  "event_token": "${event_token}",
+  "ignore_warning": false
+}

@@ -1,0 +1,42 @@
+{
+  "data": {
+    "uploadBailSummaryDocs": [
+      {
+        "value": {
+          "description": "${BailsRandomString}",
+          "document": {
+            "document_url": "${DocumentURL}",
+            "document_binary_url": "${DocumentURL}/binary",
+            "document_filename": "120KB.pdf",
+            "document_hash": "${DocumentHash}"
+          }
+        },
+        "id": null
+      }
+    ]
+  },
+  "event": {
+    "id": "uploadBailSummary",
+    "summary": "",
+    "description": ""
+  },
+  "event_data": {
+    "uploadBailSummaryDocs": [
+      {
+        "value": {
+          "description": "${BailsRandomString}",
+          "document": {
+            "document_url": "${DocumentURL}",
+            "document_binary_url": "${DocumentURL}/binary",
+            "document_filename": "120KB.pdf",
+            "document_hash": "${DocumentHash}"
+          }
+        },
+        "id": null
+      }
+    ]
+  },
+  "event_token": "${event_token}",
+  "ignore_warning": false,
+  "case_reference": "${caseId}"
+}

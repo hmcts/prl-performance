@@ -1,0 +1,126 @@
+{
+  "data": {
+    "applicantsFL401": {
+      "firstName": "${ApplicantFirstName}",
+      "lastName": "${ApplicantLastName}",
+      "previousName": null,
+      "dateOfBirth": "${AppDobYear}-${AppDobMonth}-${AppDobDay}",
+      "gender": "male",
+      "isAddressConfidential": "Yes",
+      "canYouProvideEmailAddress": "Yes",
+      "email": "applicant@perftest12345.com",
+      "isEmailAddressConfidential": "Yes",
+      "phoneNumber": "07000000000",
+      "isPhoneNumberConfidential": "Yes",
+      "representativeFirstName": "SolFirst",
+      "representativeLastName": "SolLast",
+      "solicitorEmail": "sol@perftest12345.com",
+      "solicitorTelephone": "07000000000",
+      "solicitorReference": "SolRef123",
+      "dxNumber": "1234567890",
+      "isDateOfBirthUnknown": null,
+      "placeOfBirth": null,
+      "isAddressUnknown": null,
+      "isAtAddressLessThan5Years": null,
+      "addressLivedLessThan5YearsDetails": null,
+      "landline": null,
+      "relationshipToChildren": null,
+      "isDateOfBirthKnown": null,
+      "isCurrentAddressKnown": null,
+      "canYouProvidePhoneNumber": null,
+      "isPlaceOfBirthKnown": null,
+      "isAtAddressLessThan5YearsWithDontKnow": null,
+      "doTheyHaveLegalRepresentation": null,
+      "sendSignUpLink": null,
+      "respondentLivedWithApplicant": null,
+      "address": {
+        "AddressLine1": "${addressLines(0)}",
+        "AddressLine2": "${addressLines(1)}",
+        "AddressLine3": "",
+        "PostTown": "${addressLines(2)}",
+        "County": "",
+        "PostCode": "${addressLines(3)}",
+        "Country": "United Kingdom"
+      },
+      "solicitorOrg": {
+        "OrganisationID": "${orgref}",
+        "OrganisationName": "${orgname}"
+      },
+      "solicitorAddress": {
+        "AddressLine1": "1 Perf Test Road",
+        "AddressLine2": "Perf Test",
+        "AddressLine3": "",
+        "PostTown": "Perf Test Town",
+        "County": "",
+        "PostCode": "PR1 1PRF",
+        "Country": "United Kingdom"
+      }
+    }
+  },
+  "event": {
+    "id": "applicantsDetails",
+    "summary": "",
+    "description": ""
+  },
+  "event_data": {
+    "applicantsFL401": {
+      "firstName": "${ApplicantFirstName}",
+      "lastName": "${ApplicantLastName}",
+      "previousName": null,
+      "dateOfBirth": "${AppDobYear}-${AppDobMonth}-${AppDobDay}",
+      "gender": "male",
+      "isAddressConfidential": "Yes",
+      "canYouProvideEmailAddress": "Yes",
+      "email": "applicant@perftest12345.com",
+      "isEmailAddressConfidential": "Yes",
+      "phoneNumber": "07000000000",
+      "isPhoneNumberConfidential": "Yes",
+      "representativeFirstName": "SolFirst",
+      "representativeLastName": "SolLast",
+      "solicitorEmail": "sol@perftest12345.com",
+      "solicitorTelephone": "07000000000",
+      "solicitorReference": "SolRef123",
+      "dxNumber": "1234567890",
+      "isDateOfBirthUnknown": null,
+      "placeOfBirth": null,
+      "isAddressUnknown": null,
+      "isAtAddressLessThan5Years": null,
+      "addressLivedLessThan5YearsDetails": null,
+      "landline": null,
+      "relationshipToChildren": null,
+      "isDateOfBirthKnown": null,
+      "isCurrentAddressKnown": null,
+      "canYouProvidePhoneNumber": null,
+      "isPlaceOfBirthKnown": null,
+      "isAtAddressLessThan5YearsWithDontKnow": null,
+      "doTheyHaveLegalRepresentation": null,
+      "sendSignUpLink": null,
+      "respondentLivedWithApplicant": null,
+      "address": {
+        "AddressLine1": "${addressLines(0)}",
+        "AddressLine2": "${addressLines(1)}",
+        "AddressLine3": "",
+        "PostTown": "${addressLines(2)}",
+        "County": "",
+        "PostCode": "${addressLines(3)}",
+        "Country": "United Kingdom"
+      },
+      "solicitorOrg": {
+        "OrganisationID": "${orgref}",
+        "OrganisationName": "${orgname}"
+      },
+      "solicitorAddress": {
+        "AddressLine1": "1 Perf Test Road",
+        "AddressLine2": "Perf Test",
+        "AddressLine3": "",
+        "PostTown": "Perf Test Town",
+        "County": "",
+        "PostCode": "PR1 1PRF",
+        "Country": "United Kingdom"
+      }
+    }
+  },
+  "event_token": "${event_token}",
+  "ignore_warning": false,
+  "case_reference": "${caseId}"
+}

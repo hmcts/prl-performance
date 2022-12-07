@@ -1,0 +1,26 @@
+{
+  "data": {
+    "coRespondentAnswersLink": {
+      "document_url": "${respondentAnswersURL}",
+      "document_filename": "${respondentAnswers}",
+      "document_binary_url": "${respondentAnswersURL}/binary"
+    },
+    "coApplicant1ApplyForConditionalOrder": "Yes"
+  },
+  "event": {
+    "id": "draft-conditional-order",
+    "summary": "",
+    "description": ""
+  },
+  "event_data": {
+    "coRespondentAnswersLink": {
+      "document_url": "${respondentAnswersURL}",
+      "document_filename": "${respondentAnswers}",
+      "document_binary_url": "${respondentAnswersURL}/binary"
+    },
+    "coApplicant1ApplyForConditionalOrder": "Yes"
+  },
+  "event_token": "${event_token}",
+  "ignore_warning": false,
+  "case_reference": "${caseId}"
+}

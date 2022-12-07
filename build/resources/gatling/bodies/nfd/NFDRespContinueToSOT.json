@@ -1,0 +1,28 @@
+{
+  "data": {
+    "labelContentMarriageOrCivilPartnership": "marriage",
+    "confirmReadPetition": "Yes",
+    "jurisdictionAgree": "Yes",
+    "reasonCourtsOfEnglandAndWalesHaveNoJurisdiction": null,
+    "inWhichCountryIsYourLifeMainlyBased": null,
+    "applicant2LegalProceedings": "No",
+    "applicant2LegalProceedingsDetails": null
+  },
+  "event": {
+    "id": "submit-aos",
+    "summary": "",
+    "description": ""
+  },
+  "event_data": {
+    "labelContentMarriageOrCivilPartnership": "marriage",
+    "confirmReadPetition": "Yes",
+    "jurisdictionAgree": "Yes",
+    "reasonCourtsOfEnglandAndWalesHaveNoJurisdiction": null,
+    "inWhichCountryIsYourLifeMainlyBased": null,
+    "applicant2LegalProceedings": "No",
+    "applicant2LegalProceedingsDetails": null
+  },
+  "event_token": "${event_token}",
+  "ignore_warning": false,
+  "case_reference": "${caseId}"
+}

@@ -1,0 +1,20 @@
+{
+  "data": {
+    "applicantFamilyDetails": {
+      "doesApplicantHaveChildren": "No"
+    }
+  },
+  "event": {
+    "id": "fl401ApplicantFamilyDetails",
+    "summary": "",
+    "description": ""
+  },
+  "event_data": {
+    "applicantFamilyDetails": {
+      "doesApplicantHaveChildren": "No"
+    }
+  },
+  "event_token": "${event_token}",
+  "ignore_warning": false,
+  "case_reference": "${caseId}"
+}

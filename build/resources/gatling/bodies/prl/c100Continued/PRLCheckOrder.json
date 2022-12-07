@@ -1,0 +1,52 @@
+{
+  "data": {
+    "previewOrderDoc": {
+      "document_url": "${document_url}",
+      "document_binary_url": "${document_url}/binary",
+      "document_filename": "Special_Guardianship_Order_C43A_Draft.pdf",
+      "document_hash": "${document_hash}",
+      "document_creation_date": null
+    }
+  },
+  "event": {
+    "id": "manageOrders",
+    "summary": "",
+    "description": ""
+  },
+  "event_data": {
+    "manageOrderHeader1": null,
+    "manageOrdersOptions": "createAnOrder",
+    "createSelectOrderOptions": "specialGuardianShip",
+    "selectedOrder": "Special guardianship order (C43A)",
+    "isOrderDrawnForCafcass": "No",
+    "selectTypeOfOrder": "interim",
+    "isTheOrderByConsent": "Yes",
+    "wasTheOrderApprovedAtHearing": "No",
+    "judgeOrMagistrateTitle": "herHonourJudge",
+    "judgeOrMagistratesLastName": "${PRLRandomString} judge",
+    "justiceLegalAdviserFullName": null,
+    "dateOrderMade": "${PRLAppDobYear}-${PRLAppDobMonth}-${PRLAppDobDay}",
+    "isTheOrderAboutAllChildren": "yes",
+    "recitalsOrPreamble": "${PRLRandomString} recitals",
+    "orderDirections": "${PRLRandomString} directions",
+    "furtherDirectionsIfRequired": "${PRLRandomString} further",
+    "appointedGuardianName": [
+      {
+        "value": {
+          "guardianFullName": "${PRLRandomString} Guardian"
+        },
+        "id": null
+      }
+    ],
+    "previewOrderDoc": {
+      "document_url": "${document_url}",
+      "document_binary_url": "${document_url}/binary",
+      "document_filename": "Special_Guardianship_Order_C43A_Draft.pdf",
+      "document_hash": "${document_hash}",
+      "document_creation_date": null
+    }
+  },
+  "event_token": "${event_token}",
+  "ignore_warning": false,
+  "case_reference": "${caseId}"
+}

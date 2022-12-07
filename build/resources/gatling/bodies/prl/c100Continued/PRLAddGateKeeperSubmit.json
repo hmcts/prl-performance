@@ -1,0 +1,19 @@
+{
+  "data": {
+    "gatekeeper": [
+      {
+        "value": {
+          "email": "prl_court_admin2@test.com"
+        },
+        "id": "${gateKeeper_id}"
+      }
+    ]
+  },
+  "event": {
+    "id": "sendToGateKeeper",
+    "summary": "",
+    "description": ""
+  },
+  "event_token": "${event_token}",
+  "ignore_warning": false
+}

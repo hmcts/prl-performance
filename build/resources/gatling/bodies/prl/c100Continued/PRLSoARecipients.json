@@ -1,0 +1,77 @@
+{
+  "data": {
+    "confirmRecipients": {
+      "applicantsList": [
+        "applicantOrApplicantSolicitor",
+        "respondentOrRespondentSolicitor"
+      ],
+      "otherPeopleList": [],
+      "cafcassEmailOptionChecked": [],
+      "cafcassEmailAddressList": [],
+      "otherEmailOptionChecked": [],
+      "otherEmailAddressList": []
+    }
+  },
+  "event": {
+    "id": "serviceOfApplication",
+    "summary": "",
+    "description": ""
+  },
+  "event_data": {
+    "serviceOfApplicationHeader": null,
+    "serviceOfApplicationScreen1": {
+      "standardDirectionsOrderOption": [],
+      "blankOrderOrDirectionsOption": [],
+      "blankOrderOrDirectionsWithdrawOption": [],
+      "childArrangementSpecificOrderOption": [],
+      "parentalResponsibilityOption": [],
+      "specialGuardianShipOption": [
+        "specialGuardianShip"
+      ],
+      "noticeOfProceedingsPartiesOption": [],
+      "noticeOfProceedingsNonPartiesOption": [],
+      "transferOfCaseToAnotherCourtOption": [],
+      "appointmentOfGuardianOption": [],
+      "nonMolestationOption": [],
+      "occupationOption": [],
+      "powerOfArrestOption": [],
+      "amendDischargedVariedOption": [],
+      "blankOrderEnumOption": [],
+      "generalFormUndertakingOption": [],
+      "noticeOfProceedingsEnumOption": [],
+      "otherUploadAnOrderOption": []
+    },
+    "pd36qLetter": {
+      "document_url": "${DocumentURLPD36Q}",
+      "document_binary_url": "${DocumentURLPD36Q}/binary",
+      "document_filename": "UploadTest.pdf",
+      "document_hash": "${documentHashPD36Q}"
+    },
+    "specialArrangementsLetter": {
+      "document_url": "${DocumentURLSpecial}",
+      "document_binary_url": "${DocumentURLSpecial}/binary",
+      "document_filename": "UploadTest2.pdf",
+      "document_hash": "${documentHashSpecial}"
+    },
+    "additionalDocuments": {
+      "document_url": "${DocumentURLAdditional}",
+      "document_binary_url": "${DocumentURLAdditional}/binary",
+      "document_filename": "UploadTest3.pdf",
+      "document_hash": "${documentHashAdditional}"
+    },
+    "confirmRecipients": {
+      "applicantsList": [
+        "applicantOrApplicantSolicitor",
+        "respondentOrRespondentSolicitor"
+      ],
+      "otherPeopleList": [],
+      "cafcassEmailOptionChecked": [],
+      "cafcassEmailAddressList": [],
+      "otherEmailOptionChecked": [],
+      "otherEmailAddressList": []
+    }
+  },
+  "event_token": "${event_token}",
+  "ignore_warning": false,
+  "case_reference": "${caseId}"
+}

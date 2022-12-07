@@ -1,0 +1,20 @@
+{
+  "data": {
+    "isEngDocGen": "Yes",
+    "draftOrderDoc": {
+      "document_url": "${DocumentUrl}",
+      "document_binary_url": "${DocumentUrl}/binary",
+      "document_filename": "${DocumentFileName}",
+      "document_hash": "${DocumentHash}"
+    },
+    "isWelshDocGen": null,
+    "draftOrderDocWelsh": null
+  },
+  "event": {
+    "id": "viewPdfDocument",
+    "summary": "",
+    "description": ""
+  },
+  "event_token": "${event_token}",
+  "ignore_warning": false
+}

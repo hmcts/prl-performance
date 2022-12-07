@@ -1,0 +1,34 @@
+{
+  "data":{
+    "deceasedForenames":"${deceasedForename}",
+    "deceasedSurname":"${deceasedSurname}",
+    "deceasedDateOfBirth":"${dobYear}-${dobMonth}-${dobDay}",
+    "deceasedDateOfDeath":"${dodYear}-${dodMonth}-${dodDay}",
+    "deceasedDomicileInEngWales":"Yes",
+    "deceasedAddress":{
+      "AddressLine1":"${addressLines(0)}",
+      "AddressLine2":"${addressLines(1)}",
+      "AddressLine3":"",
+      "PostTown":"${addressLines(2)}",
+      "County":"",
+      "PostCode":"${addressLines(3)}",
+      "Country":"United Kingdom"
+    },
+    "deceasedAnyOtherNames":"No",
+    "ihtFormId":"IHT205",
+    "ihtGrossValue":"1000000",
+    "ihtNetValue":"1000000",
+    "iht217":"No",
+    "solsWillType":"WillLeft",
+    "willDispose":"Yes",
+    "englishWill":"Yes",
+    "appointExec":"Yes"
+  },
+  "event":{
+    "id":"solicitorUpdateApplication",
+    "summary":"",
+    "description":""
+  },
+  "event_token":"${event_token_probate}",
+  "ignore_warning":false
+}

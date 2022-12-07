@@ -1,0 +1,76 @@
+{
+  "data": {
+    "pbaNumbers": {
+      "value": {
+        "code": "82f92650-d346-4837-bc18-7c83531e70d7",
+        "label": "PBA0066906"
+      },
+      "list_items": [
+        {
+          "code": "82f92650-d346-4837-bc18-7c83531e70d7",
+          "label": "PBA0066906"
+        },
+        {
+          "code": "4200ce53-c804-4aab-8d40-748d6d25c09e",
+          "label": "PBAVRQSJEP"
+        }
+      ]
+    },
+    "feeAccountReference": "PerfPayRef"
+  },
+  "event": {
+    "id": "solicitor-submit-application",
+    "summary": "",
+    "description": ""
+  },
+  "event_data": {
+    "applicant2SolicitorRepresented": "Yes",
+    "applicant2SolicitorAnswersLink": {
+      "document_url": "${app2AnswersUrl}",
+      "document_filename": "${app2AnswersFilename}",
+      "document_binary_url": "${app2AnswersUrl}/binary"
+    },
+    "applicationType": "jointApplication",
+    "divorceOrDissolution": "divorce",
+    "solUrgentCase": "No",
+    "applicant1FinancialOrder": "No",
+    "solStatementOfReconciliationCertify": "Yes",
+    "solStatementOfReconciliationDiscussed": "Yes",
+    "applicant1PrayerDissolveDivorce": [
+      "dissolveDivorce"
+    ],
+    "applicant1PrayerFinancialOrdersThemselves": [
+      "financialOrdersThemselves"
+    ],
+    "applicant1PrayerFinancialOrdersChild": [
+      "financialOrdersChild"
+    ],
+    "applicant1StatementOfTruth": "Yes",
+    "solSignStatementOfTruth": "Yes",
+    "solStatementOfReconciliationName": "AppSolicitor",
+    "solStatementOfReconciliationFirm": "${orgname1}",
+    "statementOfReconciliationComments": null,
+    "solApplicationFeeInPounds": "${feeInPounds}",
+    "solPaymentHowToPay": "feePayByAccount",
+    "pbaNumbers": {
+      "value": {
+        "code": "82f92650-d346-4837-bc18-7c83531e70d7",
+        "label": "PBA0066906"
+      },
+      "list_items": [
+        {
+          "code": "82f92650-d346-4837-bc18-7c83531e70d7",
+          "label": "PBA0066906"
+        },
+        {
+          "code": "4200ce53-c804-4aab-8d40-748d6d25c09e",
+          "label": "PBAVRQSJEP"
+        }
+      ]
+    },
+    "feeAccountReference": "PerfPayRef"
+  },
+  "event_token": "${event_token}",
+  "ignore_warning": false,
+  "case_reference": "${caseId}"
+}

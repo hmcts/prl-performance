@@ -1,0 +1,20 @@
+{
+  "data": {
+    "c100ConfidentialityStatementDisclaimer": [
+      "confidentialityStatementUnderstood"
+    ]
+  },
+  "event": {
+    "id": "solicitorCreate",
+    "summary": "",
+    "description": ""
+  },
+  "event_data": {
+    "caseTypeOfApplication": "C100",
+    "c100ConfidentialityStatementDisclaimer": [
+      "confidentialityStatementUnderstood"
+    ]
+  },
+  "event_token": "${event_token}",
+  "ignore_warning": false
+}

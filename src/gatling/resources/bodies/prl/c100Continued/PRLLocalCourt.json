@@ -1,0 +1,30 @@
+{
+  "data": {
+    "localCourtAdmin": [
+      {
+        "value": {
+          "email": "family.birmingham.countycourt@justice.gov.uk"
+        },
+        "id": ""
+      }
+    ]
+  },
+  "event": {
+    "id": "issueAndSendToLocalCourtCallback",
+    "summary": "",
+    "description": ""
+  },
+  "event_data": {
+    "localCourtAdmin": [
+      {
+        "value": {
+          "email": "family.birmingham.countycourt@justice.gov.uk"
+        },
+        "id": ""
+      }
+    ]
+  },
+  "event_token": "${event_token}",
+  "ignore_warning": false,
+  "case_reference": "${caseId}"
+}

@@ -1,0 +1,110 @@
+{
+  "data": {
+    "applicant2SolicitorRepresented": "Yes",
+    "applicant2SolicitorName": "RespSolicitor",
+    "applicant2SolicitorReference": "RespondentSolRef",
+    "applicant2SolicitorPhone": "07000000000",
+    "applicant2SolicitorEmail": "${user2}",
+    "applicant2SolicitorAddress": "1 Perf Test Road\nPerf Test Town\nPR1 1RF",
+    "applicant2SolicitorOrganisationPolicy": {
+      "OrgPolicyCaseAssignedRole": "[APPTWOSOLICITOR]",
+      "OrgPolicyReference": null,
+      "PrepopulateToUsersOrganisation": null,
+      "Organisation": {
+        "OrganisationID": "${orgref2}",
+        "OrganisationName": "${orgname2}"
+      }
+    },
+    "applicant2Email": "applicant2@perftest12345.com",
+    "applicant2Address": {
+      "AddressLine1": "${addressLines(0)}",
+      "AddressLine2": "${addressLines(1)}",
+      "AddressLine3": "",
+      "PostTown": "${addressLines(2)}",
+      "County": "",
+      "Country": "United Kingdom",
+      "PostCode": "${addressLines(3)}"
+    }
+  },
+  "event": {
+    "id": "solicitor-create-application",
+    "summary": "",
+    "description": ""
+  },
+  "event_data": {
+    ${NFDLabelsPopulated}
+    "isJudicialSeparation": "No",
+    "coApplicant1IsDrafted": "No",
+    "coApplicant1IsSubmitted": "No",
+    "coApplicant2IsDrafted": null,
+    "coApplicant2IsSubmitted": null,
+    "divorceOrDissolution": "divorce",
+    "applicationType": "${nfdCaseType}Application",
+    "applicant1SolicitorName": "AppSolicitor",
+    "applicant1SolicitorReference": "ApplicantSolRef",
+    "applicant1SolicitorPhone": "07000000000",
+    "applicant1SolicitorEmail": "${user1}",
+    "applicant1SolicitorAgreeToReceiveEmailsCheckbox": [
+      "Yes"
+    ],
+    "applicant1SolicitorOrganisationPolicy": {
+      "OrgPolicyCaseAssignedRole": "[APPONESOLICITOR]",
+      "OrgPolicyReference": null,
+      "PrepopulateToUsersOrganisation": null,
+      "Organisation": {
+        "OrganisationID": "${orgref1}",
+        "OrganisationName": "${orgname1}"
+      }
+    },
+    "applicant1ScreenHasMarriageBroken": "Yes",
+    "applicant1FirstName": "${applicant1FirstName}",
+    "applicant1MiddleName": null,
+    "applicant1LastName": "${applicant1LastName}",
+    "applicant1NameDifferentToMarriageCertificate": "No",
+    "divorceWho": "wife",
+    "marriageFormationType": "oppositeSexCouple",
+    "applicant1Email": "applicant1@perftest12345.com",
+    "applicant1PhoneNumber": "07000000000",
+    "applicant1Address": {
+      "AddressLine1": "${addressLines(0)}",
+      "AddressLine2": "${addressLines(1)}",
+      "AddressLine3": "",
+      "PostTown": "${addressLines(2)}",
+      "County": "",
+      "Country": "United Kingdom",
+      "PostCode": "${addressLines(3)}"
+    },
+    "applicant1ContactDetailsType": "public",
+    "applicant2FirstName": "${applicant2FirstName}",
+    "applicant2MiddleName": null,
+    "applicant2LastName": "${applicant2LastName}",
+    "applicant2NameDifferentToMarriageCertificate": "No",
+    "applicant2SolicitorRepresented": "Yes",
+    "applicant2SolicitorName": "RespSolicitor",
+    "applicant2SolicitorReference": "RespondentSolRef",
+    "applicant2SolicitorPhone": "07000000000",
+    "applicant2SolicitorEmail": "${user2}",
+    "applicant2SolicitorAddress": "1 Perf Test Road\nPerf Test Town\nPR1 1RF",
+    "applicant2SolicitorOrganisationPolicy": {
+      "OrgPolicyCaseAssignedRole": "[APPTWOSOLICITOR]",
+      "OrgPolicyReference": null,
+      "PrepopulateToUsersOrganisation": null,
+      "Organisation": {
+        "OrganisationID": "${orgref2}",
+        "OrganisationName": "${orgname2}"
+      }
+    },
+    "applicant2Email": "applicant2@perftest12345.com",
+    "applicant2Address": {
+      "AddressLine1": "${addressLines(0)}",
+      "AddressLine2": "${addressLines(1)}",
+      "AddressLine3": "",
+      "PostTown": "${addressLines(2)}",
+      "County": "",
+      "Country": "United Kingdom",
+      "PostCode": "${addressLines(3)}"
+    }
+  },
+  "event_token": "${event_token}",
+  "ignore_warning": false
+}

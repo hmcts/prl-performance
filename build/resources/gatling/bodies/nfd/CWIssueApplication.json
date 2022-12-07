@@ -1,0 +1,17 @@
+{
+  "data": {
+    "labelContentMarriageOrCivilPartnership": "marriage",
+    "marriageDate": "${marriageYear}-${marriageMonth}-${marriageDay}",
+    "marriageApplicant1Name": "${applicant1FirstName} ${applicant1LastName}",
+    "marriageApplicant2Name": "${applicant2FirstName} ${applicant2LastName}",
+    "marriageCountryOfMarriage": "England",
+    "marriagePlaceOfMarriage": "London"
+  },
+  "event": {
+    "id": "caseworker-issue-application",
+    "summary": "",
+    "description": ""
+  },
+  "event_token": "${eventToken}",
+  "ignore_warning": false
+}

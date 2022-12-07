@@ -1,0 +1,11 @@
+{
+  "data": {},
+  "event": {
+    "id": "solicitorCreateApplication",
+    "summary": "",
+    "description": ""
+  },
+  "event_token": "${event_token_probate}",
+  "ignore_warning": false,
+  "event_data": {}
+}

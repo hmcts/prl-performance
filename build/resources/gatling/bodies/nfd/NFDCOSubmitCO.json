@@ -1,0 +1,15 @@
+{
+  "data": {
+    "coApplicant1StatementOfTruth": "Yes",
+    "coApplicant1SolicitorName": "AppSolicitor",
+    "coApplicant1SolicitorFirm": "${orgname1}",
+    "coApplicant1SolicitorAdditionalComments": null
+  },
+  "event": {
+    "id": "submit-conditional-order",
+    "summary": "",
+    "description": ""
+  },
+  "event_token": "${event_token}",
+  "ignore_warning": false
+}
