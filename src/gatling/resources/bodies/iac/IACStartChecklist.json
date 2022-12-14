@@ -1,0 +1,31 @@
+{
+  "data": {
+     "isOutOfCountryEnabled": "Yes",
+     "checklist": {
+        "checklist2": [
+           "isNotDetained"
+        ],
+        "checklist7": [
+           "isNotEUDecision"
+        ]
+     }
+  },
+  "event": {
+     "id": "startAppeal",
+     "summary": "",
+     "description": ""
+  },
+  "event_data": {
+     "isOutOfCountryEnabled": "Yes",
+     "checklist": {
+        "checklist2": [
+           "isNotDetained"
+        ],
+        "checklist7": [
+           "isNotEUDecision"
+        ]
+     }
+  },
+  "event_token": "${event_token}",
+  "ignore_warning": false
+}

@@ -1,0 +1,35 @@
+{
+  "data": {
+     "decisionHearingFeeOption": "decisionWithHearing",
+     "feeWithHearing": "140",
+     "feeWithoutHearing": null,
+     "appealFeeHearingDesc": null,
+     "appealFeeWithoutHearingDesc": null,
+     "paymentAccountList": {
+        "value": {
+           "code": "PBA0066906",
+           "label": "PBA0066906"
+        },
+        "list_items": [
+           {
+              "code": "PBA0066906",
+              "label": "PBA0066906"
+           },
+           {
+              "code": "PBAVRQSJEP",
+              "label": "PBAVRQSJEP"
+           }
+        ]
+     },
+     "legalRepDeclaration": [
+        "hasDeclared"
+     ]
+  },
+  "event": {
+     "id": "payAndSubmitAppeal",
+     "summary": "",
+     "description": ""
+  },
+  "event_token": "${event_token_submit}",
+  "ignore_warning": false
+}

@@ -20,6 +20,15 @@ object Headers {
     "sec-fetch-mode" -> "cors",
     "sec-fetch-site" -> "same-origin")
 
+  val uploadHeader = Map(
+    "accept-encoding" -> "gzip, deflate, br",
+    "accept-language" -> "en-GB,en-US;q=0.9,en;q=0.8",
+    "content-type" -> "multipart/form-data",
+    "sec-fetch-dest" -> "document",
+    "sec-fetch-mode" -> "navigate",
+    "sec-fetch-site" -> "same-origin",
+    "upgrade-insecure-requests" -> "1")
+
   val postHeader = Map(
     "content-type" -> "application/x-www-form-urlencoded"
   )

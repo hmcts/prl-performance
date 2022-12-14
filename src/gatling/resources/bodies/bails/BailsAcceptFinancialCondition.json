@@ -1,0 +1,30 @@
+{
+  "data": {
+    "judgeHasAgreedToSupporter1": "Yes"
+  },
+  "event": {
+    "id": "recordTheDecision",
+    "summary": "",
+    "description": ""
+  },
+  "event_data": {
+    "judgeDetailsName": "Judge${BailsRandomString}",
+    "secretaryOfStateConsentYesOrNo": "No",
+    "recordTheDecisionList": null,
+    "decisionGrantedOrRefused": "granted",
+    "releaseStatusYesOrNo": "Yes",
+    "conditionsForBailAppearance": "Appearance${BailsRandomString}",
+    "conditionsForBailActivities": "Activities${BailsRandomString}",
+    "recordFinancialConditionYesOrNo": "Yes",
+    "recordFinancialConditionCorrectYesOrEdit": "conditionCorrectYes",
+    "conditionsForBail": [
+      "bailAppearance",
+      "bailActivities"
+    ],
+    "financialCondAmount1": "100",
+    "judgeHasAgreedToSupporter1": "Yes"
+  },
+  "event_token": "${event_token}",
+  "ignore_warning": false,
+  "case_reference": "${caseId}"
+}

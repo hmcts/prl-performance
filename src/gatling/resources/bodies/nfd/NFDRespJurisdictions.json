@@ -1,0 +1,42 @@
+{
+  "data": {
+    "jurisdictionConnections": [
+      "F"
+    ],
+    "jurisdictionAgree": "Yes"
+  },
+  "event": {
+    "id": "draft-aos",
+    "summary": "",
+    "description": ""
+  },
+  "event_data": {
+    "labelContentApplicant2": "respondent",
+    "labelContentApplicant2UC": "Respondent",
+    "labelContentTheApplicant2": "the respondent",
+    "labelContentTheApplicant2UC": "The respondent",
+    "labelContentDivorceOrCivilPartnershipApplication": "divorce application",
+    "labelContentMarriageOrCivilPartnership": "marriage",
+    "labelContentDivorceOrCivilPartnership": "divorce",
+    "applicant2SolicitorName": "RespSolicitor",
+    "applicant2SolicitorPhone": "07000000000",
+    "applicant2SolicitorEmail": "${user2}",
+    "applicant2SolicitorAgreeToReceiveEmailsCheckbox": [
+      "Yes"
+    ],
+    "miniApplicationLink": {
+      "document_url": "${documentURL}",
+      "document_filename": "${filename}",
+      "document_binary_url": "${documentURL}/binary"
+    },
+    "confirmReadPetition": "Yes",
+    "howToRespondApplication": "withoutDisputeDivorce",
+    "jurisdictionConnections": [
+      "F"
+    ],
+    "jurisdictionAgree": "Yes"
+  },
+  "event_token": "${event_token}",
+  "ignore_warning": false,
+  "case_reference": "${caseId}"
+}

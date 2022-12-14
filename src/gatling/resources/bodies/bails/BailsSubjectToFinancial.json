@@ -1,0 +1,27 @@
+{
+  "data": {
+    "recordFinancialConditionYesOrNo": "Yes"
+  },
+  "event": {
+    "id": "recordTheDecision",
+    "summary": "",
+    "description": ""
+  },
+  "event_data": {
+    "judgeDetailsName": "Judge${BailsRandomString}",
+    "secretaryOfStateConsentYesOrNo": "No",
+    "recordTheDecisionList": null,
+    "decisionGrantedOrRefused": "granted",
+    "releaseStatusYesOrNo": "Yes",
+    "conditionsForBailAppearance": "Appearance${BailsRandomString}",
+    "conditionsForBailActivities": "Activities${BailsRandomString}",
+    "recordFinancialConditionYesOrNo": "Yes",
+    "conditionsForBail": [
+      "bailAppearance",
+      "bailActivities"
+    ]
+  },
+  "event_token": "${event_token}",
+  "ignore_warning": false,
+  "case_reference": "${caseId}"
+}

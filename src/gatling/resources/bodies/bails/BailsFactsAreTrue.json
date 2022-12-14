@@ -1,0 +1,22 @@
+{
+  "data": {
+    "isLegalRep": "Yes",
+    "declarationOnSubmit": [
+      "declarationOnSubmit"
+    ]
+  },
+  "event": {
+    "id": "submitApplication",
+    "summary": "",
+    "description": ""
+  },
+  "event_data": {
+    "isLegalRep": "Yes",
+    "declarationOnSubmit": [
+      "declarationOnSubmit"
+    ]
+  },
+  "event_token": "${event_token}",
+  "ignore_warning": false,
+  "case_reference": "${caseId}"
+}

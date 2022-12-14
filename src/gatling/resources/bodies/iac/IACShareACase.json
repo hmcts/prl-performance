@@ -1,0 +1,26 @@
+{
+  "sharedCases": [
+     {
+        "caseId": "${caseId}",
+        "caseTitle": "${caseId}",
+        "caseTypeId": "Asylum",
+        "sharedWith": [
+           {
+              "email": "${user0}",
+              "firstName": "${firstName}",
+              "idamId": "${idamId}",
+              "lastName": "${lastName}"
+           }
+        ],
+        "pendingShares": [
+           {
+              "email": "${user1}",
+              "firstName": "${firstName}",
+              "idamId": "${idamId1}",
+              "lastName": "${lastName}"
+           }
+        ],
+        "pendingUnshares": []
+     }
+  ]
+}

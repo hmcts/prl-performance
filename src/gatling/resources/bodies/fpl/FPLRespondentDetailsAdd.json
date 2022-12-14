@@ -1,0 +1,102 @@
+{
+   "data": {
+      "respondents1": [
+         {
+            "value": {
+               "persistRepresentedBy": null,
+               "leadRespondentIndicator": null,
+               "legalRepresentation": "No",
+               "party": {
+                  "firstName": "${respondentFirstName}",
+                  "lastName": "${respondentLastName}",
+                  "dateOfBirth": "${dobYearResp}-${dobMonth}-${dobDay}",
+                  "gender": "Male",
+                  "genderIdentification": null,
+                  "relationshipToChild": "Guardian",
+                  "contactDetailsHidden": "No",
+                  "contactDetailsHiddenReason": null,
+                  "litigationIssues": "NO",
+                  "litigationIssuesDetails": null,
+                  "partyId": "${partyId}",
+                  "partyType": null,
+                  "placeOfBirth": null,
+                  "address": {
+                     "AddressLine1": "${addressLines(0)}",
+                     "AddressLine2": "${addressLines(1)}",
+                     "AddressLine3": "",
+                     "PostTown": "${addressLines(2)}",
+                     "County": "",
+                     "PostCode": "${addressLines(3)}",
+                     "Country": "United Kingdom"
+                  },
+                  "telephoneNumber": {
+                     "telephoneNumber": "07000000000",
+                     "contactDirection": null
+                  }
+               },
+               "representedBy": [],
+               "solicitor": {
+                  "firstName": null,
+                  "lastName": null,
+                  "email": null
+               }
+            },
+            "id": "${id}"
+         }
+      ]
+   },
+   "event": {
+      "id": "enterRespondents",
+      "summary": "",
+      "description": ""
+   },
+   "event_data": {
+      "respondents1": [
+         {
+            "value": {
+               "persistRepresentedBy": null,
+               "leadRespondentIndicator": null,
+               "legalRepresentation": "No",
+               "party": {
+                  "firstName": "${respondentFirstName}",
+                  "lastName": "${respondentLastName}",
+                  "dateOfBirth": "${dobYearResp}-${dobMonth}-${dobDay}",
+                  "gender": "Male",
+                  "genderIdentification": null,
+                  "relationshipToChild": "Guardian",
+                  "contactDetailsHidden": "No",
+                  "contactDetailsHiddenReason": null,
+                  "litigationIssues": "NO",
+                  "litigationIssuesDetails": null,
+                  "partyId": "${partyId}",
+                  "partyType": null,
+                  "placeOfBirth": null,
+                  "address": {
+                     "AddressLine1": "${addressLines(0)}",
+                     "AddressLine2": "${addressLines(1)}",
+                     "AddressLine3": "",
+                     "PostTown": "${addressLines(2)}",
+                     "County": "",
+                     "PostCode": "${addressLines(3)}",
+                     "Country": "United Kingdom"
+                  },
+                  "telephoneNumber": {
+                     "telephoneNumber": "07000000000",
+                     "contactDirection": null
+                  }
+               },
+               "representedBy": [],
+               "solicitor": {
+                  "firstName": null,
+                  "lastName": null,
+                  "email": null
+               }
+            },
+            "id": "${id}"
+         }
+      ]
+   },
+   "event_token": "${event_token}",
+   "ignore_warning": false,
+   "case_reference": "${caseId}"
+}

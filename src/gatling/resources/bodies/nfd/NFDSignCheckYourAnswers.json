@@ -1,0 +1,67 @@
+{
+  "data": {
+    "applicationType": "soleApplication",
+    "divorceOrDissolution": "divorce",
+    "solUrgentCase": "No",
+    "solUrgentCaseSupportingInformation": null,
+    "applicant1FinancialOrder": "No",
+    "serviceMethod": "courtService",
+    "solStatementOfReconciliationCertify": "Yes",
+    "solStatementOfReconciliationDiscussed": "Yes",
+    "applicant1PrayerDissolveDivorce": [
+      "dissolveDivorce"
+    ],
+    "applicant1PrayerEndCivilPartnership": [],
+    "applicant1PrayerFinancialOrdersThemselves": [
+      "financialOrdersThemselves"
+    ],
+    "applicant1PrayerFinancialOrdersChild": [
+      "financialOrdersChild"
+    ],
+    "applicant1StatementOfTruth": "Yes",
+    "solSignStatementOfTruth": "Yes",
+    "solStatementOfReconciliationName": "AppSolicitor",
+    "solStatementOfReconciliationFirm": "${orgname1}",
+    "statementOfReconciliationComments": null,
+    "solApplicationFeeInPounds": "${feeInPounds}",
+    "solPaymentHowToPay": "feePayByAccount",
+    "pbaNumbers": {
+      "value": {
+        "code": "12fb13f2-960a-419d-895f-dd7955bd3da1",
+        "label": "PBA0066906"
+      },
+      "list_items": [
+        {
+          "code": "12fb13f2-960a-419d-895f-dd7955bd3da1",
+          "label": "PBA0066906"
+        },
+        {
+          "code": "3254d1df-79ad-4892-a530-f1b9cefc412c",
+          "label": "PBAVRQSJEP"
+        }
+      ]
+    },
+    "feeAccountReference": "PerfPayRef",
+    "applicationFeeOrderSummary": {
+      "PaymentReference": null,
+      "PaymentTotal": "${paymentTotal}",
+      "Fees": [
+        {
+          "value": {
+            "FeeCode": "${feeCode}",
+            "FeeAmount": "${feeAmount}",
+            "FeeDescription": "${feeDescription}",
+            "FeeVersion": "${feeVersion}"
+          }
+        }
+      ]
+    }
+  },
+  "event": {
+    "id": "solicitor-submit-application",
+    "summary": "",
+    "description": ""
+  },
+  "event_token": "${event_token}",
+  "ignore_warning": false
+}

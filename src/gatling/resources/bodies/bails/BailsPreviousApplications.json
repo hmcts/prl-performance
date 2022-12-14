@@ -1,0 +1,19 @@
+{
+  "data": {
+    "hasPreviousBailApplication": "No",
+    "previousApplicationDoneViaAria": null,
+    "previousApplicationDoneViaCcd": null
+  },
+  "event": {
+    "id": "startApplication",
+    "summary": "",
+    "description": ""
+  },
+  "event_data": {
+    "hasPreviousBailApplication": "No",
+    "previousApplicationDoneViaAria": null,
+    "previousApplicationDoneViaCcd": null
+  },
+  "event_token": "${event_token}",
+  "ignore_warning": false
+}

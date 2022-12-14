@@ -11,10 +11,10 @@ import utils.{Common, Environment, Headers, CsrfCheck}
 object Solicitor_PRL_Continued {
   
   val BaseURL = Environment.baseURL
-  val prlURL = Environment.prlURL
+  val prlURL = "https://privatelaw.${env}.platform.hmcts.net"
   val IdamUrl = Environment.idamURL
   val PRLcases = csv("cases.csv").circular
-  val PRLAccessCode = csv("accessCode.csv").circular
+  val PRLAccessCode = csv("accessCodeList.csv").circular
   val PRLCitizens = csv("UserDataPRLCitizen.csv").circular
 
   val postcodeFeeder = csv("postcodes.csv").circular

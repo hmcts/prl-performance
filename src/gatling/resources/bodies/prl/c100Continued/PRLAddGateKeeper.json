@@ -5,7 +5,7 @@
         "value": {
           "email": "prl_court_admin2@test.com"
         },
-        "id": "${gateKeeper_id}"
+        "id": null
       }
     ]
   },
@@ -20,7 +20,7 @@
         "value": {
           "email": "prl_court_admin2@test.com"
         },
-        "id": "${gateKeeper_id}"
+        "id": null
       }
     ]
   },

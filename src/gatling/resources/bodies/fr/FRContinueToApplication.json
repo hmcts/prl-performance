@@ -1,0 +1,15 @@
+{
+  "data": {
+    "isAdmin": null
+  },
+  "event": {
+    "id": "FR_solicitorCreate",
+    "summary": "",
+    "description": ""
+  },
+  "event_data": {
+    "isAdmin": null
+  },
+  "event_token": "${event_token}",
+  "ignore_warning": false
+}

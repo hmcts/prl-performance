@@ -120,7 +120,6 @@ object Solicitor_PRL_AddAnOrder {
           .headers(Headers.navigationHeader)
           .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-start-event-trigger.v2+json;charset=UTF-8")
           .check(jsonPath("$.event_token").saveAs("event_token"))
-          .check(jsonPath("$.case_fields[0].formatted_value[0].id").saveAs("gateKeeper_id"))
           .check(jsonPath("$.id").is("sendToGateKeeper")))
 
           .exec(Common.userDetails)
@@ -157,7 +156,7 @@ object Solicitor_PRL_AddAnOrder {
           .headers(Headers.commonHeader)
           .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8")
           .header("x-xsrf-token", "${XSRFToken}")
-          .body(ElFileBody("bodies/prl/c100Continued/PRLAddGateKeeperSubmit.json"))
+          .body(ElFileBody("bodies/prl/c100Continued/PRLAddGateKeeper.json"))
           .check(substring("GATE_KEEPING")))
       }
 

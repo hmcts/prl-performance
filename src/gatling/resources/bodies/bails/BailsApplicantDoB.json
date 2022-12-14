@@ -1,0 +1,20 @@
+{
+  "data": {
+    "applicantDateOfBirth": "${BailsDobYear}-${BailsDobMonth}-${BailsDobDay}"
+  },
+  "event": {
+    "id": "startApplication",
+    "summary": "",
+    "description": ""
+  },
+  "event_data": {
+    "hasPreviousBailApplication": "No",
+    "previousApplicationDoneViaAria": "No",
+    "previousApplicationDoneViaCcd": "No",
+    "applicantGivenNames": "Bails${BailsRandomString}",
+    "applicantFamilyName": "Test${BailsRandomString}",
+    "applicantDateOfBirth": "${BailsDobYear}-${BailsDobMonth}-${BailsDobDay}"
+  },
+  "event_token": "${event_token}",
+  "ignore_warning": false
+}
