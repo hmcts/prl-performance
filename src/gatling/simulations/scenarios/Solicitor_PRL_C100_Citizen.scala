@@ -379,43 +379,43 @@ object Solicitor_PRL_C100_Citizen {
     * MIAM certificate Upload
     ======================================================================================*/
 
-  //  .group("PRL_CitizenC100_180_MIAMUpload") {
+    .group("PRL_CitizenC100_180_MIAMUpload") {
 
-    //    exec(http("PRL_CitizenC100_180_005_MIAMUpload")
-     //     .post(prlURL+ "/c100-rebuild/miam/upload?_csrf=${csrf}")
-     //     .headers(Headers.uploadHeader)
-     //     .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-     //     .bodyPart(RawFileBodyPart("files[]", "TestFile.pdf")
-     //       .fileName("TestFile.pdf")
-     //       .transferEncoding("binary"))
-     //     .asMultipartForm
-        //  .formParam("classification", "PUBLIC")
-         // .formParam("caseTypeId", "PRLAPPS")
-         // .formParam("jurisdictionId", "PRIVATELAW")
-      //    .check(substring("applicant__miam_certificate")))
+        exec(http("PRL_CitizenC100_180_005_MIAMUpload")
+          .post(prlURL+ "/c100-rebuild/miam/upload?_csrf=${csrf}")
+          .headers(Headers.uploadHeader)
+          .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+          .formParam("_csrf", "${csrf}")
+          .bodyPart(RawFileBodyPart("documents", "TestFile.pdf")
+            .contentType("application/pdf")
+            .fileName("TestFile.pdf")
+            .transferEncoding("binary"))
+          .check(substring("applicant__miam_certificate")))
 
-    //}
-    //.pause(MinThinkTime, MaxThinkTime)
+  }
+    .pause(MinThinkTime, MaxThinkTime)
 
 
     /*======================================================================================
     * MIAM certificate Upload Submit
     ======================================================================================*/
 
-   // .group("PRL_CitizenC100_190_MIAMUploadSubmit") {
+    .group("PRL_CitizenC100_190_MIAMUploadSubmit") {
 
-     // exec(http("PRL_CitizenC100_190_005_MIAMUploadSubmit")
-      //  .post(prlURL + "/c100-rebuild/miam/upload")
-      //  .headers(Headers.commonHeader)
-      //  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-      //  .header("content-type", "application/x-www-form-urlencoded")
-      //  .formParam("_csrf", "${csrf}")
-      //  .formParam("miamUpload", "true")
-      //  .formParam("saveAndContinue", "true")
+      exec(http("PRL_CitizenC100_190_005_MIAMUploadSubmit")
+        .post(prlURL + "/c100-rebuild/miam/upload")
+        .headers(Headers.commonHeader)
+        .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+        .header("content-type", "application/x-www-form-urlencoded")
+        .formParam("_csrf", "${csrf}")
+        .bodyPart(RawFileBodyPart("documents", "3MB.pdf")
+          .contentType("application/pdf")
+          .fileName("3MB.pdf")
+          .transferEncoding("binary")))
       //  .check(substring("Your MIAM certificate has been uploaded")))
 
-    //}
-    //.pause(MinThinkTime, MaxThinkTime)
+    }
+    .pause(MinThinkTime, MaxThinkTime)
 
 
     /*======================================================================================
@@ -612,10 +612,11 @@ object Solicitor_PRL_C100_Citizen {
     * Child Name
     ======================================================================================*/
 
-    .group("PRL_CitizenC100_280_ChildrenName") {
+    .group("PRL_CitizenC100_280_ChildrenName"){
 
       exec(http("PRL_CitizenC100_280_005_ChildrenName")
         .post(prlURL + "/c100-rebuild/child-details/add-children")
+        .disableFollowRedirect
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
         .header("content-type", "application/x-www-form-urlencoded")
@@ -624,17 +625,19 @@ object Solicitor_PRL_C100_Citizen {
         .formParam("c100TempLastName", "${PRLRandomString}" + "Last")
         .formParam("_ctx", "cd")
         .formParam("onlycontinue", "true")
+     //   .check(headerRegex("Set-Cookie", """JSESSIONID=(.*?);"""").saveAs("token"))
         .check(
-          headerRegex("location", "c100-rebuild/child-details/(.{8}-.{4}-.{4}-.{4}-.{12})/child-matters")
-            .captureGroups(1)
+          headerRegex("location", """/c100-rebuild\/child-details\/(.{8}-.{4}-.{4}-.{4}-.{12})\/personal-details""")
+            .ofType[(String)]
             .saveAs("childId")
         )
-        .check(substring("Provide details for First Name")))
+        .check(status.is(302)))
+     //   .check(substring("Provide details for First Name")))
 
     }
     .pause(MinThinkTime, MaxThinkTime)
 
-
+//add the .get
     /*======================================================================================
     * Provide details for First Name
     ======================================================================================*/
@@ -642,7 +645,7 @@ object Solicitor_PRL_C100_Citizen {
     .group("PRL_CitizenC100_290_ChildDetails") {
 
       exec(http("PRL_CitizenC100_290_005_ChildDetails")
-        .post(prlURL + "/c100-rebuild/child-details/2fa62769-c1a1-4407-800f-95a1c8b7ec98/personal-details")
+        .post(prlURL + "/c100-rebuild/child-details/${childId}/personal-details")
         //where is this stored?
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -659,7 +662,7 @@ object Solicitor_PRL_C100_Citizen {
         .formParam("otherGenderDetails", "")
         .formParam("_ctx", "pd")
         .formParam("onlycontinue", "true")
-        .check(substring("Which of the decisions you’re asking the court to resolve relate to First Name")))
+        .check(substring("Which of the decisions you’re asking the court to resolve relate to")))
 
     }
     .pause(MinThinkTime, MaxThinkTime)
@@ -672,7 +675,7 @@ object Solicitor_PRL_C100_Citizen {
     .group("PRL_CitizenC100_300_WhichDecision") {
 
       exec(http("PRL_CitizenC100_300_005_WhichDecision")
-        .post(prlURL + "/c100-rebuild/child-details/e8c24816-73c0-4451-8de4-c521626d8365/child-matters")
+        .post(prlURL + "/c100-rebuild/child-details/${childId}/child-matters")
         //where is this stored?
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -682,7 +685,7 @@ object Solicitor_PRL_C100_Citizen {
         .formParam("needsResolution", "changeChildrenNameSurname")
         .formParam("_ctx", "cm")
         .formParam("onlycontinue", "true")
-        .check(substring("Parental responsibility for First Name")))
+        .check(substring("Parental responsibility for")))
 
     }
     .pause(MinThinkTime, MaxThinkTime)
