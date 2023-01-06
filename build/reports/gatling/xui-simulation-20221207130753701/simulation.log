@@ -1,6 +1,0 @@
-ASSERTION	AAECAAMFAAAAAAAAAFlA
-RUN	simulations.XUI_Simulation	xui-simulation	1670418473701	 	3.3.1
-USER	***** Private Law Create Case *****	1	START	1670418475493	1670418475493
-REQUEST	1	PRL_CitizenC100_010_PRLHome	PRL_CitizenC100_010_005_PRLHome	1670418475575	1670418475752	KO	substring(Sign in or create an account).find.exists, found nothing
-GROUP	1	PRL_CitizenC100_010_PRLHome	1670418475516	1670418476016	177	KO
-USER	***** Private Law Create Case *****	1	END	1670418475493	1670418476035
