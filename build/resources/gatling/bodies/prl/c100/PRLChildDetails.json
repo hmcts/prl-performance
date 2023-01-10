@@ -1,0 +1,68 @@
+{
+  "data": {
+    "children": [
+      {
+        "value": {
+          "firstName": "${C100ChildFirstName}",
+          "lastName": "${C100ChildLastName}",
+          "dateOfBirth": "${C100ChildDobYear}-${C100ChildAppDobMonth}-${C100ChildAppDobDay}",
+          "gender": "male",
+          "otherGender": null,
+          "applicantsRelationshipToChild": "father",
+          "otherApplicantsRelationshipToChild": null,
+          "respondentsRelationshipToChild": "mother",
+          "otherRespondentsRelationshipToChild": null,
+          "parentalResponsibilityDetails": "Child's mother",
+          "isDateOfBirthUnknown": null,
+          "relationshipToApplicant": null,
+          "relationshipToRespondent": null,
+          "orderAppliedFor": [
+            "childArrangementsOrder"
+          ],
+          "childLiveWith": [
+            "applicant"
+          ],
+          "personWhoLivesWithChild": []
+        },
+        "id": null
+      }
+    ]
+  },
+  "event": {
+    "id": "childDetails",
+    "summary": "",
+    "description": ""
+  },
+  "event_data": {
+    "children": [
+      {
+        "value": {
+          "firstName": "${C100ChildFirstName}",
+          "lastName": "${C100ChildLastName}",
+          "dateOfBirth": "${C100ChildDobYear}-${C100ChildAppDobMonth}-${C100ChildAppDobDay}",
+          "gender": "male",
+          "otherGender": null,
+          "applicantsRelationshipToChild": "father",
+          "otherApplicantsRelationshipToChild": null,
+          "respondentsRelationshipToChild": "mother",
+          "otherRespondentsRelationshipToChild": null,
+          "parentalResponsibilityDetails": "Child's mother",
+          "isDateOfBirthUnknown": null,
+          "relationshipToApplicant": null,
+          "relationshipToRespondent": null,
+          "orderAppliedFor": [
+            "childArrangementsOrder"
+          ],
+          "childLiveWith": [
+            "applicant"
+          ],
+          "personWhoLivesWithChild": []
+        },
+        "id": null
+      }
+    ]
+  },
+  "event_token": "${event_token}",
+  "ignore_warning": false,
+  "case_reference": "${caseId}"
+}

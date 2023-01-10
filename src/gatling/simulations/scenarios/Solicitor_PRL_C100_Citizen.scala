@@ -800,5 +800,249 @@ object Solicitor_PRL_C100_Citizen {
         .pause(MinThinkTime, MaxThinkTime)
 
 
+        /*======================================================================================
+     * Do you want to keep your contact details private from the other people named in the application (the respondents)? - No
+     ======================================================================================*/
 
- }
+        .group("PRL_CitizenC100_360_KeepDetailsPrivate") {
+
+          exec(http("PRL_CitizenC100_360_005_KeepDetailsPrivate")
+            .post(prlURL + "/c100-rebuild/applicant/${applicantId}/confidentiality/start-alternative")
+            .headers(Headers.commonHeader)
+            .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+            .header("content-type", "application/x-www-form-urlencoded")
+            .formParam("_csrf", "${csrf}")
+            .formParam("contactDetailsPrivateAlternative", "")
+            .formParam("contactDetailsPrivateAlternative", "")
+            .formParam("contactDetailsPrivateAlternative", "")
+            .formParam("contactDetailsPrivateAlternative", "email")
+            .formParam("startAlternative", "No")
+            .formParam("_ctx", "appl_start_alternative")
+            .formParam("saveAndContinue", "true")
+            .check(substring("The court will not keep your contact details private")))
+
+        }
+        .pause(MinThinkTime, MaxThinkTime)
+
+
+        /*======================================================================================
+* The court will not keep your contact details private
+======================================================================================*/
+
+        .group("PRL_CitizenC100_370_KeepDetailsPrivateContinue") {
+
+          exec(http("PRL_CitizenC100_370_005_KeepDetailsPrivateContinue")
+            .post(prlURL + "/c100-rebuild/applicant/${applicantId}/confidentiality/feedbackno")
+            .headers(Headers.commonHeader)
+            .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+            .header("content-type", "application/x-www-form-urlencoded")
+            .formParam("_csrf", "${csrf}")
+            .formParam("onlycontinue", "true")
+            .check(substring("Provide details for")))
+
+        }
+        .pause(MinThinkTime, MaxThinkTime)
+
+        /*======================================================================================
+* Provide details for Applicant
+======================================================================================*/
+
+        .group("PRL_CitizenC100_380_ApplicantDetails") {
+
+          exec(http("PRL_CitizenC100_380_005_ApplicantDetails")
+            .post(prlURL + "/c100-rebuild/applicant/${applicantId}/personal-details")
+            .headers(Headers.commonHeader)
+            .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+            .header("content-type", "application/x-www-form-urlencoded")
+            .formParam("_csrf", "${csrf}")
+            .formParam("applPreviousName", "")
+            .formParam("haveYouChangeName", "No")
+            .formParam("gender", "Male")
+            .formParam("otherGenderDetails", "")
+            .formParam("dateOfBirth-day", "${PRLAppDobDay}")
+            .formParam("dateOfBirth-month", "${PRLAppDobMonth}")
+            .formParam("dateOfBirth-year", "${PRLChildDobYear}")
+            .formParam("applicantPlaceOfBirth", "${PRLRandomString}" + "PlaceOfBirth")
+            .formParam("onlycontinue", "true")
+            .check(substring("relationship to")))
+        }
+        .pause(MinThinkTime, MaxThinkTime)
+
+
+        /*======================================================================================
+* Applicant relationship to first child
+======================================================================================*/
+
+        .group("PRL_CitizenC100_390_ApplicantRelationship") {
+
+          exec(http("PRL_CitizenC100_390_005_ApplicantRelationship")
+            .post(prlURL + "/c100-rebuild/applicant/${applicantId}/relationship-to-child/${childId}")
+            .headers(Headers.commonHeader)
+            .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+            .header("content-type", "application/x-www-form-urlencoded")
+            .formParam("_csrf", "${csrf}")
+            .formParam("relationshipType", "Mother")
+            .formParam("otherRelationshipTypeDetails", "")
+            .formParam("onlycontinue", "true")
+            .check(substring("Current postcode")))
+        }
+        .pause(MinThinkTime, MaxThinkTime)
+
+
+        /*======================================================================================
+* Applicant Postcode
+======================================================================================*/
+
+        .group("PRL_CitizenC100_400_ApplicantPostcode") {
+          feed(postcodeFeeder)
+
+            .exec(http("PRL_CitizenC100_400_005_ApplicantPostcode")
+              .post(prlURL + "/c100-rebuild/applicant/${applicantId}/address/lookup")
+              .headers(Headers.commonHeader)
+              .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+              .header("content-type", "application/x-www-form-urlencoded")
+              .formParam("_csrf", "${csrf}")
+              .formParam("addressPostcode", "${postcode}")
+              .formParam("onlycontinue", "true")
+              .check(regex("""<option value="([0-9]+)">""").findRandom.saveAs("addressIndex")))
+        }
+        .pause(MinThinkTime, MaxThinkTime)
+
+        /*======================================================================================
+ * Select Address
+ ======================================================================================*/
+
+        .group("PRL_CitizenC100_410_ApplicantSelectAddress") {
+
+          exec(http("PRL_CitizenC100_410_005_ApplicantSelectAddress")
+            .post(prlURL + "/c100-rebuild/applicant/${applicantId}/address/select")
+            .headers(Headers.commonHeader)
+            .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+            .header("content-type", "application/x-www-form-urlencoded")
+            .formParam("_csrf", "${csrf}")
+            .formParam("selectAddress", "${addressIndex}")
+            .formParam("onlycontinue", "true")
+            .check(regex("""name="address1" type="text" value="(.+)""").saveAs("address"))
+            .check(regex("""name="addressTown" type="text" value="(.+)""").saveAs("town"))
+            .check(substring("Building and street")))
+        }
+        .pause(MinThinkTime, MaxThinkTime)
+
+
+        /*======================================================================================
+* Applicant address input
+======================================================================================*/
+
+        .group("PRL_CitizenC100_420_ApplicantAddress") {
+
+          exec(http("PRL_CitizenC100_420_005_ApplicantAddress")
+            .post(prlURL + "/c100-rebuild/applicant/${applicantId}/address/manual")
+            .headers(Headers.commonHeader)
+            .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+            .header("content-type", "application/x-www-form-urlencoded")
+            .formParam("_csrf", "${csrf}")
+            .formParam("address1", "${address}")
+            .formParam("address2", "")
+            .formParam("addressTown", "${town}")
+            .formParam("addressCounty", "${PRLRandomString}" + "County")
+            .formParam("addressPostcode", "${postcode}")
+            .formParam("country", "United Kingdom")
+            .formParam("addressHistory", "Yes")
+            .formParam("provideDetailsOfPreviousAddresses", "")
+            .formParam("onlycontinue", "true")
+            .check(substring("Contact details of")))
+        }
+        .pause(MinThinkTime, MaxThinkTime)
+
+
+        /*======================================================================================
+* Contact Details of Applicant
+======================================================================================*/
+
+        .group("PRL_CitizenC100_430_ApplicantContact") {
+
+          exec(http("PRL_CitizenC100_430_005_ApplicantContact")
+            .post(prlURL + "/c100-rebuild/applicant/${applicantId}/contact-detail")
+            .headers(Headers.commonHeader)
+            .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+            .header("content-type", "application/x-www-form-urlencoded")
+            .formParam("_csrf", "${csrf}")
+            .formParam("canProvideEmail", "Yes")
+            .formParam("emailAddress", "${PRLRandomString}" + "@gmail.com")
+            .formParam("canProvideTelephoneNumber", "Yes")
+            .formParam("telephoneNumber", "07000000000")
+            .formParam("canNotProvideTelephoneNumberReason", "")
+            .formParam("canLeaveVoiceMail", "No")
+            .formParam("onlycontinue", "true")
+            .check(substring("Contact Preferences")))
+        }
+        .pause(MinThinkTime, MaxThinkTime)
+
+
+        /*======================================================================================
+* Contact Preference of Applicant
+======================================================================================*/
+
+        .group("PRL_CitizenC100_440_ApplicantContactPreference") {
+
+          exec(http("PRL_CitizenC100_440_005_ApplicantContactPreference")
+            .post(prlURL + "/c100-rebuild/applicant/${applicantId}/contact-preference")
+            .headers(Headers.commonHeader)
+            .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+            .header("content-type", "application/x-www-form-urlencoded")
+            .formParam("_csrf", "${csrf}")
+            .formParam("applicantContactPreferences", "")
+            .formParam("applicantContactPreferences", "")
+            .formParam("applicantContactPreferences", "Digital")
+            .formParam("onlycontinue", "true")
+            .check(substring("Enter the respondent&#39;s name")))
+        }
+        .pause(MinThinkTime, MaxThinkTime)
+
+
+        /*======================================================================================
+* Enter the respondent's name
+======================================================================================*/
+
+        .group("PRL_CitizenC100_450_RespondentName") {
+
+          exec(http("PRL_CitizenC100_450_005_RespondentName")
+            .post(prlURL + "/c100-rebuild/respondent-details/add-respondents")
+            .disableFollowRedirect
+            .headers(Headers.commonHeader)
+            .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+            .header("content-type", "application/x-www-form-urlencoded")
+            .formParam("_csrf", "${csrf}")
+            .formParam("c100TempFirstName", "${PRLRandomString}" + "Respondent")
+            .formParam("c100TempLastName", "${PRLRandomString}" + "Name")
+            .formParam("_ctx", "resp")
+            .formParam("onlycontinue", "true")
+            .check(
+              headerRegex("location", """c100-rebuild\/respondent-details\/(.{8}-.{4}-.{4}-.{4}-.{12})\/personal-details""")
+                .ofType[(String)]
+                .saveAs("respondentId")
+            )
+            .check(status.is(302)))
+        }
+        .pause(MinThinkTime, MaxThinkTime)
+
+
+        /*======================================================================================
+* Enter the respondent's name - redirect
+======================================================================================*/
+
+        .group("PRL_CitizenC100_460_RespondentNameRedirect") {
+
+          exec(http("PRL_CitizenC100_460_005_RespondentNameRedirect")
+            .get(prlURL + "/c100-rebuild/respondent-details/${respondentId}/personal-details")
+            .disableFollowRedirect
+            .headers(Headers.navigationHeader)
+            .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+            .header("content-type", "application/x-www-form-urlencoded")
+            .check(substring("Provide details for")))
+        }
+        .pause(MinThinkTime, MaxThinkTime)
+
+
+
+}

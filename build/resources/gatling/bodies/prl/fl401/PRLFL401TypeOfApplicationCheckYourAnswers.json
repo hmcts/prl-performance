@@ -1,0 +1,21 @@
+{
+  "data": {
+    "typeOfApplicationOrders": {
+      "orderType": [
+        "occupationOrder",
+        "nonMolestationOrder"
+      ]
+    },
+    "typeOfApplicationLinkToCA": {
+      "linkToCaApplication": "Yes",
+      "caApplicationNumber": "1234567890123456"
+    }
+  },
+  "event": {
+    "id": "fl401TypeOfApplication",
+    "summary": "",
+    "description": ""
+  },
+  "event_token": "${event_token}",
+  "ignore_warning": false
+}

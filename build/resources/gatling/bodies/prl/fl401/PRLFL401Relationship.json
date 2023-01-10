@@ -1,0 +1,20 @@
+{
+  "data": {
+    "respondentRelationObject": {
+      "applicantRelationship": "marriedOrCivil"
+    }
+  },
+  "event": {
+    "id": "respondentRelationship",
+    "summary": "",
+    "description": ""
+  },
+  "event_data": {
+    "respondentRelationObject": {
+      "applicantRelationship": "marriedOrCivil"
+    }
+  },
+  "event_token": "${event_token}",
+  "ignore_warning": false,
+  "case_reference": "${caseId}"
+}
