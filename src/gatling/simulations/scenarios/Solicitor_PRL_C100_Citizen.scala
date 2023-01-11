@@ -637,7 +637,23 @@ object Solicitor_PRL_C100_Citizen {
     }
     .pause(MinThinkTime, MaxThinkTime)
 
-//add the .get
+        /*======================================================================================
+        * Child Name Redirect
+        ======================================================================================*/
+
+        .group("PRL_CitizenC100_285_ChildrenNameRedirect"){
+
+          exec(http("PRL_CitizenC100_280_005_ChildrenName")
+            .get(prlURL + "/c100-rebuild/child-details/${childId}/personal-details")
+            .headers(Headers.navigationHeader)
+            .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+            .header("content-type", "application/x-www-form-urlencoded")
+            .check(substring("Provide details for")))
+
+        }
+        .pause(MinThinkTime, MaxThinkTime)
+
+
     /*======================================================================================
     * Provide details for First Name
     ======================================================================================*/
@@ -774,6 +790,24 @@ object Solicitor_PRL_C100_Citizen {
             )
             .check(status.is(302)))
       //      .check(substring("Do the other people named in this application (the respondents) know any of your contact details?")))
+
+        }
+        .pause(MinThinkTime, MaxThinkTime)
+
+
+
+        /*======================================================================================
+* Enter your name Redirect
+======================================================================================*/
+
+        .group("PRL_CitizenC100_345_EnterYourNameRedirect") {
+
+          exec(http("PRL_CitizenC100_340_005_EnterYourName")
+            .get(prlURL + "/c100-rebuild/applicant/${applicantId}/confidentiality/details-know")
+            .headers(Headers.commonHeader)
+            .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+            .header("content-type", "application/x-www-form-urlencoded")
+            .check(substring("Do the other people named in this application (the respondents) know any of your contact details?")))
 
         }
         .pause(MinThinkTime, MaxThinkTime)
@@ -1035,7 +1069,6 @@ object Solicitor_PRL_C100_Citizen {
 
           exec(http("PRL_CitizenC100_460_005_RespondentNameRedirect")
             .get(prlURL + "/c100-rebuild/respondent-details/${respondentId}/personal-details")
-            .disableFollowRedirect
             .headers(Headers.navigationHeader)
             .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
             .header("content-type", "application/x-www-form-urlencoded")

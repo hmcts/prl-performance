@@ -2,7 +2,7 @@ package scenarios
 
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
-import utils.{Common, CsrfCheck, Environment, Headers}
+import utils.{Common, CsrfCheck,CsrfCheck2, Environment, Headers}
 
 /*======================================================================================
 * Create a new Private Law application as a professional user (e.g. solicitor)
@@ -10,7 +10,7 @@ import utils.{Common, CsrfCheck, Environment, Headers}
 
 object Solicitor_PRL_C100_Citizen2 {
   
-  val BaseURL = Environment.baseURL
+  val PayURL = Environment.payURL
   val prlURL = Environment.prlURL
   val IdamUrl = Environment.idamURL
   val PRLcases = csv("cases.csv").circular
@@ -763,15 +763,11 @@ object Solicitor_PRL_C100_Citizen2 {
           .group("PRL_CitizenC100_780_CheckYourAnswersRedirect") {
 
             exec(http("PRL_CitizenC100_780_005_CheckYourAnswersRedirect")
-              .get("https://www.payments.service.gov.uk" + "/secure/${paymentId}")
+              .get(PayURL + "/secure/${paymentId}")
               .disableFollowRedirect
               .headers(Headers.navigationHeader)
               .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
               .header("content-type", "application/x-www-form-urlencoded")
-              .formParam("_csrf", "${csrf}")
-              .formParam("statementOfTruth", "")
-              .formParam("statementOfTruth", "Yes")
-              .formParam("saveAndContinue", "true")
               .check(
                 headerRegex("location", """\/card_details\/(.{26})""")
                   .ofType[(String)]
@@ -790,14 +786,11 @@ object Solicitor_PRL_C100_Citizen2 {
           .group("PRL_CitizenC100_790_CheckYourAnswersFinal") {
 
             exec(http("PRL_CitizenC100_790_005_CheckYourAnswersFinal")
-              .get("https://www.payments.service.gov.uk" + "/card_details/${chargeId}")
+              .get(PayURL + "/card_details/${chargeId}")
               .headers(Headers.navigationHeader)
+              .check(CsrfCheck2.save)
               .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
               .header("content-type", "application/x-www-form-urlencoded")
-              .formParam("_csrf", "${csrf}")
-              .formParam("statementOfTruth", "")
-              .formParam("statementOfTruth", "Yes")
-              .formParam("saveAndContinue", "true")
               .check(substring("Enter card details")))
 
           }
@@ -811,8 +804,9 @@ object Solicitor_PRL_C100_Citizen2 {
           .group("PRL_CitizenC100_800_EnterCardDetails") {
 
             exec(http("PRL_CitizenC100_800_005_EnterCardDetails")
-              .post("https://www.payments.service.gov.uk" + "/card_details/${chargeId}")
+              .post(PayURL + "/card_details/${chargeId}")
               .headers(Headers.commonHeader)
+              .check(CsrfCheck2.save)
               .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
               .header("content-type", "application/x-www-form-urlencoded")
               .formParam("chargeId", "${chargeId}")
@@ -840,11 +834,11 @@ object Solicitor_PRL_C100_Citizen2 {
           .group("PRL_CitizenC100_810_FinalSubmit") {
 
             exec(http("PRL_CitizenC100_810_005_FinalSubmit")
-              .post(prlURL + "card_details/${chargeId}/confirm")
+              .post(PayURL + "/card_details/${chargeId}/confirm")
               .headers(Headers.commonHeader)
               .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
               .header("content-type", "application/x-www-form-urlencoded")
-              .formParam("_csrf", "${csrf}")
+              .formParam("csrfToken", "${csrf}")
               .formParam("chargeId", "${chargeId}")
               .check(regex("""Case number <br><strong>(.{16})<\/strong>""").saveAs("caseNumber")))
           }

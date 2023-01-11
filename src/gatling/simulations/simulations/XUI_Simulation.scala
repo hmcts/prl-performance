@@ -41,7 +41,7 @@ class XUI_Simulation extends Simulation {
 	/* ******************************** */
 
 	/* PERFORMANCE TEST CONFIGURATION */
-	val prlTargetPerHour: Double = 200
+	val prlTargetPerHour: Double = 20
 	val caseworkerTargetPerHour: Double = 1000
 
 	//This determines the percentage split of PRL journeys, by C100 or FL401
