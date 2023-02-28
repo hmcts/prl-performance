@@ -5,9 +5,9 @@ import io.gatling.http.Predef._
 import utils.{Common, Environment, Headers}
 
 object Login {
-
-  val BaseURL = Environment.baseURL
+  
   val IdamUrl = Environment.idamURL
+  val BaseURL = Environment.baseURL
 
   val MinThinkTime = Environment.minThinkTime
   val MaxThinkTime = Environment.maxThinkTime
