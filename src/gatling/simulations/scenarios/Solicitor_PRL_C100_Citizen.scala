@@ -58,6 +58,7 @@ object Solicitor_PRL_C100_Citizen {
     .group("PRL_CitizenC100_020_Login") {
       exec(http("PRL_CitizenC100_020_005_Login")
         .post(IdamUrl + "/login?client_id=prl-citizen-frontend&response_type=code&redirect_uri=" + prlURL + "/receiver")
+     //   .post("https://idam-web-public.aat.platform.hmcts.net/login?client_id=prl-citizen-frontend&response_type=code&redirect_uri=https://prl-citizen-frontend-pr-741.service.core-compute-preview.internal/receiver")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
         .header("content-type", "application/x-www-form-urlencoded")
@@ -66,10 +67,9 @@ object Solicitor_PRL_C100_Citizen {
         .formParam("save", "Sign in")
         .formParam("selfRegistrationEnabled", "true")
         .formParam("_csrf", "${csrf}")
-        .check(substring("Your private law account")))
+        .check(substring("Child arrangements and family injunction cases")))
     }
     .pause(MinThinkTime, MaxThinkTime)
-
 
     /*======================================================================================
     * Select 'Start new C100 application'
