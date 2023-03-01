@@ -26,14 +26,14 @@ object CafcasAPI {
       case "Solicitor" => session.set("emailAddressCCD", "cafcass@hmcts.net").set("passwordCCD", "Cafcass12").set("microservice", " fis_hmc_api")
     })
 
-    .exec(http("XUI_000_Auth")
+    .exec(http("CAFCAS_000_Auth")
       .post(RpeAPIURL + "/testing-support/lease")
       .body(StringBody("""{"microservice":"${microservice}"}""")).asJson
       .check(regex("(.+)").saveAs("authToken")))
 
     .pause(1)
 
-    .exec(http("XUI_000_GetBearerToken")
+    .exec(http("CAFCAS_000_GetBearerToken")
       .post(idamURL + "/o/token") //change this to idamapiurl if this not works
       .formParam("grant_type", "password")
       .formParam("username", "${emailAddressCCD}")
@@ -57,8 +57,10 @@ object CafcasAPI {
   val searchCasesByDates =
 
     exec(Auth("Solicitor"))
+  .exec(_.setAll(
+    "FileName1" -> "1MB.pdf"))
 
-      .exec(http("XUI_000_GetCCDEventToken")
+      /*.exec(http("CafcasAPI_000_searchCasesByDates")
         .get("/cases/searchCases")
         .header("Authorization", "Bearer ${bearerToken}")
         .header("ServiceAuthorization", "${authToken}")
@@ -66,50 +68,31 @@ object CafcasAPI {
         .formParam("start_date", "01/02/2023")
         .formParam("end_date", "28/02/2023")
         //.check(jsonPath("$.token").saveAs("eventToken")))
-      )
-
+      )*/
 
     .pause(1)
-
-  val AssignCase1 =
-
-    exec(Auth("Solicitor"))
-
-      .exec(http("XUI_000_GetCCDEventToken")
-        .get(prlCafcasURL + "/cases/searchCases")
+// below is to retrieve the document from document Id
+      .exec(http("CafcasAPI_000_downloadDocument")
+        .get( "/c525ddc0-9a59-40a8-bdf8-5549fa528a8d/download")
         .header("Authorization", "Bearer ${bearerToken}")
         .header("ServiceAuthorization", "${authToken}")
-        .header("Content-Type", "application/json")
-        .formParam("start_date", "01/02/2023")
-        .formParam("end_date", "28/02/2023")
+        //.header("Content-Type", "application/json")
         //.check(jsonPath("$.token").saveAs("eventToken")))
       )
 
 
       .pause(1)
 
-  val AssignCase =
-
-    exec(Auth("Solicitor"))
-
-      .exec(http("XUI_000_GetCCDEventToken")
-        .get(prlCafcasURL + "/cases/searchCases")
-        .header("Authorization", "Bearer ${bearerToken}")
-        .header("ServiceAuthorization", "${authToken}")
-        .header("Content-Type", "application/json")
-        .formParam("start_date", "01/02/2023")
-        .formParam("end_date", "28/02/2023")
-        //.check(jsonPath("$.token").saveAs("eventToken")))
-      )
-
-
-      .pause(1)
-
-
-
-
-
-
-
+      .exec(http("CafcasAPI_000_uploadDocument")
+        .post( "/1677144326732696/document?typeOfDocument=pdf")
+        .header("ServiceAuthorization", "Bearer #{bearerToken}")
+        .header("accept", "application/json")
+        .header("Content-Type", "multipart/form-data")
+        .bodyPart(RawFileBodyPart("files", "#{FileName}")
+          .fileName("#{FileName1}")
+          .transferEncoding("binary"))
+        .asMultipartForm
+        .formParam("classification", "PUBLIC")
+        .check(regex("""documents/(.+?)/binary""").saveAs("Document_ID4")))
 
 }
