@@ -65,7 +65,7 @@ class XUI_Simulation extends Simulation {
 	}
 
 	val httpProtocol = http
-		.baseUrl(Environment.baseURL.replace("${env}", s"${env}"))
+		.baseUrl(Environment.prlCafcasURL.replace("${env}", s"${env}"))
 		.inferHtmlResources()
 		.silentResources
 		.header("experimental", "true") //used to send through client id, s2s and bearer tokens. Might be temporary
@@ -138,7 +138,15 @@ class XUI_Simulation extends Simulation {
 		}
 
 
-
+	/*===============================================================================================
+  * Cafcas API Scenario
+   ===============================================================================================*/
+	val CafcasAPIScenario = scenario("***** Cafcas APIs *****")
+		.exitBlockOnFail {
+				exec(_.set("env", s"${env}")
+					.set("caseType", "Cafcas"))
+				.exec(CafcasAPI.searchCasesByDates)
+		}
 
 
 
@@ -187,7 +195,8 @@ class XUI_Simulation extends Simulation {
 	}
 
 	setUp(
-		 PRLSolicitorScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
+		// PRLSolicitorScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
+		CafcasAPIScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
 	).protocols(httpProtocol)
 		.assertions(assertions(testType))
 		.maxDuration(75 minutes)
