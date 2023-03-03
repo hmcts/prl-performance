@@ -3,96 +3,124 @@ package scenarios
 import com.typesafe.config.ConfigFactory
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
-import utils.Environment
+import utils.Common.randomDateWithinMonth
+import utils.{Common, Environment}
 import utils.Environment.{idamAPIURL, idamURL, prlCafcasURL}
+
+import java.time.LocalDate
 
 object CafcasAPI {
 
   val RpeAPIURL = Environment.rpeAPIURL
   val IdamAPIURL = Environment.idamAPIURL
   val CcdAPIURL = Environment.ccdAPIURL
+  val prlCafcasURL=Environment.prlCafcasURL
 
   val MinThinkTime = Environment.minThinkTime
   val MaxThinkTime = Environment.maxThinkTime
 
   val clientSecret = ConfigFactory.load.getString("auth.clientSecret")
+  val FileName="120KB.pdf"
+  val casedocIds = csv("CafcassDocIds.csv").random
+  val cafcaseIds = csv("CafcasscaseIds.csv").random
 
+  // declare random dates function
+
+  val (randomStartDate, randomEndDate) = randomDateWithinMonth("2023-02-01T00:00:00")
   //userType must be "Caseworker", "Legal" or "Citizen"
-  def Auth(userType: String) =
-
+    def Auth(userType: String) =
     exec(session => userType match {
-      case "Caseworker" => session.set("emailAddressCCD", "ccdloadtest-cw@gmail.com").set("passwordCCD", "Password12").set("microservice", "ccd_data")
-      case "Legal" => session.set("emailAddressCCD", "ccdloadtest-la@gmail.com").set("passwordCCD", "Password12").set("microservice", "ccd_data")
-      case "Solicitor" => session.set("emailAddressCCD", "cafcass@hmcts.net").set("passwordCCD", "Cafcass12").set("microservice", " fis_hmc_api")
+    case "Caseworker" => session.set("emailAddressCCD", "ccdloadtest-cw@gmail.com").set("passwordCCD", "Password12").set("microservice", "ccd_data")
+    case "Legal" => session.set("emailAddressCCD", "ccdloadtest-la@gmail.com").set("passwordCCD", "Password12").set("microservice", "ccd_data")
+    case "Solicitor" => session.set("emailAddressCCD", "cafcass@hmcts.net").set("passwordCCD", "Cafcass12").set("microservice", "api_gw")
     })
 
     .exec(http("CAFCAS_000_Auth")
-      .post(RpeAPIURL + "/testing-support/lease")
-      .body(StringBody("""{"microservice":"${microservice}"}""")).asJson
-      .check(regex("(.+)").saveAs("authToken")))
+    .post(RpeAPIURL + "/testing-support/lease")
+    .body(StringBody("""{"microservice":"${microservice}"}""")).asJson
+    .check(regex("(.+)").saveAs("authToken")))
 
     .pause(1)
 
     .exec(http("CAFCAS_000_GetBearerToken")
-      .post(idamURL + "/o/token") //change this to idamapiurl if this not works
-      .formParam("grant_type", "password")
-      .formParam("username", "${emailAddressCCD}")
-      .formParam("password", "${passwordCCD}")
-      .formParam("client_id", "cafcaas-idam-id")
-     // .formParam("client_secret", clientSecret)
-      .formParam("client_secret", "RB4B4JLQYZUXYO5U")
-      .formParam("scope", "profile roles openid")
-      .header("Content-Type", "application/x-www-form-urlencoded")
-      .check(jsonPath("$.access_token").saveAs("bearerToken")))
+    .post(idamURL + "/o/token") //change this to idamapiurl if this not works
+    .formParam("grant_type", "password")
+    .formParam("username", "${emailAddressCCD}")
+    .formParam("password", "${passwordCCD}")
+    .formParam("client_id", "cafcaas-idam-id")
+    // .formParam("client_secret", clientSecret)
+    .formParam("client_secret", "RB4B4JLQYZUXYO5U")
+    .formParam("scope", "profile roles openid")
+    .header("Content-Type", "application/x-www-form-urlencoded")
+    .check(jsonPath("$.access_token").saveAs("bearerToken")))
 
     .pause(1)
 
-    /*.exec(http("XUI_000_GetIdamID")
-      .get(IdamAPIURL + "/details")
-      .header("Authorization", "Bearer ${bearerToken}")
-      .check(jsonPath("$.id").saveAs("idamId")))
+      /*.exec(http("XUI_000_GetIdamID")
+        .get(IdamAPIURL + "/details")
+        .header("Authorization", "Bearer ${bearerToken}")
+        .check(jsonPath("$.id").saveAs("idamId")))
 
+      .pause(1)*/
+
+  /*======================================================================================
+  * Cafcass API Calls - Call all the API calls, need to refactor in future based on requirement
+  ======================================================================================*/
+
+    val CafcassAPICalls=
+    exec(Auth("Solicitor"))
+      // set the values for random start date and random end date end date
+    .exec(_.setAll(
+    "randomStartDate" -> randomStartDate,
+    "randomEndDate" -> randomEndDate
+    ))
+
+/*======================================================================================
+* Cafcass API Call - Request case data between two dates
+======================================================================================*/
+
+
+   /* .exec(http("CafcasAPI_000_searchCasesByDates")
+    //.get( "/cases/searchCases?start_date=2023-02-06T00:00:00&end_date=2023-02-08T00:00:00")
+      .get( "/cases/searchCases?start_date=${randomStartDate}&end_date=${randomEndDate}")
+    .header("Authorization", "Bearer ${bearerToken}")
+    .header("ServiceAuthorization", "Bearer ${authToken}")
+    .header("Content-Type", "application/json")
+    .check(status.is(200))
+    )
     .pause(1)*/
 
-  val searchCasesByDates =
+  /*======================================================================================
+  * Cafcass API Call - to download the document related to case from document Id
+  ======================================================================================*/
 
-    exec(Auth("Solicitor"))
-  .exec(_.setAll(
-    "FileName1" -> "1MB.pdf"))
+    .feed(casedocIds)
+    .exec(http("CafcasAPI_000_downloadDocument")
+    //.get( "/8487f33f-9e64-43dc-b0a9-c3bfbd9edcbf/download")
+      .get( "cases/documents/e66c0239-4b25-488e-9e17-270e37581089/binary")
 
-      /*.exec(http("CafcasAPI_000_searchCasesByDates")
-        .get("/cases/searchCases")
-        .header("Authorization", "Bearer ${bearerToken}")
-        .header("ServiceAuthorization", "${authToken}")
-        .header("Content-Type", "application/json")
-        .formParam("start_date", "01/02/2023")
-        .formParam("end_date", "28/02/2023")
-        //.check(jsonPath("$.token").saveAs("eventToken")))
-      )*/
-
+    .header("Authorization", "Bearer ${bearerToken}")
+    .header("ServiceAuthorization", "Bearer ${authToken}")
+    .header("Content-Type", "application/json")
+    .check(status.is(200))
+    )
     .pause(1)
-// below is to retrieve the document from document Id
-      .exec(http("CafcasAPI_000_downloadDocument")
-        .get( "/c525ddc0-9a59-40a8-bdf8-5549fa528a8d/download")
-        .header("Authorization", "Bearer ${bearerToken}")
-        .header("ServiceAuthorization", "${authToken}")
-        //.header("Content-Type", "application/json")
-        //.check(jsonPath("$.token").saveAs("eventToken")))
-      )
 
+  /*======================================================================================
+  * Cafcass API Call - to upload the relevant document for the given caseId
+  ======================================================================================*/
 
-      .pause(1)
-
-      .exec(http("CafcasAPI_000_uploadDocument")
-        .post( "/1677144326732696/document?typeOfDocument=pdf")
-        .header("ServiceAuthorization", "Bearer #{bearerToken}")
-        .header("accept", "application/json")
-        .header("Content-Type", "multipart/form-data")
-        .bodyPart(RawFileBodyPart("files", "#{FileName}")
-          .fileName("#{FileName1}")
-          .transferEncoding("binary"))
-        .asMultipartForm
-        .formParam("classification", "PUBLIC")
-        .check(regex("""documents/(.+?)/binary""").saveAs("Document_ID4")))
-
+     /*.feed(cafcaseIds)
+    .exec(http("CafcasAPI_000_uploadDocument")
+    .post( "http://prl-cos-demo.service.core-compute-demo.internal/1676377027002115/document")
+    .header("Authorization", "Bearer ${bearerToken}")
+    .header("ServiceAuthorization", "Bearer ${authToken}")
+    .header("accept", "application/json")
+    .header("Content-Type", "multipart/form-data")
+    .formParam("typeOfDocument", "Safeguarding_Letter_Update")
+    .bodyPart(RawFileBodyPart("files", "120KB.pdf")
+    .fileName("120KB.pdf")
+    .transferEncoding("binary"))
+    .check(status.is(200))
+    )*/
 }

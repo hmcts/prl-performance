@@ -199,4 +199,21 @@ object Common {
       .check(regex("name|Organisation route error"))
       .check(status.in(200, 304, 403)))
 
+  /*flowwing def will give random start date and end date based on the given date to use in the
+  * cafcas api search cases b
+   */
+  def randomDateWithinMonth(startDateStr: String): (String, String) = {
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
+    val startDate = LocalDate.parse(startDateStr, formatter)
+    val maxDays = startDate.lengthOfMonth()
+    val startEpochDay = startDate.toEpochDay()
+    val endEpochDay = startDate.plusDays(maxDays).toEpochDay()
+    val randomStartDay = startEpochDay + Random.nextInt((endEpochDay - startEpochDay).toInt)
+    val randomEndDay = randomStartDay + Random.nextInt((endEpochDay - randomStartDay).toInt)
+    val randomStartDate = LocalDate.ofEpochDay(randomStartDay).atStartOfDay().format(formatter)
+    val randomEndDate = LocalDate.ofEpochDay(randomEndDay).atStartOfDay().format(formatter)
+    (randomStartDate, randomEndDate)
+  }
+
+
 }

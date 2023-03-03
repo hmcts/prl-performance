@@ -9,6 +9,7 @@ import scala.io.Source
 import io.gatling.core.controller.inject.open.OpenInjectionStep
 import io.gatling.commons.stats.assertion.Assertion
 import io.gatling.core.pause.PauseType
+import scenarios.CafcasAPI.prlCafcasURL
 
 import scala.concurrent.duration._
 import scala.util.Random
@@ -65,7 +66,7 @@ class XUI_Simulation extends Simulation {
 	}
 
 	val httpProtocol = http
-		.baseUrl(Environment.prlCafcasURL.replace("${env}", s"${env}"))
+		.baseUrl(prlCafcasURL.replace("${env}", s"${env}"))
 		.inferHtmlResources()
 		.silentResources
 		.header("experimental", "true") //used to send through client id, s2s and bearer tokens. Might be temporary
@@ -139,17 +140,15 @@ class XUI_Simulation extends Simulation {
 
 
 	/*===============================================================================================
-  * Cafcas API Scenario
+  * Cafcas API Scenario which will be calling every 15 mins while running the PRL Test
    ===============================================================================================*/
 	val CafcasAPIScenario = scenario("***** Cafcas APIs *****")
-		.exitBlockOnFail {
+		.exitBlockOnFail
+		{
 				exec(_.set("env", s"${env}")
 					.set("caseType", "Cafcas"))
-				.exec(CafcasAPI.searchCasesByDates)
+				.exec(CafcasAPI.CafcassAPICalls)
 		}
-
-
-
 
 	/*===============================================================================================
 	* Simulation Configuration
