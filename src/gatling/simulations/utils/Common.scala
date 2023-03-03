@@ -215,5 +215,4 @@ object Common {
     (randomStartDate, randomEndDate)
   }
 
-
 }

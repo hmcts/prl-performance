@@ -1,5 +1,0 @@
-ASSERTION	AAECAAMFAAAAAAAAAFlA
-RUN	simulations.XUI_Simulation	xui-simulation	1677837529736	 	3.3.1
-USER	***** Cafcas APIs *****	1	START	1677837531169	1677837531169
-REQUEST	1		CAFCAS_000_Auth	1677837531208	1677837531225	KO	j.n.UnknownHostException: No such host is known (rpe-service-auth-provider-demo.service.core-compute-demo.internal)
-USER	***** Cafcas APIs *****	1	END	1677837531169	1677837531271
