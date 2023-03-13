@@ -846,6 +846,22 @@ object Solicitor_PRL_C100_Citizen2 {
 
 
 
+            /*======================================================================================
+  * Logout
+  ======================================================================================*/
+
+            .group("PRL_CitizenC100_820_Logout") {
+
+              exec(http("PRL_CitizenC100_820_005_Logout")
+                .get(prlURL + "/logout")
+                .headers(Headers.navigationHeader)
+                .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+                .check(substring("Sign in or create an account")))
+            }
+            .pause(MinThinkTime, MaxThinkTime)
+
+
+
 
 
 }

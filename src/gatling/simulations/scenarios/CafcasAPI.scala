@@ -81,8 +81,8 @@ object CafcasAPI {
 
 
    .exec(http("CafcasAPI_000_searchCasesByDates")
-   //.get( "/cases/searchCases?start_date=2023-02-06T00:00:00&end_date=2023-02-08T00:00:00")
-     .get( "/cases/searchCases?start_date=${randomStartDate}&end_date=${randomEndDate}")
+   .get( "/cases/searchCases?start_date=2023-02-13T00:00:00&end_date=2023-02-16T15:38:00")
+    // .get( "/cases/searchCases?start_date=${randomStartDate}&end_date=${randomEndDate}")
    .header("Authorization", "Bearer ${bearerToken}")
    .header("ServiceAuthorization", "Bearer ${authToken}")
    .header("Content-Type", "application/json")
@@ -100,7 +100,7 @@ object CafcasAPI {
       .feed(casedocIds)
       .exec(http("CafcasAPI_000_downloadDocument")
         //.get( "/8487f33f-9e64-43dc-b0a9-c3bfbd9edcbf/download")
-        .get("/cases/documents/e66c0239-4b25-488e-9e17-270e37581089/binary")
+        .get("/cases/documents/${documentId}/binary")
         .header("Authorization", "Bearer ${bearerToken}")
         .header("ServiceAuthorization", "Bearer ${authToken}")
         .header("Content-Type", "application/json")
@@ -118,7 +118,7 @@ object CafcasAPI {
 
       .feed(cafcaseIds)
       .exec(http("CafcasAPI_000_uploadDocument")
-        .post("http://prl-cos-demo.service.core-compute-demo.internal/1676377027002115/document")
+        .post("http://prl-cos-perftest.service.core-compute-perftest.internal/${cafcaseId}/document")
         .header("Authorization", "Bearer ${bearerToken}")
         .header("ServiceAuthorization", "Bearer ${authToken}")
         .header("Content-Type", "multipart/form-data")

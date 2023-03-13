@@ -133,7 +133,7 @@ class XUI_Simulation extends Simulation {
             .exec(Solicitor_PRL_FL401.StatementOfTruth)
         }
         
-        .exec(Logout.XUILogout)
+      //  .exec(Logout.XUILogout)
       
     }
   
@@ -213,10 +213,10 @@ class XUI_Simulation extends Simulation {
   
   setUp(
     // PRLSolicitorScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
-    CafcasUploadByCaseScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
+    PRLSolicitorScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
   ).protocols(httpProtocol)
     .assertions(assertions(testType))
-    .maxDuration(75 minutes)
+    .maxDuration(70 minutes)
   
   
 }
