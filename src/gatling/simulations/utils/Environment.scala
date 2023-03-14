@@ -12,7 +12,7 @@ object Environment {
  val ccdAPIURL = "http://ccd-data-store-api-${env}.service.core-compute-${env}.internal"
  val prlCafcasURL="http://prl-cos-${env}.service.core-compute-${env}.internal"
 
- val minThinkTime = 2
- val maxThinkTime = 4
+ val minThinkTime = 3
+ val maxThinkTime = 5
 
 }

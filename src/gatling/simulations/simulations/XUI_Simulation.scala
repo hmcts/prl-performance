@@ -216,7 +216,7 @@ class XUI_Simulation extends Simulation {
     PRLSolicitorScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
   ).protocols(httpProtocol)
     .assertions(assertions(testType))
-    .maxDuration(70 minutes)
+    .maxDuration(75 minutes)
   
   
 }
