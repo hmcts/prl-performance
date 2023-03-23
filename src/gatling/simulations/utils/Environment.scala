@@ -3,7 +3,7 @@ package utils
 object Environment {
 
  val baseURL = "https://manage-case.${env}.platform.hmcts.net"
- val payURL = "https://www.payments.service.gov.uk"
+ val payURL = "https://card.payments.service.gov.uk"
 // val prlURL = "https://prl-citizen-frontend-pr-741.service.core-compute-preview.internal"
  val prlURL = "https://privatelaw.${env}.platform.hmcts.net"
  val idamURL = "https://idam-web-public.${env}.platform.hmcts.net"

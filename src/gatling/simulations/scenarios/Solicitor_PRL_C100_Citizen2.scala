@@ -747,7 +747,7 @@ object Solicitor_PRL_C100_Citizen2 {
               .formParam("statementOfTruth", "Yes")
               .formParam("saveAndContinue", "true")
               .check(
-                headerRegex("location", """www.payments.service.gov.uk\/secure\/(.{8}-.{4}-.{4}-.{4}-.{12})""")
+                headerRegex("location", """https://card.payments.service.gov.uk\/secure\/(.{8}-.{4}-.{4}-.{4}-.{12})""")
                   .ofType[(String)]
                   .saveAs("paymentId")
               )
@@ -835,14 +835,79 @@ object Solicitor_PRL_C100_Citizen2 {
 
             exec(http("PRL_CitizenC100_810_005_FinalSubmit")
               .post(PayURL + "/card_details/${chargeId}/confirm")
-              .headers(Headers.commonHeader)
-              .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+              .disableFollowRedirect
+              .headers(Headers.navigationHeader)
+              .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
+              .header("accept-language", "en-GB,en-US;q=0.9,en;q=0.8")
               .header("content-type", "application/x-www-form-urlencoded")
               .formParam("csrfToken", "${csrf}")
               .formParam("chargeId", "${chargeId}")
-              .check(regex("""Case number <br><strong>(.{16})<\/strong>""").saveAs("caseNumber")))
+              .check(status.is(303)))
+          //    .check(substring("Your application has been submitted"))
+          //    .check(regex("""Case number <br><strong>(.{16})<\/strong>""").saveAs("caseNumber")))
           }
           .pause(MinThinkTime, MaxThinkTime)
+
+
+
+            /*======================================================================================
+* Final Submit Redirect 1
+======================================================================================*/
+
+            .group("PRL_CitizenC100_811_FinalSubmitRedirect1") {
+
+              exec(http("PRL_CitizenC100_811_005_FinalSubmitRedirect1")
+                .get(PayURL + "/return/${chargeId}")
+                .disableFollowRedirect
+                .headers(Headers.navigationHeader)
+                .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
+                .header("accept-language", "en-GB,en-US;q=0.9,en;q=0.8")
+                .header("content-type", "application/x-www-form-urlencoded")
+                .check(status.is(302)))
+              //    .check(substring("Your application has been submitted"))
+              //    .check(regex("""Case number <br><strong>(.{16})<\/strong>""").saveAs("caseNumber")))
+            }
+            .pause(MinThinkTime, MaxThinkTime)
+
+
+
+            /*======================================================================================
+* Final Submit Redirect 2
+======================================================================================*/
+
+            .group("PRL_CitizenC100_812_FinalSubmitRedirect2") {
+
+              exec(http("PRL_CitizenC100_812_005_FinalSubmitRedirect2")
+                .get(PayURL + "/payment/reciever/callback/${chargeId}/confirmation")
+                .disableFollowRedirect
+                .headers(Headers.navigationHeader)
+                .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
+                .header("accept-language", "en-GB,en-US;q=0.9,en;q=0.8")
+                .header("content-type", "application/x-www-form-urlencoded")
+                .check(status.is(302)))
+              //    .check(substring("Your application has been submitted"))
+              //    .check(regex("""Case number <br><strong>(.{16})<\/strong>""").saveAs("caseNumber")))
+            }
+            .pause(MinThinkTime, MaxThinkTime)
+
+
+
+            /*======================================================================================
+* Final Submit Redirect 3
+======================================================================================*/
+
+            .group("PRL_CitizenC100_813_FinalSubmitRedirect3") {
+
+              exec(http("PRL_CitizenC100_813_005_FinalSubmitRedirect3")
+                .get(prlURL + "/c100-rebuild/confirmation-page")
+                .headers(Headers.navigationHeader)
+                .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
+                .header("accept-language", "en-GB,en-US;q=0.9,en;q=0.8")
+                .header("content-type", "application/x-www-form-urlencoded")
+                  .check(substring("Your application has been submitted"))
+                  .check(regex("""Case number <br><strong>(.{16})<\/strong>""").saveAs("caseNumber")))
+            }
+            .pause(MinThinkTime, MaxThinkTime)
 
 
 
