@@ -2,7 +2,9 @@ package scenarios
 
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
-import utils.{Common, CsrfCheck,CsrfCheck2, Environment, Headers}
+import utils.{Common, CsrfCheck, CsrfCheck2, Environment, Headers}
+
+import java.io.{BufferedWriter, FileWriter}
 
 /*======================================================================================
 * Create a new Private Law application as a professional user (e.g. solicitor)
@@ -846,7 +848,6 @@ object Solicitor_PRL_C100_Citizen2 {
           //    .check(substring("Your application has been submitted"))
           //    .check(regex("""Case number <br><strong>(.{16})<\/strong>""").saveAs("caseNumber")))
           }
-          .pause(MinThinkTime, MaxThinkTime)
 
 
 
@@ -867,7 +868,6 @@ object Solicitor_PRL_C100_Citizen2 {
               //    .check(substring("Your application has been submitted"))
               //    .check(regex("""Case number <br><strong>(.{16})<\/strong>""").saveAs("caseNumber")))
             }
-            .pause(MinThinkTime, MaxThinkTime)
 
 
 
@@ -888,7 +888,6 @@ object Solicitor_PRL_C100_Citizen2 {
               //    .check(substring("Your application has been submitted"))
               //    .check(regex("""Case number <br><strong>(.{16})<\/strong>""").saveAs("caseNumber")))
             }
-            .pause(MinThinkTime, MaxThinkTime)
 
 
 
@@ -908,6 +907,15 @@ object Solicitor_PRL_C100_Citizen2 {
                   .check(regex("""Case number <br><strong>(.{16})<\/strong>""").saveAs("caseNumber")))
             }
             .pause(MinThinkTime, MaxThinkTime)
+
+
+            .exec { session =>
+              val fw = new BufferedWriter(new FileWriter("caseNumber.csv", true))
+              try {
+                fw.write(session("caseNumber").as[String] + "\r\n")
+              } finally fw.close()
+              session
+            }
 
 
 
