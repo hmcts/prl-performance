@@ -181,11 +181,12 @@ class XUI_Simulation extends Simulation {
  ===============================================================================================*/
   val CafcasUploadByCaseScenario = scenario("***** Cafcas Upload By Case ID *****")
     .exitBlockOnFail {
-      exec(_.set("env", s"${env}")
-        .set("caseType", "Cafcas"))
-        .exec(CafcasAPI.uploadDocToCase)
+      repeat(60) {
+        exec(_.set("env", s"${env}")
+          .set("caseType", "Cafcas"))
+          .exec(CafcasAPI.uploadDocToCase)
+      }
     }
-  
   /*===============================================================================================
   * Simulation Configuration
    ===============================================================================================*/
@@ -231,7 +232,7 @@ class XUI_Simulation extends Simulation {
   
   setUp(
     // PRLSolicitorScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
-    CafcasCasesByDatesScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
+    CafcasUploadByCaseScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
   ).protocols(httpProtocol)
     .assertions(assertions(testType))
     .maxDuration(75 minutes)

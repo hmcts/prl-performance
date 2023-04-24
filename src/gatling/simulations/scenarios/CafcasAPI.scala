@@ -81,8 +81,8 @@ object CafcasAPI {
 
 
    .exec(http("CafcasAPI_000_searchCasesByDates")
-   .get( "/cases/searchCases?start_date=2023-03-14T11:26:34&end_date=2023-03-14T15:26:34")
-  //   .get( "/cases/searchCases?start_date=${randomStartDate}&end_date=${randomEndDate}")
+   //.get( "/cases/searchCases?start_date=2023-03-14T11:26:34&end_date=2023-03-14T15:26:34")
+     .get( "/cases/searchCases?start_date=${randomStartDate}&end_date=${randomEndDate}")
     // .get( "/cases/searchCases?start_date=2022-01-13T00:00:00&end_date=2023-04-16T15:38:00")
    .header("Authorization", "Bearer ${bearerToken}")
    .header("ServiceAuthorization", "Bearer ${authToken}")

@@ -1,0 +1,5 @@
+ASSERTION	AAECAAMFAAAAAAAAAFlA
+RUN	simulations.XUI_Simulation	xui-simulation	1682347085236	 	3.3.1
+USER	***** Cafcas Upload By Case ID *****	1	START	1682347086236	1682347086236
+REQUEST	1		CAFCAS_000_Auth	1682347086264	1682347086276	KO	j.n.UnknownHostException: rpe-service-auth-provider-perftest.service.core-compute-perftest.internal: nodename nor servname provided, or not known
+USER	***** Cafcas Upload By Case ID *****	1	END	1682347086236	1682347086298
