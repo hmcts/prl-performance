@@ -20,12 +20,12 @@ object CafcasAPI {
 
   val clientSecret = ConfigFactory.load.getString("auth.clientSecret")
   val FileName = "120KB.pdf"
-  val casedocIds = csv("CafcassDocIds.csv").random
-  val cafcaseIds = csv("CafcasscaseIds.csv").random
+  val casedocIds = csv("CafcassDocIds.csv").circular
+  val cafcaseIds = csv("CafcasscaseIds.csv").circular
 
   // declare random dates function
 
-  val (randomStartDate, randomEndDate) = randomDateWithinMonth("2023-02-01T00:00:00")
+  val (randomStartDate, randomEndDate) = randomDateWithinMonth("2022-02-01T00:00:00")
 
   //userType must be "Caseworker", "Legal" or "Citizen"
   def Auth (userType: String) =
@@ -81,8 +81,9 @@ object CafcasAPI {
 
 
    .exec(http("CafcasAPI_000_searchCasesByDates")
-   .get( "/cases/searchCases?start_date=2023-02-13T00:00:00&end_date=2023-02-16T15:38:00")
-    // .get( "/cases/searchCases?start_date=${randomStartDate}&end_date=${randomEndDate}")
+   .get( "/cases/searchCases?start_date=2023-03-14T11:26:34&end_date=2023-03-14T15:26:34")
+  //   .get( "/cases/searchCases?start_date=${randomStartDate}&end_date=${randomEndDate}")
+    // .get( "/cases/searchCases?start_date=2022-01-13T00:00:00&end_date=2023-04-16T15:38:00")
    .header("Authorization", "Bearer ${bearerToken}")
    .header("ServiceAuthorization", "Bearer ${authToken}")
    .header("Content-Type", "application/json")
@@ -100,7 +101,7 @@ object CafcasAPI {
       .feed(casedocIds)
       .exec(http("CafcasAPI_000_downloadDocument")
         //.get( "/8487f33f-9e64-43dc-b0a9-c3bfbd9edcbf/download")
-        .get("/cases/documents/${documentId}/binary")
+        .get(prlCafcasURL + "/cases/documents/${documentId}/binary")
         .header("Authorization", "Bearer ${bearerToken}")
         .header("ServiceAuthorization", "Bearer ${authToken}")
         .header("Content-Type", "application/json")
@@ -118,7 +119,8 @@ object CafcasAPI {
 
       .feed(cafcaseIds)
       .exec(http("CafcasAPI_000_uploadDocument")
-        .post("http://prl-cos-perftest.service.core-compute-perftest.internal/${cafcaseId}/document")
+     // .post("http://prl-cos-perftest.service.core-compute-perftest.internal/1682074324904901/document")
+        .post(prlCafcasURL + "/${cafcaseId}/document")
         .header("Authorization", "Bearer ${bearerToken}")
         .header("ServiceAuthorization", "Bearer ${authToken}")
         .header("Content-Type", "multipart/form-data")

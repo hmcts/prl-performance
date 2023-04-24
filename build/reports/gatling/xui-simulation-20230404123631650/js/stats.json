@@ -1,0 +1,317 @@
+{
+  "type": "GROUP",
+"name": "Global Information",
+"path": "",
+"pathFormatted": "group_missing-name-b06d1",
+"stats": {
+    "name": "Global Information",
+    "numberOfRequests": {
+        "total": 3,
+        "ok": 2,
+        "ko": 1
+    },
+    "minResponseTime": {
+        "total": 102,
+        "ok": 102,
+        "ko": 3250
+    },
+    "maxResponseTime": {
+        "total": 3250,
+        "ok": 699,
+        "ko": 3250
+    },
+    "meanResponseTime": {
+        "total": 1350,
+        "ok": 401,
+        "ko": 3250
+    },
+    "standardDeviation": {
+        "total": 1365,
+        "ok": 299,
+        "ko": 0
+    },
+    "percentiles1": {
+        "total": 699,
+        "ok": 401,
+        "ko": 3250
+    },
+    "percentiles2": {
+        "total": 1975,
+        "ok": 550,
+        "ko": 3250
+    },
+    "percentiles3": {
+        "total": 2995,
+        "ok": 669,
+        "ko": 3250
+    },
+    "percentiles4": {
+        "total": 3199,
+        "ok": 693,
+        "ko": 3250
+    },
+    "group1": {
+    "name": "t < 800 ms",
+    "count": 2,
+    "percentage": 67
+},
+    "group2": {
+    "name": "800 ms < t < 1200 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group3": {
+    "name": "t > 1200 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group4": {
+    "name": "failed",
+    "count": 1,
+    "percentage": 33
+},
+    "meanNumberOfRequestsPerSecond": {
+        "total": 0.6,
+        "ok": 0.4,
+        "ko": 0.2
+    }
+},
+"contents": {
+"req_cafcas-000-auth-6aee4": {
+        "type": "REQUEST",
+        "name": "CAFCAS_000_Auth",
+"path": "CAFCAS_000_Auth",
+"pathFormatted": "req_cafcas-000-auth-6aee4",
+"stats": {
+    "name": "CAFCAS_000_Auth",
+    "numberOfRequests": {
+        "total": 1,
+        "ok": 1,
+        "ko": 0
+    },
+    "minResponseTime": {
+        "total": 102,
+        "ok": 102,
+        "ko": 0
+    },
+    "maxResponseTime": {
+        "total": 102,
+        "ok": 102,
+        "ko": 0
+    },
+    "meanResponseTime": {
+        "total": 102,
+        "ok": 102,
+        "ko": 0
+    },
+    "standardDeviation": {
+        "total": 0,
+        "ok": 0,
+        "ko": 0
+    },
+    "percentiles1": {
+        "total": 102,
+        "ok": 102,
+        "ko": 0
+    },
+    "percentiles2": {
+        "total": 102,
+        "ok": 102,
+        "ko": 0
+    },
+    "percentiles3": {
+        "total": 102,
+        "ok": 102,
+        "ko": 0
+    },
+    "percentiles4": {
+        "total": 102,
+        "ok": 102,
+        "ko": 0
+    },
+    "group1": {
+    "name": "t < 800 ms",
+    "count": 1,
+    "percentage": 100
+},
+    "group2": {
+    "name": "800 ms < t < 1200 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group3": {
+    "name": "t > 1200 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group4": {
+    "name": "failed",
+    "count": 0,
+    "percentage": 0
+},
+    "meanNumberOfRequestsPerSecond": {
+        "total": 0.2,
+        "ok": 0.2,
+        "ko": 0
+    }
+}
+    },"req_cafcas-000-getb-434ce": {
+        "type": "REQUEST",
+        "name": "CAFCAS_000_GetBearerToken",
+"path": "CAFCAS_000_GetBearerToken",
+"pathFormatted": "req_cafcas-000-getb-434ce",
+"stats": {
+    "name": "CAFCAS_000_GetBearerToken",
+    "numberOfRequests": {
+        "total": 1,
+        "ok": 1,
+        "ko": 0
+    },
+    "minResponseTime": {
+        "total": 699,
+        "ok": 699,
+        "ko": 0
+    },
+    "maxResponseTime": {
+        "total": 699,
+        "ok": 699,
+        "ko": 0
+    },
+    "meanResponseTime": {
+        "total": 699,
+        "ok": 699,
+        "ko": 0
+    },
+    "standardDeviation": {
+        "total": 0,
+        "ok": 0,
+        "ko": 0
+    },
+    "percentiles1": {
+        "total": 699,
+        "ok": 699,
+        "ko": 0
+    },
+    "percentiles2": {
+        "total": 699,
+        "ok": 699,
+        "ko": 0
+    },
+    "percentiles3": {
+        "total": 699,
+        "ok": 699,
+        "ko": 0
+    },
+    "percentiles4": {
+        "total": 699,
+        "ok": 699,
+        "ko": 0
+    },
+    "group1": {
+    "name": "t < 800 ms",
+    "count": 1,
+    "percentage": 100
+},
+    "group2": {
+    "name": "800 ms < t < 1200 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group3": {
+    "name": "t > 1200 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group4": {
+    "name": "failed",
+    "count": 0,
+    "percentage": 0
+},
+    "meanNumberOfRequestsPerSecond": {
+        "total": 0.2,
+        "ok": 0.2,
+        "ko": 0
+    }
+}
+    },"req_cafcasapi-000-u-e97c8": {
+        "type": "REQUEST",
+        "name": "CafcasAPI_000_uploadDocument",
+"path": "CafcasAPI_000_uploadDocument",
+"pathFormatted": "req_cafcasapi-000-u-e97c8",
+"stats": {
+    "name": "CafcasAPI_000_uploadDocument",
+    "numberOfRequests": {
+        "total": 1,
+        "ok": 0,
+        "ko": 1
+    },
+    "minResponseTime": {
+        "total": 3250,
+        "ok": 0,
+        "ko": 3250
+    },
+    "maxResponseTime": {
+        "total": 3250,
+        "ok": 0,
+        "ko": 3250
+    },
+    "meanResponseTime": {
+        "total": 3250,
+        "ok": 0,
+        "ko": 3250
+    },
+    "standardDeviation": {
+        "total": 0,
+        "ok": 0,
+        "ko": 0
+    },
+    "percentiles1": {
+        "total": 3250,
+        "ok": 0,
+        "ko": 3250
+    },
+    "percentiles2": {
+        "total": 3250,
+        "ok": 0,
+        "ko": 3250
+    },
+    "percentiles3": {
+        "total": 3250,
+        "ok": 0,
+        "ko": 3250
+    },
+    "percentiles4": {
+        "total": 3250,
+        "ok": 0,
+        "ko": 3250
+    },
+    "group1": {
+    "name": "t < 800 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group2": {
+    "name": "800 ms < t < 1200 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group3": {
+    "name": "t > 1200 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group4": {
+    "name": "failed",
+    "count": 1,
+    "percentage": 100
+},
+    "meanNumberOfRequestsPerSecond": {
+        "total": 0.2,
+        "ok": 0,
+        "ko": 0.2
+    }
+}
+    }
+}
+
+}

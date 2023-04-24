@@ -1,0 +1,5 @@
+<testsuite name="simulations.XUI_Simulation" tests="1" errors="0" failures="1" time="0">
+<testcase name="Global: percentage of successful events is 100.0" status="false" time="0">
+  <failure type="Global">Actual value: 66.66666666666666</failure>
+</testcase>
+</testsuite>

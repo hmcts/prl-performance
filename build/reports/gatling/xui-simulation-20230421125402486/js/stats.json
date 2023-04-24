@@ -1,0 +1,317 @@
+{
+  "type": "GROUP",
+"name": "Global Information",
+"path": "",
+"pathFormatted": "group_missing-name-b06d1",
+"stats": {
+    "name": "Global Information",
+    "numberOfRequests": {
+        "total": 3,
+        "ok": 2,
+        "ko": 1
+    },
+    "minResponseTime": {
+        "total": 332,
+        "ok": 332,
+        "ko": 1076
+    },
+    "maxResponseTime": {
+        "total": 1076,
+        "ok": 741,
+        "ko": 1076
+    },
+    "meanResponseTime": {
+        "total": 716,
+        "ok": 537,
+        "ko": 1076
+    },
+    "standardDeviation": {
+        "total": 304,
+        "ok": 205,
+        "ko": 0
+    },
+    "percentiles1": {
+        "total": 741,
+        "ok": 537,
+        "ko": 1076
+    },
+    "percentiles2": {
+        "total": 909,
+        "ok": 639,
+        "ko": 1076
+    },
+    "percentiles3": {
+        "total": 1043,
+        "ok": 721,
+        "ko": 1076
+    },
+    "percentiles4": {
+        "total": 1069,
+        "ok": 737,
+        "ko": 1076
+    },
+    "group1": {
+    "name": "t < 800 ms",
+    "count": 2,
+    "percentage": 67
+},
+    "group2": {
+    "name": "800 ms < t < 1200 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group3": {
+    "name": "t > 1200 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group4": {
+    "name": "failed",
+    "count": 1,
+    "percentage": 33
+},
+    "meanNumberOfRequestsPerSecond": {
+        "total": 1.0,
+        "ok": 0.6666666666666666,
+        "ko": 0.3333333333333333
+    }
+},
+"contents": {
+"req_cafcas-000-auth-6aee4": {
+        "type": "REQUEST",
+        "name": "CAFCAS_000_Auth",
+"path": "CAFCAS_000_Auth",
+"pathFormatted": "req_cafcas-000-auth-6aee4",
+"stats": {
+    "name": "CAFCAS_000_Auth",
+    "numberOfRequests": {
+        "total": 1,
+        "ok": 1,
+        "ko": 0
+    },
+    "minResponseTime": {
+        "total": 332,
+        "ok": 332,
+        "ko": 0
+    },
+    "maxResponseTime": {
+        "total": 332,
+        "ok": 332,
+        "ko": 0
+    },
+    "meanResponseTime": {
+        "total": 332,
+        "ok": 332,
+        "ko": 0
+    },
+    "standardDeviation": {
+        "total": 0,
+        "ok": 0,
+        "ko": 0
+    },
+    "percentiles1": {
+        "total": 332,
+        "ok": 332,
+        "ko": 0
+    },
+    "percentiles2": {
+        "total": 332,
+        "ok": 332,
+        "ko": 0
+    },
+    "percentiles3": {
+        "total": 332,
+        "ok": 332,
+        "ko": 0
+    },
+    "percentiles4": {
+        "total": 332,
+        "ok": 332,
+        "ko": 0
+    },
+    "group1": {
+    "name": "t < 800 ms",
+    "count": 1,
+    "percentage": 100
+},
+    "group2": {
+    "name": "800 ms < t < 1200 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group3": {
+    "name": "t > 1200 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group4": {
+    "name": "failed",
+    "count": 0,
+    "percentage": 0
+},
+    "meanNumberOfRequestsPerSecond": {
+        "total": 0.3333333333333333,
+        "ok": 0.3333333333333333,
+        "ko": 0
+    }
+}
+    },"req_cafcas-000-getb-434ce": {
+        "type": "REQUEST",
+        "name": "CAFCAS_000_GetBearerToken",
+"path": "CAFCAS_000_GetBearerToken",
+"pathFormatted": "req_cafcas-000-getb-434ce",
+"stats": {
+    "name": "CAFCAS_000_GetBearerToken",
+    "numberOfRequests": {
+        "total": 1,
+        "ok": 1,
+        "ko": 0
+    },
+    "minResponseTime": {
+        "total": 741,
+        "ok": 741,
+        "ko": 0
+    },
+    "maxResponseTime": {
+        "total": 741,
+        "ok": 741,
+        "ko": 0
+    },
+    "meanResponseTime": {
+        "total": 741,
+        "ok": 741,
+        "ko": 0
+    },
+    "standardDeviation": {
+        "total": 0,
+        "ok": 0,
+        "ko": 0
+    },
+    "percentiles1": {
+        "total": 741,
+        "ok": 741,
+        "ko": 0
+    },
+    "percentiles2": {
+        "total": 741,
+        "ok": 741,
+        "ko": 0
+    },
+    "percentiles3": {
+        "total": 741,
+        "ok": 741,
+        "ko": 0
+    },
+    "percentiles4": {
+        "total": 741,
+        "ok": 741,
+        "ko": 0
+    },
+    "group1": {
+    "name": "t < 800 ms",
+    "count": 1,
+    "percentage": 100
+},
+    "group2": {
+    "name": "800 ms < t < 1200 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group3": {
+    "name": "t > 1200 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group4": {
+    "name": "failed",
+    "count": 0,
+    "percentage": 0
+},
+    "meanNumberOfRequestsPerSecond": {
+        "total": 0.3333333333333333,
+        "ok": 0.3333333333333333,
+        "ko": 0
+    }
+}
+    },"req_cafcasapi-000-u-e97c8": {
+        "type": "REQUEST",
+        "name": "CafcasAPI_000_uploadDocument",
+"path": "CafcasAPI_000_uploadDocument",
+"pathFormatted": "req_cafcasapi-000-u-e97c8",
+"stats": {
+    "name": "CafcasAPI_000_uploadDocument",
+    "numberOfRequests": {
+        "total": 1,
+        "ok": 0,
+        "ko": 1
+    },
+    "minResponseTime": {
+        "total": 1076,
+        "ok": 0,
+        "ko": 1076
+    },
+    "maxResponseTime": {
+        "total": 1076,
+        "ok": 0,
+        "ko": 1076
+    },
+    "meanResponseTime": {
+        "total": 1076,
+        "ok": 0,
+        "ko": 1076
+    },
+    "standardDeviation": {
+        "total": 0,
+        "ok": 0,
+        "ko": 0
+    },
+    "percentiles1": {
+        "total": 1076,
+        "ok": 0,
+        "ko": 1076
+    },
+    "percentiles2": {
+        "total": 1076,
+        "ok": 0,
+        "ko": 1076
+    },
+    "percentiles3": {
+        "total": 1076,
+        "ok": 0,
+        "ko": 1076
+    },
+    "percentiles4": {
+        "total": 1076,
+        "ok": 0,
+        "ko": 1076
+    },
+    "group1": {
+    "name": "t < 800 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group2": {
+    "name": "800 ms < t < 1200 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group3": {
+    "name": "t > 1200 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group4": {
+    "name": "failed",
+    "count": 1,
+    "percentage": 100
+},
+    "meanNumberOfRequestsPerSecond": {
+        "total": 0.3333333333333333,
+        "ok": 0,
+        "ko": 0.3333333333333333
+    }
+}
+    }
+}
+
+}

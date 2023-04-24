@@ -42,7 +42,7 @@ class XUI_Simulation extends Simulation {
   /* ******************************** */
   
   /* PERFORMANCE TEST CONFIGURATION */
-  val prlTargetPerHour: Double = 20
+  val prlTargetPerHour: Double = 4
   val caseworkerTargetPerHour: Double = 1000
   
   //This determines the percentage split of PRL journeys, by C100 or FL401
@@ -136,7 +136,25 @@ class XUI_Simulation extends Simulation {
       //  .exec(Logout.XUILogout)
       
     }
-  
+
+  /*===============================================================================================
+* Cafcas API Scenario which runs CafcasDownloadByDocScenario, CafcasCasesByDatesScenario and CafcasDownloadByDocScenario
+===============================================================================================*/
+
+  val CafcasScenario = scenario("***** Cafcas Full Test *****")
+    .exitBlockOnFail {
+      exec(_.set("env", s"${env}")
+        .set("caseType", "Cafcas"))
+        .repeat(1) {
+          exec(CafcasAPI.getCasesBetweenDates)
+            .repeat(15) {
+              exec(CafcasAPI.downloadByDocId)
+            }
+            .repeat(15) {
+              exec(CafcasAPI.uploadDocToCase)
+            }
+        }
+    }
   
   /*===============================================================================================
   * Cafcas API Scenario which will be calling every 15 mins while running the PRL Test
@@ -213,7 +231,7 @@ class XUI_Simulation extends Simulation {
   
   setUp(
     // PRLSolicitorScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
-    PRLSolicitorScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
+    CafcasCasesByDatesScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
   ).protocols(httpProtocol)
     .assertions(assertions(testType))
     .maxDuration(75 minutes)
