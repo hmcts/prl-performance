@@ -86,14 +86,14 @@ class XUI_Simulation extends Simulation {
       feed(UserFeederPRL)
         .exec(_.set("env", s"${env}")
           .set("caseType", "PRLAPPS"))
-        //	.exec(Homepage.XUIHomePage)
-        //		.exec(Login.XUILogin)
+        	.exec(Homepage.XUIHomePage)
+        		.exec(Login.XUILogin)
         .feed(randomFeeder)
         .doIfOrElse(session => session("prl-percentage").as[Int] < prlC100Percentage) {
           //		repeat(10) {
           //C100 Journey
           
-          /*		exec(Solicitor_PRL_C100.CreatePrivateLawCase)
+          		exec(Solicitor_PRL_C100.CreatePrivateLawCase)
                 .exec(Solicitor_PRL_C100.TypeOfApplication)
                 .exec(Solicitor_PRL_C100.HearingUrgency)
                 .exec(Solicitor_PRL_C100.ApplicantDetails)
@@ -104,13 +104,13 @@ class XUI_Simulation extends Simulation {
                 .exec(Solicitor_PRL_C100.ViewPdfApplication)
                 .exec(Solicitor_PRL_C100.SubmitAndPay)
   
-           */
+
           
           
           
           
-          exec(Solicitor_PRL_C100_Citizen.C100Case)
-            .exec(Solicitor_PRL_C100_Citizen2.C100Case2)
+      //    exec(Solicitor_PRL_C100_Citizen.C100Case)
+        //    .exec(Solicitor_PRL_C100_Citizen2.C100Case2)
           
           
           //	exec(Solicitor_PRL_AddAnOrder.AddAnOrder)
@@ -133,7 +133,7 @@ class XUI_Simulation extends Simulation {
             .exec(Solicitor_PRL_FL401.StatementOfTruth)
         }
         
-      //  .exec(Logout.XUILogout)
+        .exec(Logout.XUILogout)
       
     }
 
@@ -232,7 +232,7 @@ class XUI_Simulation extends Simulation {
   
   setUp(
     // PRLSolicitorScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
-    CafcasUploadByCaseScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
+    PRLSolicitorScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
   ).protocols(httpProtocol)
     .assertions(assertions(testType))
     .maxDuration(75 minutes)
