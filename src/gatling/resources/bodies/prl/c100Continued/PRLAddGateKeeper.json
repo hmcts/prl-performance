@@ -1,13 +1,6 @@
 {
   "data": {
-    "gatekeeper": [
-      {
-        "value": {
-          "email": "prl_court_admin2@test.com"
-        },
-        "id": null
-      }
-    ]
+    "isSpecificGateKeeperNeeded": "No"
   },
   "event": {
     "id": "sendToGateKeeper",
@@ -15,14 +8,7 @@
     "description": ""
   },
   "event_data": {
-    "gatekeeper": [
-      {
-        "value": {
-          "email": "prl_court_admin2@test.com"
-        },
-        "id": null
-      }
-    ]
+    "isSpecificGateKeeperNeeded": "No"
   },
   "event_token": "${event_token}",
   "ignore_warning": false,

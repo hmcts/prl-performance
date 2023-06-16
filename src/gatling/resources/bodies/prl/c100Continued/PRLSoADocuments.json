@@ -2,26 +2,18 @@
   "data": {
     "serviceOfApplicationHeader": null,
     "serviceOfApplicationScreen1": {
-      "standardDirectionsOrderOption": [],
-      "blankOrderOrDirectionsOption": [],
-      "blankOrderOrDirectionsWithdrawOption": [],
-      "childArrangementSpecificOrderOption": [],
-      "parentalResponsibilityOption": [],
-      "specialGuardianShipOption": [
-        "specialGuardianShip"
+      "value": [
+        {
+          "code": "${code}",
+          "label": "${label}"
+        }
       ],
-      "noticeOfProceedingsPartiesOption": [],
-      "noticeOfProceedingsNonPartiesOption": [],
-      "transferOfCaseToAnotherCourtOption": [],
-      "appointmentOfGuardianOption": [],
-      "nonMolestationOption": [],
-      "occupationOption": [],
-      "powerOfArrestOption": [],
-      "amendDischargedVariedOption": [],
-      "blankOrderEnumOption": [],
-      "generalFormUndertakingOption": [],
-      "noticeOfProceedingsEnumOption": [],
-      "otherUploadAnOrderOption": []
+      "list_items": [
+        {
+          "code": "${code}",
+          "label": "${label}"
+        }
+      ]
     },
     "pd36qLetter": {
       "document_url": "${DocumentURLPD36Q}",
@@ -50,26 +42,18 @@
   "event_data": {
     "serviceOfApplicationHeader": null,
     "serviceOfApplicationScreen1": {
-      "standardDirectionsOrderOption": [],
-      "blankOrderOrDirectionsOption": [],
-      "blankOrderOrDirectionsWithdrawOption": [],
-      "childArrangementSpecificOrderOption": [],
-      "parentalResponsibilityOption": [],
-      "specialGuardianShipOption": [
-        "specialGuardianShip"
+      "value": [
+        {
+          "code": "${code}",
+          "label": "${label}"
+        }
       ],
-      "noticeOfProceedingsPartiesOption": [],
-      "noticeOfProceedingsNonPartiesOption": [],
-      "transferOfCaseToAnotherCourtOption": [],
-      "appointmentOfGuardianOption": [],
-      "nonMolestationOption": [],
-      "occupationOption": [],
-      "powerOfArrestOption": [],
-      "amendDischargedVariedOption": [],
-      "blankOrderEnumOption": [],
-      "generalFormUndertakingOption": [],
-      "noticeOfProceedingsEnumOption": [],
-      "otherUploadAnOrderOption": []
+      "list_items": [
+        {
+          "code": "${code}",
+          "label": "${label}"
+        }
+      ]
     },
     "pd36qLetter": {
       "document_url": "${DocumentURLPD36Q}",

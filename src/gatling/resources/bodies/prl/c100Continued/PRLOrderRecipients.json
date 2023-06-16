@@ -1,12 +1,9 @@
 {
   "data": {
-    "orderRecipients": [
-      "applicantOrApplicantSolicitor",
-      "respondentOrRespondentSolicitor"
-    ],
-    "otherOrderRecipients": [],
-    "cafcassRecipient": [],
-    "otherRecipient": []
+    "selectTypeOfOrder": "interim",
+    "cafcassOrCymruNeedToProvideReport": "No",
+    "orderEndsInvolvementOfCafcassOrCymru": "No",
+    "doYouWantToServeOrder": "Yes"
   },
   "event": {
     "id": "manageOrders",
@@ -17,27 +14,18 @@
     "manageOrderHeader1": null,
     "manageOrdersOptions": "createAnOrder",
     "createSelectOrderOptions": "specialGuardianShip",
+    "typeOfC21Order": null,
     "selectedOrder": "Special guardianship order (C43A)",
-    "isOrderDrawnForCafcass": "No",
-    "selectTypeOfOrder": "interim",
     "isTheOrderByConsent": "Yes",
     "wasTheOrderApprovedAtHearing": "No",
     "judgeOrMagistrateTitle": "herHonourJudge",
-    "judgeOrMagistratesLastName": "${PRLRandomString} judge",
-    "justiceLegalAdviserFullName": null,
-    "dateOrderMade": "${PRLAppDobYear}-${PRLAppDobMonth}-${PRLAppDobDay}",
-    "isTheOrderAboutAllChildren": "yes",
-    "recitalsOrPreamble": "${PRLRandomString} recitals",
-    "orderDirections": "${PRLRandomString} directions",
-    "furtherDirectionsIfRequired": "${PRLRandomString} further",
-    "appointedGuardianName": [
-      {
-        "value": {
-          "guardianFullName": "${PRLRandomString} Guardian"
-        },
-        "id": null
-      }
-    ],
+    "judgeOrMagistratesLastName": "${PRLRandomString} judge Last",
+    "justiceLegalAdviserFullName": "${PRLRandomString} judge First",
+    "dateOrderMade": "${PRLAppDobYear}-01-01",
+    "isTheOrderAboutAllChildren": "Yes",
+    "recitalsOrPreamble": "${PRLRandomString} recitalsOrPreamble",
+    "guardianTextBox": "${PRLRandomString} guardianTextBox",
+    "appointedGuardianName": [],
     "previewOrderDoc": {
       "document_url": "${document_url}",
       "document_binary_url": "${document_url}/binary",
@@ -45,13 +33,18 @@
       "document_hash": "${document_hash}",
       "document_creation_date": null
     },
-    "orderRecipients": [
-      "applicantOrApplicantSolicitor",
-      "respondentOrRespondentSolicitor"
-    ],
-    "otherOrderRecipients": [],
-    "cafcassRecipient": [],
-    "otherRecipient": []
+    "previewOrderDocWelsh": {
+      "document_url": "${document_urlWelsh}",
+      "document_binary_url": "${document_urlWelsh}/binary",
+      "document_filename": "Welsh_Special_Guardianship_Order_C43A_Draft.pdf",
+      "document_hash": "${document_hashWelsh}",
+      "document_creation_date": null
+    },
+    "amendOrderSelectCheckOptions": "noCheck",
+    "selectTypeOfOrder": "interim",
+    "cafcassOrCymruNeedToProvideReport": "No",
+    "orderEndsInvolvementOfCafcassOrCymru": "No",
+    "doYouWantToServeOrder": "Yes"
   },
   "event_token": "${event_token}",
   "ignore_warning": false,

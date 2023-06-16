@@ -8,6 +8,8 @@ object Homepage {
 
   val MinThinkTime = Environment.minThinkTime
   val MaxThinkTime = Environment.maxThinkTime
+
+  val BaseURL = Environment.baseURL
   
   /*====================================================================================
   *Manage Case Homepage
@@ -37,7 +39,7 @@ object Homepage {
       .exec(Common.isAuthenticated)
 
       .exec(http("XUI_010_010_AuthLogin")
-        .get("/auth/login")
+        .get(BaseURL + "/auth/login")
         .headers(Headers.navigationHeader)
         .check(CsrfCheck.save)
         .check(regex("/oauth2/callback&amp;state=(.*)&amp;nonce=").saveAs("state"))

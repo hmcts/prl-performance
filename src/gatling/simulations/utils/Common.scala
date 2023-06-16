@@ -21,6 +21,7 @@ object Common {
   val patternMonth = DateTimeFormatter.ofPattern("MM")
   val patternYear = DateTimeFormatter.ofPattern("yyyy")
   val patternReference = DateTimeFormatter.ofPattern("d MMM yyyy")
+  val BaseURL = Environment.baseURL
 
   def randomString(length: Int) = {
     rnd.alphanumeric.filter(_.isLetter).take(length).mkString
@@ -132,68 +133,68 @@ object Common {
 
   val configurationui =
     exec(http("XUI_Common_000_ConfigurationUI")
-      .get("/external/configuration-ui/")
+      .get(BaseURL + "/external/configuration-ui/")
       .headers(Headers.commonHeader)
       .header("accept", "*/*")
       .check(substring("ccdGatewayUrl")))
 
   val configJson =
     exec(http("XUI_Common_000_ConfigJson")
-      .get("/assets/config/config.json")
+      .get(BaseURL + "/assets/config/config.json")
       .header("accept", "application/json, text/plain, */*")
       .check(substring("caseEditorConfig")))
 
   val TsAndCs =
     exec(http("XUI_Common_000_TsAndCs")
-      .get("/api/configuration?configurationKey=termsAndConditionsEnabled")
+      .get(BaseURL + "/api/configuration?configurationKey=termsAndConditionsEnabled")
       .headers(Headers.commonHeader)
       .header("accept", "application/json, text/plain, */*")
       .check(substring("false")))
 
   val userDetails =
     exec(http("XUI_Common_000_UserDetails")
-      .get("/api/user/details")
+      .get(BaseURL + "/api/user/details")
       .headers(Headers.commonHeader)
       .header("accept", "application/json, text/plain, */*"))
 
   val configUI =
     exec(http("XUI_Common_000_ConfigUI")
-      .get("/external/config/ui")
+      .get(BaseURL + "/external/config/ui")
       .headers(Headers.commonHeader)
       .header("accept", "application/json, text/plain, */*")
       .check(substring("ccdGatewayUrl")))
 
   val isAuthenticated =
     exec(http("XUI_Common_000_IsAuthenticated")
-      .get("/auth/isAuthenticated")
+      .get(BaseURL + "/auth/isAuthenticated")
       .headers(Headers.commonHeader)
       .header("accept", "application/json, text/plain, */*")
       .check(regex("true|false")))
 
   val profile =
     exec(http("XUI_Common_000_Profile")
-      .get("/data/internal/profile")
+      .get(BaseURL + "/data/internal/profile")
       .headers(Headers.commonHeader)
       .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-user-profile.v2+json;charset=UTF-8")
       .check(jsonPath("$.user.idam.id").notNull))
 
   val monitoringTools =
     exec(http("XUI_Common_000_MonitoringTools")
-      .get("/api/monitoring-tools")
+      .get(BaseURL + "/api/monitoring-tools")
       .headers(Headers.commonHeader)
       .header("accept", "application/json, text/plain, */*")
       .check(jsonPath("$.key").notNull))
 
   val caseShareOrgs =
     exec(http("XUI_Common_000_CaseShareOrgs")
-      .get("/api/caseshare/orgs")
+      .get(BaseURL + "/api/caseshare/orgs")
       .headers(Headers.commonHeader)
       .header("accept", "application/json, text/plain, */*")
       .check(jsonPath("$.name").notNull))
 
   val orgDetails =
     exec(http("XUI_Common_000_OrgDetails")
-      .get("/api/organisation")
+      .get(BaseURL + "/api/organisation")
       .headers(Headers.commonHeader)
       .header("accept", "application/json, text/plain, */*")
       .check(regex("name|Organisation route error"))

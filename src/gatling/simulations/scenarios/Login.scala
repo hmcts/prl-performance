@@ -30,21 +30,21 @@ object Login {
         .headers(Headers.postHeader)
         .check(regex("Manage cases")))
 
-      .exec(Common.configurationui)
+        .exec(Common.configurationui)
 
-      .exec(Common.configJson)
+        .exec(Common.configJson)
 
-      .exec(Common.TsAndCs)
+        .exec(Common.TsAndCs)
 
-      .exec(Common.configUI)
+        .exec(Common.configUI)
 
-      .exec(Common.userDetails)
+        .exec(Common.userDetails)
 
-      .exec(Common.isAuthenticated)
+        .exec(Common.isAuthenticated)
 
-      .exec(Common.monitoringTools)
+        .exec(Common.monitoringTools)
 
-      //if there is no in-flight case, set the case to 0 for the activity calls
+    /*      //if there is no in-flight case, set the case to 0 for the activity calls
       .doIf("${caseId.isUndefined()}") {
         exec(_.set("caseId", "0"))
       }
@@ -76,7 +76,11 @@ object Login {
         .body(StringBody("""{"size":25}"""))
         .check(substring("columns")))
 
+
+     */
     }
     .pause(MinThinkTime , MaxThinkTime)
+
+
 
 }

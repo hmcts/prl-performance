@@ -15,8 +15,8 @@ object Solicitor_PRL_C100_Citizen2 {
   val PayURL = Environment.payURL
   val prlURL = Environment.prlURL
   val IdamUrl = Environment.idamURL
-  val PRLcases = csv("cases.csv").circular
-  val PRLAccessCode = csv("accessCode.csv").circular
+ // val PRLcases = csv("cases.csv").circular
+  val PRLAccessCode = csv("accessCodeList.csv").circular
   val PRLCitizens = csv("UserDataPRLCitizen.csv").circular
 
   val postcodeFeeder = csv("postcodes.csv").circular
@@ -898,15 +898,16 @@ object Solicitor_PRL_C100_Citizen2 {
             .group("PRL_CitizenC100_813_FinalSubmitRedirect3") {
 
               exec(http("PRL_CitizenC100_813_005_FinalSubmitRedirect3")
-                .get(prlURL + "/c100-rebuild/confirmation-page")
+               .get(prlURL + "/c100-rebuild/confirmation-page")
                 .headers(Headers.navigationHeader)
                 .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
                 .header("accept-language", "en-GB,en-US;q=0.9,en;q=0.8")
                 .header("content-type", "application/x-www-form-urlencoded")
                   .check(substring("Your application has been submitted"))
-                  .check(regex("""Case number <br><strong>(.{16})<\/strong>""").saveAs("caseNumber")))
+                  .check(regex("""<strong>(.{16})<\/strong>""").saveAs("caseNumber")))
             }
             .pause(MinThinkTime, MaxThinkTime)
+
 
 
             .exec { session =>

@@ -1,0 +1,8 @@
+ASSERTION	AAECAAMFAAAAAAAAAFlA
+RUN	simulations.XUI_Simulation	xui-simulation	1686325170130	 	3.3.1
+USER	***** Private Law Create Case *****	1	START	1686325170433	1686325170433
+REQUEST	1	XUI_010_Homepage	XUI_010_005_Homepage	1686325170444	1686325170556	OK	 
+REQUEST	1	XUI_010_Homepage	XUI_Common_000_ConfigurationUI	1686325171407	1686325171439	OK	 
+REQUEST	1	XUI_010_Homepage	XUI_Common_000_ConfigJson	1686325171441	1686325171449	KO	j.n.UnknownHostException: prl-cos-perftest.service.core-compute-perftest.internal: nodename nor servname provided, or not known
+GROUP	1	XUI_010_Homepage	1686325170437	1686325171451	975	KO
+USER	***** Private Law Create Case *****	1	END	1686325170433	1686325171454

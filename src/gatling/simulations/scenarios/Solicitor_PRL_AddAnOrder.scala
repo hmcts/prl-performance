@@ -14,7 +14,7 @@ object Solicitor_PRL_AddAnOrder {
   val BaseURL = Environment.baseURL
   val prlURL = "https://privatelaw.${env}.platform.hmcts.net"
   val IdamUrl = Environment.idamURL
-  val PRLcases = csv("cases.csv").circular
+  val PRLcases = csv("codeCases.csv").circular
 
 
   val postcodeFeeder = csv("postcodes.csv").circular
@@ -41,7 +41,7 @@ object Solicitor_PRL_AddAnOrder {
 
         .feed(PRLcases)
 
-        .exec(http("XUI_PRL_030_005_SelectCase")
+ /*       .exec(http("XUI_PRL_030_005_SelectCase")
           .get(BaseURL + "/data/internal/cases/${caseId}")
           .headers(Headers.navigationHeader)
           .header("accept", "application/json"))
@@ -53,12 +53,16 @@ object Solicitor_PRL_AddAnOrder {
       .pause(MinThinkTime, MaxThinkTime)
 
 
+
+  */
+
+
       /*======================================================================================
       * Select 'Issue and send to local court'
       ======================================================================================*/
 
-      .group("XUI_PRL_040_SelectIssue") {
-        exec(http("XUI_PRL_040_005_SelectIssue")
+    //  .group("XUI_PRL_040_SelectIssue") {
+        .exec(http("XUI_PRL_040_005_SelectIssue")
           .get(BaseURL + "/data/internal/cases/${caseId}/event-triggers/issueAndSendToLocalCourtCallback?ignore-warning=false")
           .headers(Headers.navigationHeader)
           .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-start-event-trigger.v2+json;charset=UTF-8")
@@ -74,7 +78,7 @@ object Solicitor_PRL_AddAnOrder {
       .pause(MinThinkTime, MaxThinkTime)
 
       /*======================================================================================
-      *Add local court Admin
+      *Select Cou
       ======================================================================================*/
 
       .group("XUI_PRL_050_LocalCourt") {
@@ -84,7 +88,7 @@ object Solicitor_PRL_AddAnOrder {
           .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
           .header("x-xsrf-token", "${XSRFToken}")
           .body(ElFileBody("bodies/prl/c100Continued/PRLLocalCourt.json"))
-          .check(substring("localCourtAdmin")))
+          .check(substring("courtList")))
 
           .exec(Common.userDetails)
       }
@@ -130,7 +134,7 @@ object Solicitor_PRL_AddAnOrder {
       .pause(MinThinkTime, MaxThinkTime)
 
       /*======================================================================================
-      * Add Gate Keeper
+      * Add Gate Keeper - specific gatekeeper? No
       ======================================================================================*/
 
       .group("XUI_PRL_080_AddGateKeeper") {
@@ -140,7 +144,7 @@ object Solicitor_PRL_AddAnOrder {
           .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
           .header("x-xsrf-token", "${XSRFToken}")
           .body(ElFileBody("bodies/prl/c100Continued/PRLAddGateKeeper.json"))
-          .check(substring("gatekeeper")))
+          .check(substring("isSpecificGateKeeperNeeded")))
       }
 
       .pause(MinThinkTime, MaxThinkTime)
@@ -156,15 +160,18 @@ object Solicitor_PRL_AddAnOrder {
           .headers(Headers.commonHeader)
           .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8")
           .header("x-xsrf-token", "${XSRFToken}")
-          .body(ElFileBody("bodies/prl/c100Continued/PRLAddGateKeeper.json"))
-          .check(substring("GATE_KEEPING")))
+          .body(ElFileBody("bodies/prl/c100Continued/PRLGateKeeperSubmit.json"))
+          .check(substring("JUDICIAL_REVIEW")))
       }
 
       .pause(MinThinkTime, MaxThinkTime)
 
+
+
       /*======================================================================================
       * Click on 'Manage Orders'
       ======================================================================================*/
+
 
       .group("XUI_PRL_100_ManageOrders") {
         exec(http("XUI_PRL_100_005_ManageOrders")
@@ -222,11 +229,15 @@ object Solicitor_PRL_AddAnOrder {
 
       .group("XUI_PRL_130_OrderDetails") {
         exec(http("XUI_PRL_130_005_OrderDetails")
-          .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=manageOrders4")
+          .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=manageOrders5")
           .headers(Headers.commonHeader)
           .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
           .header("x-xsrf-token", "${XSRFToken}")
           .body(ElFileBody("bodies/prl/c100Continued/PRLOrderDetails.json"))
+          .check(jsonPath("$.data.previewOrderDoc.document_url").saveAs("document_url"))
+          .check(jsonPath("$.data.previewOrderDoc.document_hash").saveAs("document_hash"))
+          .check(jsonPath("$.data.previewOrderDocWelsh.document_url").saveAs("document_urlWelsh"))
+          .check(jsonPath("$.data.previewOrderDocWelsh.document_hash").saveAs("document_hashWelsh"))
           .check(substring("isEngDocGen")))
       }
 
@@ -239,13 +250,11 @@ object Solicitor_PRL_AddAnOrder {
 
       .group("XUI_PRL_140_GuardianName") {
         exec(http("XUI_PRL_140_005_GuardianName")
-          .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=manageOrders10")
+          .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=manageOrders11")
           .headers(Headers.commonHeader)
           .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
           .header("x-xsrf-token", "${XSRFToken}")
           .body(ElFileBody("bodies/prl/c100Continued/PRLGuardianName.json"))
-          .check(jsonPath("$.data.previewOrderDoc.document_url").saveAs("document_url"))
-          .check(jsonPath("$.data.previewOrderDoc.document_hash").saveAs("document_hash"))
           .check(substring("previewOrderDoc")))
       }
 
@@ -253,17 +262,17 @@ object Solicitor_PRL_AddAnOrder {
 
 
       /*======================================================================================
-* Check Your Order
+* Preview Your Order - no checks required
 ======================================================================================*/
 
-      .group("XUI_PRL_150_CheckYourOrder") {
-        exec(http("XUI_PRL_150_005_CheckYourOrder")
-          .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=manageOrders16")
+      .group("XUI_PRL_150_PreviewYourOrder") {
+        exec(http("XUI_PRL_150_005_PreviewYourOrder")
+          .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=manageOrders24")
           .headers(Headers.commonHeader)
           .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
           .header("x-xsrf-token", "${XSRFToken}")
           .body(ElFileBody("bodies/prl/c100Continued/PRLCheckOrder.json"))
-          .check(substring("previewOrderDoc")))
+          .check(substring("amendOrderSelectCheckOptions")))
       }
 
       .pause(MinThinkTime, MaxThinkTime)
@@ -275,12 +284,17 @@ object Solicitor_PRL_AddAnOrder {
 
       .group("XUI_PRL_160_OrderRecipients") {
         exec(http("XUI_PRL_160_005_OrderRecipients")
-          .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=manageOrders17")
+          .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=manageOrders26")
           .headers(Headers.commonHeader)
           .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
           .header("x-xsrf-token", "${XSRFToken}")
           .body(ElFileBody("bodies/prl/c100Continued/PRLOrderRecipients.json"))
-          .check(substring("orderRecipients")))
+          .check(jsonPath("$.data.currentOrderCreatedDateTime").saveAs("currentOrderCreatedDateTime"))
+          .check(jsonPath("$.data.serveOrderDynamicList.list_items[0].label").saveAs("serveOrderLabel"))
+          .check(jsonPath("$.data.serveOrderDynamicList.list_items[0].code").saveAs("serveOrderCode"))
+          .check(jsonPath("$.data.otherParties.list_items[0].label").saveAs("otherPartiesLabel"))
+          .check(jsonPath("$.data.otherParties.list_items[0].code").saveAs("otherPartiesrCode"))
+          .check(substring("SearchCriteria")))
       }
 
       .pause(MinThinkTime, MaxThinkTime)
@@ -297,7 +311,7 @@ object Solicitor_PRL_AddAnOrder {
           .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8")
           .header("x-xsrf-token", "${XSRFToken}")
           .body(ElFileBody("bodies/prl/c100Continued/PRLOrderSubmit.json"))
-          .check(substring("GATE_KEEPING")))
+          .check(substring("JUDICIAL_REVIEW")))
       }
 
       .pause(MinThinkTime, MaxThinkTime)
@@ -315,6 +329,8 @@ object Solicitor_PRL_AddAnOrder {
           .headers(Headers.navigationHeader)
           .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-start-event-trigger.v2+json;charset=UTF-8")
           .check(jsonPath("$.event_token").saveAs("event_token"))
+          .check(jsonPath("$.case_fields[9].formatted_value.list_items[0].code").saveAs("code"))
+          .check(jsonPath("$.case_fields[9].formatted_value.list_items[0].label").saveAs("label"))
           .check(jsonPath("$.id").is("serviceOfApplication")))
 
           .exec(Common.userDetails)
@@ -331,7 +347,7 @@ object Solicitor_PRL_AddAnOrder {
 
       .group("XUI_PRL_190_PD36QUpload") {
         exec(http("XUI_PRL_190_005_PD36QUpload")
-          .post("/documentsv2")
+          .post(BaseURL+ "/documentsv2")
           .headers(Headers.commonHeader)
 
 
@@ -360,7 +376,7 @@ object Solicitor_PRL_AddAnOrder {
 
     .group("XUI_PRL_200_SpecialArrangementsUpload") {
       exec(http("XUI_PRL_200_005_SpecialArrangementsUpload")
-        .post("/documentsv2")
+        .post(BaseURL + "/documentsv2")
         .headers(Headers.commonHeader)
 
 
@@ -389,7 +405,7 @@ object Solicitor_PRL_AddAnOrder {
 
     .group("XUI_PRL_210_AdditionalDocumentsUpload") {
       exec(http("XUI_PRL_210_005_AdditionalDocumentsUpload")
-        .post("/documentsv2")
+        .post(BaseURL + "/documentsv2")
         .headers(Headers.commonHeader)
 
 
@@ -431,7 +447,7 @@ object Solicitor_PRL_AddAnOrder {
 
 
     /*======================================================================================
-* Service of APplication Confirm recipients
+* Service of Application Confirm recipients
 ======================================================================================*/
 
     .group("XUI_PRL_230_ServiceRecipients") {
@@ -458,13 +474,14 @@ object Solicitor_PRL_AddAnOrder {
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8")
         .header("x-xsrf-token", "${XSRFToken}")
         .body(ElFileBody("bodies/prl/c100Continued/PRLSoASubmit.json"))
-        .check(regex("""accessCode":"(\w{8})""").saveAs("prlAccessCode"))
-    . check(substring("CASE_HEARING")))
+        .check(regex("""accessCode":"(\w{8})""").saveAs("prlAccessCode")))
+    //.check(substring("CASE_HEARING")))
+
 
         .exec { session =>
-          val fw = new BufferedWriter(new FileWriter("accessCode.csv", true))
+          val fw = new BufferedWriter(new FileWriter("accessCodeList.csv", true))
           try {
-            fw.write(session("prlAccessCode").as[String] + "\r\n")
+            fw.write(session("caseId").as[String] + "," + session("prlAccessCode").as[String] + "\r\n")
           } finally fw.close()
           session
         }

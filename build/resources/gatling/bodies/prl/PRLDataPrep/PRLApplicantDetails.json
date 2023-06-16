@@ -1,0 +1,150 @@
+{
+  "data": {
+    "applicants": [
+      {
+        "value": {
+          "firstName": "${PRLRandomString} First",
+          "lastName": "${PRLRandomString} Last",
+          "previousName": null,
+          "dateOfBirth": "${PRLAppDobYear}-${PRLAppDobMonth}-${PRLAppDobDay}",
+          "gender": "male",
+          "placeOfBirth": "London",
+          "isAddressConfidential": "No",
+          "isAtAddressLessThan5Years": "No",
+          "canYouProvideEmailAddress": "Yes",
+          "email": "${PRLRandomString}@gmail.com",
+          "isEmailAddressConfidential": "No",
+          "phoneNumber": "0123456789",
+          "isPhoneNumberConfidential": "Yes",
+          "representativeFirstName": "${PRLRandomString} Rep",
+          "representativeLastName": "${PRLRandomString} Name",
+          "solicitorEmail": "${PRLRandomString}email@gmail.com",
+          "solicitorReference": "${PRLRandomString} Ref",
+          "dxNumber": "1234567890",
+          "isDateOfBirthUnknown": null,
+          "isAddressUnknown": null,
+          "landline": null,
+          "relationshipToChildren": null,
+          "isDateOfBirthKnown": null,
+          "isCurrentAddressKnown": null,
+          "canYouProvidePhoneNumber": null,
+          "isPlaceOfBirthKnown": null,
+          "isAtAddressLessThan5YearsWithDontKnow": null,
+          "doTheyHaveLegalRepresentation": null,
+          "sendSignUpLink": null,
+          "solicitorTelephone": null,
+          "respondentLivedWithApplicant": null,
+          "applicantContactInstructions": null,
+          "currentRespondent": null,
+          "partyId": null,
+          "solicitorPartyId": null,
+          "solicitorOrgUuid": null,
+          "contactPreferences": null,
+          "isRemoveLegalRepresentativeRequested": null,
+          "address": {
+            "AddressLine1": "${PRLRandomString} Address",
+            "AddressLine2": "",
+            "AddressLine3": "",
+            "PostTown": "${PRLRandomString}  Town",
+            "County": "",
+            "PostCode": "TW3 2HH",
+            "Country": "United Kingdom"
+          },
+          "solicitorOrg": {
+            "OrganisationID": "${orgref}",
+            "OrganisationName": "${orgname}"
+          },
+          "solicitorAddress": {
+            "AddressLine1": "${PRLRandomString} Soli ",
+            "AddressLine2": "",
+            "AddressLine3": "",
+            "PostTown": "${PRLRandomString} Soli Town",
+            "County": "",
+            "PostCode": "TW3 2HH",
+            "Country": "United Kingdom"
+          },
+          "applicantPreferredContact": []
+        },
+        "id": null
+      }
+    ]
+  },
+  "event": {
+    "id": "applicantsDetails",
+    "summary": "",
+    "description": ""
+  },
+  "event_data": {
+    "applicants": [
+      {
+        "value": {
+          "firstName": "${PRLRandomString} First",
+          "lastName": "${PRLRandomString} Last",
+          "previousName": null,
+          "dateOfBirth": "${PRLAppDobYear}-${PRLAppDobMonth}-${PRLAppDobDay}",
+          "gender": "male",
+          "placeOfBirth": "London",
+          "isAddressConfidential": "No",
+          "isAtAddressLessThan5Years": "No",
+          "canYouProvideEmailAddress": "Yes",
+          "email": "${PRLRandomString}@gmail.com",
+          "isEmailAddressConfidential": "No",
+          "phoneNumber": "0123456789",
+          "isPhoneNumberConfidential": "Yes",
+          "representativeFirstName": "${PRLRandomString} Rep",
+          "representativeLastName": "${PRLRandomString} Name",
+          "solicitorEmail": "${PRLRandomString}email@gmail.com",
+          "solicitorReference": "${PRLRandomString} Ref",
+          "dxNumber": "1234567890",
+          "isDateOfBirthUnknown": null,
+          "isAddressUnknown": null,
+          "landline": null,
+          "relationshipToChildren": null,
+          "isDateOfBirthKnown": null,
+          "isCurrentAddressKnown": null,
+          "canYouProvidePhoneNumber": null,
+          "isPlaceOfBirthKnown": null,
+          "isAtAddressLessThan5YearsWithDontKnow": null,
+          "doTheyHaveLegalRepresentation": null,
+          "sendSignUpLink": null,
+          "solicitorTelephone": null,
+          "respondentLivedWithApplicant": null,
+          "applicantContactInstructions": null,
+          "currentRespondent": null,
+          "partyId": null,
+          "solicitorPartyId": null,
+          "solicitorOrgUuid": null,
+          "contactPreferences": null,
+          "isRemoveLegalRepresentativeRequested": null,
+          "address": {
+            "AddressLine1": "${PRLRandomString} Address",
+            "AddressLine2": "",
+            "AddressLine3": "",
+            "PostTown": "${PRLRandomString}  Town",
+            "County": "",
+            "PostCode": "TW3 2HH",
+            "Country": "United Kingdom"
+          },
+          "solicitorOrg": {
+            "OrganisationID": "${orgref}",
+            "OrganisationName": "${orgname}"
+          },
+          "solicitorAddress": {
+            "AddressLine1": "${PRLRandomString} Soli ",
+            "AddressLine2": "",
+            "AddressLine3": "",
+            "PostTown": "${PRLRandomString} Soli Town",
+            "County": "",
+            "PostCode": "TW3 2HH",
+            "Country": "United Kingdom"
+          },
+          "applicantPreferredContact": []
+        },
+        "id": null
+      }
+    ]
+  },
+  "event_token": "${event_token}",
+  "ignore_warning": false,
+  "case_reference": "${caseId}"
+}
