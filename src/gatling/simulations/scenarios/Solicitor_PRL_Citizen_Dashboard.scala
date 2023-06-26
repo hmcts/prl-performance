@@ -174,7 +174,7 @@ object Solicitor_PRL_Citizen_Dashboard {
           .header("content-type", "application/x-www-form-urlencoded")
           .formParam("_csrf", "${csrf}")
           .formParam("saveAndContinue", "true")
-          .check(substring("You have a new order from the court")))
+          .check(substring("Case added to your account")))
 
     }
     .pause(MinThinkTime, MaxThinkTime)
