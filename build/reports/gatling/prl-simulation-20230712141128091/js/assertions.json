@@ -1,0 +1,18 @@
+{
+  "simulation": "simulations.PRL_Simulation",
+  "simulationId": "prl-simulation",
+  "start": 1689171088091,
+  "description": "",
+  "scenarios": ["***** Cafcas Upload By Case ID *****"],
+  "assertions": [
+{
+  "path": "Global",
+  "target": "percentage of successful events",
+  "condition": "is",
+  "expectedValues": [100.0],
+  "result": false,
+  "message": "Global: percentage of successful events is 100.0",
+  "actualValue": [66.66666666666666]
+}
+  ]
+}

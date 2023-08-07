@@ -40,7 +40,7 @@ class PRL_Simulation extends Simulation {
   /* ******************************** */
   
   /* PERFORMANCE TEST CONFIGURATION */
-  val prlTargetPerHour: Double = 10
+  val prlTargetPerHour: Double = 4
   val caseworkerTargetPerHour: Double = 1000
   
   //This determines the percentage split of PRL journeys, by C100 or FL401
@@ -81,12 +81,12 @@ class PRL_Simulation extends Simulation {
   val PRLSolicitorScenario = scenario("***** Private Law Create Case *****")
 
       .repeat(1) {
-      //feed(UserFeederPRL)
-        feed(UserCitizenPRL)
+      feed(UserFeederPRL)
+    //    feed(UserCitizenPRL)
         .exec(_.set("env", s"${env}")
           .set("caseType", "PRLAPPS"))
-  //      .exec(Homepage.XUIHomePage)
-  //      .exec(Login.XUILogin)
+        .exec(Homepage.XUIHomePage)
+        .exec(Login.XUILogin)
         .feed(randomFeeder)
 //        .doIfOrElse(session => session("prl-percentage").as[Int] < prlC100Percentage) {
           .repeat(1) {
@@ -106,14 +106,14 @@ class PRL_Simulation extends Simulation {
 
           */
 
-                    exec(Solicitor_PRL_Citizen_Dashboard.DashBoard)
+        //            exec(Solicitor_PRL_Citizen_Dashboard.DashBoard)
        //       exec(Solicitor_PRL_CitizenDataPrep.CompleteDataPrep)
 
-        //          exec(Solicitor_PRL_AddAnOrder.AddAnOrder)
+                  exec(Solicitor_PRL_AddAnOrder.AddAnOrder)
 
 
-                 .exec(Solicitor_PRL_C100_Citizen.C100Case)
-                  .exec(Solicitor_PRL_C100_Citizen2.C100Case2)
+       //          .exec(Solicitor_PRL_C100_Citizen.C100Case)
+       //           .exec(Solicitor_PRL_C100_Citizen2.C100Case2)
 
                    .exec {
                      session =>
@@ -162,9 +162,9 @@ class PRL_Simulation extends Simulation {
             .repeat(15) {
               exec(CafcasAPI.downloadByDocId)
             }
-            .repeat(15) {
-              exec(CafcasAPI.uploadDocToCase)
-            }
+        //    .repeat(15) {
+        //      exec(CafcasAPI.uploadDocToCase)
+          //  }
         }
     }
   
@@ -193,7 +193,7 @@ class PRL_Simulation extends Simulation {
  ===============================================================================================*/
   val CafcasUploadByCaseScenario = scenario("***** Cafcas Upload By Case ID *****")
     .exitBlockOnFail {
-      repeat(60) {
+      repeat(1) {
         exec(_.set("env", s"${env}")
           .set("caseType", "Cafcas"))
           .exec(CafcasAPI.uploadDocToCase)
@@ -244,7 +244,7 @@ class PRL_Simulation extends Simulation {
   
   setUp(
     // PRLSolicitorScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
-    PRLSolicitorScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
+    CafcasCasesByDatesScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
   ).protocols(httpProtocol)
     .assertions(assertions(testType))
     .maxDuration(75 minutes)

@@ -1,0 +1,14 @@
+<testsuite name="simulations.PRL_Simulation" tests="4" errors="0" failures="4" time="0">
+<testcase name="Global: percentage of successful events is greater than or equal to 95.0" status="false" time="0">
+  <failure type="Global">Actual value: 75.0</failure>
+</testcase>
+<testcase name="Could not find stats matching assertion path List(XUI_PRL_C100_460_SubmitAndPayNow)" status="false" time="0">
+  <failure type="XUI_PRL_C100_460_SubmitAndPayNow">Actual value: -1</failure>
+</testcase>
+<testcase name="Could not find stats matching assertion path List(XUI_PRL_FL401_490_SOTSubmit)" status="false" time="0">
+  <failure type="XUI_PRL_FL401_490_SOTSubmit">Actual value: -1</failure>
+</testcase>
+<testcase name="Could not find stats matching assertion path List(PRL_CitizenC100_810_005_FinalSubmit)" status="false" time="0">
+  <failure type="PRL_CitizenC100_810_005_FinalSubmit">Actual value: -1</failure>
+</testcase>
+</testsuite>

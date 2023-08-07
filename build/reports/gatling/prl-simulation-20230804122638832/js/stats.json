@@ -1,0 +1,317 @@
+{
+  "type": "GROUP",
+"name": "Global Information",
+"path": "",
+"pathFormatted": "group_missing-name-b06d1",
+"stats": {
+    "name": "Global Information",
+    "numberOfRequests": {
+        "total": 3,
+        "ok": 2,
+        "ko": 1
+    },
+    "minResponseTime": {
+        "total": 529,
+        "ok": 529,
+        "ko": 30033
+    },
+    "maxResponseTime": {
+        "total": 30033,
+        "ok": 1353,
+        "ko": 30033
+    },
+    "meanResponseTime": {
+        "total": 10638,
+        "ok": 941,
+        "ko": 30033
+    },
+    "standardDeviation": {
+        "total": 13718,
+        "ok": 412,
+        "ko": 0
+    },
+    "percentiles1": {
+        "total": 1353,
+        "ok": 941,
+        "ko": 30033
+    },
+    "percentiles2": {
+        "total": 15693,
+        "ok": 1147,
+        "ko": 30033
+    },
+    "percentiles3": {
+        "total": 27165,
+        "ok": 1312,
+        "ko": 30033
+    },
+    "percentiles4": {
+        "total": 29459,
+        "ok": 1345,
+        "ko": 30033
+    },
+    "group1": {
+    "name": "t < 800 ms",
+    "count": 1,
+    "percentage": 33
+},
+    "group2": {
+    "name": "800 ms < t < 1200 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group3": {
+    "name": "t > 1200 ms",
+    "count": 1,
+    "percentage": 33
+},
+    "group4": {
+    "name": "failed",
+    "count": 1,
+    "percentage": 33
+},
+    "meanNumberOfRequestsPerSecond": {
+        "total": 0.09375,
+        "ok": 0.0625,
+        "ko": 0.03125
+    }
+},
+"contents": {
+"req_cafcas-000-auth-6aee4": {
+        "type": "REQUEST",
+        "name": "CAFCAS_000_Auth",
+"path": "CAFCAS_000_Auth",
+"pathFormatted": "req_cafcas-000-auth-6aee4",
+"stats": {
+    "name": "CAFCAS_000_Auth",
+    "numberOfRequests": {
+        "total": 1,
+        "ok": 1,
+        "ko": 0
+    },
+    "minResponseTime": {
+        "total": 529,
+        "ok": 529,
+        "ko": 0
+    },
+    "maxResponseTime": {
+        "total": 529,
+        "ok": 529,
+        "ko": 0
+    },
+    "meanResponseTime": {
+        "total": 529,
+        "ok": 529,
+        "ko": 0
+    },
+    "standardDeviation": {
+        "total": 0,
+        "ok": 0,
+        "ko": 0
+    },
+    "percentiles1": {
+        "total": 529,
+        "ok": 529,
+        "ko": 0
+    },
+    "percentiles2": {
+        "total": 529,
+        "ok": 529,
+        "ko": 0
+    },
+    "percentiles3": {
+        "total": 529,
+        "ok": 529,
+        "ko": 0
+    },
+    "percentiles4": {
+        "total": 529,
+        "ok": 529,
+        "ko": 0
+    },
+    "group1": {
+    "name": "t < 800 ms",
+    "count": 1,
+    "percentage": 100
+},
+    "group2": {
+    "name": "800 ms < t < 1200 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group3": {
+    "name": "t > 1200 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group4": {
+    "name": "failed",
+    "count": 0,
+    "percentage": 0
+},
+    "meanNumberOfRequestsPerSecond": {
+        "total": 0.03125,
+        "ok": 0.03125,
+        "ko": 0
+    }
+}
+    },"req_cafcas-000-getb-434ce": {
+        "type": "REQUEST",
+        "name": "CAFCAS_000_GetBearerToken",
+"path": "CAFCAS_000_GetBearerToken",
+"pathFormatted": "req_cafcas-000-getb-434ce",
+"stats": {
+    "name": "CAFCAS_000_GetBearerToken",
+    "numberOfRequests": {
+        "total": 1,
+        "ok": 1,
+        "ko": 0
+    },
+    "minResponseTime": {
+        "total": 1353,
+        "ok": 1353,
+        "ko": 0
+    },
+    "maxResponseTime": {
+        "total": 1353,
+        "ok": 1353,
+        "ko": 0
+    },
+    "meanResponseTime": {
+        "total": 1353,
+        "ok": 1353,
+        "ko": 0
+    },
+    "standardDeviation": {
+        "total": 0,
+        "ok": 0,
+        "ko": 0
+    },
+    "percentiles1": {
+        "total": 1353,
+        "ok": 1353,
+        "ko": 0
+    },
+    "percentiles2": {
+        "total": 1353,
+        "ok": 1353,
+        "ko": 0
+    },
+    "percentiles3": {
+        "total": 1353,
+        "ok": 1353,
+        "ko": 0
+    },
+    "percentiles4": {
+        "total": 1353,
+        "ok": 1353,
+        "ko": 0
+    },
+    "group1": {
+    "name": "t < 800 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group2": {
+    "name": "800 ms < t < 1200 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group3": {
+    "name": "t > 1200 ms",
+    "count": 1,
+    "percentage": 100
+},
+    "group4": {
+    "name": "failed",
+    "count": 0,
+    "percentage": 0
+},
+    "meanNumberOfRequestsPerSecond": {
+        "total": 0.03125,
+        "ok": 0.03125,
+        "ko": 0
+    }
+}
+    },"req_cafcasapi-000-s-6b731": {
+        "type": "REQUEST",
+        "name": "CafcasAPI_000_searchCasesByDates",
+"path": "CafcasAPI_000_searchCasesByDates",
+"pathFormatted": "req_cafcasapi-000-s-6b731",
+"stats": {
+    "name": "CafcasAPI_000_searchCasesByDates",
+    "numberOfRequests": {
+        "total": 1,
+        "ok": 0,
+        "ko": 1
+    },
+    "minResponseTime": {
+        "total": 30033,
+        "ok": 0,
+        "ko": 30033
+    },
+    "maxResponseTime": {
+        "total": 30033,
+        "ok": 0,
+        "ko": 30033
+    },
+    "meanResponseTime": {
+        "total": 30033,
+        "ok": 0,
+        "ko": 30033
+    },
+    "standardDeviation": {
+        "total": 0,
+        "ok": 0,
+        "ko": 0
+    },
+    "percentiles1": {
+        "total": 30033,
+        "ok": 0,
+        "ko": 30033
+    },
+    "percentiles2": {
+        "total": 30033,
+        "ok": 0,
+        "ko": 30033
+    },
+    "percentiles3": {
+        "total": 30033,
+        "ok": 0,
+        "ko": 30033
+    },
+    "percentiles4": {
+        "total": 30033,
+        "ok": 0,
+        "ko": 30033
+    },
+    "group1": {
+    "name": "t < 800 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group2": {
+    "name": "800 ms < t < 1200 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group3": {
+    "name": "t > 1200 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group4": {
+    "name": "failed",
+    "count": 1,
+    "percentage": 100
+},
+    "meanNumberOfRequestsPerSecond": {
+        "total": 0.03125,
+        "ok": 0,
+        "ko": 0.03125
+    }
+}
+    }
+}
+
+}
