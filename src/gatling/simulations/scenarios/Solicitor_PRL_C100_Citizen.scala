@@ -42,12 +42,12 @@ object Solicitor_PRL_C100_Citizen {
 
           .feed(PRLCitizens)
 
-    //      .exec(http("PRL_CitizenC100_010_005_PRLHome")
-    //        .get(prlURL)
-    //        .headers(Headers.navigationHeader)
-   //         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-   //         .check(CsrfCheck.save)
-   //         .check(substring("Sign in or create an account")))
+          .exec(http("PRL_CitizenC100_010_005_PRLHome")
+            .get(prlURL)
+            .headers(Headers.navigationHeader)
+            .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+            .check(CsrfCheck.save)
+            .check(substring("Sign in or create an account")))
       }
       .pause(MinThinkTime, MaxThinkTime)
 
@@ -56,36 +56,52 @@ object Solicitor_PRL_C100_Citizen {
     * Login
     ===============================================================================================*/
 
-   // .group("PRL_CitizenC100_020_Login") {
-   //   exec(http("PRL_CitizenC100_020_005_Login")
-   //     .post(IdamUrl + "/login?client_id=prl-citizen-frontend&response_type=code&redirect_uri=" + prlURL + "/receiver")
-     //   .post("https://idam-web-public.aat.platform.hmcts.net/login?client_id=prl-citizen-frontend&response_type=code&redirect_uri=https://prl-citizen-frontend-pr-741.service.core-compute-preview.internal/receiver")
-   //     .headers(Headers.commonHeader)
-   //     .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-  //      .header("content-type", "application/x-www-form-urlencoded")
-  //      .formParam("username", "${user}")
-  //      .formParam("password", "${password}")
-  //      .formParam("save", "Sign in")
-  //      .formParam("selfRegistrationEnabled", "true")
-  //      .formParam("_csrf", "${csrf}")
-  //      .check(substring("Child arrangements and family injunction cases")))
- //   }
- //   .pause(MinThinkTime, MaxThinkTime)
+    .group("PRL_CitizenC100_020_Login") {
+      exec(http("PRL_CitizenC100_020_005_Login")
+        .post(IdamUrl + "/login?client_id=prl-citizen-frontend&response_type=code&redirect_uri=" + prlURL + "/receiver")
+       // .post("https://idam-web-public.aat.platform.hmcts.net/login?client_id=prl-citizen-frontend&response_type=code&redirect_uri=https://prl-citizen-frontend-pr-741.service.core-compute-preview.internal/receiver")
+        .headers(Headers.commonHeader)
+        .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+        .header("content-type", "application/x-www-form-urlencoded")
+        .formParam("username", "${user}")
+        .formParam("password", "${password}")
+        .formParam("save", "Sign in")
+        .formParam("selfRegistrationEnabled", "true")
+        .formParam("_csrf", "${csrf}")
+        .check(substring("Child arrangements and family injunction cases")))
+    }
+    .pause(MinThinkTime, MaxThinkTime)
+
+
+        /*======================================================================================
+* Select 'New child arrangements application (C100)'
+======================================================================================*/
+
+        .group("PRL_CitizenC100_025_ChildArrangementsApplication") {
+
+          exec(http("PRL_CitizenC100_025_005_ChildArrangementsApplication")
+            .get(prlURL + "/task-list/applicant")
+            .headers(Headers.navigationHeader)
+            .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+            .check(substring("Your application")))
+
+        }
+        .pause(MinThinkTime, MaxThinkTime)
 
     /*======================================================================================
     * Select 'Start new C100 application'
     ======================================================================================*/
 
-  //  .group("PRL_CitizenC100_030_StartApplication") {
+    .group("PRL_CitizenC100_030_StartApplication") {
 
-//      exec(http("PRL_CitizenC100_030_005_StartApplication")
- //         .get(prlURL + "/c100-rebuild/start")
- //         .headers(Headers.navigationHeader)
- //         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-  //        .check(substring("What you’ll need to complete your application")))
+      exec(http("PRL_CitizenC100_030_005_StartApplication")
+          .get(prlURL + "/c100-rebuild/start")
+          .headers(Headers.navigationHeader)
+          .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+          .check(substring("What you’ll need to complete your application")))
 
-//    }
- //   .pause(MinThinkTime, MaxThinkTime)
+    }
+    .pause(MinThinkTime, MaxThinkTime)
 
 
 

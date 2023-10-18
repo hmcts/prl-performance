@@ -80,7 +80,8 @@ class PRL_Simulation extends Simulation {
    ===============================================================================================*/
   val PRLSolicitorScenario = scenario("***** Private Law Create Case *****")
 
-      .repeat(1) {
+    //  .repeat(1) {
+    .exitBlockOnFail {
       feed(UserFeederPRL)
     //    feed(UserCitizenPRL)
         .exec(_.set("env", s"${env}")
@@ -93,7 +94,7 @@ class PRL_Simulation extends Simulation {
             exitBlockOnFail {
               //C100 Journey
 
-              /* 		exec(Solicitor_PRL_C100.CreatePrivateLawCase)
+        /*       		exec(Solicitor_PRL_C100.CreatePrivateLawCase)
                 .exec(Solicitor_PRL_C100.TypeOfApplication)
                 .exec(Solicitor_PRL_C100.HearingUrgency)
                 .exec(Solicitor_PRL_C100.ApplicantDetails)
@@ -102,14 +103,24 @@ class PRL_Simulation extends Simulation {
                 .exec(Solicitor_PRL_C100.MIAM)
                 .exec(Solicitor_PRL_C100.AllegationsOfHarm)
                 .exec(Solicitor_PRL_C100.ViewPdfApplication)
+
+                    .exec(Solicitor_PRL_C100.OtherPeopleInTheCase)
+                    .exec(Solicitor_PRL_C100.OtherChildrenNotInTheCase)
+                    .exec(Solicitor_PRL_C100.ChildrenAndApplicants)
+                    .exec(Solicitor_PRL_C100.ChildrenAndRespondents)
+                    .exec(Solicitor_PRL_C100.ChildrenAndOtherPeople)
+
+
                 .exec(Solicitor_PRL_C100.SubmitAndPay)
 
-          */
+
+         */
+
 
         //            exec(Solicitor_PRL_Citizen_Dashboard.DashBoard)
-       //       exec(Solicitor_PRL_CitizenDataPrep.CompleteDataPrep)
+              exec(Solicitor_PRL_CitizenDataPrep.CompleteDataPrep)
 
-                  exec(Solicitor_PRL_AddAnOrder.AddAnOrder)
+      //            exec(Solicitor_PRL_AddAnOrder.AddAnOrder)
 
 
        //          .exec(Solicitor_PRL_C100_Citizen.C100Case)
@@ -146,7 +157,28 @@ class PRL_Simulation extends Simulation {
 
          //   .exec(Logout.XUILogout)
 
+    }
+    .exec {
+      session =>
+        println(session)
+        session
+    }
 
+
+
+  /*===============================================================================================
+* PRL Citizen Journey
+===============================================================================================*/
+
+  val PRLCitizenScenario = scenario("***** PRL Citizen Journey *****")
+    .exitBlockOnFail {
+      exec(_.set("env", s"${env}")
+        .set("caseType", "PRLAPPS"))
+      .feed(UserCitizenPRL)
+        .repeat(1) {
+          exec(Solicitor_PRL_C100_Citizen.C100Case)
+          .exec(Solicitor_PRL_C100_Citizen2.C100Case2)
+        }
     }
 
   /*===============================================================================================
@@ -243,8 +275,8 @@ class PRL_Simulation extends Simulation {
   }
   
   setUp(
-    // PRLSolicitorScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
-    CafcasCasesByDatesScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
+    PRLSolicitorScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
+  //  CafcasDownloadByDocScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
   ).protocols(httpProtocol)
     .assertions(assertions(testType))
     .maxDuration(75 minutes)

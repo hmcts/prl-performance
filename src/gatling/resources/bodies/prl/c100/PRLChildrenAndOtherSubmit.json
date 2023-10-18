@@ -1,0 +1,26 @@
+{
+  "data": {
+    "buffChildAndOtherPeopleRelations": [
+      {
+        "value": {
+          "otherPeopleFullName": "#{C100RandomString} Other First #{C100RandomString} Other Last",
+          "childFullName": "${C100ChildFirstName} ${C100ChildLastName}",
+          "childAndOtherPeopleRelation": "guardian",
+          "childAndOtherPeopleRelationOtherDetails": null,
+          "childLivesWith": "No",
+          "isChildLivesWithPersonConfidential": null,
+          "otherPeopleId": "#{otherPeopleId}",
+          "childId": "#{childId}"
+        },
+        "id": "#{childrenAndOtherPeopleId}"
+      }
+    ]
+  },
+  "event": {
+    "id": "childrenAndOtherPeople",
+    "summary": "",
+    "description": ""
+  },
+  "event_token": "${event_token}",
+  "ignore_warning": false
+}

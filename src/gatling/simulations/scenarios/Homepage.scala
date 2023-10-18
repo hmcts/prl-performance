@@ -22,7 +22,7 @@ object Homepage {
 
     .group("XUI_010_Homepage") {
       exec(http("XUI_010_005_Homepage")
-        .get("/")
+        .get(BaseURL)
         .headers(Headers.navigationHeader)
         .header("sec-fetch-site", "none"))
 

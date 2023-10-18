@@ -1,10 +1,6 @@
 {
-  "data": {},
-  "event": {
-    "id": "testingSupportPaymentSuccessCallback",
-    "summary": "",
-    "description": ""
-  },
-  "event_token": "${event_token}",
-  "ignore_warning": false
+  "amount": 232,
+  "currency": "GBP",
+  "language": "string",
+  "return-url": "https://paymentoutcome-web.perftest.platform.hmcts.net/payment"
 }

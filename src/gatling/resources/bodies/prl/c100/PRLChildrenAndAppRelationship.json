@@ -1,0 +1,36 @@
+{
+  "data": {
+    "buffChildAndApplicantRelations": [
+      {
+        "value": {
+          "applicantFullName": "${C100ApplicantFirstName1} ${C100ApplicantLastName1}",
+          "childFullName": "${C100ChildFirstName} ${C100ChildLastName}",
+          "childAndApplicantRelation": "father",
+          "childLivesWith": "No"
+        },
+        "id": "#{buffChildAndApplicantRelationsId}"
+      }
+    ]
+  },
+  "event": {
+    "id": "childrenAndApplicants",
+    "summary": "",
+    "description": ""
+  },
+  "event_data": {
+    "buffChildAndApplicantRelations": [
+      {
+        "value": {
+          "applicantFullName": "${C100ApplicantFirstName1} ${C100ApplicantLastName1}",
+          "childFullName": "${C100ChildFirstName} ${C100ChildLastName}",
+          "childAndApplicantRelation": "father",
+          "childLivesWith": "No"
+        },
+        "id": "#{buffChildAndApplicantRelationsId}"
+      }
+    ]
+  },
+  "event_token": "${event_token}",
+  "ignore_warning": false,
+  "case_reference": "${caseId}"
+}

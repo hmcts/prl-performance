@@ -64,10 +64,10 @@ object Common {
     now.minusYears(1 + rnd.nextInt(20)).format(patternYear)
   }
   //Saves partyId
-  def savePartyId: CheckBuilder[JsonPathCheckType, JsonNode, String] = jsonPath("$.case_fields[*].value[*].value.party.partyId").saveAs("partyId")
+ // def savePartyId: CheckBuilder[JsonPathCheckType, JsonNode, String] = jsonPath("$.case_fields[*].value[*].value.party.partyId").saveAs("partyId")
 
   //Saves user ID
-  def saveId: CheckBuilder[JsonPathCheckType, JsonNode, String] = jsonPath("$.case_fields[*].value[0].id").saveAs("id")
+  //def saveId: CheckBuilder[JsonPathCheckType, JsonNode, String] = jsonPath("$.case_fields[*].value[0].id").saveAs("id")
 
   /*======================================================================================
   * Common XUI Calls
@@ -78,7 +78,7 @@ object Common {
   val postcodeLookup =
     feed(postcodeFeeder)
       .exec(http("XUI_Common_000_PostcodeLookup")
-        .get("/api/addresses?postcode=${postcode}")
+        .get(BaseURL + "/api/addresses?postcode=${postcode}")
         .headers(Headers.commonHeader)
         .header("accept", "application/json")
         .check(jsonPath("$.header.totalresults").ofType[Int].gt(0))
@@ -94,7 +94,7 @@ object Common {
 
   val activity =
     exec(http("XUI_Common_000_ActivityOptions")
-      .options("/activity/cases/${caseId}/activity")
+      .options(BaseURL + "/activity/cases/${caseId}/activity")
       .headers(Headers.commonHeader)
       .header("accept", "application/json, text/plain, */*")
       .header("sec-fetch-site", "same-site")
@@ -102,14 +102,14 @@ object Common {
 
   val caseActivityGet =
     exec(http("XUI_Common_000_ActivityOptions")
-      .options("/activity/cases/${caseId}/activity")
+      .options(BaseURL + "/activity/cases/${caseId}/activity")
       .headers(Headers.commonHeader)
       .header("accept", "application/json, text/plain, */*")
       .header("sec-fetch-site", "same-site")
       .check(status.in(200, 304, 403)))
 
     .exec(http("XUI_Common_000_ActivityGet")
-      .get("/activity/cases/${caseId}/activity")
+      .get(BaseURL + "/activity/cases/${caseId}/activity")
       .headers(Headers.commonHeader)
       .header("accept", "application/json, text/plain, */*")
       .header("sec-fetch-site", "same-site")
@@ -117,14 +117,14 @@ object Common {
 
   val caseActivityPost =
     exec(http("XUI_Common_000_ActivityOptions")
-      .options("/activity/cases/${caseId}/activity")
+      .options(BaseURL + "/activity/cases/${caseId}/activity")
       .headers(Headers.commonHeader)
       .header("accept", "application/json, text/plain, */*")
       .header("sec-fetch-site", "same-site")
       .check(status.in(200, 304, 403)))
 
     .exec(http("XUI_Common_000_ActivityPost")
-      .post("/activity/cases/${caseId}/activity")
+      .post(BaseURL + "/activity/cases/${caseId}/activity")
       .headers(Headers.commonHeader)
       .header("accept", "application/json, text/plain, */*")
       .header("sec-fetch-site", "same-site")

@@ -1,0 +1,6 @@
+ASSERTION	AAECAAIFAAAAAAAAAFlA
+RUN	simulations.PRL_Simulation	prl-simulation	1697630239958	 	3.9.5
+USER	***** Private Law Create Case *****	START	1697630240911
+REQUEST	XUI_010_Homepage	XUI_010_005_Homepage	1697630240929	1697630252269	KO	i.n.h.s.SslHandshakeTimeoutException: handshake timed out after 10000ms
+GROUP	XUI_010_Homepage	1697630240912	1697630252275	11340	KO
+USER	***** Private Law Create Case *****	END	1697630252276

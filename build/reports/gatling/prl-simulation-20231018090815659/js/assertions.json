@@ -1,0 +1,18 @@
+{
+  "simulation": "simulations.PRL_Simulation",
+  "simulationId": "prl-simulation-20231018090815659",
+  "start": 1697620096151,
+  "description": "",
+  "scenarios": ["***** Private Law Create Case *****"],
+  "assertions": [
+{
+  "path": "Global",
+  "target": "percentage of successful events",
+  "condition": "is",
+  "expectedValues": [100.0],
+  "result": false,
+  "message": "Global: percentage of successful events is 100.0",
+  "actualValue": [96.7741935483871]
+}
+  ]
+}

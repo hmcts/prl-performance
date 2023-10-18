@@ -1,61 +1,44 @@
 {
   "data": {
-    "behaviours": [
+    "domesticBehaviours": [
       {
         "value": {
-          "abuseNatureDescription": "asdfghj",
-          "behavioursStartDateAndLength": "Start of 2020 till now",
-          "behavioursNature": "A lot of bad stuff",
-          "behavioursApplicantSoughtHelp": "No",
-          "behavioursApplicantHelpSoughtWho": null,
-          "behavioursApplicantHelpAction": null
+          "typeOfAbuse": "TypeOfAbuseEnum_value_1",
+          "newAbuseNatureDescription": "#{C100RandomString} Abuse",
+          "newBehavioursStartDateAndLength": "#{C100RandomString} Date",
+          "newBehavioursApplicantSoughtHelp": "No",
+          "newBehavioursApplicantHelpSoughtWho": null
         },
         "id": null
       }
     ]
   },
   "event": {
-    "id": "allegationsOfHarm",
+    "id": "allegationsOfHarmRevised",
     "summary": "",
     "description": ""
   },
   "event_data": {
-    "allegationsOfHarmYesNo": "Yes",
-    "allegationsOfHarmDomesticAbuseYesNo": "Yes",
-    "allegationsOfHarmChildAbductionYesNo": "No",
-    "allegationsOfHarmChildAbuseYesNo": "Yes",
-    "allegationsOfHarmSubstanceAbuseYesNo": "Yes",
-    "allegationsOfHarmOtherConcernsYesNo": "No",
-    "ordersNonMolestation": "No",
-    "ordersOccupation": "No",
-    "ordersForcedMarriageProtection": "No",
-    "ordersRestraining": "No",
-    "ordersOtherInjunctive": "No",
-    "ordersUndertakingInPlace": "No",
-    "physicalAbuseVictim": [
-      "children"
-    ],
-    "emotionalAbuseVictim": [
-      "children"
-    ],
-    "psychologicalAbuseVictim": [
-      "children"
-    ],
-    "sexualAbuseVictim": [
-      "children"
-    ],
-    "financialAbuseVictim": [
-      "children"
-    ],
-    "behaviours": [
+    "newAllegationsOfHarmYesNo": "Yes",
+    "newAllegationsOfHarmDomesticAbuseYesNo": "Yes",
+    "newAllegationsOfHarmChildAbuseYesNo": "No",
+    "newAllegationsOfHarmChildAbductionYesNo": "No",
+    "newAllegationsOfHarmSubstanceAbuseYesNo": "No",
+    "newAllegationsOfHarmOtherConcerns": "No",
+    "newOrdersNonMolestation": "No",
+    "newOrdersOccupation": "No",
+    "newOrdersForcedMarriageProtection": "No",
+    "newOrdersRestraining": "No",
+    "newOrdersOtherInjunctive": "No",
+    "newOrdersUndertakingInPlace": "No",
+    "domesticBehaviours": [
       {
         "value": {
-          "abuseNatureDescription": "asdfghj",
-          "behavioursStartDateAndLength": "Start of 2020 till now",
-          "behavioursNature": "A lot of bad stuff",
-          "behavioursApplicantSoughtHelp": "No",
-          "behavioursApplicantHelpSoughtWho": null,
-          "behavioursApplicantHelpAction": null
+          "typeOfAbuse": "TypeOfAbuseEnum_value_1",
+          "newAbuseNatureDescription": "#{C100RandomString} Abuse",
+          "newBehavioursStartDateAndLength": "#{C100RandomString} Date",
+          "newBehavioursApplicantSoughtHelp": "No",
+          "newBehavioursApplicantHelpSoughtWho": null
         },
         "id": null
       }

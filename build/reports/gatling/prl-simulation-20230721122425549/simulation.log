@@ -1,5 +1,0 @@
-ASSERTION	AAECAAMFAAAAAAAAAFlA
-RUN	simulations.PRL_Simulation	prl-simulation	1689942265549	 	3.3.1
-USER	***** Cafcas Upload By Case ID *****	1	START	1689942265960	1689942265960
-REQUEST	1		CAFCAS_000_Auth	1689942265972	1689942265981	KO	j.n.UnknownHostException: rpe-service-auth-provider-perftest.service.core-compute-perftest.internal: nodename nor servname provided, or not known
-USER	***** Cafcas Upload By Case ID *****	1	END	1689942265960	1689942265988

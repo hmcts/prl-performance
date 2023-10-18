@@ -156,7 +156,7 @@ object Solicitor_PRL_CitizenDataPrep {
 
       .pause(MinThinkTime, MaxThinkTime)
 
-/*
+
 
       /*======================================================================================
 * Submit and pay
@@ -167,6 +167,7 @@ object Solicitor_PRL_CitizenDataPrep {
         exec(http("XUI_PRL_036_005_SubmitAndPay")
           .get(BaseURL + "/data/internal/cases/${caseId}/event-triggers/submitAndPay?ignore-warning=false")
           .headers(Headers.navigationHeader)
+          .check(jsonPath("$.event_token").saveAs("event_token"))
           .check(jsonPath("$.case_fields[6].formatted_value.document_hash").saveAs("Document_HashWelsh"))
           .check(jsonPath("$.case_fields[6].formatted_value.document_url").saveAs("Document_urlWelsh"))
           .check(jsonPath("$.case_fields[4].formatted_value.document_hash").saveAs("Document_HashApp"))
@@ -186,6 +187,7 @@ object Solicitor_PRL_CitizenDataPrep {
           .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=submitAndPay1")
           .headers(Headers.commonHeader)
           .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
+          .header("content-type", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
           .body(ElFileBody("bodies/prl/PRLDataPrep/ConfidentialityStatement.json"))
           .check(substring("applicantSolicitorEmailAddress")))
       }
@@ -205,6 +207,7 @@ object Solicitor_PRL_CitizenDataPrep {
           .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=submitAndPay2")
           .headers(Headers.commonHeader)
           .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
+          .header("content-type", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
           .body(ElFileBody("bodies/prl/PRLDataPrep/Declaration.json"))
           .check(substring("feeAmount")))
       }
@@ -225,6 +228,7 @@ object Solicitor_PRL_CitizenDataPrep {
       //    .disableFollowRedirect
           .headers(Headers.commonHeader)
           .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
+          .header("content-type", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
           .body(ElFileBody("bodies/prl/PRLDataPrep/Continue.json"))
           .check(substring("paymentServiceRequestReferenceNumber")))
       }
@@ -233,25 +237,49 @@ object Solicitor_PRL_CitizenDataPrep {
 
 
       /*======================================================================================
-* Submit
+* Continue
 ======================================================================================*/
 
-  /*    .group("XUI_PRL_040_Submit`") {
+      .group("XUI_PRL_040_Continue") {
 
-        exec(http("XUI_PRL_040_005_Submit")
+        exec(http("XUI_PRL_039_005_Continue")
           .post(BaseURL + "/data/cases/${caseId}/events")
           .headers(Headers.commonHeader)
           .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8")
-          .body(ElFileBody("bodies/prl/PRLDataPrep/Submit.json"))
-          .check(substring("SUBMITTED_NOT_PAID")))
+          .header("content-type", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8")
+          .body(ElFileBody("bodies/prl/PRLDataPrep/yes.json"))
+          .check(jsonPath("$.data.paymentServiceRequestReferenceNumber").saveAs("paymentServiceRequestReferenceNumber"))
+        )
       }
 
       .pause(MinThinkTime, MaxThinkTime)
 
-   */
 
 
 
+    //  .group("XUI_PRL_041_Continue") {
+
+     //   exec(http("XUI_PRL_040_005_Continue")
+     //     .get(BaseURL + "/payments/cases/${caseId}/paymentgroups")
+     //     .headers(Headers.commonHeader)
+     //     .header("accept", "application/json, text/plain, */*")
+     //     .check(substring("payment_group_reference"))
+       //   .check(jsonPath("$.payment_groups[0].payment_group_reference").saveAs("payment_group_reference"))
+     //   )
+     // }
+
+      //.pause(MinThinkTime, MaxThinkTime)
+
+
+
+
+      .exec { session =>
+        val fw = new BufferedWriter(new FileWriter("cases.csv", true))
+        try {
+          fw.write(session("caseId").as[String] + "\r\n")
+        } finally fw.close()
+        session
+      }
 
 
 
@@ -260,49 +288,53 @@ object Solicitor_PRL_CitizenDataPrep {
 * Dummy Payment Confirmation
 ======================================================================================*/
 
-      .group("XUI_PRL_040_DummyPaymentConfirmation ") {
+      .group("XUI_PRL_042_DummyPaymentConfirmation ") {
 
         exec(http("XUI_PRL_040_005_DummyPaymentConfirmation ")
-          .get(BaseURL + "/data/internal/cases/${caseId}/event-triggers/testingSupportPaymentSuccessCallback?ignore-warning=false")
+          .get(BaseURL + "/payments/pba-accounts")
           .headers(Headers.commonHeader)
-          .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-start-event-trigger.v2+json;charset=UTF-8")
-          .check(jsonPath("$.event_token").saveAs("event_token")))
+          .header("accept", "application/json, text/plain, */*"))
+      //    .check(jsonPath("$.event_token").saveAs("event_token")))
       }
 
       .pause(MinThinkTime, MaxThinkTime)
 
 
       /*======================================================================================
-* Make the Payment
+* Choose Payment option
 ======================================================================================*/
 
-      .group("XUI_PRL_041_MakeThePayment") {
+      .group("XUI_PRL_041_PaymentOption") {
 
-        exec(http("XUI_PRL_041_005_MakeThePayment")
-          .post(BaseURL + "/data/cases/${caseId}/events")
+        exec(http("XUI_PRL_041_005_PaymentOption")
+          .post(BaseURL + "/payments/service-request/${paymentServiceRequestReferenceNumber}/card-payments")
           .headers(Headers.commonHeader)
-          .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8")
+          .header("accept", "application/json, text/plain, */*")
           .body(ElFileBody("bodies/prl/PRLDataPrep/MakeThePayment.json"))
-          .check(substring("SUBMITTED_NOT_PAID")))
+          .check(regex("""input id="charge-id" name="chargeId" type="hidden" value="(.{26})"""").saveAs("address"))
+          )
+         // .check(substring("Enter card details")))
+
+          .exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).saveAs("XSRFToken")))
       }
 
       .pause(MinThinkTime, MaxThinkTime)
 
 
 
- */
+
 
       /*======================================================================================
 * Enter Card Details
 ======================================================================================*/
 
-//      .group("XUI_PRL_042_CardDetails") {
+      .group("XUI_PRL_042_CardDetails") {
 
-  //      exec(http("XUI_PRL_042_005_CardDetails")
-    //      .post(payUrl + "/card_details/${chargeId}")
-     //     .headers(Headers.commonHeader)
-     //     .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
-     /*     .formParam("chargeId", "${chargeId}")
+        exec(http("XUI_PRL_042_005_CardDetails")
+          .post(payUrl + "/card_details/${chargeId}")
+          .headers(Headers.commonHeader)
+          .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
+          .formParam("chargeId", "${chargeId}")
           .formParam("csrfToken", "{csrf}")
           .formParam("cardNo", "4444333322221111")
           .formParam("expiryMonth", "${PRLAppDobMonth}")
@@ -331,22 +363,14 @@ object Solicitor_PRL_CitizenDataPrep {
         exec(http("XUI_PRL_043_005_ConfirmPayment")
           .post(payUrl + "/card_details/${chargeId}/confirm")
           .headers(Headers.commonHeader)
-
-      */
-      //    .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
-      //    .formParam("csrfToken", "{csrf}")
-      //    .formParam("chargeId", "${chargeId}")
-      //    .check(substring("Payment successful")))
-     // }
-
-
-      .exec { session =>
-        val fw = new BufferedWriter(new FileWriter("cases.csv", true))
-        try {
-          fw.write(session("caseId").as[String] + "\r\n")
-        } finally fw.close()
-        session
+          .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
+          .formParam("csrfToken", "{csrf}")
+          .formParam("chargeId", "${chargeId}")
+          .check(substring("Payment successful")))
       }
+
+
+
 
 
 
