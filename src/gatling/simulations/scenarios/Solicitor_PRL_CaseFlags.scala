@@ -20,6 +20,7 @@ object Solicitor_PRL_CaseFlags {
 
 
   val postcodeFeeder = csv("postcodes.csv").circular
+  val casesFeeder = csv("caseFlagsCases.csv").circular
 
   val MinThinkTime = Environment.minThinkTime
   val MaxThinkTime = Environment.maxThinkTime
@@ -35,12 +36,12 @@ object Solicitor_PRL_CaseFlags {
   * Create Case Start
   ======================================================================================*/
 
-    group("XUI_PRL_030_CreateCaseStart") {
+    group("XUI_PRL_070_CreateCaseStart") {
 
       exec(_.setAll(
         "PRLRandomString" -> (Common.randomString(7)),
         "currentDateTime" -> Common.getCurrentDateTime(),
-        "caseId" -> ("1702895100761354"),
+     //   "caseId" -> ("1702986711455195"),
         "env" -> ("perftest"),
         "PRLAppDobDay" -> Common.getDay(),
         "PRLAppDobMonth" -> Common.getMonth(),
@@ -64,16 +65,16 @@ object Solicitor_PRL_CaseFlags {
     * Select 'Request support'
     ======================================================================================*/
 
-      .group("XUI_PRL_040_RequestSupport") {
+      .group("XUI_PRL_070_RequestSupport") {
 
-          exec(http("XUI_PRL_040_005_RequestSupport")
+          exec(http("XUI_PRL_070_005_RequestSupport")
             .get(BaseURL + "/workallocation/case/tasks/#{caseId}/event/c100RequestSupport/caseType/PRLAPPS/jurisdiction/PRIVATELAW")
             .headers(Headers.commonHeader)
             .header("accept", "application/json")
          //   .check(substring("C100"))
           )
 
-        .exec(http("XUI_PRL_040_010_RequestSupport")
+        .exec(http("XUI_PRL_070_010_RequestSupport")
           .get(BaseURL + "/data/internal/cases/#{caseId}/event-triggers/c100RequestSupport?ignore-warning=false")
           .headers(Headers.commonHeader)
           .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-start-event-trigger.v2+json;charset=UTF-8")
@@ -92,9 +93,9 @@ object Solicitor_PRL_CaseFlags {
       * Where should this flag be added?
       ======================================================================================*/
 
-      .group("XUI_PRL_050_WhereFlagAdded") {
+      .group("XUI_PRL_080_WhereFlagAdded") {
 
-        exec(http("XUI_PRL_050_005_WhereFlagAdded")
+        exec(http("XUI_PRL_080_005_WhereFlagAdded")
           .get(BaseURL + "/refdata/location/orgServices?ccdCaseType=PRLAPPS")
           .headers(Headers.commonHeader)
           .header("accept", "application/json")
@@ -102,7 +103,7 @@ object Solicitor_PRL_CaseFlags {
         )
 
 
-        .exec(http("XUI_PRL_050_010_WhereFlagAdded")
+        .exec(http("XUI_PRL_080_010_WhereFlagAdded")
           .get(BaseURL + "/refdata/commondata/caseflags/service-id=ABA5?flag-type=PARTY")
           .headers(Headers.commonHeader)
           .header("accept", "application/json")
@@ -142,9 +143,9 @@ object Solicitor_PRL_CaseFlags {
 * Request Support Submit
 ======================================================================================*/
 
-   .group("XUI_PRL_070_RequestSupportSubmit") {
+   .group("XUI_PRL_080_RequestSupportSubmit") {
 
-     exec(http("XUI_PRL_070_005_RequestSupportSubmit")
+     exec(http("XUI_PRL_080_005_RequestSupportSubmit")
        .post(BaseURL + "/data/cases/#{caseId}/events")
        .headers(Headers.commonHeader)
        .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8")
@@ -161,20 +162,20 @@ object Solicitor_PRL_CaseFlags {
        * Select 'Request support'
        ======================================================================================*/
 
-      .group("XUI_PRL_080_RequestSupport2") {
+      .group("XUI_PRL_090_RequestSupport2") {
 
 
         exec(_.setAll(
           "currentDateTime2" -> Common.getCurrentDateTime()))
 
-        .exec(http("XUI_PRL_080_005_RequestSupport2")
+        .exec(http("XUI_PRL_090_005_RequestSupport2")
           .get(BaseURL + "/workallocation/case/tasks/#{caseId}/event/c100RequestSupport/caseType/PRLAPPS/jurisdiction/PRIVATELAW")
           .headers(Headers.commonHeader)
           .header("accept", "application/json")
           //   .check(substring("C100"))
         )
 
-          .exec(http("XUI_PRL_080_010_RequestSupport2")
+          .exec(http("XUI_PRL_090_010_RequestSupport2")
             .get(BaseURL + "/data/internal/cases/#{caseId}/event-triggers/c100RequestSupport?ignore-warning=false")
             .headers(Headers.commonHeader)
             .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-start-event-trigger.v2+json;charset=UTF-8")
@@ -194,9 +195,9 @@ object Solicitor_PRL_CaseFlags {
       * Where should this flag be added?
       ======================================================================================*/
 
-      .group("XUI_PRL_090_WhereFlagAdded2") {
+      .group("XUI_PRL_100_WhereFlagAdded2") {
 
-        exec(http("XUI_PRL_090_005_WhereFlagAdded2")
+        exec(http("XUI_PRL_100_005_WhereFlagAdded2")
           .get(BaseURL + "/refdata/location/orgServices?ccdCaseType=PRLAPPS")
           .headers(Headers.commonHeader)
           .header("accept", "application/json")
@@ -204,7 +205,7 @@ object Solicitor_PRL_CaseFlags {
         )
 
 
-          .exec(http("XUI_PRL_090_010_WhereFlagAdded2")
+          .exec(http("XUI_PRL_100_010_WhereFlagAdded2")
             .get(BaseURL + "/refdata/commondata/caseflags/service-id=ABA5?flag-type=PARTY")
             .headers(Headers.commonHeader)
             .header("accept", "application/json")
@@ -220,9 +221,9 @@ object Solicitor_PRL_CaseFlags {
 * Request Support Submit
 ======================================================================================*/
 
-      .group("XUI_PRL_100_RequestSupportSubmit2") {
+      .group("XUI_PRL_110_RequestSupportSubmit2") {
 
-        exec(http("XUI_PRL_100_005_RequestSupportSubmit2")
+        exec(http("XUI_PRL_110_005_RequestSupportSubmit2")
           .post(BaseURL + "/data/cases/#{caseId}/events")
           .headers(Headers.commonHeader)
           .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8")
@@ -240,20 +241,20 @@ object Solicitor_PRL_CaseFlags {
          * Select 'Request support'
          ======================================================================================*/
 
-      .group("XUI_PRL_080_RequestSupport3") {
+      .group("XUI_PRL_120_RequestSupport3") {
 
 
         exec(_.setAll(
           "currentDateTime3" -> Common.getCurrentDateTime()))
 
-          .exec(http("XUI_PRL_080_005_RequestSupport3")
+          .exec(http("XUI_PRL_120_005_RequestSupport3")
             .get(BaseURL + "/workallocation/case/tasks/#{caseId}/event/c100RequestSupport/caseType/PRLAPPS/jurisdiction/PRIVATELAW")
             .headers(Headers.commonHeader)
             .header("accept", "application/json")
             //   .check(substring("C100"))
           )
 
-          .exec(http("XUI_PRL_080_010_RequestSupport3")
+          .exec(http("XUI_PRL_120_010_RequestSupport3")
             .get(BaseURL + "/data/internal/cases/#{caseId}/event-triggers/c100RequestSupport?ignore-warning=false")
             .headers(Headers.commonHeader)
             .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-start-event-trigger.v2+json;charset=UTF-8")
@@ -273,9 +274,9 @@ object Solicitor_PRL_CaseFlags {
       * Where should this flag be added?
       ======================================================================================*/
 
-      .group("XUI_PRL_090_WhereFlagAdded3") {
+      .group("XUI_PRL_130_WhereFlagAdded3") {
 
-        exec(http("XUI_PRL_090_005_WhereFlagAdded3")
+        exec(http("XUI_PRL_130_005_WhereFlagAdded3")
           .get(BaseURL + "/refdata/location/orgServices?ccdCaseType=PRLAPPS")
           .headers(Headers.commonHeader)
           .header("accept", "application/json")
@@ -283,7 +284,7 @@ object Solicitor_PRL_CaseFlags {
         )
 
 
-          .exec(http("XUI_PRL_090_010_WhereFlagAdded3")
+          .exec(http("XUI_PRL_130_010_WhereFlagAdded3")
             .get(BaseURL + "/refdata/commondata/caseflags/service-id=ABA5?flag-type=PARTY")
             .headers(Headers.commonHeader)
             .header("accept", "application/json")
@@ -299,9 +300,9 @@ object Solicitor_PRL_CaseFlags {
 * Request Support Submit
 ======================================================================================*/
 
-      .group("XUI_PRL_100_RequestSupportSubmit3") {
+      .group("XUI_PRL_140_RequestSupportSubmit3") {
 
-        exec(http("XUI_PRL_100_005_RequestSupportSubmit2")
+        exec(http("XUI_PRL_140_005_RequestSupportSubmit2")
           .post(BaseURL + "/data/cases/#{caseId}/events")
           .headers(Headers.commonHeader)
           .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8")
@@ -317,20 +318,20 @@ object Solicitor_PRL_CaseFlags {
          * Select 'Request support'
          ======================================================================================*/
 
-      .group("XUI_PRL_080_RequestSupport4") {
+      .group("XUI_PRL_150_RequestSupport4") {
 
 
         exec(_.setAll(
           "currentDateTime4" -> Common.getCurrentDateTime()))
 
-          .exec(http("XUI_PRL_080_005_RequestSupport4")
+          .exec(http("XUI_PRL_150_005_RequestSupport4")
             .get(BaseURL + "/workallocation/case/tasks/#{caseId}/event/c100RequestSupport/caseType/PRLAPPS/jurisdiction/PRIVATELAW")
             .headers(Headers.commonHeader)
             .header("accept", "application/json")
             //   .check(substring("C100"))
           )
 
-          .exec(http("XUI_PRL_080_010_RequestSupport4")
+          .exec(http("XUI_PRL_150_010_RequestSupport4")
             .get(BaseURL + "/data/internal/cases/#{caseId}/event-triggers/c100RequestSupport?ignore-warning=false")
             .headers(Headers.commonHeader)
             .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-start-event-trigger.v2+json;charset=UTF-8")
@@ -350,9 +351,9 @@ object Solicitor_PRL_CaseFlags {
       * Where should this flag be added?
       ======================================================================================*/
 
-      .group("XUI_PRL_090_WhereFlagAdded4") {
+      .group("XUI_PRL_160_WhereFlagAdded4") {
 
-        exec(http("XUI_PRL_090_005_WhereFlagAdded4")
+        exec(http("XUI_PRL_160_005_WhereFlagAdded4")
           .get(BaseURL + "/refdata/location/orgServices?ccdCaseType=PRLAPPS")
           .headers(Headers.commonHeader)
           .header("accept", "application/json")
@@ -360,7 +361,7 @@ object Solicitor_PRL_CaseFlags {
         )
 
 
-          .exec(http("XUI_PRL_090_010_WhereFlagAdded4")
+          .exec(http("XUI_PRL_160_010_WhereFlagAdded4")
             .get(BaseURL + "/refdata/commondata/caseflags/service-id=ABA5?flag-type=PARTY")
             .headers(Headers.commonHeader)
             .header("accept", "application/json")
@@ -376,9 +377,9 @@ object Solicitor_PRL_CaseFlags {
 * Request Support Submit
 ======================================================================================*/
 
-      .group("XUI_PRL_100_RequestSupportSubmit4") {
+      .group("XUI_PRL_170_RequestSupportSubmit4") {
 
-        exec(http("XUI_PRL_100_005_RequestSupportSubmit4")
+        exec(http("XUI_PRL_170_005_RequestSupportSubmit4")
           .post(BaseURL + "/data/cases/#{caseId}/events")
           .headers(Headers.commonHeader)
           .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8")
@@ -396,20 +397,20 @@ object Solicitor_PRL_CaseFlags {
        * Select 'Request support'
        ======================================================================================*/
 
-      .group("XUI_PRL_080_RequestSupport5") {
+      .group("XUI_PRL_180_RequestSupport5") {
 
 
         exec(_.setAll(
           "currentDateTime5" -> Common.getCurrentDateTime()))
 
-          .exec(http("XUI_PRL_080_005_RequestSupport5")
+          .exec(http("XUI_PRL_180_005_RequestSupport5")
             .get(BaseURL + "/workallocation/case/tasks/#{caseId}/event/c100RequestSupport/caseType/PRLAPPS/jurisdiction/PRIVATELAW")
             .headers(Headers.commonHeader)
             .header("accept", "application/json")
             //   .check(substring("C100"))
           )
 
-          .exec(http("XUI_PRL_080_010_RequestSupport5")
+          .exec(http("XUI_PRL_180_010_RequestSupport5")
             .get(BaseURL + "/data/internal/cases/#{caseId}/event-triggers/c100RequestSupport?ignore-warning=false")
             .headers(Headers.commonHeader)
             .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-start-event-trigger.v2+json;charset=UTF-8")
@@ -429,9 +430,9 @@ object Solicitor_PRL_CaseFlags {
       * Where should this flag be added?
       ======================================================================================*/
 
-      .group("XUI_PRL_090_WhereFlagAdded5") {
+      .group("XUI_PRL_190_WhereFlagAdded5") {
 
-        exec(http("XUI_PRL_090_005_WhereFlagAdded5")
+        exec(http("XUI_PRL_190_005_WhereFlagAdded5")
           .get(BaseURL + "/refdata/location/orgServices?ccdCaseType=PRLAPPS")
           .headers(Headers.commonHeader)
           .header("accept", "application/json")
@@ -439,7 +440,7 @@ object Solicitor_PRL_CaseFlags {
         )
 
 
-          .exec(http("XUI_PRL_090_010_WhereFlagAdded5")
+          .exec(http("XUI_PRL_190_010_WhereFlagAdded5")
             .get(BaseURL + "/refdata/commondata/caseflags/service-id=ABA5?flag-type=PARTY")
             .headers(Headers.commonHeader)
             .header("accept", "application/json")
@@ -455,9 +456,9 @@ object Solicitor_PRL_CaseFlags {
 * Request Support Submit
 ======================================================================================*/
 
-      .group("XUI_PRL_100_RequestSupportSubmit5") {
+      .group("XUI_PRL_200_RequestSupportSubmit5") {
 
-        exec(http("XUI_PRL_100_005_RequestSupportSubmit4")
+        exec(http("XUI_PRL_200_005_RequestSupportSubmit4")
           .post(BaseURL + "/data/cases/#{caseId}/events")
           .headers(Headers.commonHeader)
           .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8")
@@ -479,8 +480,9 @@ object Solicitor_PRL_CaseFlags {
 
     group("XUI_PRL_030_SearchCase") {
 
-      exec(_.setAll(
-        "caseId" -> "1702894475790759"))
+    //  exec(_.setAll(
+    //    "caseId" -> "1702894475790759"))
+      feed(casesFeeder)
 
 
               .exec(http("XUI_PRL_030_005_SearchCase")
@@ -515,9 +517,9 @@ object Solicitor_PRL_CaseFlags {
     * Enter caseId
     ======================================================================================*/
 
-      .group("XUI_PRL_050_NoticeOfChangeCase") {
+      .group("XUI_PRL_040_NoticeOfChangeCase") {
 
-          exec(http("XUI_PRL_050_005_NoticeOfChangeCase")
+          exec(http("XUI_PRL_040_005_NoticeOfChangeCase")
             .get(BaseURL + "/api/noc/nocQuestions?caseId=#{caseId}")
             .headers(Headers.commonHeader)
             .header("accept", "application/json, text/plain, */*")
@@ -532,9 +534,9 @@ object Solicitor_PRL_CaseFlags {
   * Select 'Enter details'
   ======================================================================================*/
 
-      .group("XUI_PRL_060_EnterDetails") {
+      .group("XUI_PRL_050_EnterDetails") {
 
-        exec(http("XUI_PRL_060_005_EnterDetails")
+        exec(http("XUI_PRL_050_005_EnterDetails")
           .post(BaseURL + "/api/noc/validateNoCQuestions")
           .headers(Headers.commonHeader)
           .header("accept", "application/json, text/plain, */*")
@@ -550,9 +552,9 @@ object Solicitor_PRL_CaseFlags {
 * Select 'Check and submit'
 ======================================================================================*/
 
-      .group("XUI_PRL_070_CheckAndSubmitNoC") {
+      .group("XUI_PRL_060_CheckAndSubmitNoC") {
 
-        exec(http("XUI_PRL_070_005_CheckAndSubmitNoC")
+        exec(http("XUI_PRL_060_005_CheckAndSubmitNoC")
           .post(BaseURL + "/api/noc/submitNoCEvents")
           .headers(Headers.commonHeader)
           .header("accept", "application/json, text/plain, */*")
@@ -594,16 +596,16 @@ object Solicitor_PRL_CaseFlags {
       * Select 'Manage support'
       ======================================================================================*/
 
-      .group("XUI_PRL_040_ManageSupport") {
+      .group("XUI_PRL_210_ManageSupport") {
 
-        exec(http("XUI_PRL_040_005_RequestSupport")
+        exec(http("XUI_PRL_210_005_RequestSupport")
           .get(BaseURL + "/workallocation/case/tasks/#{caseId}/event/c100ManageSupport/caseType/PRLAPPS/jurisdiction/PRIVATELAW")
           .headers(Headers.commonHeader)
           .header("accept", "application/json")
           //   .check(substring("C100"))
         )
 
-          .exec(http("XUI_PRL_040_010_RequestSupport")
+          .exec(http("XUI_PRL_210_010_RequestSupport")
             .get(BaseURL + "/data/internal/cases/#{caseId}/event-triggers/c100ManageSupport?ignore-warning=false")
             .headers(Headers.commonHeader)
             .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-start-event-trigger.v2+json;charset=UTF-8")
@@ -651,9 +653,9 @@ object Solicitor_PRL_CaseFlags {
 * Manage Support submit
 ======================================================================================*/
 
-      .group("XUI_PRL_070_ManageSupportSubmitSol") {
+      .group("XUI_PRL_220_ManageSupportSubmitSol") {
 
-        exec(http("XUI_PRL_070_005_ManageSupportSubmitSol")
+        exec(http("XUI_PRL_220_005_ManageSupportSubmitSol")
           .post(BaseURL + "/data/cases/#{caseId}/events")
           .headers(Headers.commonHeader)
           .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8")
@@ -697,16 +699,16 @@ object Solicitor_PRL_CaseFlags {
       * Select 'Manage Flags'
       ======================================================================================*/
 
-      .group("XUI_PRL_040_ManageSupportFlags") {
+      .group("XUI_PRL_230_ManageSupportFlags") {
 
-        exec(http("XUI_PRL_040_005_ManageSupportFlags")
+        exec(http("XUI_PRL_230_005_ManageSupportFlags")
           .get(BaseURL + "/workallocation/case/tasks/#{caseId}/event/c100ManageFlags/caseType/PRLAPPS/jurisdiction/PRIVATELAW")
           .headers(Headers.commonHeader)
           .header("accept", "application/json")
           //   .check(substring("C100"))
         )
 
-          .exec(http("XUI_PRL_040_010_RequestSupport")
+          .exec(http("XUI_PRL_230_010_RequestSupport")
             .get(BaseURL + "/data/internal/cases/#{caseId}/event-triggers/c100ManageFlags?ignore-warning=false")
             .headers(Headers.commonHeader)
             .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-start-event-trigger.v2+json;charset=UTF-8")
@@ -744,9 +746,9 @@ object Solicitor_PRL_CaseFlags {
 * Submit
 ======================================================================================*/
 
-      .group("XUI_PRL_050_SubmitSupportChange") {
+      .group("XUI_PRL_240_SubmitSupportChange") {
 
-        exec(http("XUI_PRL_050_005_SubmitSupportChange")
+        exec(http("XUI_PRL_240_005_SubmitSupportChange")
           .post(BaseURL + "/data/cases/#{caseId}/events")
           .headers(Headers.commonHeader)
           .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8")
@@ -839,13 +841,7 @@ object Solicitor_PRL_CaseFlags {
     group("XUI_PRL_030_CreateCaseStart") {
 
       exec(_.setAll(
-        "PRLRandomString" -> (Common.randomString(7)),
-        "currentDateTimeCa" -> Common.getCurrentDateTime(),
-        "caseId" -> ("1702639536486727"),
-        "env" -> ("perftest"),
-        "PRLAppDobDay" -> Common.getDay(),
-        "PRLAppDobMonth" -> Common.getMonth(),
-        "PRLAppDobYear" -> Common.getDobYear()))
+        "currentDateTimeFlag" -> Common.getCurrentDateTime()))
 
       /*
               .exec(http("XUI_PRL_030_005_CreateCaseStart")
@@ -862,27 +858,27 @@ object Solicitor_PRL_CaseFlags {
       .pause(MinThinkTime, MaxThinkTime)
 
       /*======================================================================================
-      * Select 'Request support'
+      * Select 'Create Flag'
       ======================================================================================*/
 
-      .group("XUI_PRL_040_RequestSupport") {
+      .group("XUI_PRL_240_CreateFlag") {
 
-        exec(http("XUI_PRL_040_005_RequestSupport")
-          .get(BaseURL + "/workallocation/case/tasks/#{caseId}/event/c100RequestSupport/caseType/PRLAPPS/jurisdiction/PRIVATELAW")
+        exec(http("XUI_PRL_240_005_CreateFlag")
+          .get(BaseURL + "/workallocation/case/tasks/#{caseId}/event/c100CreateFlags/caseType/PRLAPPS/jurisdiction/PRIVATELAW")
           .headers(Headers.commonHeader)
           .header("accept", "application/json")
           //   .check(substring("C100"))
         )
 
-          .exec(http("XUI_PRL_040_010_RequestSupport")
+          .exec(http("XUI_PRL_240_010_CreateFlag")
             .get(BaseURL + "/data/internal/cases/#{caseId}/event-triggers/c100CreateFlags?ignore-warning=false")
             .headers(Headers.commonHeader)
             .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-start-event-trigger.v2+json;charset=UTF-8")
-            .check(jsonPath("$.case_fields[1].formatted_value.partyName").saveAs("partyName"))
+           // .check(jsonPath("$.case_fields[1].formatted_value.partyName").saveAs("partyName"))
             .check(jsonPath("$.case_fields[2].formatted_value.partyName").saveAs("repPartyName"))
-            .check(jsonPath("$.case_fields[11].formatted_value.partyName").saveAs("otherPartyName"))
+            //.check(jsonPath("$.case_fields[11].formatted_value.partyName").saveAs("otherPartyName"))
             .check(jsonPath("$.event_token").optional.saveAs("event_token"))
-            .check(substring("c100RequestSupport"))
+            .check(substring("Create Flag"))
           )
 
       }
@@ -893,9 +889,9 @@ object Solicitor_PRL_CaseFlags {
     * Where should this flag be added?
     ======================================================================================*/
 
-      .group("XUI_PRL_090_WhereFlagAdded4") {
+      .group("XUI_PRL_250_CreateFlag") {
 
-        exec(http("XUI_PRL_090_005_WhereFlagAdded4")
+        exec(http("XUI_PRL_250_005_CreateFlag")
           .get(BaseURL + "/refdata/location/orgServices?ccdCaseType=PRLAPPS")
           .headers(Headers.commonHeader)
           .header("accept", "application/json")
@@ -903,7 +899,7 @@ object Solicitor_PRL_CaseFlags {
         )
 
 
-          .exec(http("XUI_PRL_090_010_WhereFlagAdded4")
+          .exec(http("XUI_PRL_250_010_CreateFlag")
             .get(BaseURL + "/refdata/commondata/caseflags/service-id=ABA5?flag-type=PARTY&welsh-required=Y")
             .headers(Headers.commonHeader)
             .header("accept", "application/json")
@@ -920,9 +916,9 @@ object Solicitor_PRL_CaseFlags {
 * Request Support Submit
 ======================================================================================*/
 
-      .group("XUI_PRL_100_RequestSupportSubmit5") {
+      .group("XUI_PRL_260_CreateFlag") {
 
-        exec(http("XUI_PRL_100_005_SubmitFlag")
+        exec(http("XUI_PRL_260_005_CreateFlag")
           .post(BaseURL + "/data/cases/#{caseId}/events")
           .headers(Headers.commonHeader)
           .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8")

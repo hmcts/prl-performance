@@ -11,10 +11,10 @@
             "subTypeKey": null,
             "otherDescription": null,
             "otherDescription_cy": null,
-            "flagComment": "setdryfgujknm",
+            "flagComment": "#{PRLRandomString},",
             "flagComment_cy": null,
-            "flagUpdateComment": "fhtyugykjlnm",
-            "dateTimeCreated": "2023-12-15T16:39:31.194Z",
+            "flagUpdateComment": "#{PRLRandomString}",
+            "dateTimeCreated": "#{currentDateTimeFlag}",
             "path": [
               {
                 "id": null,
@@ -43,14 +43,14 @@
     },
     "caApplicant1InternalFlags": {
       "roleOnCase": "Applicant 1",
-      "partyName": "ZtVvNdB First ZtVvNdB Last",
+      "partyName": "#{partyName}",
       "groupId": "caApplicant1",
       "visibility": "Internal",
       "details": []
     },
     "caApplicantSolicitor1InternalFlags": {
       "roleOnCase": "Applicant solicitor 1",
-      "partyName": "ZtVvNdB Rep ZtVvNdB Name",
+      "partyName": "#{repPartyName}",
       "groupId": "caApplicantSolicitor1",
       "visibility": "Internal",
       "details": []
@@ -113,7 +113,7 @@
     },
     "caRespondent1InternalFlags": {
       "roleOnCase": "Respondent 1",
-      "partyName": "Mary Richards",
+      "partyName": "#{res1PartyName}",
       "groupId": "caRespondent1",
       "visibility": "Internal",
       "details": []
@@ -127,7 +127,7 @@
     },
     "caRespondent2InternalFlags": {
       "roleOnCase": "Respondent 2",
-      "partyName": "Elise Lynn",
+      "partyName": "#{res2PartyName}",
       "groupId": "caRespondent2",
       "visibility": "Internal",
       "details": []
@@ -141,7 +141,7 @@
     },
     "caRespondent3InternalFlags": {
       "roleOnCase": "Respondent 3",
-      "partyName": "David Carman",
+      "partyName": "#{res3PartyName}",
       "groupId": "caRespondent3",
       "visibility": "Internal",
       "details": []
@@ -183,7 +183,7 @@
     },
     "caOtherParty1InternalFlags": {
       "roleOnCase": "Other people in the case 1",
-      "partyName": "Sam Nolan",
+      "partyName": "#{otherPartyName}",
       "groupId": "caOtherParty1",
       "visibility": "Internal",
       "details": []
@@ -218,25 +218,25 @@
     },
     "caApplicant1ExternalFlags": {
       "roleOnCase": "Applicant 1",
-      "partyName": "ZtVvNdB First ZtVvNdB Last",
+      "partyName": "#{partyName}",
       "groupId": "caApplicant1",
       "visibility": "External",
       "details": [
         {
-          "id": "4969a505-4a33-4ae5-bf91-e38365648d2a",
+          "id": "#{flagId}",
           "value": {
             "name": "Documents in a specified colour",
             "path": [
               {
-                "id": "38dbdd52-91ce-447d-806f-25a44bf6a885",
+                "id": "#{partyId}",
                 "value": "Party"
               },
               {
-                "id": "fbce769a-4910-41ae-bce2-1bbcd2dce463",
+                "id": "#{raId}",
                 "value": "Reasonable adjustment"
               },
               {
-                "id": "9bc1a444-944f-4521-bbed-cf4e393871f9",
+                "id": "#{formatId}",
                 "value": "I need documents in an alternative format"
               }
             ],
@@ -244,34 +244,34 @@
             "name_cy": null,
             "flagCode": "RA0010",
             "subTypeKey": null,
-            "flagComment": "edr6ft7gyhuj",
+            "flagComment": "#{PRLRandomString}",
             "subTypeValue": null,
             "flagComment_cy": null,
-            "dateTimeCreated": "2023-12-15T14:10:45.367Z",
+            "dateTimeCreated": "#{currentDateTime}",
             "hearingRelevant": "Yes",
             "subTypeValue_cy": null,
-            "dateTimeModified": "2023-12-15T14:24:53.145Z",
+            "dateTimeModified": "#{currentDateTimeModified}",
             "otherDescription": null,
-            "flagUpdateComment": "yfvgubhinjomkl",
+            "flagUpdateComment": "#{PRLRandomString}",
             "availableExternally": "Yes",
             "otherDescription_cy": null
           }
         },
         {
-          "id": "e748f22f-56fa-492b-bbff-9cee28fe024a",
+          "id": "#{flagId2}",
           "value": {
             "name": "Documents in a specified colour",
             "path": [
               {
-                "id": "c99d6cb0-f9c7-434c-9442-c0947858ca4e",
+                "id": "#{partyId2}",
                 "value": "Party"
               },
               {
-                "id": "a822e07d-0d37-4da9-876b-c4ea845a0e5f",
+                "id": "#{raId2}",
                 "value": "Reasonable adjustment"
               },
               {
-                "id": "69589d5d-ff66-4959-a7e5-45984525c938",
+                "id": "#{formatId2}",
                 "value": "I need documents in an alternative format"
               }
             ],
@@ -279,34 +279,34 @@
             "name_cy": null,
             "flagCode": "RA0010",
             "subTypeKey": null,
-            "flagComment": "rftguyhiu",
+            "flagComment": "#{PRLRandomString}",
             "subTypeValue": null,
             "flagComment_cy": null,
-            "dateTimeCreated": "2023-12-15T14:11:19.596Z",
+            "dateTimeCreated": "#{currentDateTime2}",
             "hearingRelevant": "Yes",
             "subTypeValue_cy": null,
-            "dateTimeModified": "2023-12-15T15:12:22.237Z",
+            "dateTimeModified": "#{currentDateTimeCa}",
             "otherDescription": null,
-            "flagUpdateComment": "daefwregtrh",
+            "flagUpdateComment": "#{PRLRandomStringCa}",
             "availableExternally": "Yes",
             "otherDescription_cy": null
           }
         },
         {
-          "id": "a371aea7-85fe-47b1-bfd0-111284060b72",
+          "id": "#{flagId3}",
           "value": {
             "name": "Documents in a specified colour",
             "path": [
               {
-                "id": "588513e1-17d3-4d1b-a635-7369ac101840",
+                "id": "#{partyId3}",
                 "value": "Party"
               },
               {
-                "id": "96aa323e-f9de-4f1b-829a-ccd86afc8006",
+                "id": "#{raId3}",
                 "value": "Reasonable adjustment"
               },
               {
-                "id": "ae914c05-22e6-44bf-b8d2-c367e27abfe5",
+                "id": "#{formatId3}",
                 "value": "I need documents in an alternative format"
               }
             ],
@@ -314,10 +314,10 @@
             "name_cy": null,
             "flagCode": "RA0010",
             "subTypeKey": null,
-            "flagComment": "ws4ed5rftyg",
+            "flagComment": "#{PRLRandomString}",
             "subTypeValue": null,
             "flagComment_cy": null,
-            "dateTimeCreated": "2023-12-15T14:11:53.175Z",
+            "dateTimeCreated": "#{currentDateTime3}",
             "hearingRelevant": "Yes",
             "subTypeValue_cy": null,
             "dateTimeModified": null,
@@ -331,25 +331,25 @@
     },
     "caApplicantSolicitor1ExternalFlags": {
       "roleOnCase": "Applicant solicitor 1",
-      "partyName": "ZtVvNdB Rep ZtVvNdB Name",
+      "partyName": "#{repPartyName}",
       "groupId": "caApplicantSolicitor1",
       "visibility": "External",
       "details": [
         {
-          "id": "217394d9-d8ae-4b34-a997-8e0d0e5050de",
+          "id": "#{flagId4}",
           "value": {
             "name": "Documents in a specified colour",
             "path": [
               {
-                "id": "eff1edec-5f47-4086-ae75-b6afe2f7af28",
+                "id": "#{partyId4}",
                 "value": "Party"
               },
               {
-                "id": "418c71d1-9a1b-459e-b657-cddc6f870ce9",
+                "id": "#{raId4}",
                 "value": "Reasonable adjustment"
               },
               {
-                "id": "97111234-6aba-4102-a930-83524f2f1ded",
+                "id": "#{formatId4}",
                 "value": "I need documents in an alternative format"
               }
             ],
@@ -357,10 +357,10 @@
             "name_cy": null,
             "flagCode": "RA0010",
             "subTypeKey": null,
-            "flagComment": "dtfrytgui",
+            "flagComment": "#{PRLRandomString}",
             "subTypeValue": null,
             "flagComment_cy": null,
-            "dateTimeCreated": "2023-12-15T14:12:23.576Z",
+            "dateTimeCreated": "#{currentDateTime4}",
             "hearingRelevant": "Yes",
             "subTypeValue_cy": null,
             "dateTimeModified": null,
@@ -430,7 +430,7 @@
     },
     "caRespondent1ExternalFlags": {
       "roleOnCase": "Respondent 1",
-      "partyName": "Mary Richards",
+      "partyName": "#{res1PartyName}",
       "groupId": "caRespondent1",
       "visibility": "External",
       "details": []
@@ -444,7 +444,7 @@
     },
     "caRespondent2ExternalFlags": {
       "roleOnCase": "Respondent 2",
-      "partyName": "Elise Lynn",
+      "partyName": "#{res2PartyName}",
       "groupId": "caRespondent2",
       "visibility": "External",
       "details": []

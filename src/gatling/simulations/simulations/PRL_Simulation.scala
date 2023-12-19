@@ -42,7 +42,7 @@ class PRL_Simulation extends Simulation {
   /* ******************************** */
   
   /* PERFORMANCE TEST CONFIGURATION */
-  val prlTargetPerHour: Double = 1
+  val prlTargetPerHour: Double = 30
   val caseworkerTargetPerHour: Double = 1000
   
   //This determines the percentage split of PRL journeys, by C100 or FL401
@@ -236,20 +236,17 @@ class PRL_Simulation extends Simulation {
         .exec(Login.XUILogin)
         .feed(randomFeeder)
         .repeat(1) {
-          exec(Solicitor_PRL_CitizenDataPrep.CompleteDataPrep)
+      //    exec(Solicitor_PRL_CitizenDataPrep.CompleteDataPrep)
            exec(Solicitor_PRL_CaseFlags.NoticeOfChangeSol)
-          exec(Solicitor_PRL_CaseFlags.CaseFlagsSol)
+          .exec(Solicitor_PRL_CaseFlags.CaseFlagsSol)
           .exec(Solicitor_PRL_CaseFlags.ManageSupport)
 
-
-
             .exec(Homepage.XUIHomePage)
-
-
             .exec(Login.XUILoginCa)
 
-       //     exec(Solicitor_PRL_CaseFlags.AssignApplication)
+          //  exec(Solicitor_PRL_CaseFlags.AssignApplication)
           .exec(Solicitor_PRL_CaseFlags.ManageSupportFlag)
+            .exec(Solicitor_PRL_CaseFlags.CaseFlagsCa)
         }
 
     }
@@ -359,7 +356,7 @@ class PRL_Simulation extends Simulation {
   }
   
   setUp(
-    SSCSscenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
+    PrlCaseFlags.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
   //  CafcasDownloadByDocScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
   ).protocols(httpProtocol)
     .assertions(assertions(testType))
