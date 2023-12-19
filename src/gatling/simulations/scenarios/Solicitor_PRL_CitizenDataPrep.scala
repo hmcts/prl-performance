@@ -2,7 +2,7 @@ package scenarios
 
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
-import utils.{Common,CsrfCheck, Environment, Headers}
+import utils.{Common,CsrfCheck, Environment, Headers, CsrfCheck2}
 
 import java.io.{BufferedWriter, FileWriter}
 
@@ -168,10 +168,10 @@ object Solicitor_PRL_CitizenDataPrep {
           .get(BaseURL + "/data/internal/cases/${caseId}/event-triggers/submitAndPay?ignore-warning=false")
           .headers(Headers.navigationHeader)
           .check(jsonPath("$.event_token").saveAs("event_token"))
-          .check(jsonPath("$.case_fields[6].formatted_value.document_hash").saveAs("Document_HashWelsh"))
-          .check(jsonPath("$.case_fields[6].formatted_value.document_url").saveAs("Document_urlWelsh"))
-          .check(jsonPath("$.case_fields[4].formatted_value.document_hash").saveAs("Document_HashApp"))
-          .check(jsonPath("$.case_fields[4].formatted_value.document_url").saveAs("Document_urlApp")))
+        //  .check(jsonPath("$.case_fields[6].formatted_value.document_hash").saveAs("Document_HashWelsh"))
+        //  .check(jsonPath("$.case_fields[6].formatted_value.document_url").saveAs("Document_urlWelsh"))
+          .check(jsonPath("$.case_fields[11].formatted_value.document_hash").saveAs("Document_HashApp"))
+          .check(jsonPath("$.case_fields[11 ].formatted_value.document_url").saveAs("Document_urlApp")))
       }
 
       .pause(MinThinkTime, MaxThinkTime)
@@ -273,27 +273,19 @@ object Solicitor_PRL_CitizenDataPrep {
 
 
 
-      .exec { session =>
-        val fw = new BufferedWriter(new FileWriter("cases.csv", true))
-        try {
-          fw.write(session("caseId").as[String] + "\r\n")
-        } finally fw.close()
-        session
-      }
-
-
 
 
       /*======================================================================================
 * Dummy Payment Confirmation
 ======================================================================================*/
 
-      .group("XUI_PRL_042_DummyPaymentConfirmation ") {
+      .group("XUI_PRL_041_DummyPaymentConfirmation ") {
 
-        exec(http("XUI_PRL_040_005_DummyPaymentConfirmation ")
+        exec(http("XUI_PRL_041_005_DummyPaymentConfirmation ")
           .get(BaseURL + "/payments/pba-accounts")
           .headers(Headers.commonHeader)
-          .header("accept", "application/json, text/plain, */*"))
+          .header("accept", "application/json, text/plain, */*")
+        )
       //    .check(jsonPath("$.event_token").saveAs("event_token")))
       }
 
@@ -304,18 +296,46 @@ object Solicitor_PRL_CitizenDataPrep {
 * Choose Payment option
 ======================================================================================*/
 
-      .group("XUI_PRL_041_PaymentOption") {
+      .group("XUI_PRL_042_PaymentOption") {
 
-        exec(http("XUI_PRL_041_005_PaymentOption")
-          .post(BaseURL + "/payments/service-request/${paymentServiceRequestReferenceNumber}/card-payments")
+        exec(http("XUI_PRL_042_005_PaymentOption")
+          .post(BaseURL + "/payments/service-request/#{paymentServiceRequestReferenceNumber}/card-payments")
+          .disableFollowRedirect
           .headers(Headers.commonHeader)
           .header("accept", "application/json, text/plain, */*")
           .body(ElFileBody("bodies/prl/PRLDataPrep/MakeThePayment.json"))
-          .check(regex("""input id="charge-id" name="chargeId" type="hidden" value="(.{26})"""").saveAs("address"))
+          .check(regex("""card.payments.service.gov.uk\/secure\/(.{8}-.{4}-.{4}-.{4}-.{12})"""").saveAs("address"))
           )
          // .check(substring("Enter card details")))
 
           .exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).saveAs("XSRFToken")))
+      }
+
+      .pause(MinThinkTime, MaxThinkTime)
+
+
+
+      /*======================================================================================
+* Payment option redirect
+======================================================================================*/
+
+      .group("XUI_PRL_043_PaymentOption") {
+
+        exec(http("XUI_PRL_043_005_PaymentOption")
+          .get(payUrl + "/secure/#{address}")
+       //   .disableFollowRedirect
+          .headers(Headers.navigationHeader)
+          .check(CsrfCheck2.save)
+          .check(regex("""\/card_details\/(.{26})""").saveAs("paymentId"))
+     /*     .check(
+            headerRegex("location", """\/card_details\/(.{26})""")
+              .ofType[(String)]
+              .saveAs("paymentId")
+          )
+
+      */
+        )
+
       }
 
       .pause(MinThinkTime, MaxThinkTime)
@@ -328,25 +348,27 @@ object Solicitor_PRL_CitizenDataPrep {
 * Enter Card Details
 ======================================================================================*/
 
-      .group("XUI_PRL_042_CardDetails") {
+      .group("XUI_PRL_044_CardDetails") {
 
-        exec(http("XUI_PRL_042_005_CardDetails")
-          .post(payUrl + "/card_details/${chargeId}")
-          .headers(Headers.commonHeader)
+        exec(http("XUI_PRL_044_005_CardDetails")
+          .post(payUrl + "/card_details/#{paymentId}")
+          .headers(Headers.uploadHeader)
           .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
-          .formParam("chargeId", "${chargeId}")
-          .formParam("csrfToken", "{csrf}")
+          .header("Content-Type", "application/x-www-form-urlencoded")
+          .formParam("chargeId", "#{paymentId}")
+          .formParam("csrfToken", "#{csrf}")
           .formParam("cardNo", "4444333322221111")
-          .formParam("expiryMonth", "${PRLAppDobMonth}")
+          .formParam("expiryMonth", "#{PRLAppDobMonth}")
           .formParam("expiryYear", "27")
-          .formParam("cardholderName", "${PRLRandomString} Card Holder")
+          .formParam("cardholderName", "#{PRLRandomString} Card Holder")
           .formParam("cvc", "123")
           .formParam("addressCountry", "GB")
-          .formParam("addressLine1", "${PRLRandomString} Address Line 1")
+          .formParam("addressLine1", "#{PRLRandomString} Address Line 1")
           .formParam("addressLine2", "")
-          .formParam("addressCity", "${PRLRandomString} City")
+          .formParam("addressCity", "#{PRLRandomString} City")
           .formParam("addressPostcode", "TW3 2HH")
-          .formParam("email", "${PRLRandomString}@gmail.com")
+          .formParam("email", "#{PRLRandomString}@gmail.com")
+          .check(CsrfCheck2.save)
           .check(substring("Confirm your payment")))
       }
 
@@ -358,20 +380,26 @@ object Solicitor_PRL_CitizenDataPrep {
 * Confirm Payment
 ======================================================================================*/
 
-      .group("XUI_PRL_043_ConfirmPayment") {
+      .group("XUI_PRL_045_ConfirmPayment") {
 
-        exec(http("XUI_PRL_043_005_ConfirmPayment")
-          .post(payUrl + "/card_details/${chargeId}/confirm")
-          .headers(Headers.commonHeader)
+        exec(http("XUI_PRL_045_005_ConfirmPayment")
+          .post(payUrl + "/card_details/#{paymentId}/confirm")
+          .headers(Headers.uploadHeader)
           .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
-          .formParam("csrfToken", "{csrf}")
-          .formParam("chargeId", "${chargeId}")
+          .header("Content-Type", "application/x-www-form-urlencoded")
+          .formParam("csrfToken", "#{csrf}")
+          .formParam("chargeId", "#{paymentId}")
           .check(substring("Payment successful")))
+
+
+          .exec { session =>
+            val fw = new BufferedWriter(new FileWriter("cases.csv", true))
+            try {
+              fw.write(session("caseId").as[String] + "\r\n")
+            } finally fw.close()
+            session
+          }
       }
-
-
-
-
 
 
       .pause(MinThinkTime, MaxThinkTime)

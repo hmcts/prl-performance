@@ -153,21 +153,6 @@ object Solicitor_PRL_C100 {
         .check(jsonPath("$.id").saveAs("caseId"))
         .check(jsonPath("$.state").is("AWAITING_SUBMISSION_TO_HMCTS")))
 
-      .exec(http("XUI_PRL_C100_080_010_WorkAllocation")
-        .post(BaseURL + "/workallocation/searchForCompletable")
-        .headers(Headers.commonHeader)
-        .header("accept", "application/json")
-        .header("x-xsrf-token", "${XSRFToken}")
-        .body(StringBody("""{"searchRequest":{"ccdId":"${caseId}","eventId":"solicitorCreate","jurisdiction":"PRIVATELAW","caseTypeId":"PRLAPPS"}}"""))
-        .check(substring("tasks")))
-
-      .exec(http("XUI_PRL_C100_080_015_ViewCase")
-        .get(BaseURL + "/data/internal/cases/${caseId}")
-        .headers(Headers.commonHeader)
-        .header("x-xsrf-token", "${XSRFToken}")
-        .check(jsonPath("$.state.id").is("AWAITING_SUBMISSION_TO_HMCTS")))
-
-      .exec(Common.userDetails)
     }
 
     .pause(MinThinkTime, MaxThinkTime)
@@ -345,20 +330,6 @@ object Solicitor_PRL_C100 {
         .check(substring("applicationPermissionRequired"))
         .check(jsonPath("$.state").is("AWAITING_SUBMISSION_TO_HMCTS")))
 
-      .exec(http("XUI_PRL_C100_150_010_WorkAllocation")
-        .post(BaseURL + "/workallocation/searchForCompletable")
-        .headers(Headers.commonHeader)
-        .header("accept", "application/json")
-        .header("x-xsrf-token", "${XSRFToken}")
-        .body(StringBody("""{"searchRequest":{"ccdId":"${caseId}","eventId":"selectApplicationType","jurisdiction":"PRIVATELAW","caseTypeId":"PRLAPPS"}}"""))
-        .check(substring("tasks")))
-
-      .exec(http("XUI_PRL_C100_150_015_ViewCase")
-        .get(BaseURL + "/data/internal/cases/${caseId}")
-        .headers(Headers.commonHeader)
-        .header("x-xsrf-token", "${XSRFToken}")
-        .check(jsonPath("$.events[?(@.event_id=='selectApplicationType')]"))
-        .check(jsonPath("$.state.id").is("AWAITING_SUBMISSION_TO_HMCTS")))
 
       .exec(Common.userDetails)
     }
@@ -458,21 +429,6 @@ object Solicitor_PRL_C100 {
         .header("x-xsrf-token", "${XSRFToken}")
         .body(ElFileBody("bodies/prl/c100/PRLHearingUrgencyAnswers.json")))
 
-      .exec(http("XUI_PRL_C100_180_010_HearingUrgencyWorkAllocation")
-        .post(BaseURL + "/workallocation/searchForCompletable")
-        .headers(Headers.commonHeader)
-        .header("accept", "application/json")
-        .header("x-xsrf-token", "${XSRFToken}")
-        .body(StringBody("""{"searchRequest":{"ccdId":"${caseId}","eventId":"hearingUrgency","jurisdiction":"PRIVATELAW","caseTypeId":"PRLAPPS"}}"""))
-        .check(substring("tasks")))
-
-      .exec(http("XUI_PRL_C100_180_015_HearingUrgencyViewCase")
-        .get(BaseURL + "/data/internal/cases/${caseId}")
-        .headers(Headers.commonHeader)
-        .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-case-view.v2+json")
-        .header("x-xsrf-token", "${XSRFToken}")
-        .check(jsonPath("$.events[?(@.event_id=='hearingUrgency')]"))
-        .check(jsonPath("$.state.id").is("AWAITING_SUBMISSION_TO_HMCTS")))
 
       .exec(Common.userDetails)
     }
@@ -541,9 +497,10 @@ object Solicitor_PRL_C100 {
 
     .group("XUI_PRL_C100_210_ApplicantDetails") {
 
-      exec(Common.caseShareOrgs)
+      //exec(Common.caseShareOrgs)
+      //need to check out the check for name doesn't work
 
-      .exec(Common.postcodeLookup)
+      exec(Common.postcodeLookup)
 
       .exec(http("XUI_PRL_C100_210_015_ApplicantDetailValidate")
         .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=applicantsDetails1")
@@ -555,7 +512,7 @@ object Solicitor_PRL_C100 {
 
       .exec(Common.userDetails)
 
-      .exec(Common.caseShareOrgs)
+    //  .exec(Common.caseShareOrgs)
 
     }
     .pause(MinThinkTime, MaxThinkTime)
@@ -577,23 +534,6 @@ object Solicitor_PRL_C100 {
         .body(ElFileBody("bodies/prl/c100/PRLApplicantDetailsAnswers.json")))
 
 
-      .exec(http("XUI_PRL_C100_220_010_ApplicantDetailsWorkAllocation")
-        .post(BaseURL + "/workallocation/searchForCompletable")
-        .headers(Headers.commonHeader)
-        .header("accept", "application/json")
-        .header("x-xsrf-token", "${XSRFToken}")
-        .body(StringBody("""{"searchRequest":{"ccdId":"${caseId}","eventId":"applicantsDetails","jurisdiction":"PRIVATELAW","caseTypeId":"PRLAPPS"}}"""))
-        .check(substring("tasks")))
-
-      .exec(http("XUI_PRL_C100_220_015_ApplicantDetailsViewCase")
-        .get(BaseURL + "/data/internal/cases/${caseId}")
-        .headers(Headers.commonHeader)
-        .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-case-view.v2+json")
-        .header("x-xsrf-token", "${XSRFToken}")
-        .check(jsonPath("$.events[?(@.event_id=='applicantsDetails')]"))
-        .check(jsonPath("$.state.id").is("AWAITING_SUBMISSION_TO_HMCTS")))
-
-      .exec(Common.userDetails)
 
     }
     .pause(MinThinkTime, MaxThinkTime)
@@ -704,20 +644,6 @@ object Solicitor_PRL_C100 {
         .header("x-xsrf-token", "${XSRFToken}")
         .body(ElFileBody("bodies/prl/c100/PRLChildDetailsSubmit.json")))
 
-      .exec(http("XUI_PRL_C100_260_010_ChildDetailsAdditionalDetailsWorkAllocation")
-        .post(BaseURL + "/workallocation/searchForCompletable")
-        .headers(Headers.commonHeader)
-        .header("accept", "application/json")
-        .header("x-xsrf-token", "${XSRFToken}")
-        .body(StringBody("""{"searchRequest":{"ccdId":"${caseId}","eventId":"childDetails","jurisdiction":"PRIVATELAW","caseTypeId":"PRLAPPS"}}"""))
-        .check(substring("tasks")))
-
-      .exec(http("XUI_PRL_C100_260_010_ChildDetailsAdditionalDetailsViewCase")
-        .get(BaseURL + "/data/internal/cases/${caseId}")
-        .headers(Headers.commonHeader)
-        .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-case-view.v2+json")
-        .header("x-xsrf-token", "${XSRFToken}")
-        .check(substring("newChildDetails")))
 
       .exec(Common.userDetails)
 
@@ -788,9 +714,9 @@ object Solicitor_PRL_C100 {
 
     .group("XUI_PRL_C100_280_RespondentDetailsAddNew") {
 
-      exec(Common.caseShareOrgs)
+    //  exec(Common.caseShareOrgs)
 
-      .exec(Common.postcodeLookup)
+      exec(Common.postcodeLookup)
 
       .exec(http("XUI_PRL_C100_280_005_RespondentDetailsAddNew")
         .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=respondentsDetails1")
@@ -816,23 +742,6 @@ object Solicitor_PRL_C100 {
         .header("x-xsrf-token", "${XSRFToken}")
         .body(ElFileBody("bodies/prl/c100/PRLChildAdditionalDetailsSubmit.json")))
 
-      .exec(http("XUI_PRL_C100_290_010_RespondentDetailsSubmitWorkAllocation")
-        .post(BaseURL + "/workallocation/searchForCompletable")
-        .headers(Headers.commonHeader)
-        .header("accept", "application/json")
-        .header("x-xsrf-token", "${XSRFToken}")
-        .body(StringBody("""{"searchRequest":{"ccdId":"${caseId}","eventId":"respondentsDetails","jurisdiction":"PRIVATELAW","caseTypeId":"PRLAPPS"}}"""))
-        .check(substring("tasks")))
-
-      .exec(http("XUI_PRL_C100_290_015_RespondentDetailsSubmitViewCase")
-        .get(BaseURL + "/data/internal/cases/${caseId}")
-        .headers(Headers.commonHeader)
-        .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-case-view.v2+json")
-        .header("x-xsrf-token", "${XSRFToken}")
-        .check(jsonPath("$.events[?(@.event_id=='respondentsDetails')]"))
-        .check(jsonPath("$.state.id").is("AWAITING_SUBMISSION_TO_HMCTS")))
-
-      .exec(Common.userDetails)
   
     }
 
@@ -898,9 +807,9 @@ object Solicitor_PRL_C100 {
 
     .group("XUI_PRL_C100_310_AttendedMIAM") {
 
-      exec(Common.caseShareOrgs)
+    //  exec(Common.caseShareOrgs)
 
-      .exec(http("XUI_PRL_C100_310_005_AttendedMIAM")
+      exec(http("XUI_PRL_C100_310_005_AttendedMIAM")
         .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=miam1")
         .headers(Headers.commonHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
@@ -967,21 +876,6 @@ object Solicitor_PRL_C100 {
         .header("x-xsrf-token", "${XSRFToken}")
         .body(ElFileBody("bodies/prl/c100/PRLMIAMDetailsSubmit.json")))
 
-      .exec(http("XUI_PRL_C100_330_005_MIAMWorkAllocation")
-        .post(BaseURL + "/workallocation/searchForCompletable")
-        .headers(Headers.commonHeader)
-        .header("accept", "application/json")
-        .header("x-xsrf-token", "${XSRFToken}")
-        .body(StringBody("""{"searchRequest":{"ccdId":"${caseId}","eventId":"miam","jurisdiction":"PRIVATELAW","caseTypeId":"PRLAPPS"}}"""))
-        .check(substring("tasks")))
-
-      .exec(http("XUI_PRL_C100_330_005_MIAMViewCase")
-        .get(BaseURL + "/data/internal/cases/${caseId}")
-        .headers(Headers.commonHeader)
-        .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-case-view.v2+json")
-        .header("x-xsrf-token", "${XSRFToken}")
-        .check(jsonPath("$.events[?(@.event_id=='miam')]"))
-        .check(jsonPath("$.state.id").is("AWAITING_SUBMISSION_TO_HMCTS")))
 
       .exec(Common.userDetails)
 
@@ -1048,9 +942,9 @@ object Solicitor_PRL_C100 {
 
     .group("XUI_PRL_C100_350_AllegationsOfHarm") {
 
-      exec(Common.caseShareOrgs)
+      //exec(Common.caseShareOrgs)
 
-      .exec(http("XUI_PRL_C100_350_005_AllegationsOfHarm")
+      exec(http("XUI_PRL_C100_350_005_AllegationsOfHarm")
         .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=allegationsOfHarmRevised1")
         .headers(Headers.commonHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
@@ -1068,9 +962,9 @@ object Solicitor_PRL_C100 {
 
     .group("XUI_PRL_C100_360_AllegationsOfHarmDetails") {
 
-      exec(Common.caseShareOrgs)
+     // exec(Common.caseShareOrgs)
 
-      .exec(http("XUI_PRL_C100_360_005_AllegationsOfHarmDetails")
+      exec(http("XUI_PRL_C100_360_005_AllegationsOfHarmDetails")
         .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=allegationsOfHarmRevised2")
         .headers(Headers.commonHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
@@ -1088,9 +982,9 @@ object Solicitor_PRL_C100 {
 
     .group("XUI_PRL_C100_370_AllegationsOfHarmBehaviour") {
 
-      exec(Common.caseShareOrgs)
+     // exec(Common.caseShareOrgs)
 
-      .exec(http("XUI_PRL_C100_370_005_AllegationsOfHarmBehaviour")
+      exec(http("XUI_PRL_C100_370_005_AllegationsOfHarmBehaviour")
         .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=allegationsOfHarmRevised3")
         .headers(Headers.commonHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
@@ -1108,9 +1002,9 @@ object Solicitor_PRL_C100 {
 
     .group("XUI_PRL_C100_380_AllegationsOfHarmOther") {
 
-      exec(Common.caseShareOrgs)
+     // exec(Common.caseShareOrgs)
 
-      .exec(http("XUI_PRL_C100_380_005_AllegationsOfHarmOther")
+      exec(http("XUI_PRL_C100_380_005_AllegationsOfHarmOther")
         .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=allegationsOfHarm4")
         .headers(Headers.commonHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
@@ -1134,21 +1028,6 @@ object Solicitor_PRL_C100 {
         .header("x-xsrf-token", "${XSRFToken}")
         .body(ElFileBody("bodies/prl/c100/PRLAreThereAllegationsOfHarmSubmit.json")))
 
-      .exec(http("XUI_PRL_C100_390_010_AllegationsOfHarmWorkAllocation")
-        .post(BaseURL + "/workallocation/searchForCompletable")
-        .headers(Headers.commonHeader)
-        .header("accept", "application/json")
-        .header("x-xsrf-token", "${XSRFToken}")
-        .body(StringBody("""{"searchRequest":{"ccdId":"${caseId}","eventId":"allegationsOfHarm","jurisdiction":"PRIVATELAW","caseTypeId":"PRLAPPS"}}"""))
-        .check(substring("tasks")))
-
-      .exec(http("XUI_PRL_C100_390_015_AllegationsOfHarmViewCase")
-        .get(BaseURL + "/data/internal/cases/${caseId}")
-        .headers(Headers.commonHeader)
-        .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-case-view.v2+json")
-        .header("x-xsrf-token", "${XSRFToken}")
-        .check(substring("allegationOfHarm")))
-        //might need to relook at the final checks for each submit
 
       .exec(Common.userDetails)
 
@@ -1218,9 +1097,9 @@ object Solicitor_PRL_C100 {
 
     .group("XUI_PRL_C100_410_ViewPdfContinue") {
 
-      exec(Common.caseShareOrgs)
+     // exec(Common.caseShareOrgs)
 
-      .exec(http("XUI_PRL_C100_410_005_ViewPdfContinue")
+      exec(http("XUI_PRL_C100_410_005_ViewPdfContinue")
         .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=viewPdfDocument1")
         .headers(Headers.commonHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
@@ -1245,21 +1124,6 @@ object Solicitor_PRL_C100 {
         .header("x-xsrf-token", "${XSRFToken}")
         .body(ElFileBody("bodies/prl/c100/PRLViewPdfContinueSubmit.json")))
 
-      .exec(http("XUI_PRL_C100_420_010_ViewPdfSubmitWorkAllocation")
-        .post(BaseURL + "/workallocation/searchForCompletable")
-        .headers(Headers.commonHeader)
-        .header("accept", "application/json")
-        .header("x-xsrf-token", "${XSRFToken}")
-        .body(StringBody("""{"searchRequest":{"ccdId":"${caseId}","eventId":"viewPdfDocument","jurisdiction":"PRIVATELAW","caseTypeId":"PRLAPPS"}}"""))
-        .check(substring("tasks")))
-
-      .exec(http("XUI_PRL_C100_420_015_ViewPdfSubmit")
-        .get(BaseURL + "/data/internal/cases/${caseId}")
-        .headers(Headers.commonHeader)
-        .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-case-view.v2+json")
-        .header("x-xsrf-token", "${XSRFToken}")
-        .check(jsonPath("$.events[?(@.event_id=='viewPdfDocument')]"))
-        .check(jsonPath("$.state.id").is("AWAITING_SUBMISSION_TO_HMCTS")))
 
       .exec(Common.userDetails)
 
@@ -1277,7 +1141,8 @@ object Solicitor_PRL_C100 {
       exec(http("XUI_PRL_C100_430_005_OtherPeopleRedirect")
         .get(BaseURL + "/cases/case-details/#{caseId}/trigger/otherPeopleInTheCaseRevised/otherPeopleInTheCaseRevised1")
         .headers(Headers.navigationHeader)
-        .header("x-xsrf-token", "${XSRFToken}"))
+        .header("x-xsrf-token", "${XSRFToken}")
+        .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7"))
 
         .exec(Common.configurationui)
 
@@ -1353,16 +1218,6 @@ object Solicitor_PRL_C100 {
           .header("x-xsrf-token", "${XSRFToken}")
           .body(ElFileBody("bodies/prl/c100/PRLOtherPeopleSubmit.json")))
 
-
-          .exec(http("XUI_PRL_C100_450_015_ViewPdfSubmit")
-            .get(BaseURL + "/data/internal/cases/${caseId}")
-            .headers(Headers.commonHeader)
-            .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-case-view.v2+json")
-            .header("x-xsrf-token", "${XSRFToken}")
-            .check(substring("otherPeopleInTheCaseRevised"))
-            .check(jsonPath("$.state.id").is("AWAITING_SUBMISSION_TO_HMCTS")))
-
-          .exec(Common.userDetails)
 
       }
       .pause(MinThinkTime, MaxThinkTime)

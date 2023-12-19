@@ -5,9 +5,11 @@ import io.gatling.http.Predef._
 import io.gatling.core.check.CheckBuilder
 import io.gatling.core.check.jsonpath.JsonPathCheckType
 import com.fasterxml.jackson.databind.JsonNode
-import java.time.LocalDate
+import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import scala.util.Random
+import java.time.{LocalDate, ZonedDateTime}
+import java.text.SimpleDateFormat
 
 object Common {
 
@@ -17,9 +19,11 @@ object Common {
 
   val rnd = new Random()
   val now = LocalDate.now()
+  val timeNow = LocalTime.now()
   val patternDay = DateTimeFormatter.ofPattern("dd")
   val patternMonth = DateTimeFormatter.ofPattern("MM")
   val patternYear = DateTimeFormatter.ofPattern("yyyy")
+  val patternTime = DateTimeFormatter.ofPattern("HH:MM:SS.SSS")
   val patternReference = DateTimeFormatter.ofPattern("d MMM yyyy")
   val BaseURL = Environment.baseURL
 
@@ -62,6 +66,27 @@ object Common {
   //Date of Death <= 21 years
   def getDodYear(): String = {
     now.minusYears(1 + rnd.nextInt(20)).format(patternYear)
+  }
+
+  def getCurrentYear(): String = {
+    now.format(patternYear)
+  }
+
+  def getCurrentMonth(): String = {
+    now.format(patternMonth)
+  }
+
+  def getCurrentDay(): String = {
+    now.format(patternDay)
+  }
+
+  def getCurrentTime(): String = {
+    timeNow.format(patternTime)
+  }
+
+
+  def getCurrentDateTime (): String = {
+    ZonedDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"))
   }
   //Saves partyId
  // def savePartyId: CheckBuilder[JsonPathCheckType, JsonNode, String] = jsonPath("$.case_fields[*].value[*].value.party.partyId").saveAs("partyId")

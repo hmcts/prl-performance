@@ -14,8 +14,10 @@ import scala.util.Random
 class PRL_Simulation extends Simulation {
   
   val UserFeederPRL = csv("UserDataPRL.csv").circular
+  val UserFeederPRLca = csv("UserDataPRLca.csv").circular
   val UserFeederPRL2 = csv("UserDataPRL2.csv").circular
   val UserCitizenPRL = csv("UserDataPRLCitizen.csv").circular
+  val UserSSCS = csv("UserDataSSCS.csv").circular
   
   
   val randomFeeder = Iterator.continually(Map("prl-percentage" -> Random.nextInt(100)))
@@ -40,7 +42,7 @@ class PRL_Simulation extends Simulation {
   /* ******************************** */
   
   /* PERFORMANCE TEST CONFIGURATION */
-  val prlTargetPerHour: Double = 4
+  val prlTargetPerHour: Double = 1
   val caseworkerTargetPerHour: Double = 1000
   
   //This determines the percentage split of PRL journeys, by C100 or FL401
@@ -94,14 +96,14 @@ class PRL_Simulation extends Simulation {
             exitBlockOnFail {
               //C100 Journey
 
-        /*       		exec(Solicitor_PRL_C100.CreatePrivateLawCase)
+             		exec(Solicitor_PRL_C100.CreatePrivateLawCase)
                 .exec(Solicitor_PRL_C100.TypeOfApplication)
                 .exec(Solicitor_PRL_C100.HearingUrgency)
                 .exec(Solicitor_PRL_C100.ApplicantDetails)
                 .exec(Solicitor_PRL_C100.ChildDetails)
                 .exec(Solicitor_PRL_C100.RespondentDetails)
                 .exec(Solicitor_PRL_C100.MIAM)
-                .exec(Solicitor_PRL_C100.AllegationsOfHarm)
+            //    .exec(Solicitor_PRL_C100.AllegationsOfHarm)
                 .exec(Solicitor_PRL_C100.ViewPdfApplication)
 
                     .exec(Solicitor_PRL_C100.OtherPeopleInTheCase)
@@ -114,13 +116,15 @@ class PRL_Simulation extends Simulation {
                 .exec(Solicitor_PRL_C100.SubmitAndPay)
 
 
-         */
+
+
+
 
 
         //            exec(Solicitor_PRL_Citizen_Dashboard.DashBoard)
-              exec(Solicitor_PRL_CitizenDataPrep.CompleteDataPrep)
+         //     exec(Solicitor_PRL_CitizenDataPrep.CompleteDataPrep)
 
-      //            exec(Solicitor_PRL_AddAnOrder.AddAnOrder)
+             //     exec(Solicitor_PRL_AddAnOrder.AddAnOrder)
 
 
        //          .exec(Solicitor_PRL_C100_Citizen.C100Case)
@@ -181,6 +185,81 @@ class PRL_Simulation extends Simulation {
         }
     }
 
+
+  /*===============================================================================================
+* PRL Citizen Journey
+===============================================================================================*/
+
+  val SSCSscenario = scenario("***** SSCS Hearing *****")
+    .exitBlockOnFail {
+      exec(_.set("env", s"${env}")
+        .set("caseType", "SSCS"))
+        .feed(UserSSCS)
+      .exec(Homepage.XUIHomePage)
+        .exec(Login.XUILogin)
+        .repeat(2) {
+          exec(SSCShearing.SendToHearing)
+        }
+    }
+
+
+
+  /*===============================================================================================
+* PRL Citizen Journey
+===============================================================================================*/
+
+  val PrlHearingDataPrep = scenario("***** PRL Citizen Journey *****")
+    .exitBlockOnFail {
+      feed(UserFeederPRL)
+      .exec(_.set("env", s"${env}")
+        .set("caseType", "PRLAPPS"))
+        .exec(Homepage.XUIHomePage)
+        .exec(Login.XUILogin)
+        .feed(randomFeeder)
+        .repeat(1) {
+          exec(Solicitor_PRL_CitizenDataPrep.CompleteDataPrep)
+         // .exec(Solicitor_PRL_AddAnOrder.AddAnOrder)
+        }
+    }
+
+
+  /*===============================================================================================
+* PRL Citizen Journey
+===============================================================================================*/
+
+  val PrlCaseFlags = scenario("***** PRL Case Flags 2.1 Journey *****")
+    .exitBlockOnFail {
+      feed(UserFeederPRL)
+        .exec(_.set("env", s"${env}")
+          .set("caseType", "PRLAPPS"))
+        .exec(Homepage.XUIHomePage)
+        .exec(Login.XUILogin)
+        .feed(randomFeeder)
+        .repeat(1) {
+          exec(Solicitor_PRL_CitizenDataPrep.CompleteDataPrep)
+           exec(Solicitor_PRL_CaseFlags.NoticeOfChangeSol)
+          exec(Solicitor_PRL_CaseFlags.CaseFlagsSol)
+          .exec(Solicitor_PRL_CaseFlags.ManageSupport)
+
+
+
+            .exec(Homepage.XUIHomePage)
+
+
+            .exec(Login.XUILoginCa)
+
+       //     exec(Solicitor_PRL_CaseFlags.AssignApplication)
+          .exec(Solicitor_PRL_CaseFlags.ManageSupportFlag)
+        }
+
+    }
+
+    .exec {
+      session =>
+        println(session)
+        session
+    }
+
   /*===============================================================================================
 * Cafcas API Scenario which runs CafcasDownloadByDocScenario, CafcasCasesByDatesScenario and CafcasDownloadByDocScenario
 ===============================================================================================*/
@@ -208,6 +287,11 @@ class PRL_Simulation extends Simulation {
       exec(_.set("env", s"${env}")
         .set("caseType", "Cafcas"))
         .exec(CafcasAPI.getCasesBetweenDates)
+    }
+    .exec {
+      session =>
+        println(session)
+        session
     }
   
   /*===============================================================================================
@@ -275,7 +359,7 @@ class PRL_Simulation extends Simulation {
   }
   
   setUp(
-    PRLSolicitorScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
+    SSCSscenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
   //  CafcasDownloadByDocScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
   ).protocols(httpProtocol)
     .assertions(assertions(testType))

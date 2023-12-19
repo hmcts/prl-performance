@@ -1,0 +1,13 @@
+{
+  "case_id": "#{caseId}",
+  "answers": [
+    {
+      "question_id": "NoCChallengeQ1",
+      "value": "#{firstName}"
+    },
+    {
+      "question_id": "NoCChallengeQ2",
+      "value": "#{lastName}"
+    }
+  ]
+}

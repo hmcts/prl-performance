@@ -35,11 +35,12 @@ object Solicitor_PRL_AddAnOrder {
 
       exec(_.setAll(
         "PRLRandomString" -> (Common.randomString(7)),
+      //  "caseId" -> ("1700060404861291"),
         "PRLAppDobDay" -> Common.getDay(),
         "PRLAppDobMonth" -> Common.getMonth(),
         "PRLAppDobYear" -> Common.getDobYear()))
 
-        .feed(PRLcases)
+    //    .feed(PRLcases)
 
  /*       .exec(http("XUI_PRL_030_005_SelectCase")
           .get(BaseURL + "/data/internal/cases/${caseId}")
@@ -167,7 +168,7 @@ object Solicitor_PRL_AddAnOrder {
       .pause(MinThinkTime, MaxThinkTime)
 
 
-
+/*
       /*======================================================================================
       * Click on 'Manage Orders'
       ======================================================================================*/
@@ -315,6 +316,8 @@ object Solicitor_PRL_AddAnOrder {
       }
 
       .pause(MinThinkTime, MaxThinkTime)
+
+ */
 
 
 

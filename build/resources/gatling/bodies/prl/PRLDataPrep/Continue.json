@@ -21,14 +21,6 @@
       "agree"
     ],
     "feeAmount": "£232.00",
-    "submitAndPayDownloadApplicationWelshLink": {
-      "document_url": "${Document_urlWelsh}",
-      "document_binary_url": "${Document_urlWelsh}/binary",
-      "document_filename": "Draft_C100_application_welsh.pdf",
-      "document_hash": "${Document_HashWelsh}",
-      "category_id": null,
-      "document_creation_date": null
-    },
     "submitAndPayDownloadApplicationLink": {
       "document_url": "${Document_urlApp}",
       "document_binary_url": "${Document_urlApp}/binary",
