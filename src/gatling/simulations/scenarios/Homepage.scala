@@ -43,7 +43,7 @@ object Homepage {
         .headers(Headers.navigationHeader)
         .check(CsrfCheck.save)
         .check(regex("/oauth2/callback&amp;state=(.*)&amp;nonce=").saveAs("state"))
-        .check(regex("&nonce=(.*)&response_type").saveAs("nonce")))
+        .check(regex("nonce=(.*)&amp;response_type").saveAs("nonce")))
     }
   
   .pause(MinThinkTime, MaxThinkTime)
