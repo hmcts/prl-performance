@@ -35,7 +35,7 @@ object Solicitor_PRL_AddAnOrder {
 
       exec(_.setAll(
         "PRLRandomString" -> (Common.randomString(7)),
-      //  "caseId" -> ("1700060404861291"),
+     //   "caseId" -> ("1704804668199278"),
         "PRLAppDobDay" -> Common.getDay(),
         "PRLAppDobMonth" -> Common.getMonth(),
         "PRLAppDobYear" -> Common.getDobYear()))
@@ -332,8 +332,8 @@ object Solicitor_PRL_AddAnOrder {
           .headers(Headers.navigationHeader)
           .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-start-event-trigger.v2+json;charset=UTF-8")
           .check(jsonPath("$.event_token").saveAs("event_token"))
-          .check(jsonPath("$.case_fields[9].formatted_value.list_items[0].code").saveAs("code"))
-          .check(jsonPath("$.case_fields[9].formatted_value.list_items[0].label").saveAs("label"))
+          .check(jsonPath("$.case_fields[26].formatted_value.list_items[0].code").saveAs("code"))
+       //   .check(jsonPath("$.case_fields[9].formatted_value.list_items[0].label").saveAs("label"))
           .check(jsonPath("$.id").is("serviceOfApplication")))
 
           .exec(Common.userDetails)
@@ -450,17 +450,17 @@ object Solicitor_PRL_AddAnOrder {
 
 
     /*======================================================================================
-* Service of Application Confirm recipients
+* Does this application need to be personally served on the respondent?
 ======================================================================================*/
 
-    .group("XUI_PRL_230_ServiceRecipients") {
-      exec(http("XUI_PRL_230_005_ServiceRecipients")
-        .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=serviceOfApplicationconfirmRecipients")
+    .group("XUI_PRL_230_PersonallyServed") {
+      exec(http("XUI_PRL_230_005_PersonallyServed")
+        .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=serviceOfApplication4")
         .headers(Headers.commonHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
         .header("x-xsrf-token", "${XSRFToken}")
         .body(ElFileBody("bodies/prl/c100Continued/PRLSoARecipients.json"))
-        .check(substring("confirmRecipients")))
+        .check(substring("soaCafcassServedOptions")))
     }
 
     .pause(MinThinkTime, MaxThinkTime)
@@ -477,14 +477,26 @@ object Solicitor_PRL_AddAnOrder {
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8")
         .header("x-xsrf-token", "${XSRFToken}")
         .body(ElFileBody("bodies/prl/c100Continued/PRLSoASubmit.json"))
-        .check(regex("""accessCode":"(\w{8})""").saveAs("prlAccessCode")))
+        .check(substring("PREPARE_FOR_HEARING_CONDUCT_HEARING")))
+    //    .check(regex("""accessCode":"(\w{8})""").saveAs("prlAccessCode")))
     //.check(substring("CASE_HEARING")))
 
 
-        .exec { session =>
+      /*  .exec { session =>
           val fw = new BufferedWriter(new FileWriter("accessCodeList.csv", true))
           try {
             fw.write(session("caseId").as[String] + "," + session("prlAccessCode").as[String] + "\r\n")
+          } finally fw.close()
+          session
+        }
+
+       */
+
+
+        .exec { session =>
+          val fw = new BufferedWriter(new FileWriter("hearingCases.csv", true))
+          try {
+            fw.write(session("caseId").as[String] + "\r\n")
           } finally fw.close()
           session
         }

@@ -218,7 +218,10 @@ class PRL_Simulation extends Simulation {
         .feed(randomFeeder)
         .repeat(1) {
           exec(Solicitor_PRL_CitizenDataPrep.CompleteDataPrep)
-         // .exec(Solicitor_PRL_AddAnOrder.AddAnOrder)
+          .feed(UserFeederPRLca)
+          .exec(Homepage.XUIHomePage)
+          .exec(Login.XUILogin)
+          .exec(Solicitor_PRL_AddAnOrder.AddAnOrder)
         }
     }
 
@@ -356,7 +359,7 @@ class PRL_Simulation extends Simulation {
   }
   
   setUp(
-    PrlCaseFlags.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
+    PrlHearingDataPrep.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
   //  CafcasDownloadByDocScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
   ).protocols(httpProtocol)
     .assertions(assertions(testType))

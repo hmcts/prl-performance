@@ -1,0 +1,18 @@
+{
+  "simulation": "simulations.PRL_Simulation",
+  "simulationId": "prl-simulation-20240105170646550",
+  "start": 1704474407227,
+  "description": "",
+  "scenarios": ["***** PRL Case Flags 2.1 Journey *****"],
+  "assertions": [
+{
+  "path": "Global",
+  "target": "percentage of successful events",
+  "condition": "is",
+  "expectedValues": [100.0],
+  "result": false,
+  "message": "Global: percentage of successful events is 100.0",
+  "actualValue": [88.88888888888889]
+}
+  ]
+}

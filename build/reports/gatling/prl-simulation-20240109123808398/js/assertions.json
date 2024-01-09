@@ -1,0 +1,18 @@
+{
+  "simulation": "simulations.PRL_Simulation",
+  "simulationId": "prl-simulation-20240109123808398",
+  "start": 1704803889120,
+  "description": "",
+  "scenarios": ["***** PRL Citizen Journey *****"],
+  "assertions": [
+{
+  "path": "Global",
+  "target": "percentage of successful events",
+  "condition": "is",
+  "expectedValues": [100.0],
+  "result": false,
+  "message": "Global: percentage of successful events is 100.0",
+  "actualValue": [95.23809523809523]
+}
+  ]
+}
