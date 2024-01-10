@@ -28,10 +28,59 @@ object Solicitor_PRL_AddAnOrder {
 
 
   /*======================================================================================
+* Select 'Tasks' Tab
+======================================================================================*/
+
+    group("XUI_PRL_030_TaskTab") {
+
+     // exec(_.setAll(
+      //     "caseId" -> ("1704887757520355")))
+
+
+        exec(http("XUI_PRL_030_005_SelectIssue")
+    .get(BaseURL + "/workallocation/case/task/#{caseId}")
+    .headers(Headers.taskHeader)
+    .header("accept", "application/json, text/plain, */*")
+   // .check(regex("""id": "(\w{8})-(\w{4})-(\w{4})-(\w{4})-(\w{12})""").saveAs("id")))
+    //      .check(substring("unassigned")))
+    .check(jsonPath("$[0].id").saveAs("taskId")))
+
+ //   .exec(Common.userDetails)
+
+  //  .exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).saveAs("XSRFToken")))
+}
+
+.pause(MinThinkTime, MaxThinkTime)
+
+
+
+  /*======================================================================================
+* Select 'Assign to me'
+======================================================================================*/
+
+  .group("XUI_PRL_031_AssignToMe") {
+    exec(http("XUI_PRL_031_005_AssignToMe")
+      .post(BaseURL + "/workallocation/task/#{taskId}/claim")
+      .headers(Headers.taskHeader)
+      .header("accept", "application/json, text/plain, */*")
+      .body(ElFileBody("bodies/prl/c100Continued/AssignToMe.json")))
+    //  .check(jsonPath("$.event_token").saveAs("event_token"))
+    //   .check(jsonPath("$.case_fields[0].formatted_value[0].id").saveAs("local_Court_Id"))
+    //   .check(jsonPath("$.id").is("issueAndSendToLocalCourtCallback")))
+
+    //   .exec(Common.userDetails)
+
+    //  .exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).saveAs("XSRFToken")))
+  }
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+
+  /*======================================================================================
   * Select case
   ======================================================================================*/
 
-    group("XUI_PRL_030_SelectCase") {
+    .group("XUI_PRL_040_SelectCase") {
 
       exec(_.setAll(
         "PRLRandomString" -> (Common.randomString(7)),
@@ -56,6 +105,8 @@ object Solicitor_PRL_AddAnOrder {
 
 
   */
+
+
 
 
       /*======================================================================================

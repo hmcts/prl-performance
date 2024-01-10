@@ -33,4 +33,18 @@ object Headers {
     "content-type" -> "application/x-www-form-urlencoded"
   )
 
+
+  val taskHeader = Map(
+    "cache-control" -> "no-cache",
+    "dnt" -> "1",
+    "pragma" -> "no-cache",
+    "experimental" -> "true",
+    "sec-ch-ua" -> """ Not A;Brand";v="99", "Chromium";v="96", "Google Chrome";v="96""",
+    "sec-ch-ua-mobile" -> "?0",
+    "sec-ch-ua-platform" -> "macOS",
+    "sec-fetch-dest" -> "empty",
+    "sec-fetch-mode" -> "cors",
+    "sec-fetch-site" -> "same-origin",
+    "request-id" -> "|/qDn7.xWuGp")
+
 }
