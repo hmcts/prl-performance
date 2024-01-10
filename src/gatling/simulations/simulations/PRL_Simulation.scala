@@ -215,13 +215,14 @@ class PRL_Simulation extends Simulation {
         .set("caseType", "PRLAPPS"))
         .exec(Homepage.XUIHomePage)
         .exec(Login.XUILogin)
+        //when doing the add an order comment out the xuihomepage and xui login
         .feed(randomFeeder)
         .repeat(1) {
           exec(Solicitor_PRL_CitizenDataPrep.CompleteDataPrep)
        //   .feed(UserFeederPRLca)
        //   .exec(Homepage.XUIHomePage)
        //   .exec(Login.XUILogin)
-          .exec(Solicitor_PRL_AddAnOrder.AddAnOrder)
+        //  .exec(Solicitor_PRL_AddAnOrder.AddAnOrder)
         }
     }
 
