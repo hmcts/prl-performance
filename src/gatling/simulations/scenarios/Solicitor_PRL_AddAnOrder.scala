@@ -14,7 +14,7 @@ object Solicitor_PRL_AddAnOrder {
   val BaseURL = Environment.baseURL
   val prlURL = "https://privatelaw.${env}.platform.hmcts.net"
   val IdamUrl = Environment.idamURL
-  val PRLcases = csv("codeCases.csv").circular
+  val PRLcases = csv("submittedCases.csv").circular
 
 
   val postcodeFeeder = csv("postcodes.csv").circular

@@ -15,7 +15,7 @@ object SSCShearing {
   val BaseURL = Environment.baseURL
   val prlURL = "https://privatelaw.${env}.platform.hmcts.net"
   val IdamUrl = Environment.idamURL
-  val PRLcases = csv("codeCases.csv").circular
+  val PRLcases = csv("submittedCases.csv").circular
   val UserFeederHearingCases = csv("UserHearingCases.csv").circular
 
 
