@@ -25,6 +25,7 @@ object Solicitor_PRL_AddAnOrder {
 
 
   val AddAnOrder =
+    feed(PRLcases)
 
 
   /*======================================================================================

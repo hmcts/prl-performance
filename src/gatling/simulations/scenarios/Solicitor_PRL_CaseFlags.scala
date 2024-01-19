@@ -35,8 +35,8 @@ object Solicitor_PRL_CaseFlags {
   /*======================================================================================
   * Create Case Start
   ======================================================================================*/
-
-    group("XUI_PRL_070_CreateCaseStart") {
+    feed(casesFeeder)
+    .group("XUI_PRL_070_CreateCaseStart") {
 
       exec(_.setAll(
         "PRLRandomString" -> (Common.randomString(7)),

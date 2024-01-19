@@ -241,14 +241,14 @@ class PRL_Simulation extends Simulation {
         .feed(randomFeeder)
         .repeat(1) {
       //    exec(Solicitor_PRL_CitizenDataPrep.CompleteDataPrep)
-           exec(Solicitor_PRL_CaseFlags.NoticeOfChangeSol)
-          .exec(Solicitor_PRL_CaseFlags.CaseFlagsSol)
+          //   exec(Solicitor_PRL_CaseFlags.NoticeOfChangeSol)
+             exec(Solicitor_PRL_CaseFlags.CaseFlagsSol)
           .exec(Solicitor_PRL_CaseFlags.ManageSupport)
 
             .exec(Homepage.XUIHomePage)
             .exec(Login.XUILoginCa)
 
-          //  exec(Solicitor_PRL_CaseFlags.AssignApplication)
+         //   exec(Solicitor_PRL_CaseFlags.AssignApplication)
           .exec(Solicitor_PRL_CaseFlags.ManageSupportFlag)
             .exec(Solicitor_PRL_CaseFlags.CaseFlagsCa)
         }
