@@ -43,7 +43,7 @@ class PRL_Simulation extends Simulation {
   /* ******************************** */
   
   /* PERFORMANCE TEST CONFIGURATION */
-  val prlTargetPerHour: Double = 32
+  val prlTargetPerHour: Double = 36
   val caseworkerTargetPerHour: Double = 1000
   
   //This determines the percentage split of PRL journeys, by C100 or FL401
@@ -239,11 +239,11 @@ class PRL_Simulation extends Simulation {
           .set("caseType", "PRLAPPS"))
         .exec(Homepage.XUIHomePage)
         .exec(Login.XUILogin)
-      .feed(casesFeeder)
         .repeat(1) {
-        //  exec(Solicitor_PRL_CitizenDataPrep.CompleteDataPrep)
+          feed(casesFeeder)
+          //  exec(Solicitor_PRL_CitizenDataPrep.CompleteDataPrep)
           //   exec(Solicitor_PRL_CaseFlags.NoticeOfChangeSol)
-          exec(Solicitor_PRL_CaseFlags.ViewAllTabs)
+          .exec(Solicitor_PRL_CaseFlags.ViewAllTabs)
 
              .exec(Solicitor_PRL_CaseFlags.CaseFlagsSol)
              .exec(Solicitor_PRL_CaseFlags.ManageSupport)

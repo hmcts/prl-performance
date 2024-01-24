@@ -1104,6 +1104,26 @@ object Solicitor_PRL_CaseFlags {
       .pause(MinThinkTime, MaxThinkTime)
 
 
+      .group("XUI_PRL_037_SelectParties") {
+
+        exec(http("XUI_PRL_037_005_SelectParties")
+          .get(BaseURL + "/api/user/details?refreshRoleAssignments=undefined")
+          .headers(Headers.commonHeader)
+          .header("accept", "application/json, text/plain, */*")
+          .check(substring("roleAssignmentInfo"))
+        )
+
+          .exec(http("XUI_PRL_037_010_SelectParties")
+            .get(BaseURL + "/api/caseshare/orgs")
+            .headers(Headers.commonHeader)
+            .header("accept", "application/json, text/plain, */*")
+            .check(substring("organisationIdentifier"))
+          )
+      }
+
+      .pause(MinThinkTime, MaxThinkTime)
+
+
 
 
   val ViewAllTabsCa =
