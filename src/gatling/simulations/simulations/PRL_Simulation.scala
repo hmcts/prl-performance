@@ -18,6 +18,7 @@ class PRL_Simulation extends Simulation {
   val UserFeederPRL2 = csv("UserDataPRL2.csv").circular
   val UserCitizenPRL = csv("UserDataPRLCitizen.csv").circular
   val UserSSCS = csv("UserDataSSCS.csv").circular
+  val casesFeeder = csv("caseFlagsCases.csv").circular
   
   
   val randomFeeder = Iterator.continually(Map("prl-percentage" -> Random.nextInt(100)))
@@ -42,7 +43,7 @@ class PRL_Simulation extends Simulation {
   /* ******************************** */
   
   /* PERFORMANCE TEST CONFIGURATION */
-  val prlTargetPerHour: Double = 30
+  val prlTargetPerHour: Double = 32
   val caseworkerTargetPerHour: Double = 1000
   
   //This determines the percentage split of PRL journeys, by C100 or FL401
@@ -238,19 +239,27 @@ class PRL_Simulation extends Simulation {
           .set("caseType", "PRLAPPS"))
         .exec(Homepage.XUIHomePage)
         .exec(Login.XUILogin)
-        .feed(randomFeeder)
+      .feed(casesFeeder)
         .repeat(1) {
-      //    exec(Solicitor_PRL_CitizenDataPrep.CompleteDataPrep)
+        //  exec(Solicitor_PRL_CitizenDataPrep.CompleteDataPrep)
           //   exec(Solicitor_PRL_CaseFlags.NoticeOfChangeSol)
-             exec(Solicitor_PRL_CaseFlags.CaseFlagsSol)
-          .exec(Solicitor_PRL_CaseFlags.ManageSupport)
+          exec(Solicitor_PRL_CaseFlags.ViewAllTabs)
+
+             .exec(Solicitor_PRL_CaseFlags.CaseFlagsSol)
+             .exec(Solicitor_PRL_CaseFlags.ManageSupport)
+
+          .exec(Solicitor_PRL_CaseFlags.ViewAllTabs)
 
             .exec(Homepage.XUIHomePage)
             .exec(Login.XUILoginCa)
 
+          .exec(Solicitor_PRL_CaseFlags.ViewAllTabsCa)
+
          //   exec(Solicitor_PRL_CaseFlags.AssignApplication)
           .exec(Solicitor_PRL_CaseFlags.ManageSupportFlag)
             .exec(Solicitor_PRL_CaseFlags.CaseFlagsCa)
+            .exec(Solicitor_PRL_CaseFlags.ViewAllTabsCa)
+
         }
 
     }

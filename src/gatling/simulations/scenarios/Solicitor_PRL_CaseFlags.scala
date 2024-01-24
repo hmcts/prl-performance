@@ -35,8 +35,8 @@ object Solicitor_PRL_CaseFlags {
   /*======================================================================================
   * Create Case Start
   ======================================================================================*/
-    feed(casesFeeder)
-    .group("XUI_PRL_070_CreateCaseStart") {
+
+  group("XUI_PRL_070_CreateCaseStart") {
 
       exec(_.setAll(
         "PRLRandomString" -> (Common.randomString(7)),
@@ -86,6 +86,18 @@ object Solicitor_PRL_CaseFlags {
         )
 
       }
+      .pause(MinThinkTime, MaxThinkTime)
+
+      .group("XUI_PRL_033_SelectSupport") {
+
+        exec(http("XUI_PRL_033_005_SelectSupport")
+          .get(BaseURL + "/api/user/details?refreshRoleAssignments=undefined")
+          .headers(Headers.commonHeader)
+          .header("accept", "application/json, text/plain, */*")
+          .check(substring("roleAssignmentInfo"))
+        )
+      }
+
       .pause(MinThinkTime, MaxThinkTime)
 
 
@@ -156,6 +168,18 @@ object Solicitor_PRL_CaseFlags {
    }
 
    .pause(MinThinkTime, MaxThinkTime)
+
+      .group("XUI_PRL_033_SelectSupport") {
+
+        exec(http("XUI_PRL_033_005_SelectSupport")
+          .get(BaseURL + "/api/user/details?refreshRoleAssignments=undefined")
+          .headers(Headers.commonHeader)
+          .header("accept", "application/json, text/plain, */*")
+          .check(substring("roleAssignmentInfo"))
+        )
+      }
+
+      .pause(MinThinkTime, MaxThinkTime)
 
 
       /*======================================================================================
@@ -231,6 +255,19 @@ object Solicitor_PRL_CaseFlags {
           .check(substring("caApplicant1ExternalFlags"))
         )
 
+      }
+
+      .pause(MinThinkTime, MaxThinkTime)
+
+
+      .group("XUI_PRL_033_SelectSupport") {
+
+        exec(http("XUI_PRL_033_005_SelectSupport")
+          .get(BaseURL + "/api/user/details?refreshRoleAssignments=undefined")
+          .headers(Headers.commonHeader)
+          .header("accept", "application/json, text/plain, */*")
+          .check(substring("roleAssignmentInfo"))
+        )
       }
 
       .pause(MinThinkTime, MaxThinkTime)
@@ -314,6 +351,20 @@ object Solicitor_PRL_CaseFlags {
 
       .pause(MinThinkTime, MaxThinkTime)
 
+
+
+      .group("XUI_PRL_033_SelectSupport") {
+
+        exec(http("XUI_PRL_033_005_SelectSupport")
+          .get(BaseURL + "/api/user/details?refreshRoleAssignments=undefined")
+          .headers(Headers.commonHeader)
+          .header("accept", "application/json, text/plain, */*")
+          .check(substring("roleAssignmentInfo"))
+        )
+      }
+
+      .pause(MinThinkTime, MaxThinkTime)
+
       /*======================================================================================
          * Select 'Request support'
          ======================================================================================*/
@@ -387,6 +438,19 @@ object Solicitor_PRL_CaseFlags {
           .check(substring("caApplicant1ExternalFlags"))
         )
 
+      }
+
+      .pause(MinThinkTime, MaxThinkTime)
+
+
+      .group("XUI_PRL_033_SelectSupport") {
+
+        exec(http("XUI_PRL_033_005_SelectSupport")
+          .get(BaseURL + "/api/user/details?refreshRoleAssignments=undefined")
+          .headers(Headers.commonHeader)
+          .header("accept", "application/json, text/plain, */*")
+          .check(substring("roleAssignmentInfo"))
+        )
       }
 
       .pause(MinThinkTime, MaxThinkTime)
@@ -708,7 +772,7 @@ object Solicitor_PRL_CaseFlags {
           //   .check(substring("C100"))
         )
 
-          .exec(http("XUI_PRL_230_010_RequestSupport")
+          .exec(http("XUI_PRL_230_010_ManageSupportFlags")
             .get(BaseURL + "/data/internal/cases/#{caseId}/event-triggers/c100ManageFlags?ignore-warning=false")
             .headers(Headers.commonHeader)
             .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-start-event-trigger.v2+json;charset=UTF-8")
@@ -931,5 +995,289 @@ object Solicitor_PRL_CaseFlags {
       .pause(MinThinkTime, MaxThinkTime)
 
 
+  val ViewAllTabs =
+
+
+  /*======================================================================================
+  * Create Case Start
+  ======================================================================================*/
+
+    group("XUI_PRL_031_SelectCase") {
+
+
+  /*    exec(_.setAll(
+        "caseId" -> ("1706049335270544")))
+
+   */
+
+              exec(http("XUI_PRL_031_005_SelectCase")
+                .get(BaseURL + "/data/internal/cases/#{caseId}")
+                .headers(Headers.commonHeader)
+                .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-case-view.v2+json")
+              //  .check(substring("TS-Solicitor application"))
+        )
+    }
+
+      .pause(MinThinkTime, MaxThinkTime)
+
+
+
+  .group("XUI_PRL_032_SelectApplication") {
+
+    exec(http("XUI_PRL_032_005_SelectApplication")
+      .get(BaseURL + "/api/user/details?refreshRoleAssignments=undefined")
+      .headers(Headers.commonHeader)
+      .header("accept", "application/json, text/plain, */*")
+      .check(substring("roleAssignmentInfo"))
+    )
+
+    .exec(http("XUI_PRL_032_010_SelectApplication")
+      .get(BaseURL + "/api/caseshare/orgs")
+      .headers(Headers.commonHeader)
+      .header("accept", "application/json, text/plain, */*")
+        .check(substring("organisationIdentifier"))
+    )
+  }
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+
+
+      .group("XUI_PRL_033_SelectSupport") {
+
+        exec(http("XUI_PRL_033_005_SelectSupport")
+          .get(BaseURL + "/api/user/details?refreshRoleAssignments=undefined")
+          .headers(Headers.commonHeader)
+          .header("accept", "application/json, text/plain, */*")
+          .check(substring("roleAssignmentInfo"))
+        )
+      }
+
+      .pause(MinThinkTime, MaxThinkTime)
+
+
+      .group("XUI_PRL_034_SelectCaseDocuments") {
+
+        exec(http("XUI_PRL_034_005_SelectCaseDocuments")
+          .get(BaseURL + "/api/user/details?refreshRoleAssignments=undefined")
+          .headers(Headers.commonHeader)
+          .header("accept", "application/json, text/plain, */*")
+          .check(substring("roleAssignmentInfo"))
+        )
+      }
+
+      .pause(MinThinkTime, MaxThinkTime)
+
+
+      .group("XUI_PRL_035_SelectHistory") {
+
+        exec(http("XUI_PRL_035_005_SelectHistory")
+          .get(BaseURL + "/api/user/details?refreshRoleAssignments=undefined")
+          .headers(Headers.commonHeader)
+          .header("accept", "application/json, text/plain, */*")
+          .check(substring("roleAssignmentInfo"))
+        )
+      }
+
+      .pause(MinThinkTime, MaxThinkTime)
+
+
+
+      .group("XUI_PRL_036_SelectServiceRequest") {
+
+        exec(http("XUI_PRL_036_005_SelectServiceRequest")
+          .get(BaseURL + "/api/user/details?refreshRoleAssignments=undefined")
+          .headers(Headers.commonHeader)
+          .header("accept", "application/json, text/plain, */*")
+          .check(substring("roleAssignmentInfo"))
+        )
+
+
+        .exec(http("XUI_PRL_036_010_SelectServiceRequest")
+          .get(BaseURL + "/payments/cases/#{caseId}/paymentgroups")
+          .headers(Headers.commonHeader)
+          .header("accept", "application/json, text/plain, */*")
+          .check(substring("payment_groups"))
+        )
+      }
+
+      .pause(MinThinkTime, MaxThinkTime)
+
+
+
+
+  val ViewAllTabsCa =
+
+
+  /*======================================================================================
+  * Create Case Start
+  ======================================================================================*/
+
+    group("XUI_PRL_041_SelectCase") {
+
+
+        exec(http("XUI_PRL_041_005_SelectCase")
+          .get(BaseURL + "/data/internal/cases/#{caseId}")
+          .headers(Headers.commonHeader)
+          .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-case-view.v2+json")
+          //  .check(substring("TS-Solicitor application"))
+        )
+    }
+
+      .pause(MinThinkTime, MaxThinkTime)
+
+
+
+      .group("XUI_PRL_042_SelectApplication") {
+
+        exec(http("XUI_PRL_042_005_SelectApplication")
+          .get(BaseURL + "/api/user/details?refreshRoleAssignments=undefined")
+          .headers(Headers.commonHeader)
+          .header("accept", "application/json, text/plain, */*")
+          .check(substring("roleAssignmentInfo"))
+        )
+
+          .exec(http("XUI_PRL_032_010_SelectApplication")
+            .get(BaseURL + "/api/caseshare/orgs")
+            .headers(Headers.commonHeader)
+            .header("accept", "application/json, text/plain, */*")
+            .check(substring("organisationIdentifier"))
+          )
+      }
+
+      .pause(MinThinkTime, MaxThinkTime)
+
+
+
+      .group("XUI_PRL_043_SelectSupport") {
+
+        exec(http("XUI_PRL_043_005_SelectSupport")
+          .get(BaseURL + "/api/user/details?refreshRoleAssignments=undefined")
+          .headers(Headers.commonHeader)
+          .header("accept", "application/json, text/plain, */*")
+          .check(substring("roleAssignmentInfo"))
+        )
+      }
+
+      .pause(MinThinkTime, MaxThinkTime)
+
+
+      .group("XUI_PRL_044_SelectCaseDocuments") {
+
+        exec(http("XUI_PRL_044_005_SelectCaseDocuments")
+          .get(BaseURL + "/api/user/details?refreshRoleAssignments=undefined")
+          .headers(Headers.commonHeader)
+          .header("accept", "application/json, text/plain, */*")
+          .check(substring("roleAssignmentInfo"))
+        )
+      }
+
+      .pause(MinThinkTime, MaxThinkTime)
+
+
+      .group("XUI_PRL_045_SelectHistory") {
+
+        exec(http("XUI_PRL_045_005_SelectHistory")
+          .get(BaseURL + "/api/user/details?refreshRoleAssignments=undefined")
+          .headers(Headers.commonHeader)
+          .header("accept", "application/json, text/plain, */*")
+          .check(substring("roleAssignmentInfo"))
+        )
+      }
+
+      .pause(MinThinkTime, MaxThinkTime)
+
+
+
+      .group("XUI_PRL_046_SelectServiceRequest") {
+
+          exec(http("XUI_PRL_046_005_SelectServiceRequest")
+            .get(BaseURL + "/api/user/details?refreshRoleAssignments=undefined")
+            .headers(Headers.commonHeader)
+            .header("accept", "application/json, text/plain, */*")
+            .check(substring("payment_groups"))
+          )
+
+        .exec(http("XUI_PRL_046_010_SelectServiceRequest")
+          .post(BaseURL + "/api/role-access/roles/post")
+          .headers(Headers.commonHeader)
+          .header("accept", "application/json, text/plain, */*")
+          .body(ElFileBody("bodies/prl/CaseFlags/SelectServiceRequest.json"))
+        //  .check(substring("roleAssignmentInfo"))
+        )
+      }
+
+      .pause(MinThinkTime, MaxThinkTime)
+
+
+
+      .group("XUI_PRL_047_SelectParties") {
+
+        exec(http("XUI_PRL_047_005_SelectParties")
+          .get(BaseURL + "/api/user/details?refreshRoleAssignments=undefined")
+          .headers(Headers.commonHeader)
+          .header("accept", "application/json, text/plain, */*")
+          .check(substring("payment_groups"))
+        )
+
+        .exec(http("XUI_PRL_047_010_SelectParties")
+          .get(BaseURL + "/api/caseshare/orgs")
+          .headers(Headers.commonHeader)
+          .header("accept", "application/json, text/plain, */*")
+          //  .check(substring("roleAssignmentInfo"))
+        )
+      }
+
+      .pause(MinThinkTime, MaxThinkTime)
+
+
+      .group("XUI_PRL_048_LinkedCases") {
+
+        exec(http("XUI_PRL_048_005_LinkedCases")
+          .get(BaseURL + "/api/user/details?refreshRoleAssignments=undefined")
+          .headers(Headers.commonHeader)
+          .header("accept", "application/json, text/plain, */*")
+          .check(substring("payment_groups"))
+        )
+
+        .exec(http("XUI_PRL_048_010_LinkedCases")
+          .get(BaseURL + "/aggregated/caseworkers/:uid/jurisdictions?access=read")
+          .headers(Headers.commonHeader)
+          .header("accept", "application/json")
+            .check(substring("caseTypes"))
+        )
+
+
+          .exec(http("XUI_PRL_048_015_LinkedCases")
+            .get(BaseURL + "/refdata/commondata/lov/categories/CaseLinkingReason")
+            .headers(Headers.commonHeader)
+            .header("accept", "application/json, text/plain, */*")
+           // .check(substring("list_of_values"))
+          )
+      }
+
+      .pause(MinThinkTime, MaxThinkTime)
+
+
+
+      .group("XUI_PRL_049_CaseFileView") {
+
+        exec(http("XUI_PRL_049_005_CaseFileView")
+          .get(BaseURL + "/api/user/details?refreshRoleAssignments=undefined")
+          .headers(Headers.commonHeader)
+          .header("accept", "application/json, text/plain, */*")
+          .check(substring("payment_groups"))
+        )
+
+          .exec(http("XUI_PRL_049_010_CaseFileView")
+            .get(BaseURL + "/categoriesAndDocuments/#{caseId}")
+            .headers(Headers.commonHeader)
+            .header("accept", "application/json")
+          //  .check(substring("caseTypes"))
+          )
+
+      }
+
+      .pause(MinThinkTime, MaxThinkTime)
 
 }
