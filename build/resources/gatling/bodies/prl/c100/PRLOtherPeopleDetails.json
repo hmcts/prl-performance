@@ -1,0 +1,126 @@
+{
+  "data": {
+    "otherPartyInTheCaseRevised": [
+      {
+        "value": {
+          "firstName": "#{C100RandomString} Other First",
+          "lastName": "#{C100RandomString} Other Last",
+          "previousName": null,
+          "isDateOfBirthKnown": "Yes",
+          "dateOfBirth": "1970-01-01",
+          "gender": "male",
+          "otherGender": null,
+          "isPlaceOfBirthKnown": "Yes",
+          "placeOfBirth": "#{C100RandomString} Birth Place",
+          "isCurrentAddressKnown": "Yes",
+          "isAddressConfidential": "No",
+          "isAtAddressLessThan5Years": "No",
+          "canYouProvideEmailAddress": "Yes",
+          "email": "#{C100RandomString}@gmail.com",
+          "isEmailAddressConfidential": "No",
+          "canYouProvidePhoneNumber": "Yes",
+          "phoneNumber": "07455753776",
+          "isPhoneNumberConfidential": "No",
+          "isDateOfBirthUnknown": null,
+          "isAddressUnknown": null,
+          "landline": null,
+          "relationshipToChildren": null,
+          "dxNumber": null,
+          "solicitorReference": null,
+          "representativeFirstName": null,
+          "representativeLastName": null,
+          "isAtAddressLessThan5YearsWithDontKnow": null,
+          "doTheyHaveLegalRepresentation": null,
+          "sendSignUpLink": null,
+          "solicitorEmail": null,
+          "solicitorTelephone": null,
+          "respondentLivedWithApplicant": null,
+          "applicantContactInstructions": null,
+          "currentRespondent": null,
+          "partyId": null,
+          "solicitorPartyId": null,
+          "solicitorOrgUuid": null,
+          "contactPreferences": null,
+          "isRemoveLegalRepresentativeRequested": null,
+          "address": {
+            "AddressLine1": "#{C100RandomString} Address",
+            "AddressLine2": "",
+            "AddressLine3": "",
+            "PostTown": "#{C100RandomString} Town",
+            "County": "",
+            "PostCode": "#{postcode}",
+            "Country": "United Kingdom"
+          },
+          "applicantPreferredContact": []
+        },
+        "id": null
+      }
+    ]
+  },
+  "event": {
+    "id": "otherPeopleInTheCaseRevised",
+    "summary": "",
+    "description": ""
+  },
+  "event_data": {
+    "otherPartyInTheCaseRevised": [
+      {
+        "value": {
+          "firstName": "#{C100RandomString} Other First",
+          "lastName": "#{C100RandomString} Other Last",
+          "previousName": null,
+          "isDateOfBirthKnown": "Yes",
+          "dateOfBirth": "1970-01-01",
+          "gender": "male",
+          "otherGender": null,
+          "isPlaceOfBirthKnown": "Yes",
+          "placeOfBirth": "#{C100RandomString} Birth Place",
+          "isCurrentAddressKnown": "Yes",
+          "isAddressConfidential": "No",
+          "isAtAddressLessThan5Years": "No",
+          "canYouProvideEmailAddress": "Yes",
+          "email": "#{C100RandomString}@gmail.com",
+          "isEmailAddressConfidential": "No",
+          "canYouProvidePhoneNumber": "Yes",
+          "phoneNumber": "07455753776",
+          "isPhoneNumberConfidential": "No",
+          "isDateOfBirthUnknown": null,
+          "isAddressUnknown": null,
+          "landline": null,
+          "relationshipToChildren": null,
+          "dxNumber": null,
+          "solicitorReference": null,
+          "representativeFirstName": null,
+          "representativeLastName": null,
+          "isAtAddressLessThan5YearsWithDontKnow": null,
+          "doTheyHaveLegalRepresentation": null,
+          "sendSignUpLink": null,
+          "solicitorEmail": null,
+          "solicitorTelephone": null,
+          "respondentLivedWithApplicant": null,
+          "applicantContactInstructions": null,
+          "currentRespondent": null,
+          "partyId": null,
+          "solicitorPartyId": null,
+          "solicitorOrgUuid": null,
+          "contactPreferences": null,
+          "isRemoveLegalRepresentativeRequested": null,
+          "address": {
+            "AddressLine1": "#{C100RandomString} Address",
+            "AddressLine2": "",
+            "AddressLine3": "",
+            "PostTown": "#{C100RandomString} Town",
+            "County": "",
+            "PostCode": "#{postcode}",
+            "Country": "United Kingdom"
+          },
+          "applicantPreferredContact": []
+        },
+        "id": null
+      }
+    ]
+  },
+  "event_token": "${event_token}",
+  "ignore_warning": false,
+  "case_reference": "${caseId}"
+}

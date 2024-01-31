@@ -1,0 +1,16 @@
+{
+  "data": {
+    "childrenNotPartInTheCaseYesNo": "No"
+  },
+  "event": {
+    "id": "otherChildNotInTheCase",
+    "summary": "",
+    "description": ""
+  },
+  "event_data": {
+    "childrenNotPartInTheCaseYesNo": "No"
+  },
+  "event_token": "${event_token}",
+  "ignore_warning": false,
+  "case_reference": "${caseId}"
+}

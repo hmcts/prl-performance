@@ -9,6 +9,8 @@ object Logout {
   val MinThinkTime = Environment.minThinkTime
   val MaxThinkTime = Environment.maxThinkTime
 
+  val BaseURL = Environment.baseURL
+
   /*====================================================================================
   *Manage Case Logout
   *=====================================================================================*/
@@ -17,7 +19,7 @@ object Logout {
 
     group("XUI_999_Logout") {
       exec(http("XUI_999_005_Logout")
-        .get("/auth/logout")
+        .get(BaseURL + "/auth/logout")
         .headers(Headers.navigationHeader)
         // .check(regex("Sign in - HMCTS Access"))
         )

@@ -8,6 +8,8 @@ object Homepage {
 
   val MinThinkTime = Environment.minThinkTime
   val MaxThinkTime = Environment.maxThinkTime
+
+  val BaseURL = Environment.baseURL
   
   /*====================================================================================
   *Manage Case Homepage
@@ -20,7 +22,7 @@ object Homepage {
 
     .group("XUI_010_Homepage") {
       exec(http("XUI_010_005_Homepage")
-        .get("/")
+        .get(BaseURL)
         .headers(Headers.navigationHeader)
         .header("sec-fetch-site", "none"))
 
@@ -37,11 +39,11 @@ object Homepage {
       .exec(Common.isAuthenticated)
 
       .exec(http("XUI_010_010_AuthLogin")
-        .get("/auth/login")
+        .get(BaseURL + "/auth/login")
         .headers(Headers.navigationHeader)
         .check(CsrfCheck.save)
         .check(regex("/oauth2/callback&amp;state=(.*)&amp;nonce=").saveAs("state"))
-        .check(regex("&nonce=(.*)&response_type").saveAs("nonce")))
+        .check(regex("nonce=(.*)&amp;response_type").saveAs("nonce")))
     }
   
   .pause(MinThinkTime, MaxThinkTime)

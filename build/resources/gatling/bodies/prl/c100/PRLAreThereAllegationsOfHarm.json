@@ -1,14 +1,14 @@
 {
   "data": {
-    "allegationsOfHarmYesNo": "Yes"
+    "newAllegationsOfHarmYesNo": "Yes"
   },
   "event": {
-    "id": "allegationsOfHarm",
+    "id": "allegationsOfHarmRevised",
     "summary": "",
     "description": ""
   },
   "event_data": {
-    "allegationsOfHarmYesNo": "Yes"
+    "newAllegationsOfHarmYesNo": "Yes"
   },
   "event_token": "${event_token}",
   "ignore_warning": false,

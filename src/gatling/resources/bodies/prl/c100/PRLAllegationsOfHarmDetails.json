@@ -1,65 +1,35 @@
 {
   "data": {
-    "allegationsOfHarmDomesticAbuseYesNo": "Yes",
-    "physicalAbuseVictim": [
-      "children"
-    ],
-    "emotionalAbuseVictim": [
-      "children"
-    ],
-    "psychologicalAbuseVictim": [
-      "children"
-    ],
-    "sexualAbuseVictim": [
-      "children"
-    ],
-    "financialAbuseVictim": [
-      "children"
-    ],
-    "allegationsOfHarmChildAbductionYesNo": "No",
-    "allegationsOfHarmChildAbuseYesNo": "Yes",
-    "allegationsOfHarmSubstanceAbuseYesNo": "Yes",
-    "allegationsOfHarmOtherConcernsYesNo": "No",
-    "ordersNonMolestation": "No",
-    "ordersOccupation": "No",
-    "ordersForcedMarriageProtection": "No",
-    "ordersRestraining": "No",
-    "ordersOtherInjunctive": "No",
-    "ordersUndertakingInPlace": "No"
+    "newAllegationsOfHarmDomesticAbuseYesNo": "Yes",
+    "newAllegationsOfHarmChildAbuseYesNo": "No",
+    "newAllegationsOfHarmChildAbductionYesNo": "No",
+    "newAllegationsOfHarmSubstanceAbuseYesNo": "No",
+    "newAllegationsOfHarmOtherConcerns": "No",
+    "newOrdersNonMolestation": "No",
+    "newOrdersOccupation": "No",
+    "newOrdersForcedMarriageProtection": "No",
+    "newOrdersRestraining": "No",
+    "newOrdersOtherInjunctive": "No",
+    "newOrdersUndertakingInPlace": "No"
   },
   "event": {
-    "id": "allegationsOfHarm",
+    "id": "allegationsOfHarmRevised",
     "summary": "",
     "description": ""
   },
   "event_data": {
-    "allegationsOfHarmYesNo": "Yes",
-    "allegationsOfHarmDomesticAbuseYesNo": "Yes",
-    "physicalAbuseVictim": [
-      "children"
-    ],
-    "emotionalAbuseVictim": [
-      "children"
-    ],
-    "psychologicalAbuseVictim": [
-      "children"
-    ],
-    "sexualAbuseVictim": [
-      "children"
-    ],
-    "financialAbuseVictim": [
-      "children"
-    ],
-    "allegationsOfHarmChildAbductionYesNo": "No",
-    "allegationsOfHarmChildAbuseYesNo": "Yes",
-    "allegationsOfHarmSubstanceAbuseYesNo": "Yes",
-    "allegationsOfHarmOtherConcernsYesNo": "No",
-    "ordersNonMolestation": "No",
-    "ordersOccupation": "No",
-    "ordersForcedMarriageProtection": "No",
-    "ordersRestraining": "No",
-    "ordersOtherInjunctive": "No",
-    "ordersUndertakingInPlace": "No"
+    "newAllegationsOfHarmYesNo": "Yes",
+    "newAllegationsOfHarmDomesticAbuseYesNo": "Yes",
+    "newAllegationsOfHarmChildAbuseYesNo": "No",
+    "newAllegationsOfHarmChildAbductionYesNo": "No",
+    "newAllegationsOfHarmSubstanceAbuseYesNo": "No",
+    "newAllegationsOfHarmOtherConcerns": "No",
+    "newOrdersNonMolestation": "No",
+    "newOrdersOccupation": "No",
+    "newOrdersForcedMarriageProtection": "No",
+    "newOrdersRestraining": "No",
+    "newOrdersOtherInjunctive": "No",
+    "newOrdersUndertakingInPlace": "No"
   },
   "event_token": "${event_token}",
   "ignore_warning": false,

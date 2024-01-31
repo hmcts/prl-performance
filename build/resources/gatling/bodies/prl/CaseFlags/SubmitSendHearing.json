@@ -1,0 +1,10 @@
+{
+  "data": {},
+  "event": {
+    "id": "adminSendToHearing",
+    "summary": "#{PRLRandomString}summary",
+    "description": "#{PRLRandomString}description"
+  },
+  "event_token": "#{event_token}",
+  "ignore_warning": false
+}
