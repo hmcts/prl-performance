@@ -5,11 +5,11 @@
     "isTheOrderByConsent": "Yes",
     "wasTheOrderApprovedAtHearing": "No",
     "judgeOrMagistrateTitle": "herHonourJudge",
-    "judgeOrMagistratesLastName": "${PRLRandomString} judge Last",
-    "justiceLegalAdviserFullName": "${PRLRandomString} judge First",
-    "dateOrderMade": "${PRLAppDobYear}-01-01",
+    "judgeOrMagistratesLastName": "#{PRLRandomString} judge Last",
+    "justiceLegalAdviserFullName": "#{PRLRandomString} judge First",
+    "dateOrderMade": "#{PRLAppDobYear}-01-01",
     "isTheOrderAboutAllChildren": "Yes",
-    "recitalsOrPreamble": "${PRLRandomString} recitalsOrPreamble"
+    "recitalsOrPreamble": "#{PRLRandomString} recitalsOrPreamble"
   },
   "event": {
     "id": "manageOrders",
@@ -25,13 +25,13 @@
     "isTheOrderByConsent": "Yes",
     "wasTheOrderApprovedAtHearing": "No",
     "judgeOrMagistrateTitle": "herHonourJudge",
-    "judgeOrMagistratesLastName": "${PRLRandomString} judge Last",
-    "justiceLegalAdviserFullName": "${PRLRandomString} judge First",
-    "dateOrderMade": "${PRLAppDobYear}-01-01",
+    "judgeOrMagistratesLastName": "#{PRLRandomString} judge Last",
+    "justiceLegalAdviserFullName": "#{PRLRandomString} judge First",
+    "dateOrderMade": "#{PRLAppDobYear}-01-01",
     "isTheOrderAboutAllChildren": "Yes",
-    "recitalsOrPreamble": "${PRLRandomString} recitalsOrPreamble"
+    "recitalsOrPreamble": "#{PRLRandomString} recitalsOrPreamble"
   },
-  "event_token": "${event_token}",
+  "event_token": "#{event_token}",
   "ignore_warning": false,
-  "case_reference": "${caseId}"
+  "case_reference": "#{caseId}"
 }

@@ -8,7 +8,7 @@
     "summary": "",
     "description": ""
   },
-  "event_token": "${event_token}",
+  "event_token": "#{event_token}",
   "ignore_warning": false,
   "draft_id": null
 }

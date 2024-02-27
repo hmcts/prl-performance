@@ -46,7 +46,7 @@ class PRL_Simulation extends Simulation {
   /* ******************************** */
   
   /* PERFORMANCE TEST CONFIGURATION */
-  val prlTargetPerHour: Double = 36
+  val prlTargetPerHour: Double = 100
   val caseworkerTargetPerHour: Double = 1000
   
   //This determines the percentage split of PRL journeys, by C100 or FL401
@@ -95,7 +95,7 @@ class PRL_Simulation extends Simulation {
         .repeat(1) {
        //   exec(Solicitor_PRL_C100_Citizen.C100Case)
        //   .exec(Solicitor_PRL_C100_Citizen2.C100Case2)
-          exec(Solicitor_PRL_Citizen_Dashboard.DashBoard)
+          exec(Solicitor_PRL_Continued.PRL)
         }
     }
 
@@ -131,15 +131,17 @@ class PRL_Simulation extends Simulation {
         .exec(Login.XUILogin)
         //when doing the add an order comment out the xuihomepage and xui login
         .feed(randomFeeder)
-        .repeat(20) {
+        .repeat(1) {
           exec(Solicitor_PRL_CitizenDataPrep.CompleteDataPrep)
 
-      //   feed(UserFeederPRLca)
-      //    .exec(Homepage.XUIHomePage)
-      //    .exec(Login.XUILogin)
-    //        .pause(WaitTime)
-      //    .exec(Solicitor_PRL_AddAnOrder.AddAnOrder)
+     /*   feed(UserFeederPRLca)
+          .exec(Homepage.XUIHomePage)
+          .exec(Login.XUILogin)
+            .pause(WaitTime)
+          .exec(Solicitor_PRL_AddAnOrder.AddAnOrder)
 
+
+      */
 
 
         }
@@ -157,7 +159,7 @@ class PRL_Simulation extends Simulation {
           .set("caseType", "PRLAPPS"))
         .exec(Homepage.XUIHomePage)
         .exec(Login.XUILogin)
-        .repeat(1) {
+        .repeat(20) {
           feed(casesFeeder)
           //  exec(Solicitor_PRL_CitizenDataPrep.CompleteDataPrep)
           //   exec(Solicitor_PRL_CaseFlags.NoticeOfChangeSol)
@@ -287,7 +289,7 @@ class PRL_Simulation extends Simulation {
   }
   
   setUp(
-    PrlCaseFlags.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
+    PrlHearingDataPrep.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
   //  CafcasDownloadByDocScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
   ).protocols(httpProtocol)
     .assertions(assertions(testType))

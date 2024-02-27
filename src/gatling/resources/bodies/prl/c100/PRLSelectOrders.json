@@ -18,7 +18,7 @@
     "typeOfChildArrangementsOrder": "spendTimeWithOrder",
     "natureOfOrder": "Random Text"
   },
-  "event_token": "${event_token}",
+  "event_token": "#{event_token}",
   "ignore_warning": false,
-  "case_reference": "${caseId}"
+  "case_reference": "#{caseId}"
 }

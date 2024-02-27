@@ -17,10 +17,10 @@
     "hearingType": null,
     "hearingsType": null,
     "judgeOrMagistrateTitle": "herHonourJudge",
-    "judgeOrMagistratesLastName": "${PRLRandomString} Last",
+    "judgeOrMagistratesLastName": "#{PRLRandomString} Last",
     "magistrateLastName": [],
-    "justiceLegalAdviserFullName": "${PRLRandomString} Name",
-    "dateOrderMade": "2022-${PRLAppDobMonth}-${PRLAppDobDay}",
+    "justiceLegalAdviserFullName": "#{PRLRandomString} Name",
+    "dateOrderMade": "2022-#{PRLAppDobMonth}-#{PRLAppDobDay}",
     "isTheOrderAboutChildren": null,
     "isTheOrderAboutAllChildren": "Yes",
     "childOption": [],
@@ -29,20 +29,20 @@
     "orderDirections": null,
     "furtherDirectionsIfRequired": null,
     "furtherInformationIfRequired": null,
-    "guardianTextBox": "${PRLRandomString} Guardian",
+    "guardianTextBox": "#{PRLRandomString} Guardian",
     "appointedGuardianName": [],
     "previewOrderDoc": {
-      "document_url": "${document_url}",
-      "document_binary_url": "${document_url}/binary",
+      "document_url": "#{document_url}",
+      "document_binary_url": "#{document_url}/binary",
       "document_filename": "Special_Guardianship_Order_C43A_Draft.pdf",
-      "document_hash": "${document_hash}",
+      "document_hash": "#{document_hash}",
       "document_creation_date": null
     },
     "previewOrderDocWelsh": {
-      "document_url": "${document_url}",
-      "document_binary_url": "${document_url}/binary",
+      "document_url": "#{document_url}",
+      "document_binary_url": "#{document_url}/binary",
       "document_filename": "Welsh_Special_Guardianship_Order_C43A_Draft.pdf",
-      "document_hash": "${document_hash}",
+      "document_hash": "#{document_hash}",
       "document_creation_date": null
     },
     "amendOrderSelectCheckOptions": "noCheck",
@@ -62,20 +62,20 @@
     "serveOrderDynamicList": {
       "value": [
         {
-          "code": "${serveOrderCode}",
-          "label": "${serveOrderLabel}"
+          "code": "#{serveOrderCode}",
+          "label": "#{serveOrderLabel}"
         }
       ],
       "list_items": [
         {
-          "code": "${serveOrderCode}",
-          "label": "${serveOrderLabel}"
+          "code": "#{serveOrderCode}",
+          "label": "#{serveOrderLabel}"
         }
       ]
     },
     "serveOrderAdditionalDocuments": [],
     "ordersNeedToBeServed": "Yes",
-    "currentOrderCreatedDateTime": "${currentOrderCreatedDateTime}",
+    "currentOrderCreatedDateTime": "#{currentOrderCreatedDateTime}",
     "isCafcass": "Yes",
     "otherPeoplePresentInCaseFlag": "Yes",
     "isOnlyC47aOrderSelectedToServe": null,
@@ -85,14 +85,14 @@
     "otherParties": {
       "value": [
         {
-          "code": "${otherPartiesrCode}",
-          "label": "${otherPartiesLabel}"
+          "code": "#{otherPartiesrCode}",
+          "label": "#{otherPartiesLabel}"
         }
       ],
       "list_items": [
         {
-          "code": "${otherPartiesrCode}",
-          "label": "${otherPartiesLabel}"
+          "code": "#{otherPartiesrCode}",
+          "label": "#{otherPartiesLabel}"
         }
       ]
     },
@@ -110,6 +110,6 @@
     "summary": "",
     "description": ""
   },
-  "event_token": "${event_token}",
+  "event_token": "#{event_token}",
   "ignore_warning": false
 }

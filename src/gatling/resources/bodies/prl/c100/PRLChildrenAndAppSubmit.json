@@ -3,8 +3,8 @@
     "buffChildAndApplicantRelations": [
       {
         "value": {
-          "applicantFullName": "${C100ApplicantFirstName1} ${C100ApplicantLastName1}",
-          "childFullName": "${C100ChildFirstName} ${C100ChildLastName}",
+          "applicantFullName": "#{C100ApplicantFirstName1} #{C100ApplicantLastName1}",
+          "childFullName": "#{C100ChildFirstName} #{C100ChildLastName}",
           "childAndApplicantRelation": "father",
           "childAndApplicantRelationOtherDetails": null,
           "childLivesWith": "No",
@@ -20,6 +20,6 @@
     "summary": "",
     "description": ""
   },
-  "event_token": "${event_token}",
+  "event_token": "#{event_token}",
   "ignore_warning": false
 }

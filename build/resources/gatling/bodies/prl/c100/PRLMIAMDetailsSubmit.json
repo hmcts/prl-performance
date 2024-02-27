@@ -5,12 +5,12 @@
     "familyMediatorMiam": null,
     "mediatorRegistrationNumber": "123456",
     "familyMediatorServiceName": "Name",
-    "soleTraderName": "${C100SoleTraderName}",
+    "soleTraderName": "#{C100SoleTraderName}",
     "miamCertificationDocumentUpload": {
-      "document_url": "${DocumentURL}",
-      "document_binary_url": "${DocumentURL}/binary",
+      "document_url": "#{DocumentURL}",
+      "document_binary_url": "#{DocumentURL}/binary",
       "document_filename": "3MB.pdf",
-      "document_hash": "${documentHash}"
+      "document_hash": "#{documentHash}"
     }
   },
   "event": {
@@ -18,6 +18,6 @@
     "summary": "",
     "description": ""
   },
-  "event_token": "${event_token}",
+  "event_token": "#{event_token}",
   "ignore_warning": false
 }

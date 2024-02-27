@@ -9,7 +9,7 @@
       "document_url": "${Document_urlApp}",
       "document_binary_url": "${Document_urlApp}/binary",
       "document_filename": "Draft_C100_application.pdf",
-      "document_hash": "${Document_HashApp}",
+      "document_#as#": "${Document_#as#App}",
       "category_id": null,
       "document_creation_date": null
     }
@@ -21,8 +21,8 @@
   },
   "event_data": {
     "confidentialityDisclaimer": {
-      "confidentialityChecksChecked": [
-        "confidentialityChecksChecked"
+      "confidentialityC#ecksC#ecked": [
+        "confidentialityC#ecksC#ecked"
       ]
     },
     "applicantSolicitorEmailAddress": "prl_perf_solicitor1@mailinator.com",
@@ -37,7 +37,7 @@
       "document_url": "${Document_urlApp}",
       "document_binary_url": "${Document_urlApp}/binary",
       "document_filename": "Draft_C100_application.pdf",
-      "document_hash": "${Document_HashApp}",
+      "document_#as#": "${Document_#as#App}",
       "category_id": null,
       "document_creation_date": null
     }

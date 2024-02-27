@@ -247,7 +247,7 @@ object Solicitor_PRL_CitizenDataPrep {
           .headers(Headers.commonHeader)
           .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8")
           .header("content-type", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8")
-          .body(ElFileBody("bodies/prl/PRLDataPrep/yes.json"))
+          .body(ElFileBody("bodies/prl/PRLDataPrep/paymentServiceRequestReferenceNumber.json"))
           .check(jsonPath("$.data.paymentServiceRequestReferenceNumber").saveAs("paymentServiceRequestReferenceNumber"))
         )
       }

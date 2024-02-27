@@ -2,10 +2,10 @@
   "data": {
     "isEngDocGen": "Yes",
     "draftOrderDoc": {
-      "document_url": "${DocumentUrl}",
-      "document_binary_url": "${DocumentUrl}/binary",
-      "document_filename": "${DocumentFileName}",
-      "document_hash": "${DocumentHash}"
+      "document_url": "#{DocumentUrl}",
+      "document_binary_url": "#{DocumentUrl}/binary",
+      "document_filename": "#{DocumentFileName}",
+      "document_hash": "#{DocumentHash}"
     },
     "isWelshDocGen": null,
     "draftOrderDocWelsh": null
@@ -18,15 +18,15 @@
   "event_data": {
     "isEngDocGen": "Yes",
     "draftOrderDoc": {
-      "document_url": "${DocumentUrl}",
-      "document_binary_url": "${DocumentUrl}/binary",
-      "document_filename": "${DocumentFileName}",
-      "document_hash": "${DocumentHash}"
+      "document_url": "#{DocumentUrl}",
+      "document_binary_url": "#{DocumentUrl}/binary",
+      "document_filename": "#{DocumentFileName}",
+      "document_hash": "#{DocumentHash}"
     },
     "isWelshDocGen": null,
     "draftOrderDocWelsh": null
   },
-  "event_token": "${event_token}",
+  "event_token": "#{event_token}",
   "ignore_warning": false,
-  "case_reference": "${caseId}"
+  "case_reference": "#{caseId}"
 }

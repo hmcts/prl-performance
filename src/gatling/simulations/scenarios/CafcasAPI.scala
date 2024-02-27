@@ -45,8 +45,8 @@ object CafcasAPI {
       .exec(http("CAFCAS_000_GetBearerToken")
         .post(idamURL + "/o/token") //change this to idamapiurl if this not works
         .formParam("grant_type", "password")
-        .formParam("username", "${emailAddressCCD}")
-        .formParam("password", "${passwordCCD}")
+        .formParam("username", "#{emailAddressCCD}")
+        .formParam("password", "#{passwordCCD}")
         .formParam("client_id", "cafcaas-idam-id")
         // .formParam("client_secret", clientSecret)
         .formParam("client_secret", "RB4B4JLQYZUXYO5U")

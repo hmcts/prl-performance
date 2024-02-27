@@ -5,7 +5,7 @@
         "confidentialityChecksChecked"
       ]
     },
-    "applicantSolicitorEmailAddress": "${user}",
+    "applicantSolicitorEmailAddress": "#{user}",
     "caseworkerEmailAddress": "prl_caseworker_solicitor@mailinator.com"
   },
   "event": {
@@ -19,10 +19,10 @@
         "confidentialityChecksChecked"
       ]
     },
-    "applicantSolicitorEmailAddress": "${user}",
+    "applicantSolicitorEmailAddress": "#{user}",
     "caseworkerEmailAddress": "prl_caseworker_solicitor@mailinator.com"
   },
-  "event_token": "${event_token}",
+  "event_token": "#{event_token}",
   "ignore_warning": false,
-  "case_reference": "${caseId}"
+  "case_reference": "#{caseId}"
 }

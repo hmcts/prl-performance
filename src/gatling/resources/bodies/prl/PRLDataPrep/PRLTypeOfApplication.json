@@ -10,6 +10,6 @@
   "event_data": {
     "caseTypeOfApplication": "C100"
   },
-  "event_token": "${event_token}",
+  "event_token": "#{event_token}",
   "ignore_warning": false
 }

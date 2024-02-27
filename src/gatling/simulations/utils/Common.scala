@@ -103,7 +103,7 @@ object Common {
   val postcodeLookup =
     feed(postcodeFeeder)
       .exec(http("XUI_Common_000_PostcodeLookup")
-        .get(BaseURL + "/api/addresses?postcode=${postcode}")
+        .get(BaseURL + "/api/addresses?postcode=#{postcode}")
         .headers(Headers.commonHeader)
         .header("accept", "application/json")
         .check(jsonPath("$.header.totalresults").ofType[Int].gt(0))
@@ -119,7 +119,7 @@ object Common {
 
   val activity =
     exec(http("XUI_Common_000_ActivityOptions")
-      .options(BaseURL + "/activity/cases/${caseId}/activity")
+      .options(BaseURL + "/activity/cases/#{caseId}/activity")
       .headers(Headers.commonHeader)
       .header("accept", "application/json, text/plain, */*")
       .header("sec-fetch-site", "same-site")
@@ -127,14 +127,14 @@ object Common {
 
   val caseActivityGet =
     exec(http("XUI_Common_000_ActivityOptions")
-      .options(BaseURL + "/activity/cases/${caseId}/activity")
+      .options(BaseURL + "/activity/cases/#{caseId}/activity")
       .headers(Headers.commonHeader)
       .header("accept", "application/json, text/plain, */*")
       .header("sec-fetch-site", "same-site")
       .check(status.in(200, 304, 403)))
 
     .exec(http("XUI_Common_000_ActivityGet")
-      .get(BaseURL + "/activity/cases/${caseId}/activity")
+      .get(BaseURL + "/activity/cases/#{caseId}/activity")
       .headers(Headers.commonHeader)
       .header("accept", "application/json, text/plain, */*")
       .header("sec-fetch-site", "same-site")
@@ -142,14 +142,14 @@ object Common {
 
   val caseActivityPost =
     exec(http("XUI_Common_000_ActivityOptions")
-      .options(BaseURL + "/activity/cases/${caseId}/activity")
+      .options(BaseURL + "/activity/cases/#{caseId}/activity")
       .headers(Headers.commonHeader)
       .header("accept", "application/json, text/plain, */*")
       .header("sec-fetch-site", "same-site")
       .check(status.in(200, 304, 403)))
 
     .exec(http("XUI_Common_000_ActivityPost")
-      .post(BaseURL + "/activity/cases/${caseId}/activity")
+      .post(BaseURL + "/activity/cases/#{caseId}/activity")
       .headers(Headers.commonHeader)
       .header("accept", "application/json, text/plain, */*")
       .header("sec-fetch-site", "same-site")

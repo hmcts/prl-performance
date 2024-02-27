@@ -4,7 +4,7 @@
       {
         "value": {
           "otherPeopleFullName": "#{C100RandomString} Other First #{C100RandomString} Other Last",
-          "childFullName": "${C100ChildFirstName} ${C100ChildLastName}",
+          "childFullName": "#{C100ChildFirstName} #{C100ChildLastName}",
           "childAndOtherPeopleRelation": "guardian",
           "childLivesWith": "No"
         },
@@ -22,7 +22,7 @@
       {
         "value": {
           "otherPeopleFullName": "#{C100RandomString} Other First #{C100RandomString} Other Last",
-          "childFullName": "${C100ChildFirstName} ${C100ChildLastName}",
+          "childFullName": "#{C100ChildFirstName} #{C100ChildLastName}",
           "childAndOtherPeopleRelation": "guardian",
           "childLivesWith": "No"
         },
@@ -30,7 +30,7 @@
       }
     ]
   },
-  "event_token": "${event_token}",
+  "event_token": "#{event_token}",
   "ignore_warning": false,
-  "case_reference": "${caseId}"
+  "case_reference": "#{caseId}"
 }

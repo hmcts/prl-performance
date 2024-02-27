@@ -13,23 +13,23 @@
         "confidentialityChecksChecked"
       ]
     },
-    "applicantSolicitorEmailAddress": "${user}",
+    "applicantSolicitorEmailAddress": "#{user}",
     "caseworkerEmailAddress": "prl_caseworker_solicitor@mailinator.com",
-    "solicitorName": "${C100SolicitorName}",
+    "solicitorName": "#{C100SolicitorName}",
     "payAgreeStatement": [
       "agree"
     ],
     "feeAmount": "£232.00",
     "submitAndPayDownloadApplicationWelshLink": null,
     "submitAndPayDownloadApplicationLink": {
-      "document_url": "${DocumentUrl}",
-      "document_binary_url": "${DocumentUrl}/binary",
-      "document_filename": "${DocumentFileName}",
-      "document_hash": "${DocumentHash}"
+      "document_url": "#{DocumentUrl}",
+      "document_binary_url": "#{DocumentUrl}/binary",
+      "document_filename": "#{DocumentFileName}",
+      "document_hash": "#{DocumentHash}"
     },
     "paymentServiceRequestReferenceNumber": null
   },
-  "event_token": "${event_token}",
+  "event_token": "#{event_token}",
   "ignore_warning": false,
-  "case_reference": "${caseId}"
+  "case_reference": "#{caseId}"
 }

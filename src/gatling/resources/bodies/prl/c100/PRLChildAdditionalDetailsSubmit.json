@@ -3,11 +3,11 @@
     "respondents": [
       {
         "value": {
-          "firstName": "${C100RespondentFirstName}",
-          "lastName": "${C100RespondentLastName}",
+          "firstName": "#{C100RespondentFirstName}",
+          "lastName": "#{C100RespondentLastName}",
           "previousName": null,
           "isDateOfBirthKnown": "Yes",
-          "dateOfBirth": "${C100RespDobYear}-${C100RespDobMonth}-${C100RespDobDay}",
+          "dateOfBirth": "#{C100RespDobYear}-#{C100RespDobMonth}-#{C100RespDobDay}",
           "gender": "male",
           "otherGender": null,
           "isPlaceOfBirthKnown": "Yes",
@@ -37,17 +37,17 @@
           "solicitorTelephone": null,
           "respondentLivedWithApplicant": null,
           "address": {
-            "AddressLine1": "${addressLines(0)}",
-            "AddressLine2": "${addressLines(1)}",
+            "AddressLine1": "#{addressLines(0)}",
+            "AddressLine2": "#{addressLines(1)}",
             "AddressLine3": "",
-            "PostTown": "${addressLines(2)}",
+            "PostTown": "#{addressLines(2)}",
             "County": "",
-            "PostCode": "${addressLines(3)}",
+            "PostCode": "#{addressLines(3)}",
             "Country": "United Kingdom"
           },
           "solicitorOrg": {
-            "OrganisationID": "${orgref}",
-            "OrganisationName": "${orgname}"
+            "OrganisationID": "#{orgref}",
+            "OrganisationName": "#{orgname}"
           },
           "solicitorAddress": {
             "AddressLine1": null,
@@ -70,6 +70,6 @@
     "summary": "",
     "description": ""
   },
-  "event_token": "${event_token}",
+  "event_token": "#{event_token}",
   "ignore_warning": false
 }

@@ -14,12 +14,12 @@
     "newChildDetails": [
       {
         "value": {
-          "firstName": "${C100ChildFirstName}",
-          "lastName": "${C100ChildLastName}",
-          "dateOfBirth": "${C100ChildDobYear}-${C100ChildAppDobMonth}-${C100ChildAppDobDay}",
+          "firstName": "#{C100ChildFirstName}",
+          "lastName": "#{C100ChildLastName}",
+          "dateOfBirth": "#{C100ChildDobYear}-#{C100ChildAppDobMonth}-#{C100ChildAppDobDay}",
           "gender": "male",
           "otherGender": null,
-          "parentalResponsibilityDetails": "${C100ChildFirstName}'s mother",
+          "parentalResponsibilityDetails": "#{C100ChildFirstName}'s mother",
           "isDateOfBirthUnknown": null,
           "cafcassOfficerName": null,
           "cafcassOfficerPosition": null,
@@ -35,7 +35,7 @@
       }
     ]
   },
-  "event_token": "${event_token}",
+  "event_token": "#{event_token}",
   "ignore_warning": false,
-  "case_reference": "${caseId}"
+  "case_reference": "#{caseId}"
 }

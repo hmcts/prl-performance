@@ -3,16 +3,16 @@
     "applicants": [
       {
         "value": {
-          "firstName": "${C100ApplicantFirstName1}",
-          "lastName": "${C100ApplicantLastName1}",
+          "firstName": "#{C100ApplicantFirstName1}",
+          "lastName": "#{C100ApplicantLastName1}",
           "previousName": null,
-          "dateOfBirth": "${C100AppDobYear}-${C100AppDobMonth}-${C100AppDobDay}",
+          "dateOfBirth": "#{C100AppDobYear}-#{C100AppDobMonth}-#{C100AppDobDay}",
           "gender": "male",
           "placeOfBirth": "London",
           "isAddressConfidential": "Yes",
           "isAtAddressLessThan5Years": "No",
           "canYouProvideEmailAddress": "Yes",
-          "email": "${C100ApplicantEmail}",
+          "email": "#{C100ApplicantEmail}",
           "isEmailAddressConfidential": "Yes",
           "phoneNumber": "0123456789",
           "isPhoneNumberConfidential": "Yes",
@@ -35,17 +35,17 @@
           "solicitorTelephone": null,
           "respondentLivedWithApplicant": null,
           "address": {
-            "AddressLine1": "${addressLines(0)}",
-            "AddressLine2": "${addressLines(1)}",
+            "AddressLine1": "#{addressLines(0)}",
+            "AddressLine2": "#{addressLines(1)}",
             "AddressLine3": "",
-            "PostTown": "${addressLines(2)}",
+            "PostTown": "#{addressLines(2)}",
             "County": "",
-            "PostCode": "${addressLines(3)}",
+            "PostCode": "#{addressLines(3)}",
             "Country": "United Kingdom"
           },
           "solicitorOrg": {
-            "OrganisationID": "${orgref}",
-            "OrganisationName": "${orgname}"
+            "OrganisationID": "#{orgref}",
+            "OrganisationName": "#{orgname}"
           },
           "solicitorAddress": {
             "AddressLine1": "5 Perf Test Street",
@@ -67,6 +67,6 @@
     "summary": "",
     "description": ""
   },
-  "event_token": "${event_token}",
+  "event_token": "#{event_token}",
   "ignore_warning": false
 }

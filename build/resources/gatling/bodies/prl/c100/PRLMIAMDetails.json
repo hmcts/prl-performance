@@ -2,12 +2,12 @@
   "data": {
     "mediatorRegistrationNumber": "123456",
     "familyMediatorServiceName": "Name",
-    "soleTraderName": "${C100SoleTraderName}",
+    "soleTraderName": "#{C100SoleTraderName}",
     "miamCertificationDocumentUpload": {
-      "document_url": "${DocumentURL}",
-      "document_binary_url": "${DocumentURL}/binary",
+      "document_url": "#{DocumentURL}",
+      "document_binary_url": "#{DocumentURL}/binary",
       "document_filename": "3MB.pdf",
-      "document_hash": "${documentHash}"
+      "document_hash": "#{documentHash}"
     }
   },
   "event": {
@@ -19,15 +19,15 @@
     "applicantAttendedMiam": "Yes",
     "mediatorRegistrationNumber": "123456",
     "familyMediatorServiceName": "Name",
-    "soleTraderName": "${C100SoleTraderName}",
+    "soleTraderName": "#{C100SoleTraderName}",
     "miamCertificationDocumentUpload": {
-      "document_url": "${DocumentURL}",
-      "document_binary_url": "${DocumentURL}/binary",
+      "document_url": "#{DocumentURL}",
+      "document_binary_url": "#{DocumentURL}/binary",
       "document_filename": "3MB.pdf",
-      "document_hash": "${documentHash}"
+      "document_hash": "#{documentHash}"
     }
   },
-  "event_token": "${event_token}",
+  "event_token": "#{event_token}",
   "ignore_warning": false,
-  "case_reference": "${caseId}"
+  "case_reference": "#{caseId}"
 }

@@ -522,19 +522,19 @@ object Solicitor_PRL_AddAnOrder {
 * Service of Application Submit
 ======================================================================================*/
 
- /*   .group("XUI_PRL_240_ServiceSubmit") {
+  /*  .group("XUI_PRL_240_ServiceSubmit") {
       exec(http("XUI_PRL_240_005_ServiceSubmit")
         .post(BaseURL + "/data/cases/#{caseId}/events")
         .headers(Headers.commonHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8")
         .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("bodies/prl/c100Continued/PRLSoASubmit.json"))
-        .check(substring("PREPARE_FOR_HEARING_CONDUCT_HEARING"))
-        .check(regex("""accessCode":"(\w{8})""").saveAs("prlAccessCode")))
+        .check(substring("PREPARE_FOR_HEARING_CONDUCT_HEARING")))
+    //    .check(regex("""accessCode":"(\w{8})""").saveAs("prlAccessCode")))
         //.check(substring("CASE_HEARING")))
 
 
-        .exec { session =>
+  /*      .exec { session =>
           val fw = new BufferedWriter(new FileWriter("accessCodeList.csv", true))
           try {
             fw.write(session("caseId").as[String] + "," + session("prlAccessCode").as[String] + "\r\n")
@@ -542,6 +542,8 @@ object Solicitor_PRL_AddAnOrder {
           session
         }
 
+
+   */
 
 
 
@@ -558,8 +560,10 @@ object Solicitor_PRL_AddAnOrder {
 
 .pause(MinThinkTime, MaxThinkTime)
 
+   */
 
-  */
+
+
 
 
 

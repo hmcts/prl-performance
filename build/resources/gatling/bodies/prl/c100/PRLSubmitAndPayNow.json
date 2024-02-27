@@ -5,9 +5,9 @@
         "confidentialityChecksChecked"
       ]
     },
-    "applicantSolicitorEmailAddress": "${user}",
+    "applicantSolicitorEmailAddress": "#{user}",
     "caseworkerEmailAddress": "prl_caseworker_solicitor@mailinator.com",
-    "solicitorName": "${C100SolicitorName}",
+    "solicitorName": "#{C100SolicitorName}",
     "payAgreeStatement": [
       "agree"
     ],
@@ -15,10 +15,10 @@
     "isEngDocGen": null,
     "submitAndPayDownloadApplicationWelshLink": null,
     "submitAndPayDownloadApplicationLink": {
-      "document_url": "${DocumentUrl}",
-      "document_binary_url": "${DocumentUrl}/binary",
-      "document_filename": "${DocumentFileName}",
-      "document_hash": "${DocumentHash}"
+      "document_url": "#{DocumentUrl}",
+      "document_binary_url": "#{DocumentUrl}/binary",
+      "document_filename": "#{DocumentFileName}",
+      "document_hash": "#{DocumentHash}"
     },
     "isWelshDocGen": null,
     "paymentServiceRequestReferenceNumber": null
@@ -28,6 +28,6 @@
     "summary": "",
     "description": ""
   },
-  "event_token": "${event_token}",
+  "event_token": "#{event_token}",
   "ignore_warning": false
 }

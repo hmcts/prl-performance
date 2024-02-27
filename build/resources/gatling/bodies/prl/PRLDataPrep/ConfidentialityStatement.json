@@ -24,7 +24,7 @@
     "caseworkerEmailAddress": "C100applications@justice.gov.uk",
     "courtName": "West London Family Court"
   },
-  "event_token": "${event_token}",
+  "event_token": "#{event_token}",
   "ignore_warning": false,
-  "case_reference": "${caseId}"
+  "case_reference": "#{caseId}"
 }

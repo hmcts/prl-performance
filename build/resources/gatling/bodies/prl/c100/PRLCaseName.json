@@ -14,6 +14,6 @@
     ],
     "applicantCaseName": "PerfTest C100 Case"
   },
-  "event_token": "${event_token}",
+  "event_token": "#{event_token}",
   "ignore_warning": false
 }

@@ -22,16 +22,16 @@
     ],
     "feeAmount": "£232.00",
     "submitAndPayDownloadApplicationLink": {
-      "document_url": "${Document_urlApp}",
-      "document_binary_url": "${Document_urlApp}/binary",
+      "document_url": "#{Document_urlApp}",
+      "document_binary_url": "#{Document_urlApp}/binary",
       "document_filename": "Draft_C100_application.pdf",
-      "document_hash": "${Document_HashApp}",
+      "document_hash": "#{Document_HashApp}",
       "category_id": null,
       "document_creation_date": null
     },
     "paymentServiceRequestReferenceNumber": null
   },
-  "event_token": "${event_token}",
+  "event_token": "#{event_token}",
   "ignore_warning": false,
-  "case_reference": "${caseId}"
+  "case_reference": "#{caseId}"
 }

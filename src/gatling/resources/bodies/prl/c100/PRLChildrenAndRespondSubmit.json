@@ -3,8 +3,8 @@
     "buffChildAndRespondentRelations": [
       {
         "value": {
-          "respondentFullName": "${C100RespondentFirstName} ${C100RespondentLastName}",
-          "childFullName": "${C100ChildFirstName} ${C100ChildLastName}",
+          "respondentFullName": "#{C100RespondentFirstName} #{C100RespondentLastName}",
+          "childFullName": "#{C100ChildFirstName} #{C100ChildLastName}",
           "childAndRespondentRelation": "mother",
           "childAndRespondentRelationOtherDetails": null,
           "childLivesWith": "No",
@@ -20,6 +20,6 @@
     "summary": "",
     "description": ""
   },
-  "event_token": "${event_token}",
+  "event_token": "#{event_token}",
   "ignore_warning": false
 }
