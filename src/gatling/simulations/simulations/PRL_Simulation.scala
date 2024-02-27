@@ -218,7 +218,7 @@ class PRL_Simulation extends Simulation {
         .exec(Login.XUILogin)
         //when doing the add an order comment out the xuihomepage and xui login
         .feed(randomFeeder)
-        .repeat(1) {
+        .repeat(30) {
           exec(Solicitor_PRL_CitizenDataPrep.CompleteDataPrep)
        //   feed(UserFeederPRLca)
        //   .exec(Homepage.XUIHomePage)
