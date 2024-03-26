@@ -1,13 +1,8 @@
-### XUI Gatling Performance Tests
+### PRL Gatling Performance Tests
 
-This script runs a suite of services against XUI in a cohabitation scenario:
-- General caseworker flows
-- Probate solicitor journey
-- Divorce solicitor journey
-- Financial Remedy solicitor journey
-- Family Public Law solicitor journey
-- Immigration and Asylum solicitor journey
-- No Fault Divorce solicitor journey
+This script runs a suite of services against PRL scenario:
+- Citizen Case Creation 
+- Case Worker Case Creation
 
 To run locally:
 - Performance test against the perftest environment: `./gradlew gatlingRun`
