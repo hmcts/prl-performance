@@ -5,7 +5,6 @@ import io.gatling.core.Predef._
 import io.gatling.core.controller.inject.open.OpenInjectionStep
 import io.gatling.core.pause.PauseType
 import io.gatling.http.Predef._
-import scenarios.CafcasAPI.prlCafcasURL
 import scenarios._
 import utils.{Common,CsrfCheck, Environment, Headers, CsrfCheck2}
 
@@ -15,11 +14,7 @@ import scala.util.Random
 class PRL_Simulation extends Simulation {
   
   val UserFeederPRL = csv("UserDataPRL.csv").circular
-  val UserFeederPRLca = csv("UserDataPRLca.csv").circular
-  val UserFeederPRL2 = csv("UserDataPRL2.csv").circular
   val UserCitizenPRL = csv("UserDataPRLCitizen.csv").circular
-  val UserSSCS = csv("UserDataSSCS.csv").circular
-  val casesFeeder = csv("caseFlagsCases.csv").circular
 
 
   val WaitTime = Environment.waitTime
@@ -46,8 +41,8 @@ class PRL_Simulation extends Simulation {
   /* ******************************** */
   
   /* PERFORMANCE TEST CONFIGURATION */
-  val prlTargetPerHour: Double = 100
-  val caseworkerTargetPerHour: Double = 1000
+  val prlTargetPerHour: Double = 30
+  val caseworkerTargetPerHour: Double = 30
   
   //This determines the percentage split of PRL journeys, by C100 or FL401
   val prlC100Percentage = 100 //Percentage of C100s (the rest will be FL401s) - should be 66 for the 2:1 ratio
@@ -70,7 +65,7 @@ class PRL_Simulation extends Simulation {
   }
   
   val httpProtocol = http
-    .baseUrl(prlCafcasURL.replace("${env}", s"${env}"))
+    .baseUrl(Environment.baseURL.replace("${env}", s"${env}"))
     .inferHtmlResources()
     .silentResources
     .header("experimental", "true") //used to send through client id, s2s and bearer tokens. Might be temporary
@@ -93,158 +88,33 @@ class PRL_Simulation extends Simulation {
         .set("caseType", "PRLAPPS"))
       .feed(UserCitizenPRL)
         .repeat(1) {
-       //   exec(Solicitor_PRL_C100_Citizen.C100Case)
-       //   .exec(Solicitor_PRL_C100_Citizen2.C100Case2)
-          exec(Solicitor_PRL_Continued.PRL)
+          exec(Solicitor_PRL_C100_Citizen.C100Case)
+          .exec(Solicitor_PRL_C100_Citizen2.C100Case2)
         }
     }
-
 
   /*===============================================================================================
 * PRL Citizen Journey
 ===============================================================================================*/
 
-  val SSCSscenario = scenario("***** SSCS Hearing *****")
-    .exitBlockOnFail {
-      exec(_.set("env", s"${env}")
-        .set("caseType", "SSCS"))
-        .feed(UserSSCS)
-      .exec(Homepage.XUIHomePage)
-        .exec(Login.XUILogin)
-        .repeat(2) {
-          exec(SSCShearing.SendToHearing)
-        }
-    }
-
-
-
-  /*===============================================================================================
-* PRL Citizen Journey
-===============================================================================================*/
-
-  val PrlHearingDataPrep = scenario("***** PRL Citizen Journey *****")
-    .exitBlockOnFail {
-      feed(UserFeederPRL)
-      .exec(_.set("env", s"${env}")
-        .set("caseType", "PRLAPPS"))
-        .exec(Homepage.XUIHomePage)
-        .exec(Login.XUILogin)
-        //when doing the add an order comment out the xuihomepage and xui login
-        .feed(randomFeeder)
-        .repeat(1) {
-          exec(Solicitor_PRL_CitizenDataPrep.CompleteDataPrep)
-
-     /*   feed(UserFeederPRLca)
-          .exec(Homepage.XUIHomePage)
-          .exec(Login.XUILogin)
-            .pause(WaitTime)
-          .exec(Solicitor_PRL_AddAnOrder.AddAnOrder)
-
-
-      */
-
-
-        }
-    }
-
-
-  /*===============================================================================================
-* PRL Citizen Journey
-===============================================================================================*/
-
-  val PrlCaseFlags = scenario("***** PRL Case Flags 2.1 Journey *****")
+  val PrlDataPrep = scenario("***** PRL Case DataPrep Journey *****")
     .exitBlockOnFail {
       feed(UserFeederPRL)
         .exec(_.set("env", s"${env}")
           .set("caseType", "PRLAPPS"))
         .exec(Homepage.XUIHomePage)
         .exec(Login.XUILogin)
-        .repeat(20) {
-          feed(casesFeeder)
-          //  exec(Solicitor_PRL_CitizenDataPrep.CompleteDataPrep)
-          //   exec(Solicitor_PRL_CaseFlags.NoticeOfChangeSol)
-          .exec(Solicitor_PRL_CaseFlags.ViewAllTabs)
-
-             .exec(Solicitor_PRL_CaseFlags.CaseFlagsSol)
-             .exec(Solicitor_PRL_CaseFlags.ManageSupport)
-
-          .exec(Solicitor_PRL_CaseFlags.ViewAllTabs)
-
-            .exec(Homepage.XUIHomePage)
-            .exec(Login.XUILoginCa)
-
-          .exec(Solicitor_PRL_CaseFlags.ViewAllTabsCa)
-
-         //   exec(Solicitor_PRL_CaseFlags.AssignApplication)
-          .exec(Solicitor_PRL_CaseFlags.ManageSupportFlag)
-            .exec(Solicitor_PRL_CaseFlags.CaseFlagsCa)
-            .exec(Solicitor_PRL_CaseFlags.ViewAllTabsCa)
-
-        }
-
-    }
-
-    .exec {
-      session =>
-        println(session)
-        session
-    }
-
-  /*===============================================================================================
-* Cafcas API Scenario which runs CafcasDownloadByDocScenario, CafcasCasesByDatesScenario and CafcasDownloadByDocScenario
-===============================================================================================*/
-
-  val CafcasScenario = scenario("***** Cafcas Full Test *****")
-    .exitBlockOnFail {
-      exec(_.set("env", s"${env}")
-        .set("caseType", "Cafcas"))
         .repeat(1) {
-          exec(CafcasAPI.getCasesBetweenDates)
-            .repeat(15) {
-              exec(CafcasAPI.downloadByDocId)
-            }
-        //    .repeat(15) {
-        //      exec(CafcasAPI.uploadDocToCase)
-          //  }
+            exec(Solicitor_PRL_CitizenDataPrep.CompleteDataPrep)
         }
     }
-  
-  /*===============================================================================================
-  * Cafcas API Scenario which will be calling every 15 mins while running the PRL Test
-   ===============================================================================================*/
-  val CafcasCasesByDatesScenario = scenario("***** Cafcas Case data By Dates*****")
-    .exitBlockOnFail {
-      exec(_.set("env", s"${env}")
-        .set("caseType", "Cafcas"))
-        .exec(CafcasAPI.getCasesBetweenDates)
-    }
+
     .exec {
       session =>
         println(session)
         session
     }
-  
-  /*===============================================================================================
-* Cafcas API Scenario which will be calling to download document based on doc ID
- ===============================================================================================*/
-  val CafcasDownloadByDocScenario = scenario("***** Cafcas Download By Doc ID *****")
-    .exitBlockOnFail {
-      exec(_.set("env", s"${env}")
-        .set("caseType", "Cafcas"))
-        .exec(CafcasAPI.downloadByDocId)
-    }
-  
-  /*===============================================================================================
-* Cafcas API Scenario which will be calling to upload doc based on the case ID
- ===============================================================================================*/
-  val CafcasUploadByCaseScenario = scenario("***** Cafcas Upload By Case ID *****")
-    .exitBlockOnFail {
-      repeat(1) {
-        exec(_.set("env", s"${env}")
-          .set("caseType", "Cafcas"))
-          .exec(CafcasAPI.uploadDocToCase)
-      }
-    }
+
   /*===============================================================================================
   * Simulation Configuration
    ===============================================================================================*/
@@ -276,9 +146,8 @@ class PRL_Simulation extends Simulation {
       case "perftest" | "pipeline" => //currently using the same assertions for a performance test and the pipeline
         if (debugMode == "off") {
           Seq(global.successfulRequests.percent.gte(95),
-            details("XUI_PRL_C100_460_SubmitAndPayNow").successfulRequests.percent.gte(80),
-            details("XUI_PRL_FL401_490_SOTSubmit").successfulRequests.percent.gte(80),
-            details("PRL_CitizenC100_810_005_FinalSubmit").successfulRequests.percent.gte(80))
+            details("XUI_PRL_045_ConfirmPayment").successfulRequests.percent.gte(80),
+            details("PRL_CitizenC100_813_FinalSubmitRedirect3").successfulRequests.percent.gte(80))
         }
         else {
           Seq(global.successfulRequests.percent.is(100))
@@ -289,7 +158,7 @@ class PRL_Simulation extends Simulation {
   }
   
   setUp(
-    PrlHearingDataPrep.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
+    PRLCitizenScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
   //  CafcasDownloadByDocScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
   ).protocols(httpProtocol)
     .assertions(assertions(testType))

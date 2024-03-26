@@ -45,7 +45,7 @@ object Login {
         .exec(Common.monitoringTools)
 
     /*      //if there is no in-flight case, set the case to 0 for the activity calls
-      .doIf("${caseId.isUndefined()}") {
+      .doIf("#{caseId.isUndefined()}") {
         exec(_.set("caseId", "0"))
       }
 
@@ -62,17 +62,17 @@ object Login {
       .exec(Common.orgDetails)
       
       .exec(http("XUI_020_015_WorkBasketInputs")
-        .get("/data/internal/case-types/${caseType}/work-basket-inputs")
+        .get("/data/internal/case-types/#{caseType}/work-basket-inputs")
         .headers(Headers.commonHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-workbasket-input-details.v2+json;charset=UTF-8")
         .check(regex("workbasketInputs|Not Found"))
         .check(status.in(200, 404)))
 
       .exec(http("XUI_020_020_SearchCases")
-        .post("/data/internal/searchCases?ctid=${caseType}&use_case=WORKBASKET&view=WORKBASKET&page=1")
+        .post("/data/internal/searchCases?ctid=#{caseType}&use_case=WORKBASKET&view=WORKBASKET&page=1")
         .headers(Headers.commonHeader)
         .header("accept", "application/json")
-        .formParam("x-xsrf-token", "${XSRFToken}")
+        .formParam("x-xsrf-token", "#{XSRFToken}")
         .body(StringBody("""{"size":25}"""))
         .check(substring("columns")))
 
@@ -111,7 +111,7 @@ object Login {
         .exec(Common.monitoringTools)
 
       /*      //if there is no in-flight case, set the case to 0 for the activity calls
-        .doIf("${caseId.isUndefined()}") {
+        .doIf("#{caseId.isUndefined()}") {
           exec(_.set("caseId", "0"))
         }
 
@@ -128,17 +128,17 @@ object Login {
         .exec(Common.orgDetails)
 
         .exec(http("XUI_020_015_WorkBasketInputs")
-          .get("/data/internal/case-types/${caseType}/work-basket-inputs")
+          .get("/data/internal/case-types/#{caseType}/work-basket-inputs")
           .headers(Headers.commonHeader)
           .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-workbasket-input-details.v2+json;charset=UTF-8")
           .check(regex("workbasketInputs|Not Found"))
           .check(status.in(200, 404)))
 
         .exec(http("XUI_020_020_SearchCases")
-          .post("/data/internal/searchCases?ctid=${caseType}&use_case=WORKBASKET&view=WORKBASKET&page=1")
+          .post("/data/internal/searchCases?ctid=#{caseType}&use_case=WORKBASKET&view=WORKBASKET&page=1")
           .headers(Headers.commonHeader)
           .header("accept", "application/json")
-          .formParam("x-xsrf-token", "${XSRFToken}")
+          .formParam("x-xsrf-token", "#{XSRFToken}")
           .body(StringBody("""{"size":25}"""))
           .check(substring("columns")))
 

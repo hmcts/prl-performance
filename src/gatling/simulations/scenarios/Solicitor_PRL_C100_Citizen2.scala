@@ -16,7 +16,6 @@ object Solicitor_PRL_C100_Citizen2 {
   val prlURL = Environment.prlURL
   val IdamUrl = Environment.idamURL
  // val PRLcases = csv("cases.csv").circular
-  val PRLAccessCode = csv("accessCodeList.csv").circular
   val PRLCitizens = csv("UserDataPRLCitizen.csv").circular
 
   val postcodeFeeder = csv("postcodes.csv").circular
@@ -742,14 +741,14 @@ object Solicitor_PRL_C100_Citizen2 {
               .post(prlURL + "/c100-rebuild/check-your-answers")
               .disableFollowRedirect
               .headers(Headers.commonHeader)
-              .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+              .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8")
               .header("content-type", "application/x-www-form-urlencoded")
               .formParam("_csrf", "#{csrf}")
               .formParam("statementOfTruth", "")
               .formParam("statementOfTruth", "Yes")
               .formParam("saveAndContinue", "true")
               .check(
-                headerRegex("location", """https://card.payments.service.gov.uk\/secure\/(.{8}-.{4}-.{4}-.{4}-.{12})""")
+                headerRegex("Location", """https:\/\/card.payments.service.gov.uk\/secure\/(.{8}-.{4}-.{4}-.{4}-.{12})""")
                   .ofType[(String)]
                   .saveAs("paymentId")
               )

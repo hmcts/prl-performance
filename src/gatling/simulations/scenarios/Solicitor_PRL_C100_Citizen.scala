@@ -14,7 +14,6 @@ object Solicitor_PRL_C100_Citizen {
   val prlURL = Environment.prlURL
   val IdamUrl = Environment.idamURL
  // val PRLcases = csv("cases.csv").circular
-  val PRLAccessCode = csv("accessCodeList.csv").circular
   val PRLCitizens = csv("UserDataPRLCitizen.csv").circular
 
 
@@ -116,32 +115,10 @@ object Solicitor_PRL_C100_Citizen {
         .headers(Headers.navigationHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
         .check(CsrfCheck.save)
-        .check(substring("Enter Case Name")))
-
-    }
-    .pause(MinThinkTime, MaxThinkTime)
-
-
-
-    /*======================================================================================
-    * Enter Case Name
-    ======================================================================================*/
-
-    .group("PRL_CitizenC100_050_CaseName") {
-
-      exec(http("PRL_CitizenC100_050_005_CaseName")
-        .post(prlURL + "/c100-rebuild/case-name")
-        .headers(Headers.commonHeader)
-        .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-        .header("content-type", "application/x-www-form-urlencoded")
-        .formParam("_csrf", "#{csrf}")
-        .formParam("applicantCaseName", "#{PRLRandomString}" + "Case")
-        .formParam("saveAndContinue", "true")
         .check(substring("Where do the children live?")))
 
     }
     .pause(MinThinkTime, MaxThinkTime)
-
 
     /*======================================================================================
     * Where do the children live? - Enter PostCode
@@ -401,7 +378,7 @@ object Solicitor_PRL_C100_Citizen {
         exec(http("PRL_CitizenC100_180_005_MIAMUpload")
           .post(prlURL+ "/c100-rebuild/miam/upload?_csrf=#{csrf}")
           .headers(Headers.uploadHeader)
-          .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+          .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8")
           .formParam("_csrf", "#{csrf}")
           .bodyPart(RawFileBodyPart("documents", "3MB.pdf")
             .contentType("application/pdf")

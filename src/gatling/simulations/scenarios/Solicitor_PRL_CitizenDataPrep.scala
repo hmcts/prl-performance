@@ -13,7 +13,7 @@ import java.io.{BufferedWriter, FileWriter}
 object Solicitor_PRL_CitizenDataPrep {
   
   val BaseURL = Environment.baseURL
-  val prlURL = "https://privatelaw.${env}.platform.hmcts.net"
+  val prlURL = "https://privatelaw.#{env}.platform.hmcts.net"
   val IdamUrl = Environment.idamURL
   val payUrl = "https://card.payments.service.gov.uk"
 
@@ -109,7 +109,7 @@ object Solicitor_PRL_CitizenDataPrep {
       .group("XUI_PRL_033_ApplicationDetails") {
 
         exec(http("XUI_PRL_033_005_ApplicationDetails")
-          .get(BaseURL + "/data/internal/cases/${caseId}/event-triggers/applicantsDetails?ignore-warning=false")
+          .get(BaseURL + "/data/internal/cases/#{caseId}/event-triggers/applicantsDetails?ignore-warning=false")
           .headers(Headers.commonHeader)
           .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
           .check(jsonPath("$.event_token").saveAs("event_token"))
@@ -146,7 +146,7 @@ object Solicitor_PRL_CitizenDataPrep {
       .group("XUI_PRL_035_SubmitApplicationDetails") {
 
         exec(http("XUI_PRL_035_005_SubmitApplicationDetails")
-          .post(BaseURL + "/data/cases/${caseId}/events")
+          .post(BaseURL + "/data/cases/#{caseId}/events")
           .headers(Headers.commonHeader)
           .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8")
           .body(ElFileBody("bodies/prl/PRLDataPrep/PRLApplicantDetailsSubmit.json"))
@@ -165,7 +165,7 @@ object Solicitor_PRL_CitizenDataPrep {
       .group("XUI_PRL_036_SubmitAndPay") {
 
         exec(http("XUI_PRL_036_005_SubmitAndPay")
-          .get(BaseURL + "/data/internal/cases/${caseId}/event-triggers/submitAndPay?ignore-warning=false")
+          .get(BaseURL + "/data/internal/cases/#{caseId}/event-triggers/submitAndPay?ignore-warning=false")
           .headers(Headers.navigationHeader)
           .check(jsonPath("$.event_token").saveAs("event_token"))
         //  .check(jsonPath("$.case_fields[6].formatted_value.document_hash").saveAs("Document_HashWelsh"))
@@ -243,7 +243,7 @@ object Solicitor_PRL_CitizenDataPrep {
       .group("XUI_PRL_040_Continue") {
 
         exec(http("XUI_PRL_039_005_Continue")
-          .post(BaseURL + "/data/cases/${caseId}/events")
+          .post(BaseURL + "/data/cases/#{caseId}/events")
           .headers(Headers.commonHeader)
           .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8")
           .header("content-type", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8")
@@ -260,7 +260,7 @@ object Solicitor_PRL_CitizenDataPrep {
     //  .group("XUI_PRL_041_Continue") {
 
      //   exec(http("XUI_PRL_040_005_Continue")
-     //     .get(BaseURL + "/payments/cases/${caseId}/paymentgroups")
+     //     .get(BaseURL + "/payments/cases/#{caseId}/paymentgroups")
      //     .headers(Headers.commonHeader)
      //     .header("accept", "application/json, text/plain, */*")
      //     .check(substring("payment_group_reference"))
