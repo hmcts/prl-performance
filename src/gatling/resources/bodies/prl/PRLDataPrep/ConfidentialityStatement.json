@@ -1,0 +1,30 @@
+{
+  "data": {
+    "confidentialityDisclaimer": {
+      "confidentialityChecksChecked": [
+        "confidentialityChecksChecked"
+      ]
+    },
+    "applicantSolicitorEmailAddress": "prl_perf_solicitor1@mailinator.com",
+    "caseworkerEmailAddress": "C100applications@justice.gov.uk",
+    "courtName": "West London Family Court"
+  },
+  "event": {
+    "id": "submitAndPay",
+    "summary": "",
+    "description": ""
+  },
+  "event_data": {
+    "confidentialityDisclaimer": {
+      "confidentialityChecksChecked": [
+        "confidentialityChecksChecked"
+      ]
+    },
+    "applicantSolicitorEmailAddress": "prl_perf_solicitor1@mailinator.com",
+    "caseworkerEmailAddress": "C100applications@justice.gov.uk",
+    "courtName": "West London Family Court"
+  },
+  "event_token": "#{event_token}",
+  "ignore_warning": false,
+  "case_reference": "#{caseId}"
+}

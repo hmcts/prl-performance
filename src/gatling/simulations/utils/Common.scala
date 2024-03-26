@@ -5,9 +5,11 @@ import io.gatling.http.Predef._
 import io.gatling.core.check.CheckBuilder
 import io.gatling.core.check.jsonpath.JsonPathCheckType
 import com.fasterxml.jackson.databind.JsonNode
-import java.time.LocalDate
+import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import scala.util.Random
+import java.time.{LocalDate, ZonedDateTime}
+import java.text.SimpleDateFormat
 
 object Common {
 
@@ -17,10 +19,13 @@ object Common {
 
   val rnd = new Random()
   val now = LocalDate.now()
+  val timeNow = LocalTime.now()
   val patternDay = DateTimeFormatter.ofPattern("dd")
   val patternMonth = DateTimeFormatter.ofPattern("MM")
   val patternYear = DateTimeFormatter.ofPattern("yyyy")
+  val patternTime = DateTimeFormatter.ofPattern("HH:MM:SS.SSS")
   val patternReference = DateTimeFormatter.ofPattern("d MMM yyyy")
+  val BaseURL = Environment.baseURL
 
   def randomString(length: Int) = {
     rnd.alphanumeric.filter(_.isLetter).take(length).mkString
@@ -62,11 +67,32 @@ object Common {
   def getDodYear(): String = {
     now.minusYears(1 + rnd.nextInt(20)).format(patternYear)
   }
+
+  def getCurrentYear(): String = {
+    now.format(patternYear)
+  }
+
+  def getCurrentMonth(): String = {
+    now.format(patternMonth)
+  }
+
+  def getCurrentDay(): String = {
+    now.format(patternDay)
+  }
+
+  def getCurrentTime(): String = {
+    timeNow.format(patternTime)
+  }
+
+
+  def getCurrentDateTime (): String = {
+    ZonedDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"))
+  }
   //Saves partyId
-  def savePartyId: CheckBuilder[JsonPathCheckType, JsonNode, String] = jsonPath("$.case_fields[*].value[*].value.party.partyId").saveAs("partyId")
+ // def savePartyId: CheckBuilder[JsonPathCheckType, JsonNode, String] = jsonPath("$.case_fields[*].value[*].value.party.partyId").saveAs("partyId")
 
   //Saves user ID
-  def saveId: CheckBuilder[JsonPathCheckType, JsonNode, String] = jsonPath("$.case_fields[*].value[0].id").saveAs("id")
+  //def saveId: CheckBuilder[JsonPathCheckType, JsonNode, String] = jsonPath("$.case_fields[*].value[0].id").saveAs("id")
 
   /*======================================================================================
   * Common XUI Calls
@@ -77,7 +103,7 @@ object Common {
   val postcodeLookup =
     feed(postcodeFeeder)
       .exec(http("XUI_Common_000_PostcodeLookup")
-        .get("/api/addresses?postcode=${postcode}")
+        .get(BaseURL + "/api/addresses?postcode=#{postcode}")
         .headers(Headers.commonHeader)
         .header("accept", "application/json")
         .check(jsonPath("$.header.totalresults").ofType[Int].gt(0))
@@ -93,7 +119,7 @@ object Common {
 
   val activity =
     exec(http("XUI_Common_000_ActivityOptions")
-      .options("/activity/cases/${caseId}/activity")
+      .options(BaseURL + "/activity/cases/#{caseId}/activity")
       .headers(Headers.commonHeader)
       .header("accept", "application/json, text/plain, */*")
       .header("sec-fetch-site", "same-site")
@@ -101,14 +127,14 @@ object Common {
 
   val caseActivityGet =
     exec(http("XUI_Common_000_ActivityOptions")
-      .options("/activity/cases/${caseId}/activity")
+      .options(BaseURL + "/activity/cases/#{caseId}/activity")
       .headers(Headers.commonHeader)
       .header("accept", "application/json, text/plain, */*")
       .header("sec-fetch-site", "same-site")
       .check(status.in(200, 304, 403)))
 
     .exec(http("XUI_Common_000_ActivityGet")
-      .get("/activity/cases/${caseId}/activity")
+      .get(BaseURL + "/activity/cases/#{caseId}/activity")
       .headers(Headers.commonHeader)
       .header("accept", "application/json, text/plain, */*")
       .header("sec-fetch-site", "same-site")
@@ -116,14 +142,14 @@ object Common {
 
   val caseActivityPost =
     exec(http("XUI_Common_000_ActivityOptions")
-      .options("/activity/cases/${caseId}/activity")
+      .options(BaseURL + "/activity/cases/#{caseId}/activity")
       .headers(Headers.commonHeader)
       .header("accept", "application/json, text/plain, */*")
       .header("sec-fetch-site", "same-site")
       .check(status.in(200, 304, 403)))
 
     .exec(http("XUI_Common_000_ActivityPost")
-      .post("/activity/cases/${caseId}/activity")
+      .post(BaseURL + "/activity/cases/#{caseId}/activity")
       .headers(Headers.commonHeader)
       .header("accept", "application/json, text/plain, */*")
       .header("sec-fetch-site", "same-site")
@@ -132,71 +158,87 @@ object Common {
 
   val configurationui =
     exec(http("XUI_Common_000_ConfigurationUI")
-      .get("/external/configuration-ui/")
+      .get(BaseURL + "/external/configuration-ui/")
       .headers(Headers.commonHeader)
       .header("accept", "*/*")
       .check(substring("ccdGatewayUrl")))
 
   val configJson =
     exec(http("XUI_Common_000_ConfigJson")
-      .get("/assets/config/config.json")
+      .get(BaseURL + "/assets/config/config.json")
       .header("accept", "application/json, text/plain, */*")
       .check(substring("caseEditorConfig")))
 
   val TsAndCs =
     exec(http("XUI_Common_000_TsAndCs")
-      .get("/api/configuration?configurationKey=termsAndConditionsEnabled")
+      .get(BaseURL + "/api/configuration?configurationKey=termsAndConditionsEnabled")
       .headers(Headers.commonHeader)
       .header("accept", "application/json, text/plain, */*")
       .check(substring("false")))
 
   val userDetails =
     exec(http("XUI_Common_000_UserDetails")
-      .get("/api/user/details")
+      .get(BaseURL + "/api/user/details")
       .headers(Headers.commonHeader)
       .header("accept", "application/json, text/plain, */*"))
 
   val configUI =
     exec(http("XUI_Common_000_ConfigUI")
-      .get("/external/config/ui")
+      .get(BaseURL + "/external/config/ui")
       .headers(Headers.commonHeader)
       .header("accept", "application/json, text/plain, */*")
       .check(substring("ccdGatewayUrl")))
 
   val isAuthenticated =
     exec(http("XUI_Common_000_IsAuthenticated")
-      .get("/auth/isAuthenticated")
+      .get(BaseURL + "/auth/isAuthenticated")
       .headers(Headers.commonHeader)
       .header("accept", "application/json, text/plain, */*")
       .check(regex("true|false")))
 
   val profile =
     exec(http("XUI_Common_000_Profile")
-      .get("/data/internal/profile")
+      .get(BaseURL + "/data/internal/profile")
       .headers(Headers.commonHeader)
       .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-user-profile.v2+json;charset=UTF-8")
       .check(jsonPath("$.user.idam.id").notNull))
 
   val monitoringTools =
     exec(http("XUI_Common_000_MonitoringTools")
-      .get("/api/monitoring-tools")
+      .get(BaseURL + "/api/monitoring-tools")
       .headers(Headers.commonHeader)
       .header("accept", "application/json, text/plain, */*")
       .check(jsonPath("$.key").notNull))
 
   val caseShareOrgs =
     exec(http("XUI_Common_000_CaseShareOrgs")
-      .get("/api/caseshare/orgs")
+      .get(BaseURL + "/api/caseshare/orgs")
       .headers(Headers.commonHeader)
       .header("accept", "application/json, text/plain, */*")
       .check(jsonPath("$.name").notNull))
 
   val orgDetails =
     exec(http("XUI_Common_000_OrgDetails")
-      .get("/api/organisation")
+      .get(BaseURL + "/api/organisation")
       .headers(Headers.commonHeader)
       .header("accept", "application/json, text/plain, */*")
       .check(regex("name|Organisation route error"))
       .check(status.in(200, 304, 403)))
+
+  /*flowwing def will give random start date and end date based on the given date to use in the
+  * cafcas api search cases b
+   */
+  def randomDateWithinMonth(startDateStr: String): (String, String) = {
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
+    val startDate = LocalDate.parse(startDateStr, formatter)
+    val maxDays = startDate.lengthOfMonth()
+    val startEpochDay = startDate.toEpochDay()
+    val endEpochDay = startDate.plusDays(maxDays).toEpochDay()
+    val randomStartDay = startEpochDay + Random.nextInt((endEpochDay - startEpochDay).toInt)
+    val randomEndDay = randomStartDay + Random.nextInt((endEpochDay - randomStartDay).toInt)
+    val randomStartDate = LocalDate.ofEpochDay(randomStartDay).atStartOfDay().format(formatter)
+    val randomEndDate = LocalDate.ofEpochDay(randomEndDay).atStartOfDay().format(formatter)
+    (randomStartDate, randomEndDate)
+  }
 
 }

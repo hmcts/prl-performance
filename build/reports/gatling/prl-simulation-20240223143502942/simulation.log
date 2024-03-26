@@ -1,0 +1,185 @@
+ASSERTION	AAECAAIFAAAAAAAAAFlA
+RUN	simulations.PRL_Simulation	prl-simulation	1708698902942	 	3.9.5
+USER	***** PRL Citizen Journey *****	START	1708698903513
+REQUEST	XUI_010_Homepage	XUI_010_005_Homepage	1708698903523	1708698903610	OK	 
+REQUEST	XUI_010_Homepage	XUI_Common_000_ConfigurationUI	1708698905376	1708698905407	OK	 
+REQUEST	XUI_010_Homepage	XUI_Common_000_ConfigJson	1708698905408	1708698905440	OK	 
+REQUEST	XUI_010_Homepage	XUI_Common_000_TsAndCs	1708698905440	1708698905470	OK	 
+REQUEST	XUI_010_Homepage	XUI_Common_000_ConfigUI	1708698905470	1708698905526	OK	 
+REQUEST	XUI_010_Homepage	XUI_Common_000_UserDetails	1708698905527	1708698905672	OK	 
+REQUEST	XUI_010_Homepage	XUI_Common_000_IsAuthenticated	1708698905673	1708698905699	OK	 
+REQUEST	XUI_010_Homepage	XUI_010_010_AuthLogin	1708698905702	1708698905732	OK	 
+REQUEST	XUI_010_Homepage	XUI_010_010_AuthLogin Redirect 1	1708698905736	1708698905868	OK	 
+REQUEST	XUI_010_Homepage	XUI_010_010_AuthLogin Redirect 2	1708698905869	1708698905984	OK	 
+GROUP	XUI_010_Homepage	1708698903515	1708698906249	2638	OK
+REQUEST	XUI_020_Login	XUI_020_005_Login	1708698906252	1708698906456	OK	 
+REQUEST	XUI_020_Login	XUI_020_005_Login Redirect 1	1708698906457	1708698906998	OK	 
+REQUEST	XUI_020_Login	XUI_020_005_Login Redirect 2	1708698906999	1708698907030	OK	 
+REQUEST	XUI_020_Login	XUI_Common_000_ConfigurationUI	1708698919500	1708698919549	OK	 
+REQUEST	XUI_020_Login	XUI_Common_000_ConfigJson	1708698919549	1708698919581	OK	 
+REQUEST	XUI_020_Login	XUI_Common_000_TsAndCs	1708698919581	1708698919619	OK	 
+REQUEST	XUI_020_Login	XUI_Common_000_ConfigUI	1708698919620	1708698919647	OK	 
+REQUEST	XUI_020_Login	XUI_Common_000_UserDetails	1708698919647	1708698919876	OK	 
+REQUEST	XUI_020_Login	XUI_Common_000_IsAuthenticated	1708698919877	1708698919981	OK	 
+REQUEST	XUI_020_Login	XUI_Common_000_MonitoringTools	1708698919982	1708698920034	OK	 
+GROUP	XUI_020_Login	1708698906250	1708698920059	13773	OK
+REQUEST	XUI_PRL_030_CreateCaseStart	XUI_PRL_030_005_CreateCaseStart	1708698920062	1708698921017	OK	 
+GROUP	XUI_PRL_030_CreateCaseStart	1708698920060	1708698921023	955	OK
+REQUEST	XUI_PRL_031_Type_Of_Application	XUI_PRL_031_005_Type_Of_Application	1708698921040	1708698921915	OK	 
+GROUP	XUI_PRL_031_Type_Of_Application	1708698921023	1708698921916	875	OK
+REQUEST	XUI_PRL_032_ApplicationCheckYourAnswers	XUI_PRL_032_005_ApplicationCheckYourAnswers	1708698921917	1708698933062	OK	 
+GROUP	XUI_PRL_032_ApplicationCheckYourAnswers	1708698921916	1708698933076	11145	OK
+REQUEST	XUI_PRL_033_ApplicationDetails	XUI_PRL_033_005_ApplicationDetails	1708698933077	1708698934510	OK	 
+GROUP	XUI_PRL_033_ApplicationDetails	1708698933076	1708698934542	1433	OK
+ERROR	XUI_PRL_034_005_EnterApplicationDetails: Failed to build request: i.g.c.s.e.ElParserException: Failed to parse {
+  "data": {
+    "applicants": [
+      {
+        "value": {
+          "firstName": "#{PRLRandomString} First",
+          "lastName": "#{PRLRandomString} Last",
+          "previousName": null,
+          "dateOfBirt#": "#{PRLAppDobYear}-#{PRLAppDobMont#}-#{PRLAppDobDay}",
+          "gender": "male",
+          "placeOfBirt#": "London",
+          "isAddressConfidential": "No",
+          "isAtAddressLessT#an5Years": "No",
+          "canYouProvideEmailAddress": "Yes",
+          "email": "#{PRLRandomString}@gmail.com",
+          "isEmailAddressConfidential": "No",
+          "p#oneNumber": "0123456789",
+          "isP#oneNumberConfidential": "Yes",
+          "representativeFirstName": "#{PRLRandomString} Rep",
+          "representativeLastName": "#{PRLRandomString} Name",
+          "solicitorEmail": "#{PRLRandomString}email@gmail.com",
+          "solicitorReference": "#{PRLRandomString} Ref",
+          "dxNumber": "1234567890",
+          "isDateOfBirt#Unknown": null,
+          "isAddressUnknown": null,
+          "landline": null,
+          "relations#ipToC#ildren": null,
+          "isDateOfBirt#Known": null,
+          "isCurrentAddressKnown": null,
+          "canYouProvideP#oneNumber": null,
+          "isPlaceOfBirt#Known": null,
+          "isAtAddressLessT#an5YearsWit#DontKnow": null,
+          "doT#ey#aveLegalRepresentation": null,
+          "sendSignUpLink": null,
+          "solicitorTelep#one": null,
+          "respondentLivedWit#Applicant": null,
+          "applicantContactInstructions": null,
+          "currentRespondent": null,
+          "partyId": null,
+          "solicitorPartyId": null,
+          "solicitorOrgUuid": null,
+          "contactPreferences": null,
+          "isRemoveLegalRepresentativeRequested": null,
+          "address": {
+            "AddressLine1": "#{PRLRandomString} Address",
+            "AddressLine2": "",
+            "AddressLine3": "",
+            "PostTown": "#{PRLRandomString}  Town",
+            "County": "",
+            "PostCode": "TW3 2##",
+            "Country": "United Kingdom"
+          },
+          "solicitorOrg": {
+            "OrganisationID": "#{orgref}",
+            "OrganisationName": "#{orgname}"
+          },
+          "solicitorAddress": {
+            "AddressLine1": "#{PRLRandomString} Soli ",
+            "AddressLine2": "",
+            "AddressLine3": "",
+            "PostTown": "#{PRLRandomString} Soli Town",
+            "County": "",
+            "PostCode": "TW3 2##",
+            "Country": "United Kingdom"
+          },
+          "applicantPreferredContact": []
+        },
+        "id": null
+      }
+    ]
+  },
+  "event": {
+    "id": "applicantsDetails",
+    "summary": "",
+    "description": ""
+  },
+  "event_data": {
+    "applicants": [
+      {
+        "value": {
+          "firstName": "#{PRLRandomString} First",
+          "lastName": "#{PRLRandomString} Last",
+          "previousName": null,
+          "dateOfBirt#": "#{PRLAppDobYear}-#{PRLAppDobMont#}-#{PRLAppDobDay}",
+          "gender": "male",
+          "placeOfBirt#": "London",
+          "isAddressConfidential": "No",
+          "isAtAddressLessT#an5Years": "No",
+          "canYouProvideEmailAddress": "Yes",
+          "email": "#{PRLRandomString}@gmail.com",
+          "isEmailAddressConfidential": "No",
+          "p#oneNumber": "0123456789",
+          "isP#oneNumberConfidential": "Yes",
+          "representativeFirstName": "#{PRLRandomString} Rep",
+          "representativeLastName": "#{PRLRandomString} Name",
+          "solicitorEmail": "#{PRLRandomString}email@gmail.com",
+          "solicitorReference": "#{PRLRandomString} Ref",
+          "dxNumber": "1234567890",
+          "isDateOfBirt#Unknown": null,
+          "isAddressUnknown": null,
+          "landline": null,
+          "relations#ipToC#ildren": null,
+          "isDateOfBirt#Known": null,
+          "isCurrentAddressKnown": null,
+          "canYouProvideP#oneNumber": null,
+          "isPlaceOfBirt#Known": null,
+          "isAtAddressLessT#an5YearsWit#DontKnow": null,
+          "doT#ey#aveLegalRepresentation": null,
+          "sendSignUpLink": null,
+          "solicitorTelep#one": null,
+          "respondentLivedWit#Applicant": null,
+          "applicantContactInstructions": null,
+          "currentRespondent": null,
+          "partyId": null,
+          "solicitorPartyId": null,
+          "solicitorOrgUuid": null,
+          "contactPreferences": null,
+          "isRemoveLegalRepresentativeRequested": null,
+          "address": {
+            "AddressLine1": "#{PRLRandomString} Address",
+            "AddressLine2": "",
+            "AddressLine3": "",
+            "PostTown": "#{PRLRandomString}  Town",
+            "County": "",
+            "PostCode": "TW3 2##",
+            "Country": "United Kingdom"
+          },
+          "solicitorOrg": {
+            "OrganisationID": "#{orgref}",
+            "OrganisationName": "#{orgname}"
+          },
+          "solicitorAddress": {
+            "AddressLine1": "#{PRLRandomString} Soli ",
+            "AddressLine2": "",
+            "AddressLine3": "",
+            "PostTown": "#{PRLRandomString} Soli Town",
+            "County": "",
+            "PostCode": "TW3 2##",
+            "Country": "United Kingdom"
+          },
+          "applicantPreferredContact": []
+        },
+        "id": null
+      }
+    ]
+  },
+  "event_token": "#{event_token}",
+  "ignore_warning": false,
+  "case_reference": "#{caseId}"
+} with error ''}' expected but '#' found' 	1708698934543
+GROUP	XUI_PRL_034_EnterApplicationDetails	1708698934542	1708698934544	0	KO
+USER	***** PRL Citizen Journey *****	END	1708698934547

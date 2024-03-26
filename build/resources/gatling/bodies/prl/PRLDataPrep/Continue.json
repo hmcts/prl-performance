@@ -1,0 +1,37 @@
+{
+  "data": {
+    "paymentServiceRequestReferenceNumber": null
+  },
+  "event": {
+    "id": "submitAndPay",
+    "summary": "",
+    "description": ""
+  },
+  "event_data": {
+    "confidentialityDisclaimer": {
+      "confidentialityChecksChecked": [
+        "confidentialityChecksChecked"
+      ]
+    },
+    "applicantSolicitorEmailAddress": "prl_perf_solicitor1@mailinator.com",
+    "caseworkerEmailAddress": "C100applications@justice.gov.uk",
+    "courtName": "West London Family Court",
+    "solicitorName": "Perftest Solicitor",
+    "payAgreeStatement": [
+      "agree"
+    ],
+    "feeAmount": "£232.00",
+    "submitAndPayDownloadApplicationLink": {
+      "document_url": "#{Document_urlApp}",
+      "document_binary_url": "#{Document_urlApp}/binary",
+      "document_filename": "Draft_C100_application.pdf",
+      "document_hash": "#{Document_HashApp}",
+      "category_id": null,
+      "document_creation_date": null
+    },
+    "paymentServiceRequestReferenceNumber": null
+  },
+  "event_token": "#{event_token}",
+  "ignore_warning": false,
+  "case_reference": "#{caseId}"
+}
