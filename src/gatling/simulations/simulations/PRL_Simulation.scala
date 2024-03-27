@@ -6,9 +6,10 @@ import io.gatling.core.controller.inject.open.OpenInjectionStep
 import io.gatling.core.pause.PauseType
 import io.gatling.http.Predef._
 import scenarios._
-import utils.{Common,CsrfCheck, Environment, Headers, CsrfCheck2}
+import utils.{Common, CsrfCheck, CsrfCheck2, Environment, Headers}
 
 import scala.concurrent.duration._
+import scala.language.postfixOps
 import scala.util.Random
 
 class PRL_Simulation extends Simulation {
@@ -109,11 +110,15 @@ class PRL_Simulation extends Simulation {
         }
     }
 
+
     .exec {
       session =>
         println(session)
         session
     }
+
+
+
 
   /*===============================================================================================
   * Simulation Configuration
