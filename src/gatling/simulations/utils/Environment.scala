@@ -2,7 +2,7 @@ package utils
 
 object Environment {
 
- val baseURL = "https://manage-case.perftest.platform.hmcts.net"
+ val baseURL = "https://manage-case.#{env}.platform.hmcts.net"
  //val baseURL = "https://manage-case.#{env}.platform.hmcts.net"
  val payURL = "https://card.payments.service.gov.uk"
 // val prlURL = "https://prl-citizen-frontend-pr-741.service.core-compute-preview.internal"
