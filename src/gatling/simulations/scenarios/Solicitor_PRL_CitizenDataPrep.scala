@@ -65,7 +65,7 @@ object Solicitor_PRL_CitizenDataPrep {
             .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=testingSupportDummySolicitorCreate2")
             .headers(Headers.commonHeader)
             .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
-            .body(ElFileBody("bodies/prl/PRLDataPrep/PRLTypeOfApplication.json"))
+            .body(ElFileBody("bodies/PRLDataPrep/PRLTypeOfApplication.json"))
             .check(substring("C100")))
 
       }
@@ -82,7 +82,7 @@ object Solicitor_PRL_CitizenDataPrep {
           .post(BaseURL + "/data/case-types/PRLAPPS/cases?ignore-warning=false")
           .headers(Headers.commonHeader)
           .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-case.v2+json;charset=UTF-8")
-          .body(ElFileBody("bodies/prl/PRLDataPrep/PRLApplicationCheckYourAnswers.json"))
+          .body(ElFileBody("bodies/PRLDataPrep/PRLApplicationCheckYourAnswers.json"))
           .check(jsonPath("$.id").saveAs("caseId")))
 
       }
@@ -116,7 +116,7 @@ object Solicitor_PRL_CitizenDataPrep {
         .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=applicantsDetails1")
         .headers(Headers.commonHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
-        .body(ElFileBody("bodies/prl/PRLDataPrep/PRLApplicantDetails.json"))
+        .body(ElFileBody("bodies/PRLDataPrep/PRLApplicantDetails.json"))
         .check(substring("applicants")))
 
     }
@@ -133,7 +133,7 @@ object Solicitor_PRL_CitizenDataPrep {
         .post(BaseURL + "/data/cases/#{caseId}/events")
         .headers(Headers.commonHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8")
-        .body(ElFileBody("bodies/prl/PRLDataPrep/PRLApplicantDetailsSubmit.json"))
+        .body(ElFileBody("bodies/PRLDataPrep/PRLApplicantDetailsSubmit.json"))
         .check(substring("CALLBACK_COMPLETED")))
 
     }
@@ -168,7 +168,7 @@ object Solicitor_PRL_CitizenDataPrep {
         .headers(Headers.commonHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
         .header("content-type", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
-        .body(ElFileBody("bodies/prl/PRLDataPrep/ConfidentialityStatement.json"))
+        .body(ElFileBody("bodies/PRLDataPrep/ConfidentialityStatement.json"))
         .check(substring("applicantSolicitorEmailAddress")))
 
     }
@@ -186,7 +186,7 @@ object Solicitor_PRL_CitizenDataPrep {
         .headers(Headers.commonHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
         .header("content-type", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
-        .body(ElFileBody("bodies/prl/PRLDataPrep/Declaration.json"))
+        .body(ElFileBody("bodies/PRLDataPrep/Declaration.json"))
         .check(substring("feeAmount")))
 
     }
@@ -204,7 +204,7 @@ object Solicitor_PRL_CitizenDataPrep {
         .headers(Headers.commonHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
         .header("content-type", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
-        .body(ElFileBody("bodies/prl/PRLDataPrep/Continue.json"))
+        .body(ElFileBody("bodies/PRLDataPrep/Continue.json"))
         .check(substring("paymentServiceRequestReferenceNumber")))
     }
 
@@ -222,7 +222,7 @@ object Solicitor_PRL_CitizenDataPrep {
         .headers(Headers.commonHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8")
         .header("content-type", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8")
-        .body(ElFileBody("bodies/prl/PRLDataPrep/paymentServiceRequestReferenceNumber.json"))
+        .body(ElFileBody("bodies/PRLDataPrep/paymentServiceRequestReferenceNumber.json"))
         .check(jsonPath("$.data.paymentServiceRequestReferenceNumber").saveAs("paymentServiceRequestReferenceNumber"))
       )
 
@@ -256,7 +256,7 @@ object Solicitor_PRL_CitizenDataPrep {
         .disableFollowRedirect
         .headers(Headers.commonHeader)
         .header("accept", "application/json, text/plain, */*")
-        .body(ElFileBody("bodies/prl/PRLDataPrep/MakeThePayment.json"))
+        .body(ElFileBody("bodies/PRLDataPrep/MakeThePayment.json"))
         .check(regex("""card.payments.service.gov.uk\/secure\/(.{8}-.{4}-.{4}-.{4}-.{12})"""").saveAs("address"))
         )
 

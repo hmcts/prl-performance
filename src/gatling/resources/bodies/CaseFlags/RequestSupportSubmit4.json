@@ -1,0 +1,177 @@
+{
+  "data": {
+    "caApplicant1ExternalFlags": {
+      "roleOnCase": "Applicant 1",
+      "partyName": "#{partyName}",
+      "groupId": "caApplicant1",
+      "visibility": "External",
+      "details": [
+        {
+          "id": "#{flagId}",
+          "value": {
+            "name": "Documents in a specified colour",
+            "path": [
+              {
+                "id": "#{partyId}",
+                "value": "Party"
+              },
+              {
+                "id": "#{raId}",
+                "value": "Reasonable adjustment"
+              },
+              {
+                "id": "#{formatId}",
+                "value": "I need documents in an alternative format"
+              }
+            ],
+            "status": "Requested",
+            "name_cy": null,
+            "flagCode": "RA0010",
+            "subTypeKey": null,
+            "flagComment": "#{PRLRandomString}",
+            "subTypeValue": null,
+            "flagComment_cy": null,
+            "dateTimeCreated": "#{currentDateTime}",
+            "hearingRelevant": "Yes",
+            "subTypeValue_cy": null,
+            "otherDescription": null,
+            "availableExternally": "Yes",
+            "otherDescription_cy": null
+          }
+        },
+        {
+          "id": "#{flagId2}",
+          "value": {
+            "name": "Documents in a specified colour",
+            "path": [
+              {
+                "id": "#{partyId2}",
+                "value": "Party"
+              },
+              {
+                "id": "#{raId2}",
+                "value": "Reasonable adjustment"
+              },
+              {
+                "id": "#{formatId2}",
+                "value": "I need documents in an alternative format"
+              }
+            ],
+            "status": "Requested",
+            "name_cy": null,
+            "flagCode": "RA0010",
+            "subTypeKey": null,
+            "flagComment": "#{PRLRandomString}",
+            "subTypeValue": null,
+            "flagComment_cy": null,
+            "dateTimeCreated": "#{currentDateTime2}",
+            "hearingRelevant": "Yes",
+            "subTypeValue_cy": null,
+            "otherDescription": null,
+            "availableExternally": "Yes",
+            "otherDescription_cy": null
+          }
+        },
+        {
+          "id": "#{flagId3}",
+          "value": {
+            "name": "Documents in a specified colour",
+            "path": [
+              {
+                "id": "#{partyId3}",
+                "value": "Party"
+              },
+              {
+                "id": "#{raId3}",
+                "value": "Reasonable adjustment"
+              },
+              {
+                "id": "#{formatId3}",
+                "value": "I need documents in an alternative format"
+              }
+            ],
+            "status": "Requested",
+            "name_cy": null,
+            "flagCode": "RA0010",
+            "subTypeKey": null,
+            "flagComment": "#{PRLRandomString}",
+            "subTypeValue": null,
+            "flagComment_cy": null,
+            "dateTimeCreated": "#{currentDateTime3}",
+            "hearingRelevant": "Yes",
+            "subTypeValue_cy": null,
+            "otherDescription": null,
+            "availableExternally": "Yes",
+            "otherDescription_cy": null
+          }
+        }
+      ]
+    },
+    "caApplicantSolicitor1ExternalFlags": {
+      "roleOnCase": "Applicant solicitor 1",
+      "partyName": "#{repPartyName}",
+      "groupId": "caApplicantSolicitor1",
+      "visibility": "External",
+      "details": [
+        {
+          "value": {
+            "name": "Guidance on how to complete forms",
+            "name_cy": null,
+            "subTypeValue": null,
+            "subTypeValue_cy": null,
+            "subTypeKey": null,
+            "otherDescription": null,
+            "otherDescription_cy": null,
+            "flagComment": "#{PRLRandomString}",
+            "flagComment_cy": null,
+            "dateTimeCreated": "#{currentDateTime4}",
+            "path": [
+              {
+                "id": null,
+                "value": "Party"
+              },
+              {
+                "id": null,
+                "value": "Reasonable adjustment"
+              },
+              {
+                "id": null,
+                "value": "I need help with forms"
+              }
+            ],
+            "hearingRelevant": "No",
+            "flagCode": "RA0017",
+            "status": "Requested",
+            "availableExternally": "Yes"
+          }
+        }
+      ]
+    },
+    "caApplicant2ExternalFlags": {},
+    "caApplicantSolicitor2ExternalFlags": {},
+    "caApplicant3ExternalFlags": {},
+    "caApplicantSolicitor3ExternalFlags": {},
+    "caApplicant4ExternalFlags": {},
+    "caApplicantSolicitor4ExternalFlags": {},
+    "caApplicant5ExternalFlags": {},
+    "caApplicantSolicitor5ExternalFlags": {},
+    "caOtherParty1ExternalFlags": {
+      "roleOnCase": "Other people in the case 1",
+      "partyName": "#{otherPartyName}",
+      "groupId": "caOtherParty1",
+      "visibility": "External",
+      "details": []
+    },
+    "caOtherParty2ExternalFlags": {},
+    "caOtherParty3ExternalFlags": {},
+    "caOtherParty4ExternalFlags": {},
+    "caOtherParty5ExternalFlags": {}
+  },
+  "event": {
+    "id": "c100RequestSupport",
+    "summary": "",
+    "description": ""
+  },
+  "event_token": "#{event_token}",
+  "ignore_warning": false
+}

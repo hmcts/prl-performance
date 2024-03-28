@@ -1,0 +1,115 @@
+{
+  "data": {
+    "manageOrderHeader1": null,
+    "caseTypeOfApplication": "C100",
+    "manageOrdersOptions": "createAnOrder",
+    "performingUser": null,
+    "performingAction": null,
+    "judgeLaReviewRequired": null,
+    "createSelectOrderOptions": "specialGuardianShip",
+    "typeOfC21Order": null,
+    "selectedOrder": "Special guardianship order (C43A)",
+    "withdrawnOrRefusedOrder": null,
+    "isCaseWithdrawn": null,
+    "isTheOrderByConsent": "Yes",
+    "wasTheOrderApprovedAtHearing": "No",
+    "approvalDate": null,
+    "hearingType": null,
+    "hearingsType": null,
+    "judgeOrMagistrateTitle": "herHonourJudge",
+    "judgeOrMagistratesLastName": "${PRLRandomString} Last",
+    "magistrateLastName": [],
+    "justiceLegalAdviserFullName": "${PRLRandomString} Name",
+    "dateOrderMade": "2022-${PRLAppDobMonth}-${PRLAppDobDay}",
+    "isTheOrderAboutChildren": null,
+    "isTheOrderAboutAllChildren": "Yes",
+    "childOption": [],
+    "recitalsOrPreamble": null,
+    "uploadOrderDoc": null,
+    "orderDirections": null,
+    "furtherDirectionsIfRequired": null,
+    "furtherInformationIfRequired": null,
+    "guardianTextBox": "${PRLRandomString} Guardian",
+    "appointedGuardianName": [],
+    "previewOrderDoc": {
+      "document_url": "${document_url}",
+      "document_binary_url": "${document_url}/binary",
+      "document_filename": "Special_Guardianship_Order_C43A_Draft.pdf",
+      "document_hash": "${document_hash}",
+      "document_creation_date": null
+    },
+    "previewOrderDocWelsh": {
+      "document_url": "${document_url}",
+      "document_binary_url": "${document_url}/binary",
+      "document_filename": "Welsh_Special_Guardianship_Order_C43A_Draft.pdf",
+      "document_hash": "${document_hash}",
+      "document_creation_date": null
+    },
+    "amendOrderSelectCheckOptions": "noCheck",
+    "amendOrderSelectJudgeOrLa": null,
+    "nameOfJudgeAmendOrder": null,
+    "nameOfLaAmendOrder": null,
+    "nameOfJudgeToReviewOrder": null,
+    "nameOfLaToReviewOrder": null,
+    "selectTypeOfOrder": "interim",
+    "doesOrderClosesCase": null,
+    "cafcassOrCymruNeedToProvideReport": "No",
+    "cafcassCymruDocuments": [],
+    "whenReportsMustBeFiled": null,
+    "orderEndsInvolvementOfCafcassOrCymru": "No",
+    "doYouWantToServeOrder": "Yes",
+    "whatDoWithOrder": null,
+    "serveOrderDynamicList": {
+      "value": [
+        {
+          "code": "${serveOrderCode}",
+          "label": "${serveOrderLabel}"
+        }
+      ],
+      "list_items": [
+        {
+          "code": "${serveOrderCode}",
+          "label": "${serveOrderLabel}"
+        }
+      ]
+    },
+    "serveOrderAdditionalDocuments": [],
+    "ordersNeedToBeServed": "Yes",
+    "currentOrderCreatedDateTime": "${currentOrderCreatedDateTime}",
+    "isCafcass": "Yes",
+    "otherPeoplePresentInCaseFlag": "Yes",
+    "isOnlyC47aOrderSelectedToServe": null,
+    "serveToRespondentOptions": "Yes",
+    "servingRespondentsOptionsCA": "applicantLegalRepresentative",
+    "recipientsOptions": null,
+    "otherParties": {
+      "value": [
+        {
+          "code": "${otherPartiesrCode}",
+          "label": "${otherPartiesLabel}"
+        }
+      ],
+      "list_items": [
+        {
+          "code": "${otherPartiesrCode}",
+          "label": "${otherPartiesLabel}"
+        }
+      ]
+    },
+    "cafcassServedOptions": "No",
+    "cafcassCymruServedOptions": null,
+    "cafcassEmailId": null,
+    "cafcassCymruEmail": null,
+    "serveOtherPartiesCA": [],
+    "deliveryByOptionsCA": null,
+    "postalInformationCA": [],
+    "emailInformationCA": []
+  },
+  "event": {
+    "id": "manageOrders",
+    "summary": "",
+    "description": ""
+  },
+  "event_token": "${event_token}",
+  "ignore_warning": false
+}
