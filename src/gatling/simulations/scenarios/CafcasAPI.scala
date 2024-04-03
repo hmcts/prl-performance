@@ -49,7 +49,7 @@ object CafcasAPI {
         .formParam("password", "${passwordCCD}")
         .formParam("client_id", "cafcaas-idam-id")
         // .formParam("client_secret", clientSecret)
-        .formParam("client_secret", "RB4B4JLQYZUXYO5U")
+        .formParam("client_secret", "")
         .formParam("scope", "profile roles openid")
         .header("Content-Type", "application/x-www-form-urlencoded")
         .check(jsonPath("$.access_token").saveAs("bearerToken")))
