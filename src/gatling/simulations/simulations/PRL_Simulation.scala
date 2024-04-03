@@ -296,6 +296,7 @@ class PRL_Simulation extends Simulation {
     .exitBlockOnFail {
       exec(_.set("env", s"${env}")
         .set("caseType", "Cafcas"))
+        .exec(CafcasAPI.Auth("Caseworker"))
         .exec(CafcasAPI.getCasesBetweenDates)
     }
     .exec {
@@ -369,8 +370,8 @@ class PRL_Simulation extends Simulation {
   }
   
   setUp(
-    PrlCaseFlags.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
-  //  CafcasDownloadByDocScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
+    //PrlCaseFlags.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
+    CafcasCasesByDatesScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
   ).protocols(httpProtocol)
     .assertions(assertions(testType))
     .maxDuration(75 minutes)

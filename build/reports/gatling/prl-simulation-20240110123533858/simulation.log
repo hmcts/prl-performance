@@ -1,6 +1,0 @@
-ASSERTION	AAECAAIFAAAAAAAAAFlA
-RUN	simulations.PRL_Simulation	prl-simulation	1704890133858	 	3.9.5
-USER	***** PRL Citizen Journey *****	START	1704890134138
-REQUEST	XUI_010_Homepage	XUI_010_005_Homepage	1704890134149	1704890134150	KO	j.n.UnknownHostException: manage-case.perftest.platform.hmcts.net: nodename nor servname provided, or not known
-GROUP	XUI_010_Homepage	1704890134141	1704890134155	1	KO
-USER	***** PRL Citizen Journey *****	END	1704890134157

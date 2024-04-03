@@ -1,0 +1,5 @@
+ASSERTION	AAECAAIFAAAAAAAAAFlA
+RUN	simulations.PRL_Simulation	prl-simulation	1712144657025	 	3.9.5
+REQUEST		CAFCAS_000_Auth	1712144657824	1712144657861	KO	j.n.UnknownHostException: No such host is known (rpe-service-auth-provider-perftest.service.core-compute-perftest.internal)
+USER	***** Cafcas Case data By Dates*****	END	1712144657891
+USER	***** Cafcas Case data By Dates*****	START	1712144657891
