@@ -296,8 +296,10 @@ class PRL_Simulation extends Simulation {
     .exitBlockOnFail {
       exec(_.set("env", s"${env}")
         .set("caseType", "Cafcas"))
-        .exec(CafcasAPI.Auth("Caseworker"))
-        .exec(CafcasAPI.getCasesBetweenDates)
+          //.repeat(1) {
+          .repeat(10) {
+            exec(CafcasAPI.getCasesBetweenDates)
+        }
     }
     .exec {
       session =>
