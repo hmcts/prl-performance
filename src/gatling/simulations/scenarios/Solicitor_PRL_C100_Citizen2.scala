@@ -2,6 +2,7 @@ package scenarios
 
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
+import scenarios.Solicitor_PRL_C100_Citizen.{MaxThinkTime, MinThinkTime, postcodeFeeder, prlURL}
 import utils.{Common, CsrfCheck, CsrfCheck2, Environment, Headers}
 
 import java.io.{BufferedWriter, FileWriter}
@@ -650,18 +651,74 @@ object Solicitor_PRL_C100_Citizen2 {
     }
     .pause(MinThinkTime, MaxThinkTime)
 
+      /*======================================================================================
+   * DG Do you have a physical, mental or learning disability or health condition that means you need support during your case?
+   ======================================================================================*/
+
+      .group("PRL_CitizenC100_730_010_SpecialArrangements") {
+
+        exec(http("PRL_CitizenC100_730_010_support-during-your-case")
+          .post(prlURL + "/c100-rebuild/reasonable-adjustments/support-during-your-case")
+          .headers(Headers.commonHeader)
+          .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+          .header("content-type", "application/x-www-form-urlencoded")
+          .formParam("_csrf", "#{csrf}")
+          .formParam("ra_disabilityRequirements", "")
+          .formParam("ra_disabilityRequirements", "")
+          .formParam("ra_disabilityRequirements", "")
+          .formParam("ra_disabilityRequirements", "")
+          .formParam("ra_disabilityRequirements", "")
+          .formParam("ra_disabilityRequirements", "")
+          .formParam("ra_disabilityRequirements", "documentsHelp")
+          .formParam("onlycontinue", "true")
+          .check(substring("I need documents in an alternative format")))
+
+      }
+      .pause(MinThinkTime, MaxThinkTime)
+
+      /*======================================================================================
+* DG I need documents in an alternative format
+======================================================================================*/
+
+      .group("PRL_CitizenC100_730_015_SpecialArrangements") {
+
+        exec(http("PRL_CitizenC100_730_015_documents-support")
+          .post(prlURL + "/c100-rebuild/reasonable-adjustments/documents-support")
+          .headers(Headers.commonHeader)
+          .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+          .header("content-type", "application/x-www-form-urlencoded")
+          .formParam("_csrf", "#{csrf}")
+          .formParam("ra_documentInformation", "")
+          .formParam("ra_documentInformation", "")
+          .formParam("ra_documentInformation", "")
+          .formParam("ra_documentInformation", "")
+          .formParam("ra_documentInformation", "")
+          .formParam("ra_documentInformation", "")
+          .formParam("ra_documentInformation", "")
+          .formParam("ra_documentInformation", "")
+          .formParam("ra_documentInformation", "")
+          .formParam("ra_documentInformation", "specifiedColorDocuments")
+          .formParam("ra_specifiedColorDocuments_subfield", "In Colour Blue")
+          .formParam("ra_largePrintDocuments_subfield", "")
+          .formParam("ra_documentHelpOther_subfield", "")
+          .formParam("onlycontinue", "true")
+          .check(substring("Do you need help with paying the fee for this application?")))
+
+      }
+      .pause(MinThinkTime, MaxThinkTime)
+
 
     /*======================================================================================
     * Do you have a physical, mental or learning disability or health condition that means you need support during your case? - I need documents in an alternative format
     ======================================================================================*/
-
+/*
     .group("PRL_CitizenC100_740_NeedSupport") {
 
       exec(http("PRL_CitizenC100_740_005_NeedSupport")
         .post(prlURL + "/c100-rebuild/reasonable-adjustments/disability-requirements")
         .headers(Headers.commonHeader)
-        .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-        .header("content-type", "application/x-www-form-urlencoded")
+     //   .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*///*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+/*        .header("content-type", "application/x-www-form-urlencoded")
         .formParam("_csrf", "#{csrf}")
         .formParam("ra_disabilityRequirements", "")
         .formParam("ra_disabilityRequirements", "")
@@ -678,18 +735,18 @@ object Solicitor_PRL_C100_Citizen2 {
     }
     .pause(MinThinkTime, MaxThinkTime)
 
-
+*/
     /*======================================================================================
     * I need documents in an alternative format - Documents in a specified colour
     ======================================================================================*/
-
+/*
     .group("PRL_CitizenC100_750_DocumentsAlternativeFormat") {
 
       exec(http("PRL_CitizenC100_750_005_DocumentsAlternativeFormat")
         .post(prlURL + "/c100-rebuild/reasonable-adjustments/disability-requirements/document-information")
         .headers(Headers.commonHeader)
-        .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-        .header("content-type", "application/x-www-form-urlencoded")
+        .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*///*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+ /*       .header("content-type", "application/x-www-form-urlencoded")
         .formParam("_csrf", "#{csrf}")
         .formParam("ra_documentInformation", "")
         .formParam("ra_documentInformation", "")
@@ -710,7 +767,7 @@ object Solicitor_PRL_C100_Citizen2 {
     }
     .pause(MinThinkTime, MaxThinkTime)
 
-
+*/
     /*======================================================================================
     * Do you need help with paying the fee for this application? - No
     ======================================================================================*/

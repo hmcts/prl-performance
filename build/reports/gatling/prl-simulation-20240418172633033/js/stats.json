@@ -1,0 +1,1751 @@
+{
+  "type": "GROUP",
+"name": "All Requests",
+"path": "",
+"pathFormatted": "group_missing-name-b06d1",
+"stats": {
+    "name": "All Requests",
+    "numberOfRequests": {
+        "total": 14,
+        "ok": 13,
+        "ko": 1
+    },
+    "minResponseTime": {
+        "total": 70,
+        "ok": 70,
+        "ko": 1037
+    },
+    "maxResponseTime": {
+        "total": 3527,
+        "ok": 3527,
+        "ko": 1037
+    },
+    "meanResponseTime": {
+        "total": 662,
+        "ok": 633,
+        "ko": 1037
+    },
+    "standardDeviation": {
+        "total": 964,
+        "ok": 994,
+        "ko": 0
+    },
+    "percentiles1": {
+        "total": 174,
+        "ok": 135,
+        "ko": 1037
+    },
+    "percentiles2": {
+        "total": 809,
+        "ok": 427,
+        "ko": 1037
+    },
+    "percentiles3": {
+        "total": 2580,
+        "ok": 2653,
+        "ko": 1037
+    },
+    "percentiles4": {
+        "total": 3338,
+        "ok": 3352,
+        "ko": 1037
+    },
+    "group1": {
+    "name": "t < 800 ms",
+    "htmlName": "t < 800 ms",
+    "count": 10,
+    "percentage": 71
+},
+    "group2": {
+    "name": "800 ms <= t < 1200 ms",
+    "htmlName": "t >= 800 ms <br> t < 1200 ms",
+    "count": 1,
+    "percentage": 7
+},
+    "group3": {
+    "name": "t >= 1200 ms",
+    "htmlName": "t >= 1200 ms",
+    "count": 2,
+    "percentage": 14
+},
+    "group4": {
+    "name": "failed",
+    "htmlName": "failed",
+    "count": 1,
+    "percentage": 7
+},
+    "meanNumberOfRequestsPerSecond": {
+        "total": 1.2727272727272727,
+        "ok": 1.1818181818181819,
+        "ko": 0.09090909090909091
+    }
+},
+"contents": {
+"group_prl-citizenc100-99f79": {
+          "type": "GROUP",
+"name": "PRL_CitizenC100_010_PRLHome",
+"path": "PRL_CitizenC100_010_PRLHome",
+"pathFormatted": "group_prl-citizenc100-99f79",
+"stats": {
+    "name": "PRL_CitizenC100_010_PRLHome",
+    "numberOfRequests": {
+        "total": 1,
+        "ok": 1,
+        "ko": 0
+    },
+    "minResponseTime": {
+        "total": 1045,
+        "ok": 1045,
+        "ko": 0
+    },
+    "maxResponseTime": {
+        "total": 1045,
+        "ok": 1045,
+        "ko": 0
+    },
+    "meanResponseTime": {
+        "total": 1045,
+        "ok": 1045,
+        "ko": 0
+    },
+    "standardDeviation": {
+        "total": 0,
+        "ok": 0,
+        "ko": 0
+    },
+    "percentiles1": {
+        "total": 1045,
+        "ok": 1045,
+        "ko": 0
+    },
+    "percentiles2": {
+        "total": 1045,
+        "ok": 1045,
+        "ko": 0
+    },
+    "percentiles3": {
+        "total": 1045,
+        "ok": 1045,
+        "ko": 0
+    },
+    "percentiles4": {
+        "total": 1045,
+        "ok": 1045,
+        "ko": 0
+    },
+    "group1": {
+    "name": "t < 800 ms",
+    "htmlName": "t < 800 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group2": {
+    "name": "800 ms <= t < 1200 ms",
+    "htmlName": "t >= 800 ms <br> t < 1200 ms",
+    "count": 1,
+    "percentage": 100
+},
+    "group3": {
+    "name": "t >= 1200 ms",
+    "htmlName": "t >= 1200 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group4": {
+    "name": "failed",
+    "htmlName": "failed",
+    "count": 0,
+    "percentage": 0
+},
+    "meanNumberOfRequestsPerSecond": {
+        "total": 0.09090909090909091,
+        "ok": 0.09090909090909091,
+        "ko": 0
+    }
+},
+"contents": {
+"req_prl-citizenc100-81452": {
+        "type": "REQUEST",
+        "name": "PRL_CitizenC100_010_005_PRLHome",
+"path": "PRL_CitizenC100_010_PRLHome / PRL_CitizenC100_010_005_PRLHome",
+"pathFormatted": "req_prl-citizenc100-ba221",
+"stats": {
+    "name": "PRL_CitizenC100_010_005_PRLHome",
+    "numberOfRequests": {
+        "total": 1,
+        "ok": 1,
+        "ko": 0
+    },
+    "minResponseTime": {
+        "total": 212,
+        "ok": 212,
+        "ko": 0
+    },
+    "maxResponseTime": {
+        "total": 212,
+        "ok": 212,
+        "ko": 0
+    },
+    "meanResponseTime": {
+        "total": 212,
+        "ok": 212,
+        "ko": 0
+    },
+    "standardDeviation": {
+        "total": 0,
+        "ok": 0,
+        "ko": 0
+    },
+    "percentiles1": {
+        "total": 212,
+        "ok": 212,
+        "ko": 0
+    },
+    "percentiles2": {
+        "total": 212,
+        "ok": 212,
+        "ko": 0
+    },
+    "percentiles3": {
+        "total": 212,
+        "ok": 212,
+        "ko": 0
+    },
+    "percentiles4": {
+        "total": 212,
+        "ok": 212,
+        "ko": 0
+    },
+    "group1": {
+    "name": "t < 800 ms",
+    "htmlName": "t < 800 ms",
+    "count": 1,
+    "percentage": 100
+},
+    "group2": {
+    "name": "800 ms <= t < 1200 ms",
+    "htmlName": "t >= 800 ms <br> t < 1200 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group3": {
+    "name": "t >= 1200 ms",
+    "htmlName": "t >= 1200 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group4": {
+    "name": "failed",
+    "htmlName": "failed",
+    "count": 0,
+    "percentage": 0
+},
+    "meanNumberOfRequestsPerSecond": {
+        "total": 0.09090909090909091,
+        "ok": 0.09090909090909091,
+        "ko": 0
+    }
+}
+    },"req_prl-citizenc100-18fbe": {
+        "type": "REQUEST",
+        "name": "PRL_CitizenC100_010_005_PRLHome Redirect 1",
+"path": "PRL_CitizenC100_010_PRLHome / PRL_CitizenC100_010_005_PRLHome Redirect 1",
+"pathFormatted": "req_prl-citizenc100-c258f",
+"stats": {
+    "name": "PRL_CitizenC100_010_005_PRLHome Redirect 1",
+    "numberOfRequests": {
+        "total": 1,
+        "ok": 1,
+        "ko": 0
+    },
+    "minResponseTime": {
+        "total": 79,
+        "ok": 79,
+        "ko": 0
+    },
+    "maxResponseTime": {
+        "total": 79,
+        "ok": 79,
+        "ko": 0
+    },
+    "meanResponseTime": {
+        "total": 79,
+        "ok": 79,
+        "ko": 0
+    },
+    "standardDeviation": {
+        "total": 0,
+        "ok": 0,
+        "ko": 0
+    },
+    "percentiles1": {
+        "total": 79,
+        "ok": 79,
+        "ko": 0
+    },
+    "percentiles2": {
+        "total": 79,
+        "ok": 79,
+        "ko": 0
+    },
+    "percentiles3": {
+        "total": 79,
+        "ok": 79,
+        "ko": 0
+    },
+    "percentiles4": {
+        "total": 79,
+        "ok": 79,
+        "ko": 0
+    },
+    "group1": {
+    "name": "t < 800 ms",
+    "htmlName": "t < 800 ms",
+    "count": 1,
+    "percentage": 100
+},
+    "group2": {
+    "name": "800 ms <= t < 1200 ms",
+    "htmlName": "t >= 800 ms <br> t < 1200 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group3": {
+    "name": "t >= 1200 ms",
+    "htmlName": "t >= 1200 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group4": {
+    "name": "failed",
+    "htmlName": "failed",
+    "count": 0,
+    "percentage": 0
+},
+    "meanNumberOfRequestsPerSecond": {
+        "total": 0.09090909090909091,
+        "ok": 0.09090909090909091,
+        "ko": 0
+    }
+}
+    },"req_prl-citizenc100-2d4d3": {
+        "type": "REQUEST",
+        "name": "PRL_CitizenC100_010_005_PRLHome Redirect 2",
+"path": "PRL_CitizenC100_010_PRLHome / PRL_CitizenC100_010_005_PRLHome Redirect 2",
+"pathFormatted": "req_prl-citizenc100-f4152",
+"stats": {
+    "name": "PRL_CitizenC100_010_005_PRLHome Redirect 2",
+    "numberOfRequests": {
+        "total": 1,
+        "ok": 1,
+        "ko": 0
+    },
+    "minResponseTime": {
+        "total": 82,
+        "ok": 82,
+        "ko": 0
+    },
+    "maxResponseTime": {
+        "total": 82,
+        "ok": 82,
+        "ko": 0
+    },
+    "meanResponseTime": {
+        "total": 82,
+        "ok": 82,
+        "ko": 0
+    },
+    "standardDeviation": {
+        "total": 0,
+        "ok": 0,
+        "ko": 0
+    },
+    "percentiles1": {
+        "total": 82,
+        "ok": 82,
+        "ko": 0
+    },
+    "percentiles2": {
+        "total": 82,
+        "ok": 82,
+        "ko": 0
+    },
+    "percentiles3": {
+        "total": 82,
+        "ok": 82,
+        "ko": 0
+    },
+    "percentiles4": {
+        "total": 82,
+        "ok": 82,
+        "ko": 0
+    },
+    "group1": {
+    "name": "t < 800 ms",
+    "htmlName": "t < 800 ms",
+    "count": 1,
+    "percentage": 100
+},
+    "group2": {
+    "name": "800 ms <= t < 1200 ms",
+    "htmlName": "t >= 800 ms <br> t < 1200 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group3": {
+    "name": "t >= 1200 ms",
+    "htmlName": "t >= 1200 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group4": {
+    "name": "failed",
+    "htmlName": "failed",
+    "count": 0,
+    "percentage": 0
+},
+    "meanNumberOfRequestsPerSecond": {
+        "total": 0.09090909090909091,
+        "ok": 0.09090909090909091,
+        "ko": 0
+    }
+}
+    },"req_prl-citizenc100-47c73": {
+        "type": "REQUEST",
+        "name": "PRL_CitizenC100_010_005_PRLHome Redirect 3",
+"path": "PRL_CitizenC100_010_PRLHome / PRL_CitizenC100_010_005_PRLHome Redirect 3",
+"pathFormatted": "req_prl-citizenc100-9d81d",
+"stats": {
+    "name": "PRL_CitizenC100_010_005_PRLHome Redirect 3",
+    "numberOfRequests": {
+        "total": 1,
+        "ok": 1,
+        "ko": 0
+    },
+    "minResponseTime": {
+        "total": 407,
+        "ok": 407,
+        "ko": 0
+    },
+    "maxResponseTime": {
+        "total": 407,
+        "ok": 407,
+        "ko": 0
+    },
+    "meanResponseTime": {
+        "total": 407,
+        "ok": 407,
+        "ko": 0
+    },
+    "standardDeviation": {
+        "total": 0,
+        "ok": 0,
+        "ko": 0
+    },
+    "percentiles1": {
+        "total": 407,
+        "ok": 407,
+        "ko": 0
+    },
+    "percentiles2": {
+        "total": 407,
+        "ok": 407,
+        "ko": 0
+    },
+    "percentiles3": {
+        "total": 407,
+        "ok": 407,
+        "ko": 0
+    },
+    "percentiles4": {
+        "total": 407,
+        "ok": 407,
+        "ko": 0
+    },
+    "group1": {
+    "name": "t < 800 ms",
+    "htmlName": "t < 800 ms",
+    "count": 1,
+    "percentage": 100
+},
+    "group2": {
+    "name": "800 ms <= t < 1200 ms",
+    "htmlName": "t >= 800 ms <br> t < 1200 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group3": {
+    "name": "t >= 1200 ms",
+    "htmlName": "t >= 1200 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group4": {
+    "name": "failed",
+    "htmlName": "failed",
+    "count": 0,
+    "percentage": 0
+},
+    "meanNumberOfRequestsPerSecond": {
+        "total": 0.09090909090909091,
+        "ok": 0.09090909090909091,
+        "ko": 0
+    }
+}
+    }
+}
+
+     },"group_prl-citizenc100-94509": {
+          "type": "GROUP",
+"name": "PRL_CitizenC100_020_Login",
+"path": "PRL_CitizenC100_020_Login",
+"pathFormatted": "group_prl-citizenc100-94509",
+"stats": {
+    "name": "PRL_CitizenC100_020_Login",
+    "numberOfRequests": {
+        "total": 1,
+        "ok": 1,
+        "ko": 0
+    },
+    "minResponseTime": {
+        "total": 2864,
+        "ok": 2864,
+        "ko": 0
+    },
+    "maxResponseTime": {
+        "total": 2864,
+        "ok": 2864,
+        "ko": 0
+    },
+    "meanResponseTime": {
+        "total": 2864,
+        "ok": 2864,
+        "ko": 0
+    },
+    "standardDeviation": {
+        "total": 0,
+        "ok": 0,
+        "ko": 0
+    },
+    "percentiles1": {
+        "total": 2864,
+        "ok": 2864,
+        "ko": 0
+    },
+    "percentiles2": {
+        "total": 2864,
+        "ok": 2864,
+        "ko": 0
+    },
+    "percentiles3": {
+        "total": 2864,
+        "ok": 2864,
+        "ko": 0
+    },
+    "percentiles4": {
+        "total": 2864,
+        "ok": 2864,
+        "ko": 0
+    },
+    "group1": {
+    "name": "t < 800 ms",
+    "htmlName": "t < 800 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group2": {
+    "name": "800 ms <= t < 1200 ms",
+    "htmlName": "t >= 800 ms <br> t < 1200 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group3": {
+    "name": "t >= 1200 ms",
+    "htmlName": "t >= 1200 ms",
+    "count": 1,
+    "percentage": 100
+},
+    "group4": {
+    "name": "failed",
+    "htmlName": "failed",
+    "count": 0,
+    "percentage": 0
+},
+    "meanNumberOfRequestsPerSecond": {
+        "total": 0.09090909090909091,
+        "ok": 0.09090909090909091,
+        "ko": 0
+    }
+},
+"contents": {
+"req_prl-citizenc100-5a951": {
+        "type": "REQUEST",
+        "name": "PRL_CitizenC100_020_005_Login",
+"path": "PRL_CitizenC100_020_Login / PRL_CitizenC100_020_005_Login",
+"pathFormatted": "req_prl-citizenc100-ad096",
+"stats": {
+    "name": "PRL_CitizenC100_020_005_Login",
+    "numberOfRequests": {
+        "total": 1,
+        "ok": 1,
+        "ko": 0
+    },
+    "minResponseTime": {
+        "total": 135,
+        "ok": 135,
+        "ko": 0
+    },
+    "maxResponseTime": {
+        "total": 135,
+        "ok": 135,
+        "ko": 0
+    },
+    "meanResponseTime": {
+        "total": 135,
+        "ok": 135,
+        "ko": 0
+    },
+    "standardDeviation": {
+        "total": 0,
+        "ok": 0,
+        "ko": 0
+    },
+    "percentiles1": {
+        "total": 135,
+        "ok": 135,
+        "ko": 0
+    },
+    "percentiles2": {
+        "total": 135,
+        "ok": 135,
+        "ko": 0
+    },
+    "percentiles3": {
+        "total": 135,
+        "ok": 135,
+        "ko": 0
+    },
+    "percentiles4": {
+        "total": 135,
+        "ok": 135,
+        "ko": 0
+    },
+    "group1": {
+    "name": "t < 800 ms",
+    "htmlName": "t < 800 ms",
+    "count": 1,
+    "percentage": 100
+},
+    "group2": {
+    "name": "800 ms <= t < 1200 ms",
+    "htmlName": "t >= 800 ms <br> t < 1200 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group3": {
+    "name": "t >= 1200 ms",
+    "htmlName": "t >= 1200 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group4": {
+    "name": "failed",
+    "htmlName": "failed",
+    "count": 0,
+    "percentage": 0
+},
+    "meanNumberOfRequestsPerSecond": {
+        "total": 0.09090909090909091,
+        "ok": 0.09090909090909091,
+        "ko": 0
+    }
+}
+    },"req_prl-citizenc100-b972b": {
+        "type": "REQUEST",
+        "name": "PRL_CitizenC100_020_005_Login Redirect 1",
+"path": "PRL_CitizenC100_020_Login / PRL_CitizenC100_020_005_Login Redirect 1",
+"pathFormatted": "req_prl-citizenc100-065f6",
+"stats": {
+    "name": "PRL_CitizenC100_020_005_Login Redirect 1",
+    "numberOfRequests": {
+        "total": 1,
+        "ok": 1,
+        "ko": 0
+    },
+    "minResponseTime": {
+        "total": 427,
+        "ok": 427,
+        "ko": 0
+    },
+    "maxResponseTime": {
+        "total": 427,
+        "ok": 427,
+        "ko": 0
+    },
+    "meanResponseTime": {
+        "total": 427,
+        "ok": 427,
+        "ko": 0
+    },
+    "standardDeviation": {
+        "total": 0,
+        "ok": 0,
+        "ko": 0
+    },
+    "percentiles1": {
+        "total": 427,
+        "ok": 427,
+        "ko": 0
+    },
+    "percentiles2": {
+        "total": 427,
+        "ok": 427,
+        "ko": 0
+    },
+    "percentiles3": {
+        "total": 427,
+        "ok": 427,
+        "ko": 0
+    },
+    "percentiles4": {
+        "total": 427,
+        "ok": 427,
+        "ko": 0
+    },
+    "group1": {
+    "name": "t < 800 ms",
+    "htmlName": "t < 800 ms",
+    "count": 1,
+    "percentage": 100
+},
+    "group2": {
+    "name": "800 ms <= t < 1200 ms",
+    "htmlName": "t >= 800 ms <br> t < 1200 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group3": {
+    "name": "t >= 1200 ms",
+    "htmlName": "t >= 1200 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group4": {
+    "name": "failed",
+    "htmlName": "failed",
+    "count": 0,
+    "percentage": 0
+},
+    "meanNumberOfRequestsPerSecond": {
+        "total": 0.09090909090909091,
+        "ok": 0.09090909090909091,
+        "ko": 0
+    }
+}
+    },"req_prl-citizenc100-bd54f": {
+        "type": "REQUEST",
+        "name": "PRL_CitizenC100_020_005_Login Redirect 2",
+"path": "PRL_CitizenC100_020_Login / PRL_CitizenC100_020_005_Login Redirect 2",
+"pathFormatted": "req_prl-citizenc100-ce2a5",
+"stats": {
+    "name": "PRL_CitizenC100_020_005_Login Redirect 2",
+    "numberOfRequests": {
+        "total": 1,
+        "ok": 1,
+        "ko": 0
+    },
+    "minResponseTime": {
+        "total": 2070,
+        "ok": 2070,
+        "ko": 0
+    },
+    "maxResponseTime": {
+        "total": 2070,
+        "ok": 2070,
+        "ko": 0
+    },
+    "meanResponseTime": {
+        "total": 2070,
+        "ok": 2070,
+        "ko": 0
+    },
+    "standardDeviation": {
+        "total": 0,
+        "ok": 0,
+        "ko": 0
+    },
+    "percentiles1": {
+        "total": 2070,
+        "ok": 2070,
+        "ko": 0
+    },
+    "percentiles2": {
+        "total": 2070,
+        "ok": 2070,
+        "ko": 0
+    },
+    "percentiles3": {
+        "total": 2070,
+        "ok": 2070,
+        "ko": 0
+    },
+    "percentiles4": {
+        "total": 2070,
+        "ok": 2070,
+        "ko": 0
+    },
+    "group1": {
+    "name": "t < 800 ms",
+    "htmlName": "t < 800 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group2": {
+    "name": "800 ms <= t < 1200 ms",
+    "htmlName": "t >= 800 ms <br> t < 1200 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group3": {
+    "name": "t >= 1200 ms",
+    "htmlName": "t >= 1200 ms",
+    "count": 1,
+    "percentage": 100
+},
+    "group4": {
+    "name": "failed",
+    "htmlName": "failed",
+    "count": 0,
+    "percentage": 0
+},
+    "meanNumberOfRequestsPerSecond": {
+        "total": 0.09090909090909091,
+        "ok": 0.09090909090909091,
+        "ko": 0
+    }
+}
+    }
+}
+
+     },"group_prl-citizenc100-87807": {
+          "type": "GROUP",
+"name": "PRL_CitizenC100_CUIRA_030_SelectCase",
+"path": "PRL_CitizenC100_CUIRA_030_SelectCase",
+"pathFormatted": "group_prl-citizenc100-87807",
+"stats": {
+    "name": "PRL_CitizenC100_CUIRA_030_SelectCase",
+    "numberOfRequests": {
+        "total": 1,
+        "ok": 1,
+        "ko": 0
+    },
+    "minResponseTime": {
+        "total": 3801,
+        "ok": 3801,
+        "ko": 0
+    },
+    "maxResponseTime": {
+        "total": 3801,
+        "ok": 3801,
+        "ko": 0
+    },
+    "meanResponseTime": {
+        "total": 3801,
+        "ok": 3801,
+        "ko": 0
+    },
+    "standardDeviation": {
+        "total": 0,
+        "ok": 0,
+        "ko": 0
+    },
+    "percentiles1": {
+        "total": 3801,
+        "ok": 3801,
+        "ko": 0
+    },
+    "percentiles2": {
+        "total": 3801,
+        "ok": 3801,
+        "ko": 0
+    },
+    "percentiles3": {
+        "total": 3801,
+        "ok": 3801,
+        "ko": 0
+    },
+    "percentiles4": {
+        "total": 3801,
+        "ok": 3801,
+        "ko": 0
+    },
+    "group1": {
+    "name": "t < 800 ms",
+    "htmlName": "t < 800 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group2": {
+    "name": "800 ms <= t < 1200 ms",
+    "htmlName": "t >= 800 ms <br> t < 1200 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group3": {
+    "name": "t >= 1200 ms",
+    "htmlName": "t >= 1200 ms",
+    "count": 1,
+    "percentage": 100
+},
+    "group4": {
+    "name": "failed",
+    "htmlName": "failed",
+    "count": 0,
+    "percentage": 0
+},
+    "meanNumberOfRequestsPerSecond": {
+        "total": 0.09090909090909091,
+        "ok": 0.09090909090909091,
+        "ko": 0
+    }
+},
+"contents": {
+"req_prl-citizenc100-87807": {
+        "type": "REQUEST",
+        "name": "PRL_CitizenC100_CUIRA_030_SelectCase",
+"path": "PRL_CitizenC100_CUIRA_030_SelectCase / PRL_CitizenC100_CUIRA_030_SelectCase",
+"pathFormatted": "req_prl-citizenc100-6c5d3",
+"stats": {
+    "name": "PRL_CitizenC100_CUIRA_030_SelectCase",
+    "numberOfRequests": {
+        "total": 1,
+        "ok": 1,
+        "ko": 0
+    },
+    "minResponseTime": {
+        "total": 3527,
+        "ok": 3527,
+        "ko": 0
+    },
+    "maxResponseTime": {
+        "total": 3527,
+        "ok": 3527,
+        "ko": 0
+    },
+    "meanResponseTime": {
+        "total": 3527,
+        "ok": 3527,
+        "ko": 0
+    },
+    "standardDeviation": {
+        "total": 0,
+        "ok": 0,
+        "ko": 0
+    },
+    "percentiles1": {
+        "total": 3527,
+        "ok": 3527,
+        "ko": 0
+    },
+    "percentiles2": {
+        "total": 3527,
+        "ok": 3527,
+        "ko": 0
+    },
+    "percentiles3": {
+        "total": 3527,
+        "ok": 3527,
+        "ko": 0
+    },
+    "percentiles4": {
+        "total": 3527,
+        "ok": 3527,
+        "ko": 0
+    },
+    "group1": {
+    "name": "t < 800 ms",
+    "htmlName": "t < 800 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group2": {
+    "name": "800 ms <= t < 1200 ms",
+    "htmlName": "t >= 800 ms <br> t < 1200 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group3": {
+    "name": "t >= 1200 ms",
+    "htmlName": "t >= 1200 ms",
+    "count": 1,
+    "percentage": 100
+},
+    "group4": {
+    "name": "failed",
+    "htmlName": "failed",
+    "count": 0,
+    "percentage": 0
+},
+    "meanNumberOfRequestsPerSecond": {
+        "total": 0.09090909090909091,
+        "ok": 0.09090909090909091,
+        "ko": 0
+    }
+}
+    },"req_prl-citizenc100-0ff18": {
+        "type": "REQUEST",
+        "name": "PRL_CitizenC100_CUIRA_030_SelectCase Redirect 1",
+"path": "PRL_CitizenC100_CUIRA_030_SelectCase / PRL_CitizenC100_CUIRA_030_SelectCase Redirect 1",
+"pathFormatted": "req_prl-citizenc100-09375",
+"stats": {
+    "name": "PRL_CitizenC100_CUIRA_030_SelectCase Redirect 1",
+    "numberOfRequests": {
+        "total": 1,
+        "ok": 1,
+        "ko": 0
+    },
+    "minResponseTime": {
+        "total": 112,
+        "ok": 112,
+        "ko": 0
+    },
+    "maxResponseTime": {
+        "total": 112,
+        "ok": 112,
+        "ko": 0
+    },
+    "meanResponseTime": {
+        "total": 112,
+        "ok": 112,
+        "ko": 0
+    },
+    "standardDeviation": {
+        "total": 0,
+        "ok": 0,
+        "ko": 0
+    },
+    "percentiles1": {
+        "total": 112,
+        "ok": 112,
+        "ko": 0
+    },
+    "percentiles2": {
+        "total": 112,
+        "ok": 112,
+        "ko": 0
+    },
+    "percentiles3": {
+        "total": 112,
+        "ok": 112,
+        "ko": 0
+    },
+    "percentiles4": {
+        "total": 112,
+        "ok": 112,
+        "ko": 0
+    },
+    "group1": {
+    "name": "t < 800 ms",
+    "htmlName": "t < 800 ms",
+    "count": 1,
+    "percentage": 100
+},
+    "group2": {
+    "name": "800 ms <= t < 1200 ms",
+    "htmlName": "t >= 800 ms <br> t < 1200 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group3": {
+    "name": "t >= 1200 ms",
+    "htmlName": "t >= 1200 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group4": {
+    "name": "failed",
+    "htmlName": "failed",
+    "count": 0,
+    "percentage": 0
+},
+    "meanNumberOfRequestsPerSecond": {
+        "total": 0.09090909090909091,
+        "ok": 0.09090909090909091,
+        "ko": 0
+    }
+}
+    }
+}
+
+     },"group_prl-citizenc100-0fcee": {
+          "type": "GROUP",
+"name": "PRL_CitizenC100_CUIRA_030_005_SelectCase",
+"path": "PRL_CitizenC100_CUIRA_030_005_SelectCase",
+"pathFormatted": "group_prl-citizenc100-0fcee",
+"stats": {
+    "name": "PRL_CitizenC100_CUIRA_030_005_SelectCase",
+    "numberOfRequests": {
+        "total": 1,
+        "ok": 1,
+        "ko": 0
+    },
+    "minResponseTime": {
+        "total": 202,
+        "ok": 202,
+        "ko": 0
+    },
+    "maxResponseTime": {
+        "total": 202,
+        "ok": 202,
+        "ko": 0
+    },
+    "meanResponseTime": {
+        "total": 202,
+        "ok": 202,
+        "ko": 0
+    },
+    "standardDeviation": {
+        "total": 0,
+        "ok": 0,
+        "ko": 0
+    },
+    "percentiles1": {
+        "total": 202,
+        "ok": 202,
+        "ko": 0
+    },
+    "percentiles2": {
+        "total": 202,
+        "ok": 202,
+        "ko": 0
+    },
+    "percentiles3": {
+        "total": 202,
+        "ok": 202,
+        "ko": 0
+    },
+    "percentiles4": {
+        "total": 202,
+        "ok": 202,
+        "ko": 0
+    },
+    "group1": {
+    "name": "t < 800 ms",
+    "htmlName": "t < 800 ms",
+    "count": 1,
+    "percentage": 100
+},
+    "group2": {
+    "name": "800 ms <= t < 1200 ms",
+    "htmlName": "t >= 800 ms <br> t < 1200 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group3": {
+    "name": "t >= 1200 ms",
+    "htmlName": "t >= 1200 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group4": {
+    "name": "failed",
+    "htmlName": "failed",
+    "count": 0,
+    "percentage": 0
+},
+    "meanNumberOfRequestsPerSecond": {
+        "total": 0.09090909090909091,
+        "ok": 0.09090909090909091,
+        "ko": 0
+    }
+},
+"contents": {
+"req_prl-citizenc100-0fcee": {
+        "type": "REQUEST",
+        "name": "PRL_CitizenC100_CUIRA_030_005_SelectCase",
+"path": "PRL_CitizenC100_CUIRA_030_005_SelectCase / PRL_CitizenC100_CUIRA_030_005_SelectCase",
+"pathFormatted": "req_prl-citizenc100-f417e",
+"stats": {
+    "name": "PRL_CitizenC100_CUIRA_030_005_SelectCase",
+    "numberOfRequests": {
+        "total": 1,
+        "ok": 1,
+        "ko": 0
+    },
+    "minResponseTime": {
+        "total": 104,
+        "ok": 104,
+        "ko": 0
+    },
+    "maxResponseTime": {
+        "total": 104,
+        "ok": 104,
+        "ko": 0
+    },
+    "meanResponseTime": {
+        "total": 104,
+        "ok": 104,
+        "ko": 0
+    },
+    "standardDeviation": {
+        "total": 0,
+        "ok": 0,
+        "ko": 0
+    },
+    "percentiles1": {
+        "total": 104,
+        "ok": 104,
+        "ko": 0
+    },
+    "percentiles2": {
+        "total": 104,
+        "ok": 104,
+        "ko": 0
+    },
+    "percentiles3": {
+        "total": 104,
+        "ok": 104,
+        "ko": 0
+    },
+    "percentiles4": {
+        "total": 104,
+        "ok": 104,
+        "ko": 0
+    },
+    "group1": {
+    "name": "t < 800 ms",
+    "htmlName": "t < 800 ms",
+    "count": 1,
+    "percentage": 100
+},
+    "group2": {
+    "name": "800 ms <= t < 1200 ms",
+    "htmlName": "t >= 800 ms <br> t < 1200 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group3": {
+    "name": "t >= 1200 ms",
+    "htmlName": "t >= 1200 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group4": {
+    "name": "failed",
+    "htmlName": "failed",
+    "count": 0,
+    "percentage": 0
+},
+    "meanNumberOfRequestsPerSecond": {
+        "total": 0.09090909090909091,
+        "ok": 0.09090909090909091,
+        "ko": 0
+    }
+}
+    }
+}
+
+     },"group_prl-citizenc100-e64ca": {
+          "type": "GROUP",
+"name": "PRL_CitizenC100_CUIRA_040_RAIntro",
+"path": "PRL_CitizenC100_CUIRA_040_RAIntro",
+"pathFormatted": "group_prl-citizenc100-e64ca",
+"stats": {
+    "name": "PRL_CitizenC100_CUIRA_040_RAIntro",
+    "numberOfRequests": {
+        "total": 1,
+        "ok": 1,
+        "ko": 0
+    },
+    "minResponseTime": {
+        "total": 1092,
+        "ok": 1092,
+        "ko": 0
+    },
+    "maxResponseTime": {
+        "total": 1092,
+        "ok": 1092,
+        "ko": 0
+    },
+    "meanResponseTime": {
+        "total": 1092,
+        "ok": 1092,
+        "ko": 0
+    },
+    "standardDeviation": {
+        "total": 0,
+        "ok": 0,
+        "ko": 0
+    },
+    "percentiles1": {
+        "total": 1092,
+        "ok": 1092,
+        "ko": 0
+    },
+    "percentiles2": {
+        "total": 1092,
+        "ok": 1092,
+        "ko": 0
+    },
+    "percentiles3": {
+        "total": 1092,
+        "ok": 1092,
+        "ko": 0
+    },
+    "percentiles4": {
+        "total": 1092,
+        "ok": 1092,
+        "ko": 0
+    },
+    "group1": {
+    "name": "t < 800 ms",
+    "htmlName": "t < 800 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group2": {
+    "name": "800 ms <= t < 1200 ms",
+    "htmlName": "t >= 800 ms <br> t < 1200 ms",
+    "count": 1,
+    "percentage": 100
+},
+    "group3": {
+    "name": "t >= 1200 ms",
+    "htmlName": "t >= 1200 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group4": {
+    "name": "failed",
+    "htmlName": "failed",
+    "count": 0,
+    "percentage": 0
+},
+    "meanNumberOfRequestsPerSecond": {
+        "total": 0.09090909090909091,
+        "ok": 0.09090909090909091,
+        "ko": 0
+    }
+},
+"contents": {
+"req_prl-citizenc100-e64ca": {
+        "type": "REQUEST",
+        "name": "PRL_CitizenC100_CUIRA_040_RAIntro",
+"path": "PRL_CitizenC100_CUIRA_040_RAIntro / PRL_CitizenC100_CUIRA_040_RAIntro",
+"pathFormatted": "req_prl-citizenc100-876e8",
+"stats": {
+    "name": "PRL_CitizenC100_CUIRA_040_RAIntro",
+    "numberOfRequests": {
+        "total": 1,
+        "ok": 1,
+        "ko": 0
+    },
+    "minResponseTime": {
+        "total": 936,
+        "ok": 936,
+        "ko": 0
+    },
+    "maxResponseTime": {
+        "total": 936,
+        "ok": 936,
+        "ko": 0
+    },
+    "meanResponseTime": {
+        "total": 936,
+        "ok": 936,
+        "ko": 0
+    },
+    "standardDeviation": {
+        "total": 0,
+        "ok": 0,
+        "ko": 0
+    },
+    "percentiles1": {
+        "total": 936,
+        "ok": 936,
+        "ko": 0
+    },
+    "percentiles2": {
+        "total": 936,
+        "ok": 936,
+        "ko": 0
+    },
+    "percentiles3": {
+        "total": 936,
+        "ok": 936,
+        "ko": 0
+    },
+    "percentiles4": {
+        "total": 936,
+        "ok": 936,
+        "ko": 0
+    },
+    "group1": {
+    "name": "t < 800 ms",
+    "htmlName": "t < 800 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group2": {
+    "name": "800 ms <= t < 1200 ms",
+    "htmlName": "t >= 800 ms <br> t < 1200 ms",
+    "count": 1,
+    "percentage": 100
+},
+    "group3": {
+    "name": "t >= 1200 ms",
+    "htmlName": "t >= 1200 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group4": {
+    "name": "failed",
+    "htmlName": "failed",
+    "count": 0,
+    "percentage": 0
+},
+    "meanNumberOfRequestsPerSecond": {
+        "total": 0.09090909090909091,
+        "ok": 0.09090909090909091,
+        "ko": 0
+    }
+}
+    }
+}
+
+     },"group_prl-citizenc100-45da3": {
+          "type": "GROUP",
+"name": "PRL_CitizenC100_CUIRA_050_RAIntro",
+"path": "PRL_CitizenC100_CUIRA_050_RAIntro",
+"pathFormatted": "group_prl-citizenc100-45da3",
+"stats": {
+    "name": "PRL_CitizenC100_CUIRA_050_RAIntro",
+    "numberOfRequests": {
+        "total": 1,
+        "ok": 0,
+        "ko": 1
+    },
+    "minResponseTime": {
+        "total": 1177,
+        "ok": 0,
+        "ko": 1177
+    },
+    "maxResponseTime": {
+        "total": 1177,
+        "ok": 0,
+        "ko": 1177
+    },
+    "meanResponseTime": {
+        "total": 1177,
+        "ok": 0,
+        "ko": 1177
+    },
+    "standardDeviation": {
+        "total": 0,
+        "ok": 0,
+        "ko": 0
+    },
+    "percentiles1": {
+        "total": 1177,
+        "ok": 0,
+        "ko": 1177
+    },
+    "percentiles2": {
+        "total": 1177,
+        "ok": 0,
+        "ko": 1177
+    },
+    "percentiles3": {
+        "total": 1177,
+        "ok": 0,
+        "ko": 1177
+    },
+    "percentiles4": {
+        "total": 1177,
+        "ok": 0,
+        "ko": 1177
+    },
+    "group1": {
+    "name": "t < 800 ms",
+    "htmlName": "t < 800 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group2": {
+    "name": "800 ms <= t < 1200 ms",
+    "htmlName": "t >= 800 ms <br> t < 1200 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group3": {
+    "name": "t >= 1200 ms",
+    "htmlName": "t >= 1200 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group4": {
+    "name": "failed",
+    "htmlName": "failed",
+    "count": 1,
+    "percentage": 100
+},
+    "meanNumberOfRequestsPerSecond": {
+        "total": 0.09090909090909091,
+        "ok": 0,
+        "ko": 0.09090909090909091
+    }
+},
+"contents": {
+"req_prl-citizenc100-45da3": {
+        "type": "REQUEST",
+        "name": "PRL_CitizenC100_CUIRA_050_RAIntro",
+"path": "PRL_CitizenC100_CUIRA_050_RAIntro / PRL_CitizenC100_CUIRA_050_RAIntro",
+"pathFormatted": "req_prl-citizenc100-6bef2",
+"stats": {
+    "name": "PRL_CitizenC100_CUIRA_050_RAIntro",
+    "numberOfRequests": {
+        "total": 1,
+        "ok": 1,
+        "ko": 0
+    },
+    "minResponseTime": {
+        "total": 70,
+        "ok": 70,
+        "ko": 0
+    },
+    "maxResponseTime": {
+        "total": 70,
+        "ok": 70,
+        "ko": 0
+    },
+    "meanResponseTime": {
+        "total": 70,
+        "ok": 70,
+        "ko": 0
+    },
+    "standardDeviation": {
+        "total": 0,
+        "ok": 0,
+        "ko": 0
+    },
+    "percentiles1": {
+        "total": 70,
+        "ok": 70,
+        "ko": 0
+    },
+    "percentiles2": {
+        "total": 70,
+        "ok": 70,
+        "ko": 0
+    },
+    "percentiles3": {
+        "total": 70,
+        "ok": 70,
+        "ko": 0
+    },
+    "percentiles4": {
+        "total": 70,
+        "ok": 70,
+        "ko": 0
+    },
+    "group1": {
+    "name": "t < 800 ms",
+    "htmlName": "t < 800 ms",
+    "count": 1,
+    "percentage": 100
+},
+    "group2": {
+    "name": "800 ms <= t < 1200 ms",
+    "htmlName": "t >= 800 ms <br> t < 1200 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group3": {
+    "name": "t >= 1200 ms",
+    "htmlName": "t >= 1200 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group4": {
+    "name": "failed",
+    "htmlName": "failed",
+    "count": 0,
+    "percentage": 0
+},
+    "meanNumberOfRequestsPerSecond": {
+        "total": 0.09090909090909091,
+        "ok": 0.09090909090909091,
+        "ko": 0
+    }
+}
+    },"req_prl-citizenc100-c72ad": {
+        "type": "REQUEST",
+        "name": "PRL_CitizenC100_CUIRA_050_RAIntro Redirect 1",
+"path": "PRL_CitizenC100_CUIRA_050_RAIntro / PRL_CitizenC100_CUIRA_050_RAIntro Redirect 1",
+"pathFormatted": "req_prl-citizenc100-e1083",
+"stats": {
+    "name": "PRL_CitizenC100_CUIRA_050_RAIntro Redirect 1",
+    "numberOfRequests": {
+        "total": 1,
+        "ok": 1,
+        "ko": 0
+    },
+    "minResponseTime": {
+        "total": 70,
+        "ok": 70,
+        "ko": 0
+    },
+    "maxResponseTime": {
+        "total": 70,
+        "ok": 70,
+        "ko": 0
+    },
+    "meanResponseTime": {
+        "total": 70,
+        "ok": 70,
+        "ko": 0
+    },
+    "standardDeviation": {
+        "total": 0,
+        "ok": 0,
+        "ko": 0
+    },
+    "percentiles1": {
+        "total": 70,
+        "ok": 70,
+        "ko": 0
+    },
+    "percentiles2": {
+        "total": 70,
+        "ok": 70,
+        "ko": 0
+    },
+    "percentiles3": {
+        "total": 70,
+        "ok": 70,
+        "ko": 0
+    },
+    "percentiles4": {
+        "total": 70,
+        "ok": 70,
+        "ko": 0
+    },
+    "group1": {
+    "name": "t < 800 ms",
+    "htmlName": "t < 800 ms",
+    "count": 1,
+    "percentage": 100
+},
+    "group2": {
+    "name": "800 ms <= t < 1200 ms",
+    "htmlName": "t >= 800 ms <br> t < 1200 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group3": {
+    "name": "t >= 1200 ms",
+    "htmlName": "t >= 1200 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group4": {
+    "name": "failed",
+    "htmlName": "failed",
+    "count": 0,
+    "percentage": 0
+},
+    "meanNumberOfRequestsPerSecond": {
+        "total": 0.09090909090909091,
+        "ok": 0.09090909090909091,
+        "ko": 0
+    }
+}
+    },"req_prl-citizenc100-881f3": {
+        "type": "REQUEST",
+        "name": "PRL_CitizenC100_CUIRA_050_RAIntro Redirect 2",
+"path": "PRL_CitizenC100_CUIRA_050_RAIntro / PRL_CitizenC100_CUIRA_050_RAIntro Redirect 2",
+"pathFormatted": "req_prl-citizenc100-e1f9e",
+"stats": {
+    "name": "PRL_CitizenC100_CUIRA_050_RAIntro Redirect 2",
+    "numberOfRequests": {
+        "total": 1,
+        "ok": 0,
+        "ko": 1
+    },
+    "minResponseTime": {
+        "total": 1037,
+        "ok": 0,
+        "ko": 1037
+    },
+    "maxResponseTime": {
+        "total": 1037,
+        "ok": 0,
+        "ko": 1037
+    },
+    "meanResponseTime": {
+        "total": 1037,
+        "ok": 0,
+        "ko": 1037
+    },
+    "standardDeviation": {
+        "total": 0,
+        "ok": 0,
+        "ko": 0
+    },
+    "percentiles1": {
+        "total": 1037,
+        "ok": 0,
+        "ko": 1037
+    },
+    "percentiles2": {
+        "total": 1037,
+        "ok": 0,
+        "ko": 1037
+    },
+    "percentiles3": {
+        "total": 1037,
+        "ok": 0,
+        "ko": 1037
+    },
+    "percentiles4": {
+        "total": 1037,
+        "ok": 0,
+        "ko": 1037
+    },
+    "group1": {
+    "name": "t < 800 ms",
+    "htmlName": "t < 800 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group2": {
+    "name": "800 ms <= t < 1200 ms",
+    "htmlName": "t >= 800 ms <br> t < 1200 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group3": {
+    "name": "t >= 1200 ms",
+    "htmlName": "t >= 1200 ms",
+    "count": 0,
+    "percentage": 0
+},
+    "group4": {
+    "name": "failed",
+    "htmlName": "failed",
+    "count": 1,
+    "percentage": 100
+},
+    "meanNumberOfRequestsPerSecond": {
+        "total": 0.09090909090909091,
+        "ok": 0,
+        "ko": 0.09090909090909091
+    }
+}
+    }
+}
+
+     }
+}
+
+}

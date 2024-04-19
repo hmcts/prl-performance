@@ -16,7 +16,7 @@ class PRL_Simulation extends Simulation {
   
   val UserFeederPRL = csv("UserDataPRL.csv").circular
   val UserCitizenPRL = csv("UserDataPRLCitizen.csv").circular
-
+  val UserCitizenCUIRAPRL = csv("UserDataPRLCUIRACitizen.csv").circular
 
   val WaitTime = Environment.waitTime
   
@@ -117,6 +117,19 @@ class PRL_Simulation extends Simulation {
         session
     }
 
+  /*===============================================================================================
+* CUI Reasonable Adjustment Journey
+===============================================================================================*/
+
+  val PRLCUIRA = scenario("***** PRL CUI RA Journey *****")
+    .exitBlockOnFail {
+      exec(_.set("env", s"${env}")
+        .set("caseType", "PRLAPPS"))
+        .feed(UserCitizenCUIRAPRL)
+        .repeat(1) {
+          exec(PRL_C100_Citizen_CUI_RA.CUIRA)
+        }
+    }
 
 
 
@@ -163,8 +176,9 @@ class PRL_Simulation extends Simulation {
   }
   
   setUp(
-    PRLCitizenScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
+   // PRLCitizenScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
   //  CafcasDownloadByDocScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
+    PRLCUIRA.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
   ).protocols(httpProtocol)
     .assertions(assertions(testType))
     .maxDuration(75 minutes)
