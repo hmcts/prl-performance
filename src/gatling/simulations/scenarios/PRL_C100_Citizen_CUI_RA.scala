@@ -105,6 +105,7 @@ object PRL_C100_Citizen_CUI_RA {
           exec(http("PRL_CitizenC100_CUIRA_040_RAIntro")
             .get(prlURL + "/respondent/reasonable-adjustments/intro")
             .headers(Headers.navigationHeader)
+            .check(CsrfCheck.save)
             .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
             .check(substring("Support before a court hearing")))
 
@@ -116,9 +117,8 @@ object PRL_C100_Citizen_CUI_RA {
         ======================================================================================*/
         .group("PRL_CitizenC100_CUIRA_050_RAIntro") {
 
-          feed(postcodeFeeder)
 
-            .exec(http("PRL_CitizenC100_CUIRA_050_RAIntro")
+            exec(http("PRL_CitizenC100_CUIRA_050_RAIntro")
               .post(prlURL + "/respondent/reasonable-adjustments/intro")
               .headers(Headers.commonHeader)
               .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -164,55 +164,12 @@ object PRL_C100_Citizen_CUI_RA {
               .header("content-type", "application/x-www-form-urlencoded")
               .formParam("_csrf", "#{csrf}")
               .formParam("onlyContinue", "true")
+              .check(CsrfCheck.save)
               .check(substring("Do you have a physical, mental or learning disability or health condition that means you need support during your case?")))
 
         }
         .pause(MinThinkTime, MaxThinkTime)
 
-        /*======================================================================================
-   * Launch CUIRA  and Capture session ID
-   ======================================================================================*/
-
-        .group("PRL_CitizenC100_CUIRA_080_Launch_CUIRA") {
-
-          exec(http("PRL_CitizenC100_CUIRA_080_Launch_CUIRA")
-            .get(prlURL + "/reasonable-adjustments/launch")
-            .headers(Headers.navigationHeader)
-            .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-            .check(substring("Do you have a physical, mental or learning disability or health condition that means you need support during your case?")))
-
-        }
-
-//DG Need to capture this here Location:
-        //https://cui-ra.perftest.platform.hmcts.net/dc/p/3a9e2899-6b55-4c3e-86df-93037f735986
-
-        /*======================================================================================
-   * Launch CUIRA  PART 2
-   ======================================================================================*/
-
-        .group("PRL_CitizenC100_CUIRA_090_Launch CUIRA") {
-
-          exec(http("PRL_CitizenC100_CUIRA_090_Launch CUIRA")
-            .get( "https://cui-ra.perftest.platform.hmcts.net/dc/p/3a9e2899-6b55-4c3e-86df-93037f735986")
-            .headers(Headers.navigationHeader)
-            .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-            .check(substring("Do you have a physical, mental or learning disability or health condition that means you need support during your case?")))
-
-        }
-
-        /*======================================================================================
-   * Launch CUIRA  PART 3 - https://cui-ra.perftest.platform.hmcts.net/journey/flags/display/PF0001-RA0001
-   ======================================================================================*/
-
-        .group("PRL_CitizenC100_CUIRA_100_Launch CUIRA") {
-
-          exec(http("PRL_CitizenC100_CUIRA_100_Launch CUIRA")
-            .get( "https://cui-ra.perftest.platform.hmcts.net/journey/flags/display/PF0001-RA0001")
-            .headers(Headers.navigationHeader)
-            .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-            .check(substring("Do you have a physical, mental or learning disability or health condition that means you need support during your case?")))
-
-        }
 
         /*======================================================================================
    * Do you have a physical, mental or learning disability or health condition that means you need support during your case?
@@ -289,6 +246,7 @@ object PRL_C100_Citizen_CUI_RA {
             .formParam("enabled", "PF0001-RA0001-RA0008-RA0009-RA0045")
             .formParam("data[PF0001-RA0001-RA0008-RA0009-OT0001][flagComment]", "")
             .formParam("_csrf", "#{csrf}")
+            .check(CsrfCheck.save)
             .check(substring("I need something to feel comfortable during my hearing")))
         }
         .pause(MinThinkTime, MaxThinkTime)
@@ -307,7 +265,7 @@ object PRL_C100_Citizen_CUI_RA {
             .formParam("enabled", "PF0001-RA0001-RA0006-RA0030")
             .formParam("data[PF0001-RA0001-RA0006-OT0001][flagComment]", "")
             .formParam("_csrf", "#{csrf}")
-            .check(substring("Review the support you've requested")))
+            .check(substring("Review the support you")))
         }
         .pause(MinThinkTime, MaxThinkTime)
 
