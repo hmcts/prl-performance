@@ -17,7 +17,6 @@ class PRL_Simulation extends Simulation {
   val UserFeederPRL = csv("UserDataPRL.csv").circular
   val UserCitizenPRL = csv("UserDataPRLCitizen.csv").circular
 
-
   val WaitTime = Environment.waitTime
   
   val randomFeeder = Iterator.continually(Map("prl-percentage" -> Random.nextInt(100)))
@@ -77,48 +76,36 @@ class PRL_Simulation extends Simulation {
     println(s"Debug Mode: ${debugMode}")
   }
 
-
-
-  /*===============================================================================================
+/*===============================================================================================
 * PRL Citizen Journey
 ===============================================================================================*/
 
   val PRLCitizenScenario = scenario("***** PRL Citizen Journey *****")
     .exitBlockOnFail {
       exec(_.set("env", s"${env}")
-        .set("caseType", "PRLAPPS"))
+      .set("caseType", "PRLAPPS"))
       .feed(UserCitizenPRL)
-        .repeat(1) {
-          exec(Solicitor_PRL_C100_Citizen.C100Case)
-          .exec(Solicitor_PRL_C100_Citizen2.C100Case2)
-        }
+      .repeat(1) {
+        exec(Citizen_PRL_C100_Applicant.C100Case)
+        .exec(Citizen_PRL_C100_Respondent.C100Case2)
+      }
     }
 
-  /*===============================================================================================
+/*===============================================================================================
 * PRL Citizen Journey
 ===============================================================================================*/
 
   val PrlDataPrep = scenario("***** PRL Case DataPrep Journey *****")
     .exitBlockOnFail {
       feed(UserFeederPRL)
-        .exec(_.set("env", s"${env}")
-          .set("caseType", "PRLAPPS"))
-        .exec(Homepage.XUIHomePage)
-        .exec(Login.XUILogin)
-        .repeat(1) {
-            exec(Solicitor_PRL_CitizenDataPrep.CompleteDataPrep)
-        }
+      .exec(_.set("env", s"${env}")
+      .set("caseType", "PRLAPPS"))
+      .exec(Homepage.XUIHomePage)
+      .exec(Login.XUILogin)
+      .repeat(1) {
+          exec(Solicitor_PRL_CitizenDataPrep.CompleteDataPrep)
+      }
     }
-
-
-    .exec {
-      session =>
-        println(session)
-        session
-    }
-
-
-
 
   /*===============================================================================================
   * Simulation Configuration
