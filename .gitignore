@@ -1,0 +1,15 @@
+results/*
+.DS_Store
+.idea/
+target/**
+*.iml
+*.project
+.gradle/
+*.log
+out/**
+src/gatling/resources/application.conf
+bin/*
+.settings/*
+.vscode/*
+.classpath
+build/*
