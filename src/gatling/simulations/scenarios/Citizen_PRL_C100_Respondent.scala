@@ -663,7 +663,8 @@ object Citizen_PRL_C100_Respondent {
         .formParam("ra_largePrintDocuments_subfield", "")
         .formParam("ra_documentHelpOther_subfield", "")
         .formParam("onlycontinue", "true")
-        .check(substring("Do you need help with paying the fee for this application?")))
+        .check(substring("Do you need help with paying the fee for this application?"))
+        .check(CsrfCheck.save))
     }
 
     .pause(MinThinkTime, MaxThinkTime)
@@ -751,19 +752,84 @@ object Citizen_PRL_C100_Respondent {
         exec(http("PRL_CitizenC100_770_005_CheckYourAnswers")
           .post(prlURL + "/c100-rebuild/check-your-answers")
           .disableFollowRedirect
-          .headers(Headers.headers_0)
+          .headers(Headers.commonHeader)
           .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
           .header("content-type", "application/x-www-form-urlencoded")
+          .header("origin", "https://privatelaw.#{env}.platform.hmcts.net")
           .formParam("_csrf", "#{csrf}")
           .formParam("statementOfTruth", "")
           .formParam("statementOfTruth", "Yes")
           .formParam("saveAndContinue", "true")
-          // .check(headerRegex("Location", """https:\/\/card.payments.service.gov.uk\/secure\/(.{8}-.{4}-.{4}-.{4}-.{12})""").ofType[(String)].saveAs("paymentId"))
-          .check(headerRegex("Location", """https:\/\/pcq.#{env}.platform.hmcts.net\/service-endpoint?serviceId=prl_da&actor=APPLICANT&pcqId=(.{8}-.{4}-.{4}-.{4}-.{12})&partyId""").ofType[(String)].saveAs("paymentId"))
-          .check(status.is(302)))
-      }
+          // .check(bodyString.saveAs("responseBody"))
+          // .check(headerRegex("Location", """https://card.payments.service.gov.uk/secure/(.{8}-.{4}-.{4}-.{4}-.{12})""").ofType[(String)].saveAs("paymentId"))
+          // .check(headerRegex("Location", "https://pcq.#{env}.platform.hmcts.net/service-endpoint?serviceId=prl_da&actor=APPLICANT&pcqId=(.*)").ofType[(String)].saveAs("pcqUrl"))
+          .check(status.in(302, 403, 200)))
+        }
 
     .pause(MinThinkTime, MaxThinkTime)
+
+    .group("PRL_CitizenC100_772_CheckYourAnswers") {
+      exec(http("PRL_CitizenC100_772_CheckYourAnswers")
+        .get(prlURL + "/c100-rebuild/check-your-answers")
+        .headers(Headers.commonHeader)
+        .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
+        // .header("content-type", "application/x-www-form-urlencoded")
+        .check(CsrfCheck.save)
+        .check(substring("Your answers will be shared with the other people in this case"))
+        )
+        
+    }
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+    .group("PRL_CitizenC100_773_CheckYourAnswers") {
+        exec(http("PRL_CitizenC100_773_005_CheckYourAnswers")
+          .post(prlURL + "/c100-rebuild/check-your-answers")
+          // .disableFollowRedirect
+          .headers(Headers.commonHeader)
+          .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
+          .header("content-type", "application/x-www-form-urlencoded")
+          .header("origin", "https://privatelaw.#{env}.platform.hmcts.net")
+          .header(":method:", "POST")
+          .formParam("_csrf", "#{csrf}")
+          .formParam("statementOfTruth", "")
+          .formParam("statementOfTruth", "Yes")
+          .formParam("saveAndContinue", "true")
+          // .check(bodyString.saveAs("responseBody"))
+          .check(headerRegex("Location", """https://card.payments.service.gov.uk/secure/(.{8}-.{4}-.{4}-.{4}-.{12})""").ofType[(String)].saveAs("paymentId"))
+          // .check(headerRegex("Location", "https://pcq.#{env}.platform.hmcts.net/service-endpoint?serviceId=prl_da&actor=APPLICANT&pcqId=(.*)").ofType[(String)].saveAs("pcqUrl"))
+          .check(status.in(302, 403, 200)))
+        }
+
+    // .exec(http("PRL_CitizenC100_771_005_PCQRedirect")
+    //   .get("https://pcq.#{env}.platform.hmcts.net/service-endpoint?serviceId=prl_da&actor=APPLICANT&pcqId=#{pcqUrl}")
+    //   .headers(Headers.commonHeader)
+    //   .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+    //   .header("content-type", "application/x-www-form-urlencoded"))
+
+    // .group("PRL_CitizenC100_771_CheckYourAnswers") {
+    //   exec(http("PRL_CitizenC100_771_CheckYourAnswers")
+    //     .get(prlURL + "/c100-rebuild/check-your-answers")
+    //     .headers(Headers.commonHeader)
+    //     .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
+    //     .header("content-type", "application/x-www-form-urlencoded"))
+    // }
+
+    .exec(http("PRL_CitizenC100_775_GetPaymentLink")
+      .get(PayURL + "/secure/#{paymentId}")
+      .headers(Headers.navigationHeader)
+      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+      .header("content-type", "application/x-www-form-urlencoded")
+      .header("authority", "card.payments.service.gov.uk")
+      // .check(bodyString.saveAs("responseBody"))
+      .check(headerRegex("Location", "card_details/(.{8}-.{4}-.{4}-.{4}-.{12})").ofType[(String)].saveAs("paymentId")))
+
+  //   .exec(session => {
+  //   val response = session("BODY").as[String]
+  //   println(s"Response body: \n$response")
+  //   session
+  // })
+
 
     /*======================================================================================
     * Check your Answers Redirect

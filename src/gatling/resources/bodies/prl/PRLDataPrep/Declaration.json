@@ -6,10 +6,10 @@
     ],
     "feeAmount": "£232.00",
     "submitAndPayDownloadApplicationLink": {
-      "document_url": "${Document_urlApp}",
-      "document_binary_url": "${Document_urlApp}/binary",
+      "document_url": "#{Document_urlApp}",
+      "document_binary_url": "#{Document_urlApp}/binary",
       "document_filename": "Draft_C100_application.pdf",
-      "document_#as#": "${Document_#as#App}",
+      "document_#as#": "#{Document_#as#App}",
       "category_id": null,
       "document_creation_date": null
     }
@@ -34,15 +34,15 @@
     ],
     "feeAmount": "£232.00",
     "submitAndPayDownloadApplicationLink": {
-      "document_url": "${Document_urlApp}",
-      "document_binary_url": "${Document_urlApp}/binary",
+      "document_url": "#{Document_urlApp}",
+      "document_binary_url": "#{Document_urlApp}/binary",
       "document_filename": "Draft_C100_application.pdf",
-      "document_#as#": "${Document_#as#App}",
+      "document_#as#": "#{Document_#as#App}",
       "category_id": null,
       "document_creation_date": null
     }
   },
-  "event_token": "${event_token}",
+  "event_token": "#{event_token}",
   "ignore_warning": false,
-  "case_reference": "${caseId}"
+  "case_reference": "#{caseId}"
 }

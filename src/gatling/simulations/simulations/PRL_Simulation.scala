@@ -16,6 +16,8 @@ class PRL_Simulation extends Simulation {
   
   val UserFeederPRL = csv("UserDataPRL.csv").circular
   val UserCitizenPRL = csv("UserDataPRLCitizen.csv").circular
+  val UserCourtAdminPRL = csv("UserDataCourtAdmin.csv").circular
+  val caseFeeder = csv("CourtAdminData.csv")
 
   val WaitTime = Environment.waitTime
   
@@ -91,6 +93,19 @@ class PRL_Simulation extends Simulation {
       }
     }
 
+  val PRLCaseworkerScenario = scenario("***** PRL Caseworker Journey *****")
+    .exitBlockOnFail {
+      exec(_.set("env", s"${env}")
+      .set("caseType", "PRLAPPS"))
+      .feed(UserCourtAdminPRL)
+      .exec(Homepage.XUIHomePage)
+      .exec(Login.XUILogin)
+      .repeat(1) {
+        feed(caseFeeder)
+        .exec(Solicitor_PRL_C100_ProgressCase.CourtAdminCheckApplication)
+      }
+    }
+
 /*===============================================================================================
 * PRL Citizen Journey
 ===============================================================================================*/
@@ -150,8 +165,9 @@ class PRL_Simulation extends Simulation {
   }
   
   setUp(
-    PRLCitizenScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
+    // PRLCitizenScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
   //  CafcasDownloadByDocScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
+  PRLCaseworkerScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
   ).protocols(httpProtocol)
     .assertions(assertions(testType))
     .maxDuration(75 minutes)
