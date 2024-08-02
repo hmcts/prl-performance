@@ -1,0 +1,30 @@
+{
+  "data": {
+    "gatekeeper": [
+      {
+        "value": {
+          "email": "prl_pt_ca_swansea@justice.gov.uk"
+        },
+        "id": null
+      }
+    ]
+  },
+  "event": {
+    "id": "sendToGateKeeper",
+    "summary": "",
+    "description": ""
+  },
+  "event_data": {
+    "gatekeeper": [
+      {
+        "value": {
+          "email": "prl_pt_ca_swansea@justice.gov.uk"
+        },
+        "id": null
+      }
+    ]
+  },
+  "event_token": "#{event_token}",
+  "ignore_warning": false,
+  "case_reference": "#{caseId}"
+}

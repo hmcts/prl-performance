@@ -102,7 +102,8 @@ class PRL_Simulation extends Simulation {
       .exec(Login.XUILogin)
       .repeat(1) {
         feed(caseFeeder)
-        .exec(Solicitor_PRL_C100_ProgressCase.CourtAdminCheckApplication)
+        // .exec(Solicitor_PRL_C100_ProgressCase.CourtAdminCheckApplication)
+        .exec(Solicitor_PRL_C100_ProgressCase.CourtAdminSendToGateKeeper)
       }
     }
 
@@ -165,9 +166,9 @@ class PRL_Simulation extends Simulation {
   }
   
   setUp(
-    // PRLCitizenScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    PRLCitizenScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
   //  CafcasDownloadByDocScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
-  PRLCaseworkerScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
+  // PRLCaseworkerScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
   ).protocols(httpProtocol)
     .assertions(assertions(testType))
     .maxDuration(75 minutes)

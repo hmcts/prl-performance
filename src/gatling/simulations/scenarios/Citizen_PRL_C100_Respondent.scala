@@ -761,7 +761,7 @@ object Citizen_PRL_C100_Respondent {
           .formParam("statementOfTruth", "Yes")
           .formParam("saveAndContinue", "true")
           // .check(bodyString.saveAs("responseBody"))
-          // .check(headerRegex("Location", """https://card.payments.service.gov.uk/secure/(.{8}-.{4}-.{4}-.{4}-.{12})""").ofType[(String)].saveAs("paymentId"))
+          .check(headerRegex("Location", """https://card.payments.service.gov.uk/secure/(.{8}-.{4}-.{4}-.{4}-.{12})""").ofType[(String)].saveAs("paymentId"))
           // .check(headerRegex("Location", "https://pcq.#{env}.platform.hmcts.net/service-endpoint?serviceId=prl_da&actor=APPLICANT&pcqId=(.*)").ofType[(String)].saveAs("pcqUrl"))
           .check(status.in(302, 403, 200)))
         }
@@ -785,7 +785,7 @@ object Citizen_PRL_C100_Respondent {
     .group("PRL_CitizenC100_773_CheckYourAnswers") {
         exec(http("PRL_CitizenC100_773_005_CheckYourAnswers")
           .post(prlURL + "/c100-rebuild/check-your-answers")
-          // .disableFollowRedirect
+          .disableFollowRedirect
           .headers(Headers.commonHeader)
           .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
           .header("content-type", "application/x-www-form-urlencoded")

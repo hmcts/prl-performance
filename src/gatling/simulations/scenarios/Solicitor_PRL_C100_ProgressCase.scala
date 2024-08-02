@@ -125,36 +125,6 @@ object Solicitor_PRL_C100_ProgressCase {
     .pause(MinThinkTime, MaxThinkTime)
 
   /*=====================================================================================
-   * Select Complete task
-   ======================================================================================*/
-
-    .exec(http("XUI_PRL_XXX_350_SelectCaseTasks&Complete")
-      .post(BaseURL + "/workallocation/case/task/#{caseId}/complete")
-      .headers(Headers.xuiHeader)
-      .header("Accept", "application/json, text/plain, */*")
-      .header("x-xsrf-token", "#{XSRFToken}")
-      .body(StringBody("""{"hasNoAssigneeOnComplete":false}""")))
-
-    .exec(Common.isAuthenticated)
-    .exec(Common.manageLabellingRoleAssignment)
-    .exec(Common.waJurisdictions)
- 
-    .exec(http("XUI_PRL_XXX_360_MarkAsDone")
-      .post(BaseURL + "/workallocation/case/task/#{caseId}")
-      .headers(Headers.xuiHeader)
-      .header("Accept", "application/json, text/plain, */*")
-      .header("x-xsrf-token", "#{XSRFToken}")
-      .body(StringBody("""{"refined":true}"""))
-      .check(regex("""","assignee":"(.*)","type":""").saveAs("asigneeUserId"))
-      .check(regex("""","task_state":"(.*)","task_system":"""").is("assigned")))
-
-    .exec(Common.activity)
-    .exec(Common.userDetails)
-    .exec(Common.activity)
-
-    .pause(MinThinkTime, MaxThinkTime)
-
-  /*=====================================================================================
   * Select Issue and send to local Court
   ======================================================================================*/
 
@@ -223,14 +193,130 @@ object Solicitor_PRL_C100_ProgressCase {
 
     .pause(MinThinkTime, MaxThinkTime)
 
+  /*=====================================================================================
+   * Select Complete task
+   ======================================================================================*/
+
+    .exec(http("XUI_PRL_XXX_350_SelectCaseTasks&Complete")
+      .post(BaseURL + "/workallocation/case/task/#{caseId}/complete")
+      .headers(Headers.xuiHeader)
+      .header("Accept", "application/json, text/plain, */*")
+      .header("x-xsrf-token", "#{XSRFToken}")
+      .body(StringBody("""{"hasNoAssigneeOnComplete":false}""")))
+
+    .exec(Common.isAuthenticated)
+    .exec(Common.manageLabellingRoleAssignment)
+    .exec(Common.waJurisdictions)
+ 
+    .exec(http("XUI_PRL_XXX_360_MarkAsDone")
+      .post(BaseURL + "/workallocation/case/task/#{caseId}")
+      .headers(Headers.xuiHeader)
+      .header("Accept", "application/json, text/plain, */*")
+      .header("x-xsrf-token", "#{XSRFToken}")
+      .body(StringBody("""{"refined":true}"""))
+      .check(regex("""","assignee":"(.*)","type":""").saveAs("asigneeUserId"))
+      .check(regex("""","task_state":"(.*)","task_system":"""").is("assigned")))
+
+    .exec(Common.activity)
+    .exec(Common.userDetails)
+    .exec(Common.activity)
+
+    .pause(MinThinkTime, MaxThinkTime)
 
 val CourtAdminSendToGateKeeper = 
 
-/*======================================================================================
+    exec(http("XUI_PRL_XXX_300_SelectCase")
+      .get(BaseURL + "/cases/case-details/#{caseId}/task")
+      .headers(Headers.xuiHeader)
+      .check(substring("HMCTS Manage cases")))
+
+    .exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).saveAs("XSRFToken")))
+      
+    .exec(Common.activity)
+    .exec(Common.configUI)
+    .exec(Common.configJson)
+    .exec(Common.userDetails)
+
+    .exec(http("XUI_PRL_XXX_310_SelectCaseTask")
+      .get(BaseURL + "/workallocation/case/task/#{caseId}")
+      .headers(Headers.xuiHeader)
+      .header("Accept", "application/json, text/plain, */*")
+      .header("x-xsrf-token", "#{XSRFToken}")
+      .check(jsonPath("$[1].id").optional.saveAs("respTaskId"))
+      .check(jsonPath("$[1].type").optional.saveAs("respTaskType")))
+
+    // Log task Type
+    .exec (session => {
+      println(s"Current respTaskType: ${session("respTaskType").as[String]}")
+      println(s"Current respTaskId: ${session("respTaskId").as[String]}")
+      session
+    })
+
+    //Save taskType from response
+    .exec(session => {
+      // Initialise task type in session if it's not already present, ensure the variable exists before entering Loop
+      session("respTaskType").asOption[String] match {
+        case Some(taskType) => session
+        case None => session.set("respTaskType", "")
+      }
+    })
+
+    // Loop until the task type matches "checkApplicationC100"
+    .asLongAs(session => session("respTaskType").as[String] != "sendToGateKeeperC100") {
+      exec(http("XUI_PRL_XXX_310_SelectCaseTaskRepeat")
+        .get(BaseURL + "/workallocation/case/task/#{caseId}")
+        .headers(Headers.xuiHeader)
+        .header("Accept", "application/json, text/plain, */*")
+        .header("x-xsrf-token", "#{XSRFToken}")
+        .check(jsonPath("$[1].id").optional.saveAs("respTaskId"))
+        .check(jsonPath("$[1].type").optional.saveAs("respTaskType")))
+
+      .pause(5, 10) // Wait between retries
+
+      // Log task Type
+      .exec (session => {
+        println(s"Current respTaskType: ${session("respTaskType").as[String]}")
+        println(s"Current respTaskId: ${session("respTaskId").as[String]}")
+        session
+    })
+  }
+
+  .pause(MinThinkTime, MaxThinkTime)
+
+  /*=====================================================================================
+  * Select Assign to me
+  ======================================================================================*/
+
+    .exec(http("XUI_PRL_XXX_330_AssignToMeClaim")
+      .post(BaseURL + "/workallocation/task/#{respTaskId}/claim")
+      .headers(Headers.xuiHeader)
+      .header("Accept", "application/json, text/plain, */*")
+      .header("x-xsrf-token", "#{XSRFToken}")
+      .check(status.in(200, 204)))
+
+    .exec(http("XUI_PRL_XXX_340_AssignToMe")
+      .post(BaseURL + "/workallocation/case/task/#{caseId}")
+      .headers(Headers.xuiHeader)
+      .header("Accept", "application/json, text/plain, */*")
+      .header("x-xsrf-token", "#{XSRFToken}")
+      .body(StringBody("""{"refined":true}"""))
+      // .check(regex("""","assignee":"(.*)","type":""").saveAs("asigneeUserId"))
+      .check(jsonPath("$[1].assignee").saveAs("assigneeUserId"))
+      // .check(regex("""","task_state":"(.*)","task_system":"""").is("assigned"))
+      .check(jsonPath("$[1].task_state").is("assigned"))
+      )
+
+    .exec(Common.isAuthenticated)
+    .exec(Common.caseActivityPost)
+    .exec(Common.caseActivityOnlyGet)
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+  /*======================================================================================
   * Click on 'Send to Gate Keeper'
   ======================================================================================*/
 
-    exec(http("XUI_PRL_XXX_420_SendToGateKeeper")
+    .exec(http("XUI_PRL_XXX_420_SendToGateKeeper")
       .get(BaseURL + "/data/internal/cases/#{caseId}/event-triggers/sendToGateKeeper?ignore-warning=false")
       .headers(Headers.navigationHeader)
       .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-start-event-trigger.v2+json;charset=UTF-8")
@@ -271,13 +357,16 @@ val CourtAdminSendToGateKeeper =
 
     .pause(MinThinkTime, MaxThinkTime)
 
+
+  val CourtAdminManageOrders = 
+
   /*======================================================================================
   * Click on 'Manage Orders'
   ======================================================================================*/
 
-    .group("XUI_PRL_XXX_450_ManageOrders") {
+    group("XUI_PRL_XXX_450_ManageOrders") {
       exec(http("XUI_PRL_XXX_450_005_ManageOrders")
-        .get(BaseURL + "/data/internal/cases/${caseId}/event-triggers/manageOrders?ignore-warning=false")
+        .get(BaseURL + "/data/internal/cases/#{caseId}/event-triggers/manageOrders?ignore-warning=false")
         .headers(Headers.navigationHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-start-event-trigger.v2+json;charset=UTF-8")
         .check(jsonPath("$.event_token").saveAs("event_token"))
@@ -298,7 +387,7 @@ val CourtAdminSendToGateKeeper =
         .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=manageOrders1")
         .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
-        .header("x-xsrf-token", "${XSRFToken}")
+        .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("bodies/prl/courtAdmin/PRLCreateOrder.json"))
         .check(substring("SearchCriteria")))
     }
@@ -314,7 +403,7 @@ val CourtAdminSendToGateKeeper =
         .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=manageOrders2")
         .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
-        .header("x-xsrf-token", "${XSRFToken}")
+        .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("bodies/prl/courtAdmin//PRLSelectOrder.json"))
         .check(substring("abductionChildHasPassport")))
     }
@@ -330,7 +419,7 @@ val CourtAdminSendToGateKeeper =
           .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=manageOrders4")
           .headers(Headers.xuiHeader)
           .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
-          .header("x-xsrf-token", "${XSRFToken}")
+          .header("x-xsrf-token", "#{XSRFToken}")
           .body(ElFileBody("bodies/prl/courtAdmin/PRLOrderDetails.json"))
           .check(substring("isEngDocGen")))
       }
@@ -346,7 +435,7 @@ val CourtAdminSendToGateKeeper =
           .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=manageOrders10")
           .headers(Headers.xuiHeader)
           .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
-          .header("x-xsrf-token", "${XSRFToken}")
+          .header("x-xsrf-token", "#{XSRFToken}")
           .body(ElFileBody("bodies/prl/courtAdmin/PRLGuardianName.json"))
           .check(jsonPath("$.data.previewOrderDoc.document_url").saveAs("document_url"))
           .check(jsonPath("$.data.previewOrderDoc.document_hash").saveAs("document_hash"))
@@ -364,7 +453,7 @@ val CourtAdminSendToGateKeeper =
         .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=manageOrders16")
         .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
-        .header("x-xsrf-token", "${XSRFToken}")
+        .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("bodies/prl/courtAdmin/PRLCheckOrder.json"))
         .check(substring("previewOrderDoc")))
     }
@@ -380,7 +469,7 @@ val CourtAdminSendToGateKeeper =
         .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=manageOrders17")
         .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
-        .header("x-xsrf-token", "${XSRFToken}")
+        .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("bodies/prl/courtAdmin/PRLOrderRecipients.json"))
         .check(substring("orderRecipients")))
     }
@@ -393,10 +482,10 @@ val CourtAdminSendToGateKeeper =
 
     .group("XUI_PRL_XXX_520_OrderSubmit") {
       exec(http("XUI_PRL_XXX_520_005_OrderSubmit")
-        .post(BaseURL + "/data/cases/${caseId}/events")
+        .post(BaseURL + "/data/cases/#{caseId}/events")
         .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8")
-        .header("x-xsrf-token", "${XSRFToken}")
+        .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("bodies/prl/courtAdmin/PRLOrderSubmit.json"))
         .check(substring("GATE_KEEPING")))
     }
@@ -409,7 +498,7 @@ val CourtAdminSendToGateKeeper =
 
     .group("XUI_PRL_XXX_530_ServiceOfApplication") {
       exec(http("XUI_PRL_XXX_530_005_ServiceOfApplication")
-        .get(BaseURL + "/data/internal/cases/${caseId}/event-triggers/serviceOfApplication?ignore-warning=false")
+        .get(BaseURL + "/data/internal/cases/#{caseId}/event-triggers/serviceOfApplication?ignore-warning=false")
         .headers(Headers.navigationHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-start-event-trigger.v2+json;charset=UTF-8")
         .check(jsonPath("$.event_token").saveAs("event_token"))
@@ -432,7 +521,7 @@ val CourtAdminSendToGateKeeper =
         .headers(Headers.xuiHeader)
         .header("accept", "application/json, text/plain, */*")
         .header("content-type", "multipart/form-data")
-      .header("x-xsrf-token", "${XSRFToken}")
+      .header("x-xsrf-token", "#{XSRFToken}")
       .bodyPart(RawFileBodyPart("files", "TestFile.pdf")
         .fileName("TestFile.pdf")
         .transferEncoding("binary"))
@@ -457,7 +546,7 @@ val CourtAdminSendToGateKeeper =
         .headers(Headers.xuiHeader)
         .header("accept", "application/json, text/plain, */*")
         .header("content-type", "multipart/form-data")
-        .header("x-xsrf-token", "${XSRFToken}")
+        .header("x-xsrf-token", "#{XSRFToken}")
         .bodyPart(RawFileBodyPart("files", "TestFile2.pdf")
           .fileName("TestFile2.pdf")
           .transferEncoding("binary"))
@@ -482,7 +571,7 @@ val CourtAdminSendToGateKeeper =
         .headers(Headers.xuiHeader)
          .header("accept", "application/json, text/plain, */*")
         .header("content-type", "multipart/form-data")
-        .header("x-xsrf-token", "${XSRFToken}")
+        .header("x-xsrf-token", "#{XSRFToken}")
         .bodyPart(RawFileBodyPart("files", "TestFile3.pdf")
           .fileName("TestFile3.pdf")
           .transferEncoding("binary"))
@@ -507,7 +596,7 @@ val CourtAdminSendToGateKeeper =
         .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=serviceOfApplicationorderDetails")
         .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
-        .header("x-xsrf-token", "${XSRFToken}")
+        .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("bodies/prl/courtAdmin/PRLSoADocuments.json"))
         .check(substring("additionalDocuments")))
     }
@@ -523,7 +612,7 @@ val CourtAdminSendToGateKeeper =
         .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=serviceOfApplicationconfirmRecipients")
         .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
-        .header("x-xsrf-token", "${XSRFToken}")
+        .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("bodies/prl/courtAdmin/PRLSoARecipients.json"))
         .check(substring("confirmRecipients")))
     }
@@ -539,7 +628,7 @@ val CourtAdminSendToGateKeeper =
         .post(BaseURL + "/data/cases/${caseId}/events")
         .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8")
-        .header("x-xsrf-token", "${XSRFToken}")
+        .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("bodies/prl/courtAdmin/PRLSoASubmit.json"))
         .check(regex("""accessCode":"(\w{8})""").saveAs("prlAccessCode")))
     }
