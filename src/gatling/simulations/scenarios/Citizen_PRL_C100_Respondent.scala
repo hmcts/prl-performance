@@ -729,44 +729,44 @@ object Citizen_PRL_C100_Respondent {
     * Do you need help with paying the fee for this application? - No
     ======================================================================================*/
 
-    // .group("PRL_CitizenC100_760_HelpWithPaying") {
-    //   exec(http("PRL_CitizenC100_760_005_HelpWithPaying")
-    //     .post(prlURL + "/c100-rebuild/help-with-fees/need-help-with-fees")
-    //     .headers(Headers.commonHeader)
-    //     .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-    //     .header("content-type", "application/x-www-form-urlencoded")
-    //     .formParam("_csrf", "#{csrf}")
-    //     .formParam("hwf_needHelpWithFees", "No")
-    //     .formParam("saveAndContinue", "true")
-    //     .check(substring("Check your Answers"))
-    //     .check(CsrfCheck.save))
-    // }
+    .group("PRL_CitizenC100_760_HelpWithPaying") {
+      exec(http("PRL_CitizenC100_760_005_HelpWithPaying")
+        .post(prlURL + "/c100-rebuild/help-with-fees/need-help-with-fees")
+        .headers(Headers.commonHeader)
+        .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+        .header("content-type", "application/x-www-form-urlencoded")
+        .formParam("_csrf", "#{csrf}")
+        .formParam("hwf_needHelpWithFees", "No")
+        .formParam("saveAndContinue", "true")
+        .check(substring("Check your Answers"))
+        .check(CsrfCheck.save))
+    }
 
-    // .pause(MinThinkTime, MaxThinkTime)
+    .pause(MinThinkTime, MaxThinkTime)
 
     /*======================================================================================
     * Check your Answers
     ======================================================================================*/
 
-    // .group("PRL_CitizenC100_770_CheckYourAnswers") {
-    //     exec(http("PRL_CitizenC100_770_005_CheckYourAnswers")
-    //       .post(prlURL + "/c100-rebuild/check-your-answers")
-    //       .disableFollowRedirect
-    //       .headers(Headers.commonHeader)
-    //       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
-    //       .header("content-type", "application/x-www-form-urlencoded")
-    //       .header("origin", "https://privatelaw.#{env}.platform.hmcts.net")
-    //       .formParam("_csrf", "#{csrf}")
-    //       .formParam("statementOfTruth", "")
-    //       .formParam("statementOfTruth", "Yes")
-    //       .formParam("saveAndContinue", "true")
-    //       // .check(bodyString.saveAs("responseBody"))
-    //       .check(headerRegex("Location", """https://card.payments.service.gov.uk/secure/(.{8}-.{4}-.{4}-.{4}-.{12})""").ofType[(String)].saveAs("paymentId"))
-    //       // .check(headerRegex("Location", "https://pcq.#{env}.platform.hmcts.net/service-endpoint?serviceId=prl_da&actor=APPLICANT&pcqId=(.*)").ofType[(String)].saveAs("pcqUrl"))
-    //       .check(status.in(302, 403, 200)))
-    //     }
+    .group("PRL_CitizenC100_770_CheckYourAnswers") {
+        exec(http("PRL_CitizenC100_770_005_CheckYourAnswers")
+          .post(prlURL + "/c100-rebuild/check-your-answers")
+          .disableFollowRedirect
+          .headers(Headers.commonHeader)
+          .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
+          .header("content-type", "application/x-www-form-urlencoded")
+          .header("origin", "https://privatelaw.#{env}.platform.hmcts.net")
+          .formParam("_csrf", "#{csrf}")
+          .formParam("statementOfTruth", "")
+          .formParam("statementOfTruth", "Yes")
+          .formParam("saveAndContinue", "true")
+          // .check(bodyString.saveAs("responseBody"))
+          .check(headerRegex("Location", """https://card.payments.service.gov.uk/secure/(.{8}-.{4}-.{4}-.{4}-.{12})""").ofType[(String)].saveAs("paymentId"))
+          // .check(headerRegex("Location", "https://pcq.#{env}.platform.hmcts.net/service-endpoint?serviceId=prl_da&actor=APPLICANT&pcqId=(.*)").ofType[(String)].saveAs("pcqUrl"))
+          .check(status.in(302, 403, 200)))
+        }
 
-    // .pause(MinThinkTime, MaxThinkTime)
+    .pause(MinThinkTime, MaxThinkTime)
 
     // .group("PRL_CitizenC100_772_CheckYourAnswers") {
     //   exec(http("PRL_CitizenC100_772_CheckYourAnswers")
