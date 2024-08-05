@@ -15,7 +15,7 @@ object Headers {
   val commonHeader = Map(
     "accept-encoding" -> "gzip, deflate, br",
     "accept-language" -> "en-GB,en;q=0.9",
-    "content-type" -> "application/json",
+    // "content-type" -> "application/json",
     "sec-fetch-dest" -> "empty",
     "sec-fetch-mode" -> "cors",
     "sec-fetch-site" -> "same-origin")
@@ -55,5 +55,21 @@ object Headers {
     "sec-fetch-dest" -> "empty",
     "sec-fetch-mode" -> "cors",
     "sec-fetch-site" -> "same-origin")
+
+  val headers_12 = Map(
+		"accept" -> "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+		"accept-encoding" -> "gzip, deflate, br, zstd",
+		"accept-language" -> "en-US,en;q=0.9",
+		"origin" -> "https://privatelaw.perftest.platform.hmcts.net",
+		"pragma" -> "no-cache",
+		"priority" -> "u=0, i",
+		"sec-ch-ua" -> """Not/A)Brand";v="8", "Chromium";v="126", "Google Chrome";v="126""",
+		"sec-ch-ua-mobile" -> "?0",
+		"sec-ch-ua-platform" -> "macOS",
+		"sec-fetch-dest" -> "document",
+		"sec-fetch-mode" -> "navigate",
+		"sec-fetch-site" -> "same-origin",
+		"sec-fetch-user" -> "?1",
+		"upgrade-insecure-requests" -> "1")
 
 }

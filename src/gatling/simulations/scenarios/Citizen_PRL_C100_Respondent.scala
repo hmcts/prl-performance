@@ -664,7 +664,8 @@ object Citizen_PRL_C100_Respondent {
         .formParam("ra_documentHelpOther_subfield", "")
         .formParam("onlycontinue", "true")
         .check(substring("Do you need help with paying the fee for this application?"))
-        .check(CsrfCheck.save))
+        // .check(CsrfCheck.save)
+        )
     }
 
     .pause(MinThinkTime, MaxThinkTime)
@@ -739,7 +740,8 @@ object Citizen_PRL_C100_Respondent {
         .formParam("hwf_needHelpWithFees", "No")
         .formParam("saveAndContinue", "true")
         .check(substring("Check your Answers"))
-        .check(CsrfCheck.save))
+        .check(CsrfCheck.save)
+      )
     }
 
     .pause(MinThinkTime, MaxThinkTime)
@@ -752,16 +754,16 @@ object Citizen_PRL_C100_Respondent {
         exec(http("PRL_CitizenC100_770_005_CheckYourAnswers")
           .post(prlURL + "/c100-rebuild/check-your-answers")
           .disableFollowRedirect
-          .headers(Headers.commonHeader)
-          .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
+          .headers(Headers.headers_12)
+          .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8")
           .header("content-type", "application/x-www-form-urlencoded")
-          .header("origin", "https://privatelaw.#{env}.platform.hmcts.net")
+          // .header("origin", "https://privatelaw.#{env}.platform.hmcts.net")
           .formParam("_csrf", "#{csrf}")
           .formParam("statementOfTruth", "")
           .formParam("statementOfTruth", "Yes")
           .formParam("saveAndContinue", "true")
           // .check(bodyString.saveAs("responseBody"))
-          .check(headerRegex("Location", """https://card.payments.service.gov.uk/secure/(.{8}-.{4}-.{4}-.{4}-.{12})""").ofType[(String)].saveAs("paymentId"))
+          .check(headerRegex("Location", """https:\/\/card.payments.service.gov.uk\/secure\/(.{8}-.{4}-.{4}-.{4}-.{12})""").ofType[(String)].saveAs("paymentId"))
           // .check(headerRegex("Location", "https://pcq.#{env}.platform.hmcts.net/service-endpoint?serviceId=prl_da&actor=APPLICANT&pcqId=(.*)").ofType[(String)].saveAs("pcqUrl"))
           .check(status.in(302, 403, 200)))
         }

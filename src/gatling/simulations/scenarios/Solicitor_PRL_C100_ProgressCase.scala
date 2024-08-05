@@ -347,16 +347,29 @@ val CourtAdminSendToGateKeeper =
   * Send to Gate Keeper Submit
   ======================================================================================*/
 
-    .exec(http("XUI_PRL_XXX_440_GateKeeperSubmit")
-      .post(BaseURL + "/data/cases/#{caseId}/events")
-      .headers(Headers.xuiHeader)
-      .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8")
-      .header("x-xsrf-token", "#{XSRFToken}")
-      .body(ElFileBody("bodies/prl/courtAdmin/PRLAddGateKeeperSubmit.json"))
-      .check(substring("GATE_KEEPING")))
+    .group("XUI_PRL_XXX_440_GateKeeperSubmit") {
+      exec(http("XUI_PRL_XXX_440_GateKeeperSubmit")
+        .post(BaseURL + "/data/cases/#{caseId}/events")
+        .headers(Headers.xuiHeader)
+        .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8")
+        .header("x-xsrf-token", "#{XSRFToken}")
+        .body(ElFileBody("bodies/prl/courtAdmin/PRLAddGateKeeperSubmit.json"))
+        .check(substring("GATE_KEEPING")))
+
+      .exec(http("XUI_PRL_XXX_440_GateKeeperSubmitCompleteTask")
+        .post(BaseURL + "/workallocation/task/#{respTaskId}/complete")
+        .headers(Headers.xuiHeader)
+        .header("accept", "application/json")
+        .header("x-xsrf-token", "#{XSRFToken}")
+        .body(StringBody("{}")))
+
+      .exec(http("XUI_PRL_XXX_320_SelectCase")
+        .get(BaseURL + "/data/internal/cases/#{caseId}")
+        .headers(Headers.xuiHeader)
+        .check(jsonPath("$.case_type.name").is("C100 & FL401 Applications")))
+    } 
 
     .pause(MinThinkTime, MaxThinkTime)
-
 
   val CourtAdminManageOrders = 
 
