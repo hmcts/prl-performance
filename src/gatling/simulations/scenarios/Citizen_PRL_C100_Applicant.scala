@@ -89,7 +89,8 @@ object Citizen_PRL_C100_Applicant {
         .get(prlURL + "/c100-rebuild/start")
         .headers(Headers.navigationHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-        .check(substring("Before you start your application")))
+        .check(substring("Before you start your application"))
+        .check(CsrfCheck.save))
     }
 
     .pause(MinThinkTime, MaxThinkTime)
@@ -100,9 +101,11 @@ object Citizen_PRL_C100_Applicant {
 
     .group("PRL_CitizenC100_040_WhereDoChildrenLive") {
       exec(http("PRL_CitizenC100_040_005_WhatYouWillNeed")
-        .get(prlURL + "/c100-rebuild/childaddress")
+        .post(prlURL + "/c100-rebuild/start")
         .headers(Headers.navigationHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+        .formParam("_csrf", "#{csrf}")
+        .formParam("onlyContinue", "true")
         .check(CsrfCheck.save)
         .check(substring("Where do the children live?")))
     }
@@ -124,6 +127,7 @@ object Citizen_PRL_C100_Applicant {
         .formParam("_csrf", "#{csrf}")
         .formParam("c100RebuildChildPostCode", "#{postcode}")
         .formParam("saveAndContinue", "true")
+        .check(CsrfCheck.save)
         .check(substring("Do you have a written agreement with the other people in the case that you want the court to review?")))
     }
 
@@ -142,6 +146,7 @@ object Citizen_PRL_C100_Applicant {
         .formParam("_csrf", "#{csrf}")
         .formParam("sq_writtenAgreement", "No")
         .formParam("saveAndContinue", "true")
+        .check(CsrfCheck.save)
         .check(substring("Before you go to court")))
     }
 
@@ -159,6 +164,7 @@ object Citizen_PRL_C100_Applicant {
         .header("content-type", "application/x-www-form-urlencoded")
         .formParam("_csrf", "#{csrf}")
         .formParam("saveAndContinue", "true")
+        .check(CsrfCheck.save)
         .check(substring("This is known as ‘non-court dispute resolution’")))
     }
 
@@ -175,9 +181,8 @@ object Citizen_PRL_C100_Applicant {
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
         .header("content-type", "application/x-www-form-urlencoded")
         .formParam("_csrf", "#{csrf}")
-        // .formParam("sq_alternativeRoutes", "Yes")
-        // .formParam("sq_agreementReason", "#{PRLRandomString}" + "agreementReason")
         .formParam("saveAndContinue", "true")
+        .check(CsrfCheck.save)
         .check(substring("Will you be using a legal representative in these proceedings?")))
     }
 
@@ -196,6 +201,7 @@ object Citizen_PRL_C100_Applicant {
         .formParam("_csrf", "#{csrf}")
         .formParam("sq_legalRepresentation", "No")
         .formParam("saveAndContinue", "true")
+        .check(CsrfCheck.save)
         .check(substring("Is there any reason that you would need permission")))
     }
 
@@ -213,7 +219,8 @@ object Citizen_PRL_C100_Applicant {
         .header("content-type", "application/x-www-form-urlencoded")
         .formParam("_csrf", "#{csrf}")
         .formParam("sq_courtPermissionRequired", "Yes")
-        .formParam("saveAndContinue", "true")
+        .formParam("onlycontinue", "true")
+        .check(CsrfCheck.save)
         .check(substring("Why do you need a permission from the court to make this application?")))
     }
 
@@ -234,10 +241,11 @@ object Citizen_PRL_C100_Applicant {
         .formParam("sq_permissionsWhy", "")
         .formParam("sq_permissionsWhy", "")
         .formParam("sq_permissionsWhy", "doNotHaveParentalResponsibility")
-        .formParam("sq_doNotHaveParentalResponsibility_subfield", "#{PRLRandomString}" + "ParentalResponsibility")
+        .formParam("sq_doNotHaveParentalResponsibility_subfield", "No Parental Responsibility")
         .formParam("sq_courtOrderPrevent_subfield", "")
         .formParam("sq_anotherReason_subfield", "")
-        .formParam("saveAndContinue", "true")
+        .formParam("onlycontinue", "true")
+        .check(CsrfCheck.save)
         .check(substring("Explain why the court should grant you permission to submit this application")))
     }
 
@@ -254,8 +262,9 @@ object Citizen_PRL_C100_Applicant {
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
         .header("content-type", "application/x-www-form-urlencoded")
         .formParam("_csrf", "#{csrf}")
-        .formParam("sq_permissionsRequest", "#{PRLRandomString}" + "ParentalResponsibility")
-        .formParam("saveAndContinue", "true")
+        .formParam("sq_permissionsRequest", "Perf test details")
+        .formParam("onlycontinue", "true")
+        .check(CsrfCheck.save)
         .check(substring("Are the children involved in any emergency protection, care or supervision proceedings (or have they been)?")))
     }
 
@@ -274,6 +283,7 @@ object Citizen_PRL_C100_Applicant {
         .formParam("_csrf", "#{csrf}")
         .formParam("miam_otherProceedings", "No")
         .formParam("saveAndContinue", "true")
+        .check(CsrfCheck.save)
         .check(substring("Attending a Mediation Information and Assessment Meeting")))
     }
 
@@ -293,6 +303,7 @@ object Citizen_PRL_C100_Applicant {
         .formParam("miam_consent", "")
         .formParam("miam_consent", "Yes")
         .formParam("saveAndContinue", "true")
+        .check(CsrfCheck.save)
         .check(substring("Have you attended")))
     }
 
@@ -311,6 +322,7 @@ object Citizen_PRL_C100_Applicant {
         .formParam("_csrf", "#{csrf}")
         .formParam("miam_attendance", "Yes")
         .formParam("saveAndContinue", "true")
+        .check(CsrfCheck.save)
         .check(substring("Do you have a document signed by the mediator?")))
     }
 
@@ -367,6 +379,7 @@ object Citizen_PRL_C100_Applicant {
         .formParam("_csrf", "#{csrf}")
         .formParam("miamUpload", "true")
         .formParam("saveAndContinue", "true")
+        .check(CsrfCheck.save)
         .check(substring("Your MIAM certificate has been uploaded")))
     }
 
@@ -378,12 +391,13 @@ object Citizen_PRL_C100_Applicant {
 
     .group("PRL_CitizenC100_200_MIAMUploadContinue") {
       exec(http("PRL_CitizenC100_200_005_MIAMUploadContinue")
-        .post(prlURL + "/c100-rebuild/miam/upload-confirmation")
+        .post(prlURL + "/c100-rebuild/miam/upload-confirmation?_csrf=#{csrf}")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
         .header("content-type", "application/x-www-form-urlencoded")
         .formParam("_csrf", "#{csrf}")
         .formParam("saveAndContinue", "true")
+        .check(CsrfCheck.save)
         .check(substring("What are you asking the court to do?")))
     }
 
@@ -395,7 +409,7 @@ object Citizen_PRL_C100_Applicant {
 
     .group("PRL_CitizenC100_210_AskingCourtToDo") {
       exec(http("PRL_CitizenC100_210_005_AskingCourtToDo")
-        .post(prlURL + "/c100-rebuild/typeoforder/select-courtorder")
+        .post(prlURL + "/c100-rebuild/typeoforder/select-courtorder?_csrf=#{csrf}")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
         .header("content-type", "application/x-www-form-urlencoded")
@@ -420,6 +434,7 @@ object Citizen_PRL_C100_Applicant {
         .formParam("too_resolveSpecificIssueSubField", "")
         .formParam("too_resolveSpecificIssueSubField", "")
         .formParam("onlycontinue", "true")
+        .check(CsrfCheck.save)
         .check(substring("You would like the court to stop the other people in the application:")))
     }
     
@@ -431,12 +446,13 @@ object Citizen_PRL_C100_Applicant {
 
     .group("PRL_CitizenC100_220_WouldLikeCourtTo") {
       exec(http("PRL_CitizenC100_220_005_WouldLikeCourtTo")
-        .post(prlURL + "/c100-rebuild/typeoforder/caorder")
+        .post(prlURL + "/c100-rebuild/typeoforder/caorder?_csrf=#{csrf}")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
         .header("content-type", "application/x-www-form-urlencoded")
         .formParam("_csrf", "#{csrf}")
         .formParam("onlycontinue", "true")
+        .check(CsrfCheck.save)
         .check(substring("Describe what you want the court to do regarding the children in this application")))
     }
 
@@ -448,13 +464,14 @@ object Citizen_PRL_C100_Applicant {
 
     .group("PRL_CitizenC100_230_DescribeWhatCourt") {
       exec(http("PRL_CitizenC100_230_005_DescribeWhatCourt")
-        .post(prlURL + "/c100-rebuild/typeoforder/shortstatement")
+        .post(prlURL + "/c100-rebuild/typeoforder/shortstatement?_csrf=#{csrf}")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
         .header("content-type", "application/x-www-form-urlencoded")
         .formParam("_csrf", "#{csrf}")
-        .formParam("too_shortStatement", "#{PRLRandomString}" + "WantCourtToDo")
+        .formParam("too_shortStatement", "I want some perf testing")
         .formParam("onlycontinue", "true")
+        .check(CsrfCheck.save)
         .check(substring("Does your situation qualify for an urgent first hearing?")))
     }
 
@@ -466,13 +483,14 @@ object Citizen_PRL_C100_Applicant {
 
     .group("PRL_CitizenC100_240_UrgentFirstHearing") {
       exec(http("PRL_CitizenC100_240_005_UrgentFirstHearing")
-        .post(prlURL + "/c100-rebuild/hearing-urgency/urgent")
+        .post(prlURL + "/c100-rebuild/hearing-urgency/urgent?_csrf=#{csrf}")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
         .header("content-type", "application/x-www-form-urlencoded")
         .formParam("_csrf", "#{csrf}")
         .formParam("hu_urgentHearingReasons", "Yes")
         .formParam("saveAndContinue", "true")
+        .check(CsrfCheck.save)
         .check(substring("Tell us about your situation")))
     }
 
@@ -484,7 +502,7 @@ object Citizen_PRL_C100_Applicant {
 
     .group("PRL_CitizenC100_250_UrgentHearingDetails") {
       exec(http("PRL_CitizenC100_250_005_UrgentHearingDetails")
-        .post(prlURL + "/c100-rebuild/hearing-urgency/urgent-details")
+        .post(prlURL + "/c100-rebuild/hearing-urgency/urgent-details?_csrf=#{csrf}")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
         .header("content-type", "application/x-www-form-urlencoded")
@@ -494,11 +512,12 @@ object Citizen_PRL_C100_Applicant {
         .formParam("hu_reasonOfUrgentHearing", "")
         .formParam("hu_reasonOfUrgentHearing", "")
         .formParam("hu_reasonOfUrgentHearing", "riskOfSafety")
-        .formParam("hu_otherRiskDetails", "#{PRLRandomString}" + "RiskDetails")
-        .formParam("hu_timeOfHearingDetails", "#{PRLAppDobDay}" + "Days")
+        .formParam("hu_otherRiskDetails", "PerfRiskDetails")
+        .formParam("hu_timeOfHearingDetails", "10 Days")
         .formParam("hu_hearingWithNext48HrsMsg", "")
         .formParam("hu_hearingWithNext48HrsDetails", "No")
         .formParam("saveAndContinue", "true")
+        .check(CsrfCheck.save)
         .check(substring("Are you asking for a without notice hearing?")))
     }
 
@@ -510,13 +529,14 @@ object Citizen_PRL_C100_Applicant {
 
     .group("PRL_CitizenC100_260_AskingForWithoutNotice") {
       exec(http("PRL_CitizenC100_260_005_AskingForWithoutNotice")
-        .post(prlURL + "/c100-rebuild/hearing-without-notice/hearing-part1")
+        .post(prlURL + "/c100-rebuild/hearing-without-notice/hearing-part1?_csrf=#{csrf}")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
         .header("content-type", "application/x-www-form-urlencoded")
         .formParam("_csrf", "#{csrf}")
         .formParam("hwn_hearingPart1", "Yes")
         .formParam("saveAndContinue", "true")
+        .check(CsrfCheck.save)
         .check(substring("Details of without notice hearing")))
     }
 
@@ -528,17 +548,18 @@ object Citizen_PRL_C100_Applicant {
 
     .group("PRL_CitizenC100_270_WithoutNoticeDetails") {
       exec(http("PRL_CitizenC100_270_005_WithoutNoticeDetails")
-        .post(prlURL + "/c100-rebuild/hearing-without-notice/hearing-part2")
+        .post(prlURL + "/c100-rebuild/hearing-without-notice/hearing-part2?_csrf=#{csrf}")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
         .header("content-type", "application/x-www-form-urlencoded")
         .formParam("_csrf", "#{csrf}")
-        .formParam("hwn_reasonsForApplicationWithoutNotice", "#{PRLRandomString}" + "WithoutNotice")
+        .formParam("hwn_reasonsForApplicationWithoutNotice", "Some perf test details here")
         .formParam("hwn_doYouNeedAWithoutNoticeHearingDetails", "")
         .formParam("hwn_doYouNeedAWithoutNoticeHearing", "No")
         .formParam("hwn_doYouRequireAHearingWithReducedNoticeDetails", "")
         .formParam("hwn_doYouRequireAHearingWithReducedNotice", "No")
         .formParam("saveAndContinue", "true")
+        .check(CsrfCheck.save)
         .check(substring("Enter the names of the children")))
     }
 
@@ -550,7 +571,7 @@ object Citizen_PRL_C100_Applicant {
 
     .group("PRL_CitizenC100_280_ChildrenName"){
       exec(http("PRL_CitizenC100_280_005_ChildrenName")
-        .post(prlURL + "/c100-rebuild/child-details/add-children")
+        .post(prlURL + "/c100-rebuild/child-details/add-children?_csrf=#{csrf}")
         .disableFollowRedirect
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -560,6 +581,7 @@ object Citizen_PRL_C100_Applicant {
         .formParam("c100TempLastName", "#{PRLRandomString}" + "Last")
         .formParam("_ctx", "cd")
         .formParam("onlycontinue", "true")
+        // .check(CsrfCheck.save)
         .check(headerRegex("location", """/c100-rebuild\/child-details\/(.{8}-.{4}-.{4}-.{4}-.{12})\/personal-details""").ofType[(String)].saveAs("childId"))
         .check(status.is(302)))
     }
@@ -570,16 +592,16 @@ object Citizen_PRL_C100_Applicant {
     * Child Name Redirect
     ======================================================================================*/
 
-    .group("PRL_CitizenC100_285_ChildrenNameRedirect"){
-      exec(http("PRL_CitizenC100_280_005_ChildrenName")
-        .get(prlURL + "/c100-rebuild/child-details/#{childId}/personal-details")
-        .headers(Headers.navigationHeader)
-        .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-        .header("content-type", "application/x-www-form-urlencoded")
-        .check(substring("Provide details for")))
-    }
+    // .group("PRL_CitizenC100_285_ChildrenNameRedirect"){
+    //   exec(http("PRL_CitizenC100_280_005_ChildrenName")
+    //     .get(prlURL + "/c100-rebuild/child-details/#{childId}/personal-details#{csrf}")
+    //     .headers(Headers.navigationHeader)
+    //     .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+    //     .header("content-type", "application/x-www-form-urlencoded")
+    //     .check(substring("Provide details for")))
+    // }
 
-    .pause(MinThinkTime, MaxThinkTime)
+    // .pause(MinThinkTime, MaxThinkTime)
 
     /*======================================================================================
     * Provide details for First Name
@@ -587,14 +609,14 @@ object Citizen_PRL_C100_Applicant {
 
     .group("PRL_CitizenC100_290_ChildDetails") {
       exec(http("PRL_CitizenC100_290_005_ChildDetails")
-        .post(prlURL + "/c100-rebuild/child-details/#{childId}/personal-details")
+        .post(prlURL + "/c100-rebuild/child-details/#{childId}/personal-details?_csrf=#{csrf}")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
         .header("content-type", "application/x-www-form-urlencoded")
         .formParam("_csrf", "#{csrf}")
-        .formParam("dateOfBirth-day", "#{PRLAppDobDay}")
-        .formParam("dateOfBirth-month", "#{PRLAppDobMonth}")
-        .formParam("dateOfBirth-year", "#{PRLChildDobYear}")
+        .formParam("dateOfBirth-day", "10") //PRLAppDobDay
+        .formParam("dateOfBirth-month", "01") //PRLAppDobMonth
+        .formParam("dateOfBirth-year", "2018") //PRLChildDobYear
         .formParam("isDateOfBirthUnknown", "")
         .formParam("approxDateOfBirth-day", "")
         .formParam("approxDateOfBirth-month", "")
@@ -603,6 +625,7 @@ object Citizen_PRL_C100_Applicant {
         .formParam("otherGenderDetails", "")
         .formParam("_ctx", "pd")
         .formParam("onlycontinue", "true")
+        .check(CsrfCheck.save)
         .check(substring("Which of the decisions you’re asking the court to resolve relate to")))
     }
 
@@ -616,7 +639,7 @@ object Citizen_PRL_C100_Applicant {
     .group("PRL_CitizenC100_300_WhichDecision") {
 
       exec(http("PRL_CitizenC100_300_005_WhichDecision")
-        .post(prlURL + "/c100-rebuild/child-details/#{childId}/child-matters")
+        .post(prlURL + "/c100-rebuild/child-details/#{childId}/child-matters?_csrf=#{csrf}")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
         .header("content-type", "application/x-www-form-urlencoded")
@@ -625,6 +648,7 @@ object Citizen_PRL_C100_Applicant {
         .formParam("needsResolution", "changeChildrenNameSurname")
         .formParam("_ctx", "cm")
         .formParam("onlycontinue", "true")
+        .check(CsrfCheck.save)
         .check(substring("Parental responsibility for")))
     }
 
@@ -636,14 +660,15 @@ object Citizen_PRL_C100_Applicant {
 
     .group("PRL_CitizenC100_310_ParentalResponsibility") {
       exec(http("PRL_CitizenC100_310_005_ParentalResponsibility")
-        .post(prlURL + "/c100-rebuild/child-details/#{childId}/parental-responsibility")
+        .post(prlURL + "/c100-rebuild/child-details/#{childId}/parental-responsibility?_csrf=#{csrf}")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
         .header("content-type", "application/x-www-form-urlencoded")
         .formParam("_csrf", "#{csrf}")
-        .formParam("statement", "#{PRLRandomString}" + "ParentalResponsibility")
+        .formParam("statement", "Perf ParentalResponsibility")
         .formParam("_ctx", "pr")
         .formParam("onlycontinue", "true")
+        .check(CsrfCheck.save)
         .check(substring("Further Information")))
     }
 
@@ -655,33 +680,35 @@ object Citizen_PRL_C100_Applicant {
 
     .group("PRL_CitizenC100_320_FurtherInformation") {
       exec(http("PRL_CitizenC100_320_005_FurtherInformation")
-        .post(prlURL + "/c100-rebuild/child-details/further-information")
+        .post(prlURL + "/c100-rebuild/child-details/further-information?_csrf=#{csrf}")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
         .header("content-type", "application/x-www-form-urlencoded")
         .formParam("_csrf", "#{csrf}")
         .formParam("cd_childrenKnownToSocialServices", "Yes")
-        .formParam("cd_childrenKnownToSocialServicesDetails", "#{PRLRandomString}" + "SocialServicesDetails")
+        .formParam("cd_childrenKnownToSocialServicesDetails", "Perf test SocialServicesDetails")
         .formParam("cd_childrenSubjectOfProtectionPlan", "No")
         .formParam("onlycontinue", "true")
+        .check(CsrfCheck.save)
         .check(substring("Do you or any respondents have other children who are not part of this application?")))
     }
 
     .pause(MinThinkTime, MaxThinkTime)
 
     /*======================================================================================
-    * Do you or any respondents have other children who are not part of this application? - Yes
+    * Do you or any respondents have other children who are not part of this application? - No
     ======================================================================================*/
 
     .group("PRL_CitizenC100_330_OtherChildren") {
       exec(http("PRL_CitizenC100_330_005_OtherChildren")
-        .post(prlURL + "/c100-rebuild/child-details/has-other-children")
+        .post(prlURL + "/c100-rebuild/child-details/has-other-children?_csrf=#{csrf}")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
         .header("content-type", "application/x-www-form-urlencoded")
         .formParam("_csrf", "#{csrf}")
         .formParam("ocd_hasOtherChildren", "No")
         .formParam("saveAndContinue", "true")
+        .check(CsrfCheck.save)
         .check(substring("Enter your name")))
     }
 
@@ -693,7 +720,7 @@ object Citizen_PRL_C100_Applicant {
 
     .group("PRL_CitizenC100_340_EnterYourName") {
       exec(http("PRL_CitizenC100_340_005_EnterYourName")
-        .post(prlURL + "/c100-rebuild/applicant/add-applicants")
+        .post(prlURL + "/c100-rebuild/applicant/add-applicants?_csrf=#{csrf}")
         .disableFollowRedirect
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -702,8 +729,10 @@ object Citizen_PRL_C100_Applicant {
         .formParam("applicantFirstName", "#{PRLRandomString}" + "Applicant")
         .formParam("applicantLastName", "#{PRLRandomString}" + "Name")
         .formParam("saveAndContinue", "true")
+        // .check(CsrfCheck.save)
         .check(headerRegex("location", """c100-rebuild\/applicant\/(.{8}-.{4}-.{4}-.{4}-.{12})\/confidentiality\/details-know""").ofType[(String)].saveAs("applicantId"))
-        .check(status.is(302)))
+        .check(status.is(302))
+        )
     }
 
     .pause(MinThinkTime, MaxThinkTime)
@@ -712,16 +741,16 @@ object Citizen_PRL_C100_Applicant {
     * Enter your name Redirect
     ======================================================================================*/
 
-    .group("PRL_CitizenC100_345_EnterYourNameRedirect") {
-      exec(http("PRL_CitizenC100_340_005_EnterYourName")
-        .get(prlURL + "/c100-rebuild/applicant/#{applicantId}/confidentiality/details-know")
-        .headers(Headers.commonHeader)
-        .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-        .header("content-type", "application/x-www-form-urlencoded")
-        .check(substring("Do the other people named in this application (the respondents) know any of your contact details?")))
-    }
+    // .group("PRL_CitizenC100_345_EnterYourNameRedirect") {
+    //   exec(http("PRL_CitizenC100_340_005_EnterYourName")
+    //     .get(prlURL + "/c100-rebuild/applicant/#{applicantId}/confidentiality/details-know")
+    //     .headers(Headers.commonHeader)
+    //     .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+    //     .header("content-type", "application/x-www-form-urlencoded")
+    //     .check(substring("Do the other people named in this application (the respondents) know any of your contact details?")))
+    // }
 
-    .pause(MinThinkTime, MaxThinkTime)
+    // .pause(MinThinkTime, MaxThinkTime)
 
     /*======================================================================================
     * Do the other people named in this application (the respondents) know any of your contact details? - No
@@ -737,6 +766,7 @@ object Citizen_PRL_C100_Applicant {
         .formParam("detailsKnown", "No")
         .formParam("_ctx", "appl_detailsknow")
         .formParam("saveAndContinue", "true")
+        .check(CsrfCheck.save)
         .check(substring("Do you want to keep your contact details private from ")))
     }
 
@@ -756,10 +786,11 @@ object Citizen_PRL_C100_Applicant {
         .formParam("contactDetailsPrivateAlternative", "")
         .formParam("contactDetailsPrivateAlternative", "")
         .formParam("contactDetailsPrivateAlternative", "")
-        .formParam("contactDetailsPrivateAlternative", "email")
+        // .formParam("contactDetailsPrivateAlternative", "email")
         .formParam("startAlternative", "No")
         .formParam("_ctx", "appl_start_alternative")
         .formParam("saveAndContinue", "true")
+        .check(CsrfCheck.save)
         .check(substring("The court will not keep your contact details private")))
     }
 
@@ -777,6 +808,7 @@ object Citizen_PRL_C100_Applicant {
         .header("content-type", "application/x-www-form-urlencoded")
         .formParam("_csrf", "#{csrf}")
         .formParam("onlycontinue", "true")
+        .check(CsrfCheck.save)
         .check(substring("Provide details for")))
     }
 
@@ -799,9 +831,10 @@ object Citizen_PRL_C100_Applicant {
         .formParam("otherGenderDetails", "")
         .formParam("dateOfBirth-day", "#{PRLAppDobDay}")
         .formParam("dateOfBirth-month", "#{PRLAppDobMonth}")
-        .formParam("dateOfBirth-year", "#{PRLChildDobYear}")
+        .formParam("dateOfBirth-year", "1980")
         .formParam("applicantPlaceOfBirth", "#{PRLRandomString}" + "PlaceOfBirth")
         .formParam("onlycontinue", "true")
+        .check(CsrfCheck.save)
         .check(substring("relationship to")))
     }
 
@@ -818,9 +851,10 @@ object Citizen_PRL_C100_Applicant {
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
         .header("content-type", "application/x-www-form-urlencoded")
         .formParam("_csrf", "#{csrf}")
-        .formParam("relationshipType", "Mother")
+        .formParam("relationshipType", "Father")
         .formParam("otherRelationshipTypeDetails", "")
         .formParam("onlycontinue", "true")
+        .check(CsrfCheck.save)
         .check(substring("Current postcode")))
     }
 
@@ -841,6 +875,7 @@ object Citizen_PRL_C100_Applicant {
         .formParam("_csrf", "#{csrf}")
         .formParam("addressPostcode", "#{postcode}")
         .formParam("onlycontinue", "true")
+        .check(CsrfCheck.save)
         .check(regex("""<option value="([0-9]+)">""").findRandom.saveAs("addressIndex")))
     }
 
@@ -859,6 +894,7 @@ object Citizen_PRL_C100_Applicant {
         .formParam("_csrf", "#{csrf}")
         .formParam("selectAddress", "#{addressIndex}")
         .formParam("onlycontinue", "true")
+        .check(CsrfCheck.save)
         .check(regex("""name="address1" type="text" value="(.+)""").saveAs("address"))
         .check(regex("""name="addressTown" type="text" value="(.+)""").saveAs("town"))
         .check(substring("Building and street")))
@@ -886,6 +922,7 @@ object Citizen_PRL_C100_Applicant {
         .formParam("addressHistory", "Yes")
         .formParam("provideDetailsOfPreviousAddresses", "")
         .formParam("onlycontinue", "true")
+        .check(CsrfCheck.save)
         .check(substring("Contact details of")))
     }
 
@@ -909,6 +946,7 @@ object Citizen_PRL_C100_Applicant {
         .formParam("canNotProvideTelephoneNumberReason", "")
         .formParam("canLeaveVoiceMail", "No")
         .formParam("onlycontinue", "true")
+        .check(CsrfCheck.save)
         .check(substring("Contact Preferences")))
     }
 
@@ -925,10 +963,9 @@ object Citizen_PRL_C100_Applicant {
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
         .header("content-type", "application/x-www-form-urlencoded")
         .formParam("_csrf", "#{csrf}")
-        .formParam("applicantContactPreferences", "")
-        .formParam("applicantContactPreferences", "")
-        .formParam("applicantContactPreferences", "Digital")
+        .formParam("applicantContactPreferences", "email")
         .formParam("onlycontinue", "true")
+        .check(CsrfCheck.save)
         .check(substring("Enter the respondent&#39;s name")))
     }
 
@@ -950,6 +987,7 @@ object Citizen_PRL_C100_Applicant {
         .formParam("c100TempLastName", "#{PRLRandomString}" + "Name")
         .formParam("_ctx", "resp")
         .formParam("onlycontinue", "true")
+        // .check(CsrfCheck.save)
         .check(headerRegex("location", """c100-rebuild\/respondent-details\/(.{8}-.{4}-.{4}-.{4}-.{12})\/personal-details""").ofType[(String)].saveAs("respondentId"))
         .check(status.is(302)))
     }
@@ -960,16 +998,16 @@ object Citizen_PRL_C100_Applicant {
     * Enter the respondent's name - redirect
     ======================================================================================*/
 
-    .group("PRL_CitizenC100_460_RespondentNameRedirect") {
-      exec(http("PRL_CitizenC100_460_005_RespondentNameRedirect")
-        .get(prlURL + "/c100-rebuild/respondent-details/#{respondentId}/personal-details")
-        .headers(Headers.navigationHeader)
-        .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-        .header("content-type", "application/x-www-form-urlencoded")
-        .check(substring("Provide details for")))
-    }
+    // .group("PRL_CitizenC100_460_RespondentNameRedirect") {
+    //   exec(http("PRL_CitizenC100_460_005_RespondentNameRedirect")
+    //     .get(prlURL + "/c100-rebuild/respondent-details/#{respondentId}/personal-details")
+    //     .headers(Headers.navigationHeader)
+    //     .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+    //     .header("content-type", "application/x-www-form-urlencoded")
+    //     .check(substring("Provide details for")))
+    // }
     
-    .pause(MinThinkTime, MaxThinkTime)
+    // .pause(MinThinkTime, MaxThinkTime)
 
 
 
