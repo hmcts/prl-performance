@@ -35,8 +35,8 @@ object Citizen_PRL_C100_Respondent {
       "PRLAppDobYear" -> Common.getDobYear(),
       "PRLChildDobYear" -> Common.getDobYearChild()))
 
-    .group("PRL_CitizenC100_470_RespondentDetails") {
-      exec(http("PRL_CitizenC100_470_005_RespondentDetails")
+    .group("PRL_CitizenC100_460_RespondentDetails") {
+      exec(http("PRL_CitizenC100_460_005_RespondentDetails")
         .post(prlURL + "/c100-rebuild/respondent-details/#{respondentId}/personal-details")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -66,8 +66,8 @@ object Citizen_PRL_C100_Respondent {
     * Respondent's Relationship to child
     ======================================================================================*/
 
-    .group("PRL_CitizenC100_480_RespondentRelationship") {
-      exec(http("PRL_CitizenC100_480_005_RespondentRelationship")
+    .group("PRL_CitizenC100_470_RespondentRelationship") {
+      exec(http("PRL_CitizenC100_470_005_RespondentRelationship")
         .post(prlURL + "/c100-rebuild/respondent-details/#{respondentId}/relationship-to-child/#{childId}")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -86,16 +86,14 @@ object Citizen_PRL_C100_Respondent {
     * Respondent Postcode
     ======================================================================================*/
 
-    .feed(postcodeFeeder)
-
-    .group("PRL_CitizenC100_490_RespondentPostcode") {
-      exec(http("PRL_CitizenC100_490_005_RespondentPostcode")
+    .group("PRL_CitizenC100_480_RespondentPostcode") {
+      exec(http("PRL_CitizenC100_480_005_RespondentPostcode")
         .post(prlURL + "/c100-rebuild/respondent-details/#{respondentId}/address/lookup")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
         .header("content-type", "application/x-www-form-urlencoded")
         .formParam("_csrf", "#{csrf}")
-        .formParam("PostCode", "#{postcode}")
+        .formParam("PostCode", "KT25BU")
         .formParam("onlycontinue", "true")
         .check(CsrfCheck.save)
         .check(regex("""<option value="([0-9]+)">""").findRandom.saveAs("addressIndex")))
@@ -107,8 +105,8 @@ object Citizen_PRL_C100_Respondent {
     * Select Address Respondent
     ======================================================================================*/
 
-    .group("PRL_CitizenC100_500_RespondentSelectAddress") {
-      exec(http("PRL_CitizenC100_500_005_RespondentSelectAddress")
+    .group("PRL_CitizenC100_490_RespondentSelectAddress") {
+      exec(http("PRL_CitizenC100_490_005_RespondentSelectAddress")
         .post(prlURL + "/c100-rebuild/respondent-details/#{respondentId}/address/select")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -128,8 +126,8 @@ object Citizen_PRL_C100_Respondent {
     * Applicant address input for Respondent
     ======================================================================================*/
 
-    .group("PRL_CitizenC100_510_RespondentAddress") {
-      exec(http("PRL_CitizenC100_510_005_RespondentAddress")
+    .group("PRL_CitizenC100_500_RespondentAddress") {
+      exec(http("PRL_CitizenC100_500_005_RespondentAddress")
         .post(prlURL + "/c100-rebuild/respondent-details/#{respondentId}/address/manual")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -139,7 +137,7 @@ object Citizen_PRL_C100_Respondent {
         .formParam("AddressLine2", "")
         .formParam("PostTown", "#{town}")
         .formParam("County", "#{PRLRandomString}" + "County")
-        .formParam("PostCode", "#{postcode}")
+        .formParam("PostCode", "KT25BU")
         .formParam("Country", "United Kingdom")
         .formParam("addressUnknown", "")
         .formParam("addressHistory", "yes")
@@ -155,8 +153,8 @@ object Citizen_PRL_C100_Respondent {
     * Contact details of Respondent
     ======================================================================================*/
 
-    .group("PRL_CitizenC100_520_RespondentContact") {
-      exec(http("PRL_CitizenC100_520_005_RespondentContact")
+    .group("PRL_CitizenC100_510_RespondentContact") {
+      exec(http("PRL_CitizenC100_510_005_RespondentContact")
         .post(prlURL + "/c100-rebuild/respondent-details/#{respondentId}/contact-details")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -177,8 +175,8 @@ object Citizen_PRL_C100_Respondent {
     * Is there anyone else who should know about your application?
     ======================================================================================*/
 
-    .group("PRL_CitizenC100_530_AnyoneElse") {
-      exec(http("PRL_CitizenC100_530_005_AnyoneElse")
+    .group("PRL_CitizenC100_520_AnyoneElse") {
+      exec(http("PRL_CitizenC100_520_005_AnyoneElse")
         .post(prlURL + "/c100-rebuild/other-person-details/other-person-check")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -196,8 +194,8 @@ object Citizen_PRL_C100_Respondent {
     * Who does the first child live with?
     ======================================================================================*/
 
-    .group("PRL_CitizenC100_540_ChildLiveWith") {
-      exec(http("PRL_CitizenC100_540_005_ChildLiveWith")
+    .group("PRL_CitizenC100_530_ChildLiveWith") {
+      exec(http("PRL_CitizenC100_530_005_ChildLiveWith")
         .post(prlURL + "/c100-rebuild/child-details/#{childId}/live-with")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -217,8 +215,8 @@ object Citizen_PRL_C100_Respondent {
     * Have you or the children ever been involved in court proceedings? - Yes
     ======================================================================================*/
 
-    .group("PRL_CitizenC100_550_InvolvedInCourt") {
-      exec(http("PRL_CitizenC100_550_005_InvolvedInCourt")
+    .group("PRL_CitizenC100_540_InvolvedInCourt") {
+      exec(http("PRL_CitizenC100_540_005_InvolvedInCourt")
         .post(prlURL + "/c100-rebuild/other-proceedings/current-previous-proceedings")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -237,8 +235,8 @@ object Citizen_PRL_C100_Respondent {
     * Provide details of court cases you or the children have been involved in - A Child Arrangements Order
     ======================================================================================*/
 
-    .group("PRL_CitizenC100_560_CourtCasesInfo") {
-      exec(http("PRL_CitizenC100_560_005_CourtCasesInfo")
+    .group("PRL_CitizenC100_550_CourtCasesInfo") {
+      exec(http("PRL_CitizenC100_550_005_CourtCasesInfo")
         .post(prlURL + "/c100-rebuild/other-proceedings/proceeding-details")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -272,8 +270,8 @@ object Citizen_PRL_C100_Respondent {
     * Provide details of court cases you or the children have been involved in
     ======================================================================================*/
 
-    .group("PRL_CitizenC100_570_DetailsOfCourtCases") {
-      exec(http("PRL_CitizenC100_570_005_DetailsOfCourtCases")
+    .group("PRL_CitizenC100_560_DetailsOfCourtCases") {
+      exec(http("PRL_CitizenC100_560_005_DetailsOfCourtCases")
         .post(prlURL + "/c100-rebuild/other-proceedings/childArrangementOrder/order-details")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -300,8 +298,8 @@ object Citizen_PRL_C100_Respondent {
     * Safety concerns - Continue
     ======================================================================================*/
 
-    .group("PRL_CitizenC100_580_SafetyInfo") {
-      exec(http("PRL_CitizenC100_580_005_SafetyInfo")
+    .group("PRL_CitizenC100_570_SafetyInfo") {
+      exec(http("PRL_CitizenC100_570_005_SafetyInfo")
         .post(prlURL + "/c100-rebuild/safety-concerns/concern-guidance")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -318,8 +316,8 @@ object Citizen_PRL_C100_Respondent {
     * Do you have any concerns for your safety or the safety of the children? - yes
     ======================================================================================*/
 
-    .group("PRL_CitizenC100_590_SafetyConcerns") {
-      exec(http("PRL_CitizenC100_590_005_SafetyConcerns")
+    .group("PRL_CitizenC100_580_SafetyConcerns") {
+      exec(http("PRL_CitizenC100_580_005_SafetyConcerns")
         .post(prlURL + "/c100-rebuild/safety-concerns/concerns-for-safety")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -337,8 +335,8 @@ object Citizen_PRL_C100_Respondent {
     * Who are you concerned about? - The children
     ======================================================================================*/
 
-    .group("PRL_CitizenC100_600_ConcernedAbout") {
-      exec(http("PRL_CitizenC100_600_005_ConcernedAbout")
+    .group("PRL_CitizenC100_590_ConcernedAbout") {
+      exec(http("PRL_CitizenC100_590_005_ConcernedAbout")
         .post(prlURL + "/c100-rebuild/safety-concerns/concern-about")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -358,8 +356,8 @@ object Citizen_PRL_C100_Respondent {
     * What type of behaviour have the children experienced or are at risk of experiencing? - Physical abuse
     ======================================================================================*/
 
-    .group("PRL_CitizenC100_610_TypeOfBehaviour") {
-      exec(http("PRL_CitizenC100_610_005_TypeOfBehaviour")
+    .group("PRL_CitizenC100_600_TypeOfBehaviour") {
+      exec(http("PRL_CitizenC100_600_005_TypeOfBehaviour")
         .post(prlURL + "/c100-rebuild/safety-concerns/child/concerns-about")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -385,8 +383,8 @@ object Citizen_PRL_C100_Respondent {
     * Briefly describe the physical abuse against the children if you feel able to
     ======================================================================================*/
 
-    .group("PRL_CitizenC100_620_DescribePyshicalAbuse") {
-      exec(http("PRL_CitizenC100_620_005_DescribePyshicalAbuse")
+    .group("PRL_CitizenC100_610_DescribePyshicalAbuse") {
+      exec(http("PRL_CitizenC100_610_005_DescribePyshicalAbuse")
         .post(prlURL + "/c100-rebuild/safety-concerns/child/report-abuse/physicalAbuse")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -410,8 +408,8 @@ object Citizen_PRL_C100_Respondent {
     * Have the children been impacted by drug, alcohol or substance abuse? - yes
     ======================================================================================*/
 
-    .group("PRL_CitizenC100_630_ImpactedByDrug") {
-      exec(http("PRL_CitizenC100_630_005_ImpactedByDrug")
+    .group("PRL_CitizenC100_620_ImpactedByDrug") {
+      exec(http("PRL_CitizenC100_620_005_ImpactedByDrug")
         .post(prlURL + "/c100-rebuild/safety-concerns/other-concerns/drugs")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -430,8 +428,8 @@ object Citizen_PRL_C100_Respondent {
     * Do you have any other concerns about the children’s safety and wellbeing? - No
     ======================================================================================*/
 
-    .group("PRL_CitizenC100_640_OtherConcerns") {
-      exec(http("PRL_CitizenC100_640_005_OtherConcerns")
+    .group("PRL_CitizenC100_630_OtherConcerns") {
+      exec(http("PRL_CitizenC100_630_005_OtherConcerns")
         .post(prlURL + "/c100-rebuild/safety-concerns/other-concerns/other-issues")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -450,8 +448,8 @@ object Citizen_PRL_C100_Respondent {
     * What do you want the court to do to keep you and the children safe?
     ======================================================================================*/
 
-    .group("PRL_CitizenC100_650_KeepChildrenSafe") {
-      exec(http("PRL_CitizenC100_650_005_KeepChildrenSafe")
+    .group("PRL_CitizenC100_640_KeepChildrenSafe") {
+      exec(http("PRL_CitizenC100_640_005_KeepChildrenSafe")
         .post(prlURL + "/c100-rebuild/safety-concerns/orders-required/court-action")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -469,8 +467,8 @@ object Citizen_PRL_C100_Respondent {
     * Contact between the children and the other people in this application
     ======================================================================================*/
 
-    .group("PRL_CitizenC100_660_ContactBetweenChildren") {
-      exec(http("PRL_CitizenC100_660_005_ContactBetweenChildren")
+    .group("PRL_CitizenC100_650_ContactBetweenChildren") {
+      exec(http("PRL_CitizenC100_650_005_ContactBetweenChildren")
         .post(prlURL + "/c100-rebuild/safety-concerns/orders-required/unsupervised")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -489,8 +487,8 @@ object Citizen_PRL_C100_Respondent {
     * Are the children's lives mainly based outside of England and Wales? - No
     ======================================================================================*/
 
-    .group("PRL_CitizenC100_670_ChildrenBasedOutsideEngland") {
-      exec(http("PRL_CitizenC100_670_005_ChildrenBasedOutsideEngland")
+    .group("PRL_CitizenC100_660_ChildrenBasedOutsideEngland") {
+      exec(http("PRL_CitizenC100_660_005_ChildrenBasedOutsideEngland")
         .post(prlURL + "/c100-rebuild/international-elements/start")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -509,8 +507,8 @@ object Citizen_PRL_C100_Respondent {
     * Are the children's parents (or anyone significant to the children) mainly based outside of England and Wales? - No
     ======================================================================================*/
 
-    .group("PRL_CitizenC100_680_ParentsBasedOutsideEngland") {
-      exec(http("PRL_CitizenC100_680_005_ParentsBasedOutsideEngland")
+    .group("PRL_CitizenC100_670_ParentsBasedOutsideEngland") {
+      exec(http("PRL_CitizenC100_670_005_ParentsBasedOutsideEngland")
         .post(prlURL + "/c100-rebuild/international-elements/parents")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -529,8 +527,8 @@ object Citizen_PRL_C100_Respondent {
     * Could another person in the application apply for a similar order in a country outside England or Wales? - No
     ======================================================================================*/
 
-    .group("PRL_CitizenC100_690_AnotherPersonApply") {
-      exec(http("PRL_CitizenC100_690_005_AnotherPersonApply")
+    .group("PRL_CitizenC100_680_AnotherPersonApply") {
+      exec(http("PRL_CitizenC100_680_005_AnotherPersonApply")
         .post(prlURL + "/c100-rebuild/international-elements/jurisdiction")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -549,8 +547,8 @@ object Citizen_PRL_C100_Respondent {
     * Has another country asked (or been asked) for information or help for the children? - No
     ======================================================================================*/
 
-    .group("PRL_CitizenC100_700_AnotherCountryAsked") {
-      exec(http("PRL_CitizenC100_700_005_AnotherCountryAsked")
+    .group("PRL_CitizenC100_690_AnotherCountryAsked") {
+      exec(http("PRL_CitizenC100_690_005_AnotherCountryAsked")
         .post(prlURL + "/c100-rebuild/international-elements/request")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -569,8 +567,8 @@ object Citizen_PRL_C100_Respondent {
     * Would you be able to take part in hearings by video and phone?
     ======================================================================================*/
 
-    .group("PRL_CitizenC100_710_TakePartInHearings") {
-      exec(http("PRL_CitizenC100_710_005_TakePartInHearings")
+    .group("PRL_CitizenC100_700_TakePartInHearings") {
+      exec(http("PRL_CitizenC100_700_005_TakePartInHearings")
         .post(prlURL + "/c100-rebuild/reasonable-adjustments/attending-court")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -592,8 +590,8 @@ object Citizen_PRL_C100_Respondent {
     * Do you have any language requirements?
     ======================================================================================*/
 
-    .group("PRL_CitizenC100_720_LanguageRequirements") {
-      exec(http("PRL_CitizenC100_720_005_LanguageRequirements")
+    .group("PRL_CitizenC100_710_LanguageRequirements") {
+      exec(http("PRL_CitizenC100_710_005_LanguageRequirements")
         .post(prlURL + "/c100-rebuild/reasonable-adjustments/language-requirements")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -616,8 +614,8 @@ object Citizen_PRL_C100_Respondent {
     * Do you or the children need special arrangements at court?
     ======================================================================================*/
 
-    .group("PRL_CitizenC100_730_SpecialArrangements") {
-      exec(http("PRL_CitizenC100_730_005_SpecialArrangements")
+    .group("PRL_CitizenC100_720_SpecialArrangements") {
+      exec(http("PRL_CitizenC100_720_005_SpecialArrangements")
         .post(prlURL + "/c100-rebuild/reasonable-adjustments/special-arrangements")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -670,8 +668,8 @@ object Citizen_PRL_C100_Respondent {
     * DG I need documents in an alternative format
     ======================================================================================*/
 
-    .group("PRL_CitizenC100_730_015_SpecialArrangements") {
-      exec(http("PRL_CitizenC100_730_015_documents-support")
+    .group("PRL_CitizenC100_740_015_SpecialArrangements") {
+      exec(http("PRL_CitizenC100_740_015_documents-support")
         .post(prlURL + "/c100-rebuild/reasonable-adjustments/documents-support")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -693,74 +691,17 @@ object Citizen_PRL_C100_Respondent {
         .formParam("onlycontinue", "true")
         .check(CsrfCheck.save)
         .check(substring("Do you need help with paying the fee for this application?"))
-        // .check(CsrfCheck.save)
         )
     }
 
     .pause(MinThinkTime, MaxThinkTime)
 
-    // /*======================================================================================
-    // * Do you have a physical, mental or learning disability or health condition that means you need support during your case? - I need documents in an alternative format
-    // ======================================================================================*/
-
-    // .group("PRL_CitizenC100_740_NeedSupport") {
-    //   exec(http("PRL_CitizenC100_740_005_NeedSupport")
-    //     .post(prlURL + "/c100-rebuild/reasonable-adjustments/disability-requirements")
-    //     .headers(Headers.commonHeader)
-    //     .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-    //     .header("content-type", "application/x-www-form-urlencoded")
-    //     .formParam("_csrf", "#{csrf}")
-    //     .formParam("ra_disabilityRequirements", "")
-    //     .formParam("ra_disabilityRequirements", "")
-    //     .formParam("ra_disabilityRequirements", "")
-    //     .formParam("ra_disabilityRequirements", "")
-    //     .formParam("ra_disabilityRequirements", "")
-    //     .formParam("ra_disabilityRequirements", "")
-    //     .formParam("ra_disabilityRequirements", "")
-    //     .formParam("ra_disabilityRequirements", "")
-    //     .formParam("ra_disabilityRequirements", "")
-    //     .formParam("onlycontinue", "true")
-    //     .check(substring("I need documents in an alternative format")))
-    // }
-
-    // .pause(MinThinkTime, MaxThinkTime)
-
-    // /*======================================================================================
-    // * I need documents in an alternative format - Documents in a specified colour
-    // ======================================================================================*/
-
-    // .group("PRL_CitizenC100_750_DocumentsAlternativeFormat") {
-    //   exec(http("PRL_CitizenC100_750_005_DocumentsAlternativeFormat")
-    //     .post(prlURL + "/c100-rebuild/reasonable-adjustments/disability-requirements/document-information")
-    //     .headers(Headers.commonHeader)
-    //     .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-    //     .header("content-type", "application/x-www-form-urlencoded")
-    //     .formParam("_csrf", "#{csrf}")
-    //     .formParam("ra_documentInformation", "")
-    //     .formParam("ra_documentInformation", "")
-    //     .formParam("ra_documentInformation", "")
-    //     .formParam("ra_documentInformation", "")
-    //     .formParam("ra_documentInformation", "")
-    //     .formParam("ra_documentInformation", "")
-    //     .formParam("ra_documentInformation", "")
-    //     .formParam("ra_documentInformation", "")
-    //     .formParam("ra_documentInformation", "")
-    //     .formParam("ra_documentInformation", "specifiedColorDocuments")
-    //     .formParam("ra_specifiedColorDocuments_subfield", "#{PRLRandomString}" + "ColorDocuments")
-    //     .formParam("ra_largePrintDocuments_subfield", "")
-    //     .formParam("ra_documentHelpOther_subfield", "")
-    //     .formParam("onlycontinue", "true")
-    //     .check(substring("Do you need help with paying the fee for this application?")))
-    // }
-
-    // .pause(MinThinkTime, MaxThinkTime)
-
     /*======================================================================================
     * Do you need help with paying the fee for this application? - No
     ======================================================================================*/
 
-    .group("PRL_CitizenC100_760_HelpWithPaying") {
-      exec(http("PRL_CitizenC100_760_005_HelpWithPaying")
+    .group("PRL_CitizenC100_750_HelpWithPaying") {
+      exec(http("PRL_CitizenC100_750_005_HelpWithPaying")
         .post(prlURL + "/c100-rebuild/help-with-fees/need-help-with-fees")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -770,7 +711,6 @@ object Citizen_PRL_C100_Respondent {
         .formParam("saveAndContinue", "true")
         .check(CsrfCheck.save)
         .check(substring("Check your Answers"))
-        // .check(CsrfCheck.save)
       )
     }
 
@@ -780,95 +720,50 @@ object Citizen_PRL_C100_Respondent {
     * Check your Answers
     ======================================================================================*/
 
-    .group("PRL_CitizenC100_770_CheckYourAnswers") {
-        exec(http("PRL_CitizenC100_770_005_CheckYourAnswers")
-          .post(prlURL + "/c100-rebuild/check-your-answers")
-          .disableFollowRedirect
-          .headers(Headers.headers_12)
-          .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8")
-          // .header("content-type", "application/x-www-form-urlencoded")
-          // .header("origin", "https://privatelaw.#{env}.platform.hmcts.net")
-          .formParam("_csrf", "#{csrf}")
-          .formParam("statementOfTruth", "")
-          .formParam("statementOfTruth", "Yes")
-          .formParam("saveAndContinue", "true")
-          // .check(bodyString.saveAs("responseBody"))
-          .check(headerRegex("Location", """https:\/\/card.payments.service.gov.uk\/secure\/(.{8}-.{4}-.{4}-.{4}-.{12})""").ofType[(String)].saveAs("paymentId"))
-          // .check(headerRegex("Location", "https://pcq.#{env}.platform.hmcts.net/service-endpoint?serviceId=prl_da&actor=APPLICANT&pcqId=(.*)").ofType[(String)].saveAs("pcqUrl"))
-          .check(status.in(302, 403, 200)))
-        }
-
-    .pause(MinThinkTime, MaxThinkTime)
-
-    .exec(http("PRL_CitizenC100_775_GetPaymentLink")
-      .get(PayURL + "/secure/#{paymentId}")
-      .headers(Headers.navigationHeader)
-      .header("accept", "*/*")
-      .header("content-type", "application/x-www-form-urlencoded")
-      .header("origin", "https://card.payments.service.gov.uk")
-      .check(bodyString.saveAs("responseBody"))
-      // .check(headerRegex("Location", "card_details/(.*)").ofType[(String)].saveAs("paymentId"))
-      .check(regex("""charge-id" name="chargeId" type="hidden" value="(.*)"/>""").saveAs("chargeId"))
-      .check(regex("""csrf" name="csrfToken" type="hidden" value="(.*)"/>""").saveAs("csrf"))
-      )
-
-    // .exec(session => {
-    //   val response = session("responseBody").as[String]
-    //   println(s"Charge ID Response body: \n$response")
-    //   session
-    // })
-
-
-    /*======================================================================================
-    * Check your Answers Redirect
-    ======================================================================================*/
-
-    .group("PRL_CitizenC100_780_CheckYourAnswersRedirect") {
-
-      exec(http("PRL_CitizenC100_780_005_CheckYourAnswersRedirect")
-        .get(PayURL + "/secure/#{paymentId}")
+    .group("PRL_CitizenC100_760_CheckYourAnswers") {
+      exec(http("PRL_CitizenC100_760_005_CheckYourAnswers")
+        .post(prlURL + "/c100-rebuild/check-your-answers")
         .disableFollowRedirect
+        .headers(Headers.commonHeader)
+        .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8")
+        .formParam("_csrf", "#{csrf}")
+        .formParam("statementOfTruth", "")
+        .formParam("statementOfTruth", "Yes")
+        .formParam("saveAndContinue", "true")
+        .check(headerRegex("Location", """https:\/\/card.payments.service.gov.uk\/secure\/(.{8}-.{4}-.{4}-.{4}-.{12})""").ofType[(String)].saveAs("paymentId"))
+        .check(status.in(302, 403, 200)))
+
+      .exec(http("PRL_CitizenC100_760_010_GetPaymentLink")
+        .get(PayURL + "/secure/#{paymentId}")
         .headers(Headers.navigationHeader)
-        .header("authority", "card.payments.service.gov.uk")
-        .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+        .header("accept", "*/*")
         .header("content-type", "application/x-www-form-urlencoded")
-        // .check(headerRegex("location", """\/card_details\/(.{26})""").ofType[(String)].saveAs("chargeId"))
-        .check(regex("""href="/card_details/(.*)" id="card-details-link""").saveAs("chargeId"))
-        // .check(status.is(303))
-        )
-    }
-    .pause(MinThinkTime, MaxThinkTime)
+        .header("origin", "https://card.payments.service.gov.uk")
+        .check(bodyString.saveAs("responseBody"))
+        .check(regex("""charge-id" name="chargeId" type="hidden" value="(.*)"/>""").saveAs("chargeId"))
+        .check(regex("""csrf" name="csrfToken" type="hidden" value="(.*)"/>""").saveAs("csrf")))
 
-
-    /*======================================================================================
-    * Check your Answers Final Redirect
-    ======================================================================================*/
-
-    .group("PRL_CitizenC100_790_CheckYourAnswersFinal") {
-
-      exec(http("PRL_CitizenC100_790_005_CheckYourAnswersFinal")
+      .exec(http("PRL_CitizenC100_760_015_CheckYourAnswersFinal")
         .get(PayURL + "/card_details/#{chargeId}")
         .headers(Headers.navigationHeader)
         .check(CsrfCheck2.save)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
         .header("content-type", "application/x-www-form-urlencoded")
         .check(substring("Enter card details")))
-
     }
-    .pause(MinThinkTime, MaxThinkTime)
 
+    .pause(MinThinkTime, MaxThinkTime)
 
     /*======================================================================================
     * Enter card details
     ======================================================================================*/
 
-    .group("PRL_CitizenC100_800_EnterCardDetails") {
-      exec(http("PRL_CitizenC100_800_005_EnterCardDetails")
+    .group("PRL_CitizenC100_770_EnterCardDetails") {
+      exec(http("PRL_CitizenC100_770_005_EnterCardDetails")
         .post(PayURL + "/card_details/#{chargeId}")
         .headers(Headers.commonHeader)
         .check(CsrfCheck2.save)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
-        // .header("content-type", "application/x-www-form-urlencoded")
         .formParam("chargeId", "#{chargeId}")
         .formParam("csrfToken", "#{csrf}")
         .formParam("cardNo", "4444333322221111")
@@ -877,31 +772,15 @@ object Citizen_PRL_C100_Respondent {
         .formParam("cardholderName", "John Smith")
         .formParam("cvc", "123")
         .formParam("addressCountry", "GB")
-        .formParam("addressLine1", "#{address}")
+        .formParam("addressLine1", "12 Test Street")
         .formParam("addressLine2", "")
-        .formParam("addressCity", "#{town}")
-        .formParam("addressPostcode", "#{postcode}")
+        .formParam("addressCity", "London")
+        .formParam("addressPostcode", "KT25BU")
         .formParam("email", "#{PRLRandomString}" + "@gmail.com")
-        // .check(bodyString.saveAs("responseBody"))
         .check(substring("Confirm your payment")))
-    }
 
-    // .exec(session => {
-    //   val response = session("responseBody").as[String]
-    //   println(s"Card Payment Response body: \n$response")
-    //   session
-    // })
-
-    .pause(MinThinkTime, MaxThinkTime)
-
-    /*======================================================================================
-    * Final Submit
-    ======================================================================================*/
-
-    .group("PRL_CitizenC100_810_FinalSubmit") {
-      exec(http("PRL_CitizenC100_810_005_FinalSubmit")
+      .exec(http("PRL_CitizenC100_770_010_FinalSubmit")
         .post(PayURL + "/card_details/#{chargeId}/confirm")
-        .disableFollowRedirect
         .headers(Headers.navigationHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
         .header("accept-language", "en-US,en;q=0.9")
@@ -909,60 +788,9 @@ object Citizen_PRL_C100_Respondent {
         .header("content-type", "application/x-www-form-urlencoded")
         .formParam("csrfToken", "#{csrf}")
         .formParam("chargeId", "#{chargeId}")
-        .check(status.is(303)))
+        .check(regex("""<strong>(.{16})<\/strong>""").saveAs("caseNumber"))
+        .check(status.is(200)))
     }
-
-    /*======================================================================================
-    * Final Submit Redirect 1
-    ======================================================================================*/
-
-    .group("PRL_CitizenC100_811_FinalSubmitRedirect1") {
-      exec(http("PRL_CitizenC100_811_005_FinalSubmitRedirect1")
-        .get(PayURL + "/return/#{chargeId}")
-        .disableFollowRedirect
-        .headers(Headers.navigationHeader)
-        .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
-        .header("accept-language", "en-GB,en-US;q=0.9,en;q=0.8")
-        .header("content-type", "application/x-www-form-urlencoded")
-        .check(status.is(302)))
-    }
-
-    /*======================================================================================
-    * Final Submit Redirect 2
-    ======================================================================================*/
-
-    .group("PRL_CitizenC100_812_FinalSubmitRedirect2") {
-      exec(http("PRL_CitizenC100_812_005_FinalSubmitRedirect2")
-        .get(PayURL + "/payment/reciever/callback/#{chargeId}/confirmation")
-        .disableFollowRedirect
-        .headers(Headers.navigationHeader)
-        .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
-        .header("accept-language", "en-GB,en-US;q=0.9,en;q=0.8")
-        .header("content-type", "application/x-www-form-urlencoded")
-        .check(status.is(302)))
-    }
-
-    /*======================================================================================
-    * Final Submit Redirect 3
-    ======================================================================================*/
-
-    .group("PRL_CitizenC100_813_FinalSubmitRedirect3") {
-      exec(http("PRL_CitizenC100_813_005_FinalSubmitRedirect3")
-       .get(prlURL + "/c100-rebuild/confirmation-page")
-        .headers(Headers.navigationHeader)
-        .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
-        .header("accept-language", "en-GB,en-US;q=0.9,en;q=0.8")
-        .header("content-type", "application/x-www-form-urlencoded")
-        .check(substring("Your application has been submitted"))
-        // .check(bodyString.saveAs("responseBody"))
-        .check(regex("""<strong>(.{16})<\/strong>""").saveAs("caseNumber")))
-    }
-
-    // .exec(session => {
-    //   val response = session("responseBody").as[String]
-    //   println(s"Submit Response body: \n$response")
-    //   session
-    // })
 
     .pause(MinThinkTime, MaxThinkTime)
 
@@ -978,14 +806,12 @@ object Citizen_PRL_C100_Respondent {
     * Logout
     ======================================================================================*/
 
-    .group("PRL_CitizenC100_820_Logout") {
-
-      exec(http("PRL_CitizenC100_820_005_Logout")
+    .group("PRL_CitizenC100_780_Logout") {
+      exec(http("PRL_CitizenC100_780_005_Logout")
         .get(prlURL + "/logout")
         .headers(Headers.navigationHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
         .check(substring("Sign in or create an account")))
     }
-    .pause(MinThinkTime, MaxThinkTime)
-
+    
 }
