@@ -9,7 +9,7 @@ import java.io.{BufferedWriter, FileWriter}
 * Court Admin C100 case progression. Send to local court --> Sent to Gatekeeper --> Add an order --> Serve 
 ================================================================================================================*/
 
-object Solicitor_PRL_C100_ProgressCase {
+object Caseworker_PRL_C100_ProgressCase {
   
   val BaseURL = Environment.baseURL
 
