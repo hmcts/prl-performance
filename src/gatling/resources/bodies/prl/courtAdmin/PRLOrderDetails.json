@@ -1,0 +1,37 @@
+{
+  "data": {
+    "typeOfC21Order": null,
+    "selectedOrder": "Special guardianship order (C43A)",
+    "isTheOrderByConsent": "Yes",
+    "wasTheOrderApprovedAtHearing": "No",
+    "judgeOrMagistrateTitle": "herHonourJudge",
+    "judgeOrMagistratesLastName": "${PRLRandomString} judge Last",
+    "justiceLegalAdviserFullName": "${PRLRandomString} judge First",
+    "dateOrderMade": "${PRLAppDobYear}-01-01",
+    "isTheOrderAboutAllChildren": "Yes",
+    "recitalsOrPreamble": "${PRLRandomString} recitalsOrPreamble"
+  },
+  "event": {
+    "id": "manageOrders",
+    "summary": "",
+    "description": ""
+  },
+  "event_data": {
+    "manageOrderHeader1": null,
+    "manageOrdersOptions": "createAnOrder",
+    "createSelectOrderOptions": "specialGuardianShip",
+    "typeOfC21Order": null,
+    "selectedOrder": "Special guardianship order (C43A)",
+    "isTheOrderByConsent": "Yes",
+    "wasTheOrderApprovedAtHearing": "No",
+    "judgeOrMagistrateTitle": "herHonourJudge",
+    "judgeOrMagistratesLastName": "${PRLRandomString} judge Last",
+    "justiceLegalAdviserFullName": "${PRLRandomString} judge First",
+    "dateOrderMade": "${PRLAppDobYear}-01-01",
+    "isTheOrderAboutAllChildren": "Yes",
+    "recitalsOrPreamble": "${PRLRandomString} recitalsOrPreamble"
+  },
+  "event_token": "${event_token}",
+  "ignore_warning": false,
+  "case_reference": "${caseId}"
+}

@@ -119,8 +119,8 @@ object Solicitor_PRL_C100_ProgressCase {
       .check(regex("""","task_state":"(.*)","task_system":"""").is("assigned")))
 
     .exec(Common.isAuthenticated)
-    .exec(Common.caseActivityPost)
-    .exec(Common.caseActivityOnlyGet)
+    // .exec(Common.caseActivityPost)
+    // .exec(Common.caseActivityOnlyGet)
 
     .pause(MinThinkTime, MaxThinkTime)
 
@@ -152,7 +152,7 @@ object Solicitor_PRL_C100_ProgressCase {
       .header("accept", "application/json"))
       //.check(substring("PRIVATELAW")))
     
-    .exec(Common.caseActivityPost)
+    // .exec(Common.caseActivityPost)
     .exec(Common.userDetails)
     .exec(Common.caseActivityOnlyGet)
 
@@ -225,7 +225,7 @@ object Solicitor_PRL_C100_ProgressCase {
 
 val CourtAdminSendToGateKeeper = 
 
-    exec(http("XUI_PRL_XXX_300_SelectCase")
+    exec(http("XUI_PRL_XXX_370_SelectCase")
       .get(BaseURL + "/cases/case-details/#{caseId}/task")
       .headers(Headers.xuiHeader)
       .check(substring("HMCTS Manage cases")))
@@ -237,7 +237,7 @@ val CourtAdminSendToGateKeeper =
     .exec(Common.configJson)
     .exec(Common.userDetails)
 
-    .exec(http("XUI_PRL_XXX_310_SelectCaseTask")
+    .exec(http("XUI_PRL_XXX_380_SelectCaseTask")
       .get(BaseURL + "/workallocation/case/task/#{caseId}")
       .headers(Headers.xuiHeader)
       .header("Accept", "application/json, text/plain, */*")
@@ -263,7 +263,7 @@ val CourtAdminSendToGateKeeper =
 
     // Loop until the task type matches "checkApplicationC100"
     .asLongAs(session => session("respTaskType").as[String] != "sendToGateKeeperC100") {
-      exec(http("XUI_PRL_XXX_310_SelectCaseTaskRepeat")
+      exec(http("XUI_PRL_XXX_390_SelectCaseTaskRepeat")
         .get(BaseURL + "/workallocation/case/task/#{caseId}")
         .headers(Headers.xuiHeader)
         .header("Accept", "application/json, text/plain, */*")
@@ -287,14 +287,14 @@ val CourtAdminSendToGateKeeper =
   * Select Assign to me
   ======================================================================================*/
 
-    .exec(http("XUI_PRL_XXX_330_AssignToMeClaim")
+    .exec(http("XUI_PRL_XXX_400_AssignToMeClaim")
       .post(BaseURL + "/workallocation/task/#{respTaskId}/claim")
       .headers(Headers.xuiHeader)
       .header("Accept", "application/json, text/plain, */*")
       .header("x-xsrf-token", "#{XSRFToken}")
       .check(status.in(200, 204)))
 
-    .exec(http("XUI_PRL_XXX_340_AssignToMe")
+    .exec(http("XUI_PRL_XXX_410_AssignToMe")
       .post(BaseURL + "/workallocation/case/task/#{caseId}")
       .headers(Headers.xuiHeader)
       .header("Accept", "application/json, text/plain, */*")
@@ -307,7 +307,7 @@ val CourtAdminSendToGateKeeper =
       )
 
     .exec(Common.isAuthenticated)
-    .exec(Common.caseActivityPost)
+    // .exec(Common.caseActivityPost)
     .exec(Common.caseActivityOnlyGet)
 
     .pause(MinThinkTime, MaxThinkTime)
@@ -339,7 +339,7 @@ val CourtAdminSendToGateKeeper =
       .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
       .header("x-xsrf-token", "#{XSRFToken}")
       .body(ElFileBody("bodies/prl/courtAdmin/PRLAddGateKeeper.json"))
-      .check(substring("gatekeeper")))
+      .check(substring("isJudgeOrLegalAdviserGatekeeping")))
 
     .pause(MinThinkTime, MaxThinkTime)
 
@@ -354,7 +354,7 @@ val CourtAdminSendToGateKeeper =
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8")
         .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("bodies/prl/courtAdmin/PRLAddGateKeeperSubmit.json"))
-        .check(substring("GATE_KEEPING")))
+        .check(substring("gatekeepingDetails")))
 
       .exec(http("XUI_PRL_XXX_440_GateKeeperSubmitCompleteTask")
         .post(BaseURL + "/workallocation/task/#{respTaskId}/complete")
