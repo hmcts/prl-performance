@@ -1337,11 +1337,12 @@ object Solicitor_PRL_FL401_CaseCreate {
       .exec(Common.userDetails)
     }
 
-  .pause(MinThinkTime, MaxThinkTime)
+  .exec { session =>
+      val fw = new BufferedWriter(new FileWriter("FL401Cases.csv", true))
+      try {
+        fw.write(session("caseId").as[String] + "\r\n")
+      } finally fw.close()
+      session
+    }
   
-
-
-
-
-
 }
