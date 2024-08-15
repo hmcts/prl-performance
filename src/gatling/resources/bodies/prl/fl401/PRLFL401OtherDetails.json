@@ -1,0 +1,34 @@
+{
+  "data": {
+     "anyOtherDtailsForWithoutNoticeOrder": {
+        "otherDetails": "Some perf test details go here"
+     }
+  },
+  "event": {
+     "id": "withoutNoticeOrderDetails",
+     "summary": "",
+     "description": ""
+  },
+  "event_data": {
+     "orderWithoutGivingNoticeToRespondent": {
+        "orderWithoutGivingNotice": "Yes"
+     },
+     "reasonForOrderWithoutGivingNotice": {
+        "futherDetails": "For perf testing reasons",
+        "reasonForOrderWithoutGivingNotice": [
+           "harmToApplicantOrChild",
+           "deferringApplicationIfNotImmediate",
+           "prejudiced"
+        ]
+     },
+     "bailDetails": {
+        "isRespondentAlreadyInBailCondition": "no"
+     },
+     "anyOtherDtailsForWithoutNoticeOrder": {
+        "otherDetails": "Some perf test details go here"
+     }
+  },
+  "event_token": "#{event_token}",
+  "ignore_warning": false,
+  "case_reference": "#{caseId}"
+}

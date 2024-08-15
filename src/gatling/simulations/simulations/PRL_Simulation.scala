@@ -6,7 +6,7 @@ import io.gatling.core.controller.inject.open.OpenInjectionStep
 import io.gatling.core.pause.PauseType
 import io.gatling.http.Predef._
 import scenarios._
-import utils.{Common, CsrfCheck, CsrfCheck2, Environment, Headers}
+import utils._
 
 import scala.concurrent.duration._
 import scala.language.postfixOps
@@ -63,7 +63,7 @@ class PRL_Simulation extends Simulation {
   val pauseOption: PauseType = debugMode match {
     case "off" if testType == "perftest" => constantPauses
     case "off" if testType == "pipeline" => customPauses(pipelinePausesMillis)
-    case _ => disabledPauses
+    case _ => customPauses(pipelinePausesMillis) //disabledPauses
   }
   
   val httpProtocol = http
@@ -102,8 +102,10 @@ class PRL_Simulation extends Simulation {
       .exec(Login.XUILogin)
       .repeat(1) {
         feed(caseFeeder)
-        // .exec(Solicitor_PRL_C100_ProgressCase.CourtAdminCheckApplication)
-        .exec(Solicitor_PRL_C100_ProgressCase.CourtAdminSendToGateKeeper)
+        // .exec(Caseworker_PRL_C100_ProgressCase.CourtAdminCheckApplication)
+        // .exec(Caseworker_PRL_C100_ProgressCase.CourtAdminSendToGateKeeper)
+        // .exec(Caseworker_PRL_C100_ProgressCase.CourtAdminManageOrders)
+        .exec(Caseworker_PRL_C100_ProgressCase.CourtAdminServiceApplication)
       }
     }
 
@@ -122,6 +124,23 @@ class PRL_Simulation extends Simulation {
           exec(Solicitor_PRL_CitizenDataPrep.CompleteDataPrep)
       }
     }
+
+  /*===============================================================================================
+  * PRL Solicitor FL401 Create
+  ===============================================================================================*/
+
+    val PrlFL401Create = scenario("***** PRL FL401 DataPrep *****")
+      .exitBlockOnFail {
+        feed(UserFeederPRL)
+        .exec(_.set("env", s"${env}")
+        .set("caseType", "PRLAPPS"))
+        .exec(Homepage.XUIHomePage)
+        .exec(Login.XUILogin)
+        .exec(Solicitor_PRL_FL401_CaseCreate.CreateFL401Case)
+        .exec(Solicitor_PRL_FL401_CaseCreate.TypeOfApplication)
+        .exec(Solicitor_PRL_FL401_CaseCreate.WithoutNoticeOrder)
+      }
+  
 
   /*===============================================================================================
   * Simulation Configuration
@@ -166,9 +185,10 @@ class PRL_Simulation extends Simulation {
   }
   
   setUp(
-    PRLCitizenScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    // PRLCitizenScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
   //  CafcasDownloadByDocScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
-  // PRLCaseworkerScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
+  // PRLCaseworkerScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+  PrlFL401Create.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
   ).protocols(httpProtocol)
     .assertions(assertions(testType))
     .maxDuration(75 minutes)

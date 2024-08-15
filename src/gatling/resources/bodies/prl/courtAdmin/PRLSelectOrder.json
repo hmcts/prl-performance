@@ -1,18 +1,29 @@
 {
-  "data": {
-    "createSelectOrderOptions": "specialGuardianShip"
-  },
-  "event": {
-    "id": "manageOrders",
-    "summary": "",
-    "description": ""
-  },
-  "event_data": {
-    "manageOrderHeader1": null,
-    "manageOrdersOptions": "createAnOrder",
-    "createSelectOrderOptions": "specialGuardianShip"
-  },
-  "event_token": "${event_token}",
+   "data": {
+      "createSelectOrderOptions": "specialGuardianShip",
+      "selectedOrder": null
+   },
+   "event": {
+      "id": "manageOrders",
+      "summary": "",
+      "description": ""
+   },
+   "event_data": {
+      "manageOrderHeader1": null,
+      "manageOrdersOptions": "createAnOrder",
+      "isSdoSelected": "No",
+      "sdoPreamblesTempList": null,
+      "sdoCafcassOrCymruTempList": null,
+      "sdoLocalAuthorityTempList": null,
+      "sdoCourtTempList": null,
+      "sdoDocumentationAndEvidenceTempList": null,
+      "sdoOtherTempList": null,
+      "sdoHearingsAndNextStepsTempList": null,
+      "listElementsSetToDefaultValue": null,
+      "createSelectOrderOptions": "specialGuardianShip",
+      "selectedOrder": null
+   },
+  "event_token": "#{event_token}",
   "ignore_warning": false,
-  "case_reference": "${caseId}"
+  "case_reference": "#{caseId}"
 }

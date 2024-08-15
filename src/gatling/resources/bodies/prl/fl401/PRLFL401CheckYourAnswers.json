@@ -1,0 +1,29 @@
+{
+  "data": {
+     "caseTypeOfApplication": "FL401",
+     "caseFromCourtNav": "No",
+     "applicantOrganisationPolicy": {
+        "OrgPolicyCaseAssignedRole": "[APPLICANTSOLICITOR]",
+        "OrgPolicyReference": null,
+        "PrepopulateToUsersOrganisation": null,
+        "LastNoCRequestedBy": null,
+        "PreviousOrganisations": [],
+        "Organisation": {
+           "OrganisationID": null,
+           "OrganisationName": null
+        }
+     },
+     "confidentialityStatementDisclaimer": [
+        "confidentialityStatementUnderstood"
+     ],
+     "applicantOrRespondentCaseName": "Perf Test FL401"
+  },
+  "event": {
+     "id": "solicitorCreate",
+     "summary": "",
+     "description": ""
+  },
+  "event_token": "#{event_token}",
+  "ignore_warning": false,
+  "draft_id": null
+}

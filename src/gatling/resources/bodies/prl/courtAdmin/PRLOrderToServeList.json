@@ -1,17 +1,30 @@
 {
   "data": {
+     "serveOrderDynamicList": {
+        "value": [
+           {
+              "code": "#{orderCode}",
+              "label": "#{orderLabel}"
+           }
+        ],
+        "list_items": [
+           {
+              "code": "#{orderCode}",
+              "label": "#{orderLabel}"
+           }
+        ]
+     },
+     "serveOrderAdditionalDocuments": [],
+     "isOnlyC47aOrderSelectedToServe": null
+  },
+  "event": {
+     "id": "manageOrders",
+     "summary": "",
+     "description": ""
+  },
+  "event_data": {
      "manageOrderHeader1": null,
-     "caseTypeOfApplication": "C100",
      "manageOrdersOptions": "createAnOrder",
-     "performingUser": null,
-     "performingAction": null,
-     "judgeLaReviewRequired": null,
-     "isHearingTaskNeeded": null,
-     "hearingOptionSelected": null,
-     "isOrderApproved": null,
-     "whoApprovedTheOrder": null,
-     "isMultipleHearingSelected": null,
-     "judgeLaManagerReviewRequired": null,
      "isSdoSelected": "No",
      "sdoPreamblesTempList": null,
      "sdoCafcassOrCymruTempList": null,
@@ -42,9 +55,10 @@
            "id": "#{guardianId}"
         }
      ],
+     "previewOrderDocWelsh": null,
      "previewOrderDoc": {
         "document_url": "#{document_url}",
-        "document_binary_url": "#{document_url}/binary",
+        "document_binary_url": "#{document_url}binary",
         "document_filename": "Special_Guardianship_Order_C43A_Draft.pdf",
         "document_hash": "#{document_hash}"
      },
@@ -68,19 +82,9 @@
         ]
      },
      "serveOrderAdditionalDocuments": [],
-     "ordersNeedToBeServed": "Yes",
-     "isOnlyC47aOrderSelectedToServe": "No",
-     "displayLegalRepOption": "No",
-     "serveToRespondentOptions": "Yes",
-     "servingOptionsForNonLegalRep": "courtBailiff",
-     "cafcassCymruServedOptions": "No",
-     "serveOtherPartiesCA": []
-  },
-  "event": {
-     "id": "manageOrders",
-     "summary": "",
-     "description": ""
+     "isOnlyC47aOrderSelectedToServe": null
   },
   "event_token": "#{event_token}",
-  "ignore_warning": false
+  "ignore_warning": false,
+  "case_reference": "#{caseId}"
 }

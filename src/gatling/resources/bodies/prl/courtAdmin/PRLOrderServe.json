@@ -1,16 +1,9 @@
 {
   "data": {
-     "daOrderForCaCase": "No",
-     "typeOfC21Order": "",
-     "isTheOrderByConsent": "Yes",
-     "wasTheOrderApprovedAtHearing": "No",
-     "judgeOrMagistrateTitle": "herHonourJudge",
-     "judgeOrMagistratesLastName": "Judge First",
-     "justiceLegalAdviserFullName": "Judge Last",
-     "dateOrderMade": "2024-07-14",
-     "isTheOrderAboutAllChildren": "Yes",
-     "recitalsOrPreamble": "Some details",
-     "orderDirections": null
+     "selectTypeOfOrder": "interim",
+     "cafcassOrCymruNeedToProvideReport": "No",
+     "orderEndsInvolvementOfCafcassOrCymru": "No",
+     "doYouWantToServeOrder": "Yes"
   },
   "event": {
      "id": "manageOrders",
@@ -41,7 +34,27 @@
      "dateOrderMade": "2024-07-14",
      "isTheOrderAboutAllChildren": "Yes",
      "recitalsOrPreamble": "Some details",
-     "orderDirections": null
+     "orderDirections": null,
+     "appointedGuardianName": [
+        {
+           "value": {
+              "guardianFullName": "John Smith"
+           },
+           "id": "#{guardianId}"
+        }
+     ],
+     "previewOrderDocWelsh": null,
+     "previewOrderDoc": {
+        "document_url": "#{document_url}",
+        "document_binary_url": "#{document_url}/binary",
+        "document_filename": "Special_Guardianship_Order_C43A_Draft.pdf",
+        "document_hash": "#{document_hash}"
+     },
+     "amendOrderSelectCheckOptions": "noCheck",
+     "selectTypeOfOrder": "interim",
+     "cafcassOrCymruNeedToProvideReport": "No",
+     "orderEndsInvolvementOfCafcassOrCymru": "No",
+     "doYouWantToServeOrder": "Yes"
   },
   "event_token": "#{event_token}",
   "ignore_warning": false,
