@@ -63,7 +63,7 @@ class PRL_Simulation extends Simulation {
   val pauseOption: PauseType = debugMode match {
     case "off" if testType == "perftest" => constantPauses
     case "off" if testType == "pipeline" => customPauses(pipelinePausesMillis)
-    case _ => customPauses(pipelinePausesMillis) //disabledPauses
+    case _ => disabledPauses
   }
   
   val httpProtocol = http
@@ -136,9 +136,18 @@ class PRL_Simulation extends Simulation {
         .set("caseType", "PRLAPPS"))
         .exec(Homepage.XUIHomePage)
         .exec(Login.XUILogin)
-        .exec(Solicitor_PRL_FL401_CaseCreate.CreateFL401Case)
+        .exec(Solicitor_PRL_FL401_CaseCreate.CreatePrivateLawCase)
         .exec(Solicitor_PRL_FL401_CaseCreate.TypeOfApplication)
         .exec(Solicitor_PRL_FL401_CaseCreate.WithoutNoticeOrder)
+        .exec(Solicitor_PRL_FL401_CaseCreate.ApplicantDetails)
+        .exec(Solicitor_PRL_FL401_CaseCreate.RespondentDetails)
+        .exec(Solicitor_PRL_FL401_CaseCreate.ApplicantsFamily)
+        .exec(Solicitor_PRL_FL401_CaseCreate.Relationship)
+        .exec(Solicitor_PRL_FL401_CaseCreate.Behaviour)
+        .exec(Solicitor_PRL_FL401_CaseCreate.TheHome)
+        .exec(Solicitor_PRL_FL401_CaseCreate.UploadDocuments)
+        .exec(Solicitor_PRL_FL401_CaseCreate.ViewPDF)
+        .exec(Solicitor_PRL_FL401_CaseCreate.StatementOfTruth)
       }
   
 

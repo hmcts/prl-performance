@@ -15,7 +15,7 @@ object Headers {
   val commonHeader = Map(
     "accept-encoding" -> "gzip, deflate, br",
     "accept-language" -> "en-GB,en;q=0.9",
-    // "content-type" -> "application/json",
+    "content-type" -> "application/json",
     "sec-fetch-dest" -> "empty",
     "sec-fetch-mode" -> "cors",
     "sec-fetch-site" -> "same-origin")

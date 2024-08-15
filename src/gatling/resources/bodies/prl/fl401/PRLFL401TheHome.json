@@ -1,0 +1,112 @@
+{
+  "data": {
+     "home": {
+        "everLivedAtTheAddress": "yesBothOfThem",
+        "intendToLiveAtTheAddress": null,
+        "doAnyChildrenLiveAtAddress": "Yes",
+        "isPropertyAdapted": "No",
+        "isThereMortgageOnProperty": "No",
+        "isPropertyRented": "No",
+        "doesApplicantHaveHomeRights": "No",
+        "furtherInformation": "Pay for the perf testing",
+        "address": {
+           "AddressLine1": "Flat 1",
+           "AddressLine2": "Bramber House",
+           "AddressLine3": "Seven Kings Way",
+           "PostTown": "Kingston Upon Thames",
+           "County": "",
+           "PostCode": "KT2 5BU",
+           "Country": "United Kingdom"
+        },
+        "peopleLivingAtThisAddress": [
+           "applicant",
+           "respondent"
+        ],
+        "children": [
+           {
+              "value": {
+                 "keepChildrenInfoConfidential": "Yes",
+                 "childFullName": "Child One",
+                 "childsAge": "12",
+                 "isRespondentResponsibleForChild": "Yes"
+              },
+              "id": null
+           },
+           {
+              "value": {
+                 "keepChildrenInfoConfidential": "Yes",
+                 "childFullName": "Child Two",
+                 "childsAge": "13",
+                 "isRespondentResponsibleForChild": "Yes"
+              },
+              "id": null
+           }
+        ],
+        "livingSituation": [
+           "ableToStayInHome"
+        ],
+        "familyHome": [
+           "payForRepairs"
+        ]
+     }
+  },
+  "event": {
+     "id": "fl401Home",
+     "summary": "",
+     "description": ""
+  },
+  "event_data": {
+     "home": {
+        "everLivedAtTheAddress": "yesBothOfThem",
+        "intendToLiveAtTheAddress": null,
+        "doAnyChildrenLiveAtAddress": "Yes",
+        "isPropertyAdapted": "No",
+        "isThereMortgageOnProperty": "No",
+        "isPropertyRented": "No",
+        "doesApplicantHaveHomeRights": "No",
+        "furtherInformation": "Pay for the perf testing",
+        "address": {
+           "AddressLine1": "Flat 1",
+           "AddressLine2": "Bramber House",
+           "AddressLine3": "Seven Kings Way",
+           "PostTown": "Kingston Upon Thames",
+           "County": "",
+           "PostCode": "KT2 5BU",
+           "Country": "United Kingdom"
+        },
+        "peopleLivingAtThisAddress": [
+           "applicant",
+           "respondent"
+        ],
+        "children": [
+           {
+              "value": {
+                 "keepChildrenInfoConfidential": "Yes",
+                 "childFullName": "Child One",
+                 "childsAge": "12",
+                 "isRespondentResponsibleForChild": "Yes"
+              },
+              "id": null
+           },
+           {
+              "value": {
+                 "keepChildrenInfoConfidential": "Yes",
+                 "childFullName": "Child Two",
+                 "childsAge": "13",
+                 "isRespondentResponsibleForChild": "Yes"
+              },
+              "id": null
+           }
+        ],
+        "livingSituation": [
+           "ableToStayInHome"
+        ],
+        "familyHome": [
+           "payForRepairs"
+        ]
+     }
+  },
+  "event_token": "#{event_token}",
+  "ignore_warning": false,
+  "case_reference": "#{caseId}"
+}
