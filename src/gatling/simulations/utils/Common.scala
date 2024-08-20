@@ -25,6 +25,7 @@ object Common {
   val patternYear = DateTimeFormatter.ofPattern("yyyy")
   val patternTime = DateTimeFormatter.ofPattern("HH:MM:SS.SSS")
   val patternReference = DateTimeFormatter.ofPattern("d MMM yyyy")
+  val yearMonthDay = DateTimeFormatter.ofPattern("yyyy-MM-dd")
   val BaseURL = Environment.baseURL
 
   def randomString(length: Int) = {
@@ -41,6 +42,11 @@ object Common {
 
   def getMonth(): String = {
     (1 + rnd.nextInt(12)).toString.format(patternMonth).reverse.padTo(2, '0').reverse //pads single-digit dates with a leading zero
+  }
+
+  //CurrentDate
+  def getDate(): String = {
+    now.format(yearMonthDay)
   }
 
   //Date of Marriage >= 30 years
