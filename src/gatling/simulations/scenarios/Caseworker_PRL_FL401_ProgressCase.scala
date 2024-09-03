@@ -458,13 +458,23 @@ val CourtAdminServiceApplication =
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8")
         .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("bodies/prl/courtAdmin/PRLSoASubmitFL401.json"))
-        .check(jsonPath("$.data.caseInvites[1].value.accessCode").saveAs("prlAccessCode")))
+        .check(jsonPath("$.data.caseInvites[0].value.accessCode").saveAs("prlAccessCodeApplicant"))
+        .check(jsonPath("$.data.caseInvites[1].value.accessCode").saveAs("prlAccessCodeRespondent")))
     }
 
+    //Write applicant access code to file
     .exec { session =>
-      val fw = new BufferedWriter(new FileWriter("FL401caseNumberAndCode.csv", true))
+      val fw = new BufferedWriter(new FileWriter("FL401caseNumberAndCodeApplicant.csv", true))
       try {
-        fw.write(session("caseId").as[String] + "," + session("prlAccessCode").as[String] + "\r\n")
+        fw.write(session("caseId").as[String] + "," + session("prlAccessCodeApplicant").as[String] + "\r\n")
+      } finally fw.close()
+      session
+    }
+    //Write respondent access code to file
+    .exec { session =>
+      val fw = new BufferedWriter(new FileWriter("FL401caseNumberAndCodeRespondent.csv", true))
+      try {
+        fw.write(session("caseId").as[String] + "," + session("prlAccessCodeRespondent").as[String] + "\r\n")
       } finally fw.close()
       session
     }
