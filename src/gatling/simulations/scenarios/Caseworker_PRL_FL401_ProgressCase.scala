@@ -32,6 +32,59 @@ object Caseworker_PRL_FL401_ProgressCase {
 
     .pause(MinThinkTime, MaxThinkTime)
 
+/*// MAY NOT NEED THIS
+
+  /*=====================================================================================
+  * Select Ammend Respondent Details 
+  ======================================================================================*/
+    
+    .exec(http("XUI_PRL_XXX_360_AmmendRespondentDetails")
+      .get(BaseURL + "/workallocation/case/tasks/#{caseId}/event/amendRespondentsDetails/caseType/PRLAPPS/jurisdiction/PRIVATELAW")
+      .headers(Headers.navigationHeader)
+      .header("accept", "application/json")
+      .check(jsonPath("$.task_required_for_event").is("false")))
+
+    .exec(Common.activity)
+    .exec(Common.profile)
+
+    .exec(http("XUI_PRL_XXX_370_AmmendRespondentsDetailsEventTrigger")
+      .get(BaseURL + "/data/internal/cases/#{caseId}/event-triggers/amendRespondentsDetails?ignore-warning=false")
+      .headers(Headers.xuiHeader)
+      //.header("Accept", "application/json, text/plain, *//*")   //extra / here
+      .check(jsonPath("$.event_token").saveAs("event_token"))
+      .check(jsonPath("$.id").is("amendRespondentsDetails"))
+      .check(status.in(200, 403)))
+
+    .exec(http("XUI_PRL_XXX_380_AmmendRespondentDetailsEvent")
+      .get(BaseURL + "/workallocation/case/tasks/#{caseId}/event/amendRespondentsDetails/caseType/PRLAPPS/jurisdiction/PRIVATELAW")
+      .headers(Headers.navigationHeader)
+      .header("accept", "application/json"))
+     
+    .exec(Common.userDetails)
+    .exec(Common.caseActivityOnlyGet)
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+
+  /*=====================================================================================
+  * Save & Continue Respondent Details
+  ======================================================================================*/
+
+    .exec(http("XUI_PRL_XXX_390_Save&ContinueRespondentDetails")
+      .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=amendRespondentsDetails2")
+      .headers(Headers.xuiHeader)
+      .header("Accept", "application/json, text/plain, *//*") //extra / here
+      .header("x-xsrf-token", "#{XSRFToken}")
+      .body(ElFileBody("bodies/prl/courtAdmin/PRLLocalCourt.json"))
+      .check(jsonPath("$.data.courtList.value.code").is("234946:")))  //Value does not change for now. 
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+    .exec(Common.activity)
+    .exec(Common.userDetails)
+    .exec(Common.activity)
+
+*/
   /*=====================================================================================
   * Select Issue and send to local Court
   ======================================================================================*/
