@@ -33,7 +33,7 @@ object Solicitor_PRL_FL401_CaseCreate {
     .group("XUI_PRL_FL401_030_CreateCase") {
       exec(http("XUI_PRL_FL401_030_CreateCase")
         .get(BaseURL + "/aggregated/caseworkers/:uid/jurisdictions?access=create")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("accept", "application/json")
         .check(substring("PRIVATELAW")))
 
@@ -49,7 +49,7 @@ object Solicitor_PRL_FL401_CaseCreate {
     .group("XUI_PRL_FL401_040_SelectCaseType") {
       exec(http("XUI_PRL_FL401_040_005_SelectCaseType")
         .get(BaseURL + "/data/internal/case-types/PRLAPPS/event-triggers/solicitorCreate?ignore-warning=false")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-start-case-trigger.v2+json;charset=UTF-8")
         .check(jsonPath("$.event_token").saveAs("event_token"))
         .check(jsonPath("$.id").is("solicitorCreate")))
@@ -68,7 +68,7 @@ object Solicitor_PRL_FL401_CaseCreate {
     .group("XUI_PRL_FL401_050_SelectApplicationType") {
       exec(http("XUI_PRL_FL401_050_005_SelectApplicationType")
         .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=solicitorCreate2")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
         .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("bodies/prl/fl401/PRLFL401SelectApplicationType.json"))
@@ -86,7 +86,7 @@ object Solicitor_PRL_FL401_CaseCreate {
     .group("XUI_PRL_FL401_060_ConfidentialityStatement") {
       exec(http("XUI_PRL_FL401_060_005_ConfidentialityStatement")
         .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=solicitorCreate3")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
         .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("bodies/prl/fl401/PRLFL401ConfidentialityStatement.json"))
@@ -104,7 +104,7 @@ object Solicitor_PRL_FL401_CaseCreate {
     .group("XUI_PRL_FL401_070_CaseName") {
       exec(http("XUI_PRL_FL401_070_005_CaseName")
         .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=solicitorCreate5")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
         .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("bodies/prl/fl401/PRLFL401CaseName.json"))
@@ -122,7 +122,7 @@ object Solicitor_PRL_FL401_CaseCreate {
     .group("XUI_PRL_FL401_080_CheckYourAnswers") {
       exec(http("XUI_PRL_FL401_080_005_CheckYourAnswers")
         .post(BaseURL + "/data/case-types/PRLAPPS/cases?ignore-warning=false")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-case.v2+json;charset=UTF-8")
         .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("bodies/prl/fl401/PRLFL401CheckYourAnswers.json"))
@@ -131,7 +131,7 @@ object Solicitor_PRL_FL401_CaseCreate {
 
       .exec(http("XUI_PRL_FL401_080_010_ViewCase")
         .get(BaseURL + "/data/internal/cases/#{caseId}")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("x-xsrf-token", "#{XSRFToken}")
         .check(jsonPath("$.state.id").is("AWAITING_SUBMISSION_TO_HMCTS")))
 
@@ -162,7 +162,7 @@ object Solicitor_PRL_FL401_CaseCreate {
 
       .exec(http("XUI_PRL_FL401_090_010_CreateTypeOfApplicationEvent")
         .get(BaseURL + "/data/internal/cases/#{caseId}/event-triggers/fl401TypeOfApplication?ignore-warning=false")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-start-event-trigger.v2+json;charset=UTF-8")
         .check(jsonPath("$.event_token").saveAs("event_token"))
         .check(jsonPath("$.id").is("fl401TypeOfApplication")))
@@ -191,7 +191,7 @@ object Solicitor_PRL_FL401_CaseCreate {
     .group("XUI_PRL_FL401_100_SelectOrders") {
       exec(http("XUI_PRL_FL401_100_005_SelectOrders")
         .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=fl401TypeOfApplication1")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
         .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("bodies/prl/fl401/PRLFL401SelectOrders.json"))
@@ -209,7 +209,7 @@ object Solicitor_PRL_FL401_CaseCreate {
     .group("XUI_PRL_FL401_110_LinkedToCase") {
       exec(http("XUI_PRL_FL401_110_005_LinkedToCase")
         .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=fl401TypeOfApplication2")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
         .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("bodies/prl/fl401/PRLFL401LinkedToCase.json"))
@@ -227,7 +227,7 @@ object Solicitor_PRL_FL401_CaseCreate {
     .group("XUI_PRL_FL401_120_TypeOfApplicationCheckYourAnswers") {
       exec(http("XUI_PRL_FL401_120_005_TypeOfApplicationCheckYourAnswers")
         .post(BaseURL + "/data/cases/#{caseId}/events")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8")
         .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("bodies/prl/fl401/PRLFL401TypeOfApplicationCheckYourAnswers.json"))
@@ -236,7 +236,7 @@ object Solicitor_PRL_FL401_CaseCreate {
 
       .exec(http("XUI_PRL_FL401_120_010_ViewCase")
         .get(BaseURL + "/data/internal/cases/#{caseId}")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("x-xsrf-token", "#{XSRFToken}")
         .check(jsonPath("$.events[?(@.event_id=='fl401TypeOfApplication')]"))
         .check(jsonPath("$.state.id").is("AWAITING_SUBMISSION_TO_HMCTS")))
@@ -268,14 +268,14 @@ object Solicitor_PRL_FL401_CaseCreate {
 
       .exec(http("XUI_PRL_FL401_130_010_ViewCase")
         .get(BaseURL + "/data/internal/cases/#{caseId}")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("x-xsrf-token", "#{XSRFToken}")
         .check(jsonPath("$.events[?(@.event_id=='fl401TypeOfApplication')]"))
         .check(jsonPath("$.state.id").is("AWAITING_SUBMISSION_TO_HMCTS")))
 
       .exec(http("XUI_PRL_FL401_130_015_CreateWithoutNoticeOrderEvent")
         .get(BaseURL + "/data/internal/cases/#{caseId}/event-triggers/withoutNoticeOrderDetails?ignore-warning=false")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-start-event-trigger.v2+json;charset=UTF-8")
         .check(jsonPath("$.event_token").saveAs("event_token"))
         .check(jsonPath("$.id").is("withoutNoticeOrderDetails")))
@@ -304,7 +304,7 @@ object Solicitor_PRL_FL401_CaseCreate {
     .group("XUI_PRL_FL401_140_ApplyWithoutNotice") {
       exec(http("XUI_PRL_FL401_140_005_ApplyWithoutNotice")
         .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=withoutNoticeOrderDetails1")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
         .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("bodies/prl/fl401/PRLFL401ApplyWithoutNotice.json"))
@@ -322,7 +322,7 @@ object Solicitor_PRL_FL401_CaseCreate {
     .group("XUI_PRL_FL401_150_ReasonForApplyWithoutNotice") {
       exec(http("XUI_PRL_FL401_150_005_ReasonForApplyWithoutNotice")
         .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=withoutNoticeOrderDetails2")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
         .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("bodies/prl/fl401/PRLFL401ReasonForApplyWithoutNotice.json"))
@@ -340,7 +340,7 @@ object Solicitor_PRL_FL401_CaseCreate {
     .group("XUI_PRL_FL401_160_BailConditions") {
       exec(http("XUI_PRL_FL401_160_005_BailConditions")
         .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=withoutNoticeOrderDetails3")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
         .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("bodies/prl/fl401/PRLFL401BailConditions.json"))
@@ -358,7 +358,7 @@ object Solicitor_PRL_FL401_CaseCreate {
     .group("XUI_PRL_FL401_170_OtherDetails") {
       exec(http("XUI_PRL_FL401_170_005_OtherDetails")
         .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=withoutNoticeOrderDetails4")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
         .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("bodies/prl/fl401/PRLFL401OtherDetails.json"))
@@ -376,7 +376,7 @@ object Solicitor_PRL_FL401_CaseCreate {
     .group("XUI_PRL_FL401_180_WithoutNoticeCheckYourAnswers") {
       exec(http("XUI_PRL_FL401_180_005_WithoutNoticeCheckYourAnswers")
         .post(BaseURL + "/data/cases/#{caseId}/events")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8")
         .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("bodies/prl/fl401/PRLFL401WithoutNoticeCheckYourAnswers.json"))
@@ -385,7 +385,7 @@ object Solicitor_PRL_FL401_CaseCreate {
 
       .exec(http("XUI_PRL_FL401_180_010_ViewCase")
         .get(BaseURL + "/data/internal/cases/#{caseId}")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("x-xsrf-token", "#{XSRFToken}")
         .check(jsonPath("$.events[?(@.event_id=='withoutNoticeOrderDetails')]"))
         .check(jsonPath("$.state.id").is("AWAITING_SUBMISSION_TO_HMCTS")))
@@ -417,14 +417,14 @@ object Solicitor_PRL_FL401_CaseCreate {
 
       .exec(http("XUI_PRL_FL401_190_010_ViewCase")
         .get(BaseURL + "/data/internal/cases/#{caseId}")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("x-xsrf-token", "#{XSRFToken}")
         .check(jsonPath("$.events[?(@.event_id=='withoutNoticeOrderDetails')]"))
         .check(jsonPath("$.state.id").is("AWAITING_SUBMISSION_TO_HMCTS")))
 
       .exec(http("XUI_PRL_FL401_190_015_CreateApplicantDetailsEvent")
         .get(BaseURL + "/data/internal/cases/#{caseId}/event-triggers/applicantsDetails?ignore-warning=false")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-start-event-trigger.v2+json;charset=UTF-8")
         .check(jsonPath("$.event_token").saveAs("event_token"))
         .check(jsonPath("$.id").is("applicantsDetails")))
@@ -456,7 +456,7 @@ object Solicitor_PRL_FL401_CaseCreate {
     .group("XUI_PRL_FL401_200_ApplicantDetails") {
       exec(http("XUI_PRL_FL401_200_005_ApplicantDetails")
         .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=applicantsDetails2")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
         .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("bodies/prl/fl401/PRLFL401ApplicantDetails.json"))
@@ -474,7 +474,7 @@ object Solicitor_PRL_FL401_CaseCreate {
     .group("XUI_PRL_FL401_210_ApplicantDetailsCheckYourAnswers") {
       exec(http("XUI_PRL_FL401_210_005_ApplicantDetailsCheckYourAnswers")
         .post(BaseURL + "/data/cases/#{caseId}/events")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8")
         .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("bodies/prl/fl401/PRLFL401ApplicantDetailsCheckYourAnswers.json"))
@@ -483,7 +483,7 @@ object Solicitor_PRL_FL401_CaseCreate {
 
       .exec(http("XUI_PRL_FL401_210_010_ViewCase")
         .get(BaseURL + "/data/internal/cases/#{caseId}")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("x-xsrf-token", "#{XSRFToken}")
         .check(jsonPath("$.events[?(@.event_id=='applicantsDetails')]"))
         .check(jsonPath("$.state.id").is("AWAITING_SUBMISSION_TO_HMCTS")))
@@ -515,14 +515,14 @@ object Solicitor_PRL_FL401_CaseCreate {
 
       .exec(http("XUI_PRL_FL401_220_010_ViewCase")
         .get(BaseURL + "/data/internal/cases/#{caseId}")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("x-xsrf-token", "#{XSRFToken}")
         .check(jsonPath("$.events[?(@.event_id=='applicantsDetails')]"))
         .check(jsonPath("$.state.id").is("AWAITING_SUBMISSION_TO_HMCTS")))
 
       .exec(http("XUI_PRL_FL401_220_015_CreateRespondentDetailsEvent")
         .get(BaseURL + "/data/internal/cases/#{caseId}/event-triggers/respondentsDetails?ignore-warning=false")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-start-event-trigger.v2+json;charset=UTF-8")
         .check(jsonPath("$.event_token").saveAs("event_token"))
         .check(jsonPath("$.id").is("respondentsDetails")))
@@ -553,7 +553,7 @@ object Solicitor_PRL_FL401_CaseCreate {
     .group("XUI_PRL_FL401_230_RespondentDetails") {
       exec(http("XUI_PRL_FL401_230_005_RespondentDetails")
         .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=respondentsDetails2")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
         .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("bodies/prl/fl401/PRLFL401RespondentDetails.json"))
@@ -571,7 +571,7 @@ object Solicitor_PRL_FL401_CaseCreate {
     .group("XUI_PRL_FL401_240_RespondentDetailsCheckYourAnswers") {
       exec(http("XUI_PRL_FL401_240_005_RespondentDetailsCheckYourAnswers")
         .post(BaseURL + "/data/cases/#{caseId}/events")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8")
         .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("bodies/prl/fl401/PRLFL401RespondentDetailsCheckYourAnswers.json"))
@@ -580,7 +580,7 @@ object Solicitor_PRL_FL401_CaseCreate {
 
       .exec(http("XUI_PRL_FL401_240_010_ViewCase")
         .get(BaseURL + "/data/internal/cases/#{caseId}")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("x-xsrf-token", "#{XSRFToken}")
         .check(jsonPath("$.events[?(@.event_id=='respondentsDetails')]"))
         .check(jsonPath("$.state.id").is("AWAITING_SUBMISSION_TO_HMCTS")))
@@ -612,14 +612,14 @@ object Solicitor_PRL_FL401_CaseCreate {
 
       .exec(http("XUI_PRL_FL401_250_015_ViewCase")
         .get(BaseURL + "/data/internal/cases/#{caseId}")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("x-xsrf-token", "#{XSRFToken}")
         .check(jsonPath("$.events[?(@.event_id=='respondentsDetails')]"))
         .check(jsonPath("$.state.id").is("AWAITING_SUBMISSION_TO_HMCTS")))
 
       .exec(http("XUI_PRL_FL401_250_020_CreateRespondentDetailsEvent")
         .get(BaseURL + "/data/internal/cases/#{caseId}/event-triggers/fl401ApplicantFamilyDetails?ignore-warning=false")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-start-event-trigger.v2+json;charset=UTF-8")
         .check(jsonPath("$.event_token").saveAs("event_token"))
         .check(jsonPath("$.id").is("fl401ApplicantFamilyDetails")))
@@ -648,7 +648,7 @@ object Solicitor_PRL_FL401_CaseCreate {
     .group("XUI_PRL_FL401_260_ApplicantsFamilyDetails") {
       exec(http("XUI_PRL_FL401_260_005_ApplicantsFamilyDetails")
         .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=fl401ApplicantFamilyDetails1")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
         .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("bodies/prl/fl401/PRLFL401ApplicantsFamilyDetails.json"))
@@ -666,7 +666,7 @@ object Solicitor_PRL_FL401_CaseCreate {
     .group("XUI_PRL_FL401_270_ApplicantsFamilyDetailsCheckYourAnswers") {
       exec(http("XUI_PRL_FL401_270_005_ApplicantsFamilyDetailsCheckYourAnswers")
         .post(BaseURL + "/data/cases/#{caseId}/events")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8")
         .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("bodies/prl/fl401/PRLFL401ApplicantsFamilyDetailsCheckYourAnswers.json"))
@@ -675,7 +675,7 @@ object Solicitor_PRL_FL401_CaseCreate {
 
       .exec(http("XUI_PRL_FL401_270_010_ViewCase")
         .get(BaseURL + "/data/internal/cases/#{caseId}")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("x-xsrf-token", "#{XSRFToken}")
         .check(jsonPath("$.events[?(@.event_id=='fl401ApplicantFamilyDetails')]"))
         .check(jsonPath("$.state.id").is("AWAITING_SUBMISSION_TO_HMCTS")))
@@ -707,14 +707,14 @@ object Solicitor_PRL_FL401_CaseCreate {
 
       .exec(http("XUI_PRL_FL401_280_010_ViewCase")
         .get(BaseURL + "/data/internal/cases/#{caseId}")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("x-xsrf-token", "#{XSRFToken}")
         .check(jsonPath("$.events[?(@.event_id=='fl401ApplicantFamilyDetails')]"))
         .check(jsonPath("$.state.id").is("AWAITING_SUBMISSION_TO_HMCTS")))
 
       .exec(http("XUI_PRL_FL401_280_015_CreateRelationshipEvent")
         .get(BaseURL + "/data/internal/cases/#{caseId}/event-triggers/respondentRelationship?ignore-warning=false")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-start-event-trigger.v2+json;charset=UTF-8")
         .check(jsonPath("$.event_token").saveAs("event_token"))
         .check(jsonPath("$.id").is("respondentRelationship")))
@@ -743,7 +743,7 @@ object Solicitor_PRL_FL401_CaseCreate {
     .group("XUI_PRL_FL401_290_Relationship") {
       exec(http("XUI_PRL_FL401_290_005_Relationship")
         .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=respondentRelationship1")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
         .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("bodies/prl/fl401/PRLFL401Relationship.json"))
@@ -761,7 +761,7 @@ object Solicitor_PRL_FL401_CaseCreate {
     .group("XUI_PRL_FL401_300_RelationshipDates") {
       exec(http("XUI_PRL_FL401_300_005_RelationshipDates")
         .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=respondentRelationship2")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
         .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("bodies/prl/fl401/PRLFL401RelationshipDates.json"))
@@ -779,7 +779,7 @@ object Solicitor_PRL_FL401_CaseCreate {
     .group("XUI_PRL_FL401_310_RelationshipCheckYourAnswers") {
       exec(http("XUI_PRL_FL401_310_005_RelationshipCheckYourAnswers")
         .post(BaseURL + "/data/cases/#{caseId}/events")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8")
         .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("bodies/prl/fl401/PRLFL401RelationshipCheckYourAnswers.json"))
@@ -788,7 +788,7 @@ object Solicitor_PRL_FL401_CaseCreate {
 
       .exec(http("XUI_PRL_FL401_310_010_ViewCase")
         .get(BaseURL + "/data/internal/cases/#{caseId}")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("x-xsrf-token", "#{XSRFToken}")
         .check(jsonPath("$.events[?(@.event_id=='respondentRelationship')]"))
         .check(jsonPath("$.state.id").is("AWAITING_SUBMISSION_TO_HMCTS")))
@@ -820,14 +820,14 @@ object Solicitor_PRL_FL401_CaseCreate {
 
       .exec(http("XUI_PRL_FL401_320_010_ViewCase")
         .get(BaseURL + "/data/internal/cases/#{caseId}")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("x-xsrf-token", "#{XSRFToken}")
         .check(jsonPath("$.events[?(@.event_id=='respondentRelationship')]"))
         .check(jsonPath("$.state.id").is("AWAITING_SUBMISSION_TO_HMCTS")))
 
       .exec(http("XUI_PRL_FL401_320_015_CreateRelationshipEvent")
         .get(BaseURL + "/data/internal/cases/#{caseId}/event-triggers/respondentBehaviour?ignore-warning=false")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-start-event-trigger.v2+json;charset=UTF-8")
         .check(jsonPath("$.event_token").saveAs("event_token"))
         .check(jsonPath("$.id").is("respondentBehaviour")))
@@ -856,7 +856,7 @@ object Solicitor_PRL_FL401_CaseCreate {
     .group("XUI_PRL_FL401_330_Behaviour") {
       exec(http("XUI_PRL_FL401_330_005_Behaviour")
         .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=respondentBehaviour1")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
         .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("bodies/prl/fl401/PRLFL401Behaviour.json"))
@@ -874,7 +874,7 @@ object Solicitor_PRL_FL401_CaseCreate {
     .group("XUI_PRL_FL401_340_BehaviourCheckYourAnswers") {
       exec(http("XUI_PRL_FL401_340_005_BehaviourCheckYourAnswers")
         .post(BaseURL + "/data/cases/#{caseId}/events")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8")
         .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("bodies/prl/fl401/PRLFL401BehaviourCheckYourAnswers.json"))
@@ -883,7 +883,7 @@ object Solicitor_PRL_FL401_CaseCreate {
 
       .exec(http("XUI_PRL_FL401_340_010_ViewCase")
         .get(BaseURL + "/data/internal/cases/#{caseId}")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("x-xsrf-token", "#{XSRFToken}")
         .check(jsonPath("$.events[?(@.event_id=='respondentBehaviour')]"))
         .check(jsonPath("$.state.id").is("AWAITING_SUBMISSION_TO_HMCTS")))
@@ -915,14 +915,14 @@ object Solicitor_PRL_FL401_CaseCreate {
 
       .exec(http("XUI_PRL_FL401_350_010_ViewCase")
         .get(BaseURL + "/data/internal/cases/#{caseId}")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("x-xsrf-token", "#{XSRFToken}")
         .check(jsonPath("$.events[?(@.event_id=='respondentBehaviour')]"))
         .check(jsonPath("$.state.id").is("AWAITING_SUBMISSION_TO_HMCTS")))
 
       .exec(http("XUI_PRL_FL401_350_015_CreateTheHomeEvent")
         .get(BaseURL + "/data/internal/cases/#{caseId}/event-triggers/fl401Home?ignore-warning=false")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-start-event-trigger.v2+json;charset=UTF-8")
         .check(jsonPath("$.event_token").saveAs("event_token"))
         .check(jsonPath("$.id").is("fl401Home")))
@@ -953,7 +953,7 @@ object Solicitor_PRL_FL401_CaseCreate {
     .group("XUI_PRL_FL401_360_TheHome") {
       exec(http("XUI_PRL_FL401_360_005_TheHome")
         .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=fl401Home1")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
         .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("bodies/prl/fl401/PRLFL401TheHome.json"))
@@ -971,7 +971,7 @@ object Solicitor_PRL_FL401_CaseCreate {
     .group("XUI_PRL_FL401_370_TheHomeCheckYourAnswers") {
       exec(http("XUI_PRL_FL401_370_005_TheHomeCheckYourAnswers")
         .post(BaseURL + "/data/cases/#{caseId}/events")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8")
         .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("bodies/prl/fl401/PRLFL401TheHomeCheckYourAnswers.json"))
@@ -980,7 +980,7 @@ object Solicitor_PRL_FL401_CaseCreate {
 
       .exec(http("XUI_PRL_FL401_370_010_ViewCase")
         .get(BaseURL + "/data/internal/cases/#{caseId}")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("x-xsrf-token", "#{XSRFToken}")
         .check(jsonPath("$.events[?(@.event_id=='fl401Home')]"))
         .check(jsonPath("$.state.id").is("AWAITING_SUBMISSION_TO_HMCTS")))
@@ -1012,14 +1012,14 @@ object Solicitor_PRL_FL401_CaseCreate {
 
       .exec(http("XUI_PRL_FL401_380_010_ViewCase")
         .get(BaseURL + "/data/internal/cases/#{caseId}")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("x-xsrf-token", "#{XSRFToken}")
         .check(jsonPath("$.events[?(@.event_id=='fl401Home')]"))
         .check(jsonPath("$.state.id").is("AWAITING_SUBMISSION_TO_HMCTS")))
 
       .exec(http("XUI_PRL_FL401_380_015_CreateUploadDocumentsEvent")
         .get(BaseURL + "/data/internal/cases/#{caseId}/event-triggers/fl401UploadDocuments?ignore-warning=false")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-start-event-trigger.v2+json;charset=UTF-8")
         .check(jsonPath("$.event_token").saveAs("event_token"))
         .check(jsonPath("$.id").is("fl401UploadDocuments")))
@@ -1048,7 +1048,7 @@ object Solicitor_PRL_FL401_CaseCreate {
     .group("XUI_PRL_FL401_390_UploadDocument") {
       exec(http("XUI_PRL_FL401_390_005_UploadDocument")
         .post(BaseURL + "/documentsv2")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("accept", "application/json, text/plain, */*")
         .header("content-type", "multipart/form-data")
         .header("x-xsrf-token", "#{XSRFToken}")
@@ -1073,7 +1073,7 @@ object Solicitor_PRL_FL401_CaseCreate {
     .group("XUI_PRL_FL401_400_SubmitDocuments") {
       exec(http("XUI_PRL_FL401_400_005_SubmitDocuments")
         .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=fl401UploadDocuments1")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
         .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("bodies/prl/fl401/PRLFL401SubmitDocuments.json"))
@@ -1091,7 +1091,7 @@ object Solicitor_PRL_FL401_CaseCreate {
     .group("XUI_PRL_FL401_410_UploadDocumentsCheckYourAnswers") {
       exec(http("XUI_PRL_FL401_410_005_UploadDocumentsCheckYourAnswers")
         .post(BaseURL + "/data/cases/#{caseId}/events")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8")
         .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("bodies/prl/fl401/PRLFL401UploadDocumentsCheckYourAnswers.json"))
@@ -1100,7 +1100,7 @@ object Solicitor_PRL_FL401_CaseCreate {
 
       .exec(http("XUI_PRL_FL401_410_010_ViewCase")
         .get(BaseURL + "/data/internal/cases/#{caseId}")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("x-xsrf-token", "#{XSRFToken}")
         .check(jsonPath("$.events[?(@.event_id=='fl401UploadDocuments')]"))
         .check(jsonPath("$.state.id").is("AWAITING_SUBMISSION_TO_HMCTS")))
@@ -1132,14 +1132,14 @@ object Solicitor_PRL_FL401_CaseCreate {
 
       .exec(http("XUI_PRL_FL401_420_010_ViewCase")
         .get(BaseURL + "/data/internal/cases/#{caseId}")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("x-xsrf-token", "#{XSRFToken}")
         .check(jsonPath("$.events[?(@.event_id=='fl401UploadDocuments')]"))
         .check(jsonPath("$.state.id").is("AWAITING_SUBMISSION_TO_HMCTS")))
 
       .exec(http("XUI_PRL_FL401_420_015_CreateViewPDFEvent")
         .get(BaseURL + "/data/internal/cases/#{caseId}/event-triggers/viewPdfDocument?ignore-warning=false")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-start-event-trigger.v2+json;charset=UTF-8")
         .check(jsonPath("$.event_token").saveAs("event_token"))
         .check(jsonPath("$.case_fields[?(@.id=='submitAndPayDownloadApplicationLink')].value.document_url").saveAs("DocumentURL"))
@@ -1171,7 +1171,7 @@ object Solicitor_PRL_FL401_CaseCreate {
     .group("XUI_PRL_FL401_430_ViewPDFContinue") {
       exec(http("XUI_PRL_FL401_430_005_ViewPDFContinue")
         .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=viewPdfDocument1")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
         .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("bodies/prl/fl401/PRLFL401ViewPDF.json"))
@@ -1189,7 +1189,7 @@ object Solicitor_PRL_FL401_CaseCreate {
     .group("XUI_PRL_FL401_440_ViewPDFSaveAndContinue") {
       exec(http("XUI_PRL_FL401_440_005_ViewPDFSaveAndContinue")
         .post(BaseURL + "/data/cases/#{caseId}/events")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8")
         .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("bodies/prl/fl401/PRLFL401ViewPDFSaveAndContinue.json"))
@@ -1198,7 +1198,7 @@ object Solicitor_PRL_FL401_CaseCreate {
 
       .exec(http("XUI_PRL_FL401_440_010_ViewCase")
         .get(BaseURL + "/data/internal/cases/#{caseId}")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("x-xsrf-token", "#{XSRFToken}")
         .check(jsonPath("$.events[?(@.event_id=='viewPdfDocument')]"))
         .check(jsonPath("$.state.id").is("AWAITING_SUBMISSION_TO_HMCTS")))
@@ -1230,14 +1230,14 @@ object Solicitor_PRL_FL401_CaseCreate {
 
       .exec(http("XUI_PRL_FL401_450_010_ViewCase")
         .get(BaseURL + "/data/internal/cases/#{caseId}")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("x-xsrf-token", "#{XSRFToken}")
         .check(jsonPath("$.events[?(@.event_id=='viewPdfDocument')]"))
         .check(jsonPath("$.state.id").is("AWAITING_SUBMISSION_TO_HMCTS")))
 
       .exec(http("XUI_PRL_FL401_450_015_CreateSOTEvent")
         .get(BaseURL + "/data/internal/cases/#{caseId}/event-triggers/fl401StatementOfTruthAndSubmit?ignore-warning=false")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-start-event-trigger.v2+json;charset=UTF-8")
         .check(jsonPath("$.event_token").saveAs("event_token"))
         .check(jsonPath("$.id").is("fl401StatementOfTruthAndSubmit")))
@@ -1266,7 +1266,7 @@ object Solicitor_PRL_FL401_CaseCreate {
     .group("XUI_PRL_FL401_460_SOT") {
       exec(http("XUI_PRL_FL401_460_005_SOT")
         .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=fl401StatementOfTruthAndSubmit1")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
         .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("bodies/prl/fl401/PRLFL401SOT.json"))
@@ -1284,7 +1284,7 @@ object Solicitor_PRL_FL401_CaseCreate {
     .group("XUI_PRL_FL401_470_SOTContinue") {
       exec(http("XUI_PRL_FL401_470_005_SOTContinue")
         .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=fl401StatementOfTruthAndSubmit2")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
         .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("bodies/prl/fl401/PRLFL401SOTContinue.json"))
@@ -1302,7 +1302,7 @@ object Solicitor_PRL_FL401_CaseCreate {
     .group("XUI_PRL_FL401_480_SelectFamilyCourt") {
       exec(http("XUI_PRL_FL401_480_005_SelectFamilyCourt")
         .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=fl401StatementOfTruthAndSubmit3")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
         .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("bodies/prl/fl401/PRLFL401SelectFamilyCourt.json"))
@@ -1320,7 +1320,7 @@ object Solicitor_PRL_FL401_CaseCreate {
     .group("XUI_PRL_FL401_490_SOTSubmit") {
       exec(http("XUI_PRL_FL401_490_005_SOTSubmit")
         .post(BaseURL + "/data/cases/#{caseId}/events")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8")
         .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("bodies/prl/fl401/PRLFL401SOTSubmit.json"))
@@ -1329,7 +1329,7 @@ object Solicitor_PRL_FL401_CaseCreate {
 
       .exec(http("XUI_PRL_FL401_490_010_ViewCase")
         .get(BaseURL + "/data/internal/cases/#{caseId}")
-        .headers(Headers.commonHeader)
+        .headers(Headers.xuiHeader)
         .header("x-xsrf-token", "#{XSRFToken}")
         .check(jsonPath("$.events[?(@.event_id=='fl401StatementOfTruthAndSubmit')]"))
         .check(jsonPath("$.state.id").is("SUBMITTED_PAID")))
