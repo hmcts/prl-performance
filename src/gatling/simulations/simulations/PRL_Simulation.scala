@@ -17,7 +17,7 @@ class PRL_Simulation extends Simulation {
   val UserFeederPRL = csv("UserDataPRL.csv").circular
   val UserCitizenPRL = csv("UserDataPRLCitizen.csv").circular
   val UserCourtAdminPRL = csv("UserDataCourtAdmin.csv").circular
-  val caseFeeder = csv("CourtAdminData.csv")
+  val fl401caseFeeder = csv("FL401CourtAdminData.csv")
   val c100CaseFeeder = csv("C100CourtAdminData.csv")
 
   val WaitTime = Environment.waitTime
@@ -118,7 +118,7 @@ class PRL_Simulation extends Simulation {
       .exec(Homepage.XUIHomePage)
       .exec(Login.XUILogin)
       .repeat(1) {
-        feed(caseFeeder)
+        feed(fl401caseFeeder)
         .exec(Caseworker_PRL_FL401_ProgressCase.CourtAdminCheckApplication)
         .exec(Caseworker_PRL_FL401_ProgressCase.CourtAdminSendToGateKeeper)
         .exec(Caseworker_PRL_FL401_ProgressCase.CourtAdminManageOrders)
