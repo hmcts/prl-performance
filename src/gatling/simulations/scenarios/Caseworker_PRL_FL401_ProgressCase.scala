@@ -6,7 +6,7 @@ import utils.{Common, CsrfCheck, Environment, Headers}
 import java.io.{BufferedWriter, FileWriter}
 
 /*===============================================================================================================
-* Court Admin C100 case progression. Send to local court --> Sent to Gatekeeper --> Add an order --> Serve 
+* Court Admin FL401 case progression. Send to local court --> Sent to Gatekeeper --> Add an order --> Serve 
 ================================================================================================================*/
 
 object Caseworker_PRL_FL401_ProgressCase {
