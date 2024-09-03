@@ -31,22 +31,15 @@ object Login {
         .check(regex("Manage cases")))
 
         .exec(Common.configurationui)
-
         .exec(Common.configJson)
-
         .exec(Common.TsAndCs)
-
         .exec(Common.configUI)
-
         .exec(Common.userDetails)
-
         .exec(Common.isAuthenticated)
-
         .exec(Common.monitoringTools)
-
     }
-    .pause(MinThinkTime , MaxThinkTime)
 
+    .pause(MinThinkTime , MaxThinkTime)
 
   val XUILoginCa =
 
@@ -63,22 +56,36 @@ object Login {
         .check(regex("Manage cases")))
 
         .exec(Common.configurationui)
-
         .exec(Common.configJson)
-
         .exec(Common.TsAndCs)
-
         .exec(Common.configUI)
-
         .exec(Common.userDetails)
-
         .exec(Common.isAuthenticated)
-
         .exec(Common.monitoringTools)
-
     }
-      .pause(MinThinkTime , MaxThinkTime)
 
+    .pause(MinThinkTime , MaxThinkTime)
 
+  /*====================================================================================
+  *PRL Citizen Login
+  *=====================================================================================*/
+
+  val PrlLogin = 
+
+    group("PRL_CitizenC100_020_Login") {
+      exec(http("PRL_CitizenC100_020_005_Login")
+        .post(IdamUrl + "/login?client_id=prl-citizen-frontend&response_type=code&redirect_uri=" + Environment.prlURL + "/receiver")
+        .headers(Headers.commonHeader)
+        .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+        .header("content-type", "application/x-www-form-urlencoded")
+        .formParam("username", "#{user}")
+        .formParam("password", "#{password}")
+        .formParam("save", "Sign in")
+        .formParam("selfRegistrationEnabled", "true")
+        .formParam("_csrf", "#{csrf}")
+        .check(substring("Child arrangements and family injunction cases")))
+    }
+
+    .pause(MinThinkTime, MaxThinkTime)
 
 }
