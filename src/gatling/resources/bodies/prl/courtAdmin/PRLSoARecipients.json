@@ -1,8 +1,30 @@
 {
   "data": {
-     "soaServeToRespondentOptions": "Yes",
-     "soaCitizenServingRespondentsOptionsCA": "courtAdmin",
-     "soaCafcassCymruServedOptions": "No",
+    "soaServeToRespondentOptions": "No",
+    "soaRecipientsOptions": {
+        "value": [
+           {
+              "code": "#{serviceOfApplicationApplicantCode}",
+              "label": "#{serviceOfApplicationApplicantName}"
+           },
+           {
+              "code": "#{serviceOfApplicationRespondentCode}",
+              "label": "#{serviceOfApplicationRespondentName}"
+           }
+        ],
+        "list_items": [
+           {
+              "code": "#{serviceOfApplicationApplicantCode}",
+              "label": "#{serviceOfApplicationApplicantName}"
+           },
+           {
+              "code": "#{serviceOfApplicationRespondentCode}",
+              "label": "#{serviceOfApplicationRespondentName}"
+           }
+        ]
+     },
+    "soaCafcassCymruServedOptions": "Yes",
+    "soaCafcassCymruEmail": "test@testcafcass.com",
      "soaServeLocalAuthorityYesOrNo": "No"
   },
   "event": {
@@ -40,9 +62,31 @@
      "additionalDocumentsList": [],
      "soaIsOrderListEmpty": "No",
      "missingAddressWarningText": "",
-     "soaServeToRespondentOptions": "Yes",
-     "soaCitizenServingRespondentsOptionsCA": "courtAdmin",
-     "soaCafcassCymruServedOptions": "No",
+     "soaServeToRespondentOptions": "No",
+     "soaRecipientsOptions": {
+         "value": [
+            {
+               "code": "#{serviceOfApplicationApplicantCode}",
+               "label": "#{serviceOfApplicationApplicantName}"
+            },
+            {
+               "code": "#{serviceOfApplicationRespondentCode}",
+               "label": "#{serviceOfApplicationRespondentName}"
+            }
+         ],
+         "list_items": [
+            {
+               "code": "#{serviceOfApplicationApplicantCode}",
+               "label": "#{serviceOfApplicationApplicantName}"
+            },
+            {
+               "code": "#{serviceOfApplicationRespondentCode}",
+               "label": "#{serviceOfApplicationRespondentName}"
+            }
+         ]
+      },
+     "soaCafcassCymruServedOptions": "Yes",
+     "soaCafcassCymruEmail": "test@testcafcass.com",
      "soaServeLocalAuthorityYesOrNo": "No"
   },
   "event_token": "#{event_token}",

@@ -35,9 +35,31 @@
      "isC8CheckNeeded": null,
      "responsibleForService": null,
      "isOccupationOrderSelected": null,
-     "soaServeToRespondentOptions": "Yes",
-     "soaCitizenServingRespondentsOptionsCA": "courtAdmin",
-     "soaCafcassCymruServedOptions": "No",
+     "soaServeToRespondentOptions": "No",
+     "soaRecipientsOptions": {
+         "value": [
+            {
+               "code": "#{serviceOfApplicationApplicantCode}",
+               "label": "#{serviceOfApplicationApplicantName}"
+            },
+            {
+               "code": "#{serviceOfApplicationRespondentCode}",
+               "label": "#{serviceOfApplicationRespondentName}"
+            }
+         ],
+         "list_items": [
+            {
+               "code": "#{serviceOfApplicationApplicantCode}",
+               "label": "#{serviceOfApplicationApplicantName}"
+            },
+            {
+               "code": "#{serviceOfApplicationRespondentCode}",
+               "label": "#{serviceOfApplicationRespondentName}"
+            }
+         ]
+      },
+     "soaCafcassCymruServedOptions": "Yes",
+     "soaCafcassCymruEmail": "test@testcafcass.com",
      "soaServeLocalAuthorityYesOrNo": "No"
   },
   "event": {

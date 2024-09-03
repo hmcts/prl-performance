@@ -462,7 +462,7 @@ val CourtAdminServiceApplication =
     }
 
     .exec { session =>
-      val fw = new BufferedWriter(new FileWriter("FL401caseNumber.csv", true))
+      val fw = new BufferedWriter(new FileWriter("FL401caseNumberAndCode.csv", true))
       try {
         fw.write(session("caseId").as[String] + "," + session("prlAccessCode").as[String] + "\r\n")
       } finally fw.close()
