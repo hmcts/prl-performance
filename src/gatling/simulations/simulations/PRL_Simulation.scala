@@ -17,8 +17,10 @@ class PRL_Simulation extends Simulation {
   val UserFeederPRL = csv("UserDataPRL.csv").circular
   val UserCitizenPRL = csv("UserDataPRLCitizen.csv").circular
   val UserCourtAdminPRL = csv("UserDataCourtAdmin.csv").circular
+  val UserFeederPRLRespondent = csv("UserDataRespondent.csv").circular
   val fl401caseFeeder = csv("FL401CourtAdminData.csv")
   val c100CaseFeeder = csv("C100CourtAdminData.csv")
+  val c100RespondentData = csv("C100RespondentData.csv")
 
   val WaitTime = Environment.waitTime
   
@@ -80,7 +82,7 @@ class PRL_Simulation extends Simulation {
   }
 
 /*===============================================================================================
-* PRL Citizen Journey
+* PRL Citizen Journey - Create C100 Case
 ===============================================================================================*/
 
   val PRLC100CitizenScenario = scenario("***** PRL Citizen Journey *****")
@@ -94,6 +96,10 @@ class PRL_Simulation extends Simulation {
       }
     }
 
+/*===============================================================================================
+* PRL Caseworker Journey - Progress C100 Case for Respondent
+===============================================================================================*/
+
   val PRLC100CaseworkerScenario = scenario("***** PRL C100 Caseworker Journey *****")
     .exitBlockOnFail {
       exec(_.set("env", s"${env}")
@@ -103,12 +109,16 @@ class PRL_Simulation extends Simulation {
       .exec(Login.XUILogin)
       .repeat(1) {
         feed(c100CaseFeeder)
-        // .exec(Caseworker_PRL_C100_ProgressCase.CourtAdminCheckApplication)
-        // .exec(Caseworker_PRL_C100_ProgressCase.CourtAdminSendToGateKeeper)
-        // .exec(Caseworker_PRL_C100_ProgressCase.CourtAdminManageOrders)
+        .exec(Caseworker_PRL_C100_ProgressCase.CourtAdminCheckApplication)
+        .exec(Caseworker_PRL_C100_ProgressCase.CourtAdminSendToGateKeeper)
+        .exec(Caseworker_PRL_C100_ProgressCase.CourtAdminManageOrders)
         .exec(Caseworker_PRL_C100_ProgressCase.CourtAdminServiceApplication)
       }
     }
+
+/*===============================================================================================
+* PRL Citizen Journey - Create C100 Case
+===============================================================================================*/
 
   val PRLFL401CaseworkerScenario = scenario("***** PRL FL401 Caseworker Journey *****")
     .exitBlockOnFail {
@@ -166,7 +176,31 @@ class PRL_Simulation extends Simulation {
         .exec(Solicitor_PRL_FL401_CaseCreate.ViewPDF)
         .exec(Solicitor_PRL_FL401_CaseCreate.StatementOfTruth)
       }
+
+  /*===============================================================================================
+  * PRL Citizen Respondent Journey 
+  ===============================================================================================*/
   
+  val PRLC100RespondentScenario = scenario("***** PRL Citizen Respondent Journey *****")
+    .exitBlockOnFail {
+      exec(_.set("env", s"${env}")
+      .set("caseType", "PRLAPPS"))
+      .feed(UserFeederPRLRespondent)
+      .exec(Homepage.PRLHomePage)
+      .exec(Login.PrlLogin)
+      .repeat(1) {
+        feed(c100RespondentData)
+        .exec(Citizen_PRL_C100_Respondent.RetrieveCase)
+        .exec(Citizen_PRL_C100_Respondent.GetCase)
+        .exec(Citizen_PRL_C100_Respondent.KeepDetailsPrivate)
+        .exec(Citizen_PRL_C100_Respondent.ContactPreferences)
+        .exec(Citizen_PRL_C100_Respondent.SupportYouNeed)
+        .exec(Citizen_PRL_C100_Respondent.RespondToApplication)
+        // .exec(Citizen_PRL_C100_Respondent.UploadDocuments)
+        
+      }
+    }
+
 
   /*===============================================================================================
   * Simulation Configuration
@@ -211,11 +245,13 @@ class PRL_Simulation extends Simulation {
   }
   
   setUp(
-    // PRLC100CitizenScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-  //  CafcasDownloadByDocScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
-  PRLC100CaseworkerScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+  // PRLC100CitizenScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+  // PRLC100CaseworkerScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
   // PRLFL401CaseworkerScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-  // PrlFL401Create.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
+  // PrlFL401Create.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+
+  PRLC100RespondentScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+
   ).protocols(httpProtocol)
     .assertions(assertions(testType))
     // .maxDuration(75 minutes)
