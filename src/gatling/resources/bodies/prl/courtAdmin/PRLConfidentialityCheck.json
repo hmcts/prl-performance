@@ -3,16 +3,16 @@
       "unServedApplicantPack": {
          "partyIds": [
             {
-               "id": "#{applicantPartyID}",    //50d872f5-715f-46d1-8bb2-14080856741b
-               "value": "#{applicantPartyIDValue}" //f6df1fff-f1c3-43c7-b08d-a68c8a2864b2
+               "id": "#{applicantPartyID}",   
+               "value": "#{applicantPartyIDValue}"
             }
          ],
          "servedBy": "PRL Court admin",
          "packDocument": [
             {
-               "id": "#{applicantPackDocID}",   //c45cb711-3fe1-451a-8ce2-1278d9d31286
+               "id": "#{applicantPackDocID}",
                "value": {
-                  "document_url": "http://dm-store-perftest.service.core-compute-perftest.internal/documents/#{finalDocHash}",  //2f783aa9-25c0-41a5-8611-d601a8a84950
+                  "document_url": "http://dm-store-perftest.service.core-compute-perftest.internal/documents/#{finalDocHash}",
                   "document_filename": "FL401FinalDocument.pdf",
                   "document_binary_url": "http://dm-store-perftest.service.core-compute-perftest.internal/documents/#{finalDocHash}/binary"
                }
@@ -20,31 +20,31 @@
             {
                "id": "#{applicantPackDocID1}", 
                "value": {
-                  "document_url": "http://dm-store-perftest.service.core-compute-perftest.internal/documents/#{threeMBDocHash}", //873d41e4-226b-43f3-9408-c359e06eeb61
+                  "document_url": "http://dm-store-perftest.service.core-compute-perftest.internal/documents/#{threeMBDocHash}",
                   "document_filename": "3MB.pdf",
                   "document_binary_url": "http://dm-store-perftest.service.core-compute-perftest.internal/documents/#{threeMBDocHash}/binary"
                }
             },
             {
-               "id": "#{applicantPackDocID2}",  //4ef8f93e-defe-4cab-818e-7b9decb159f3
+               "id": "#{applicantPackDocID2}",
                "value": {
-                  "document_url": "http://dm-store-perftest.service.core-compute-perftest.internal/documents/#{privacyNoticeDocHash}",  //c0b65358-4766-46a8-b816-101f0e5d90df
+                  "document_url": "http://dm-store-perftest.service.core-compute-perftest.internal/documents/#{privacyNoticeDocHash}",
                   "document_filename": "Privacy_Notice.pdf",
                   "document_binary_url": "http://dm-store-perftest.service.core-compute-perftest.internal/documents/#{privacyNoticeDocHash}/binary"
                }
             },
             {
-               "id": "#{applicantPackDocID3}", //b2ac311b-e225-491c-8254-6d02ceb4260b
+               "id": "#{applicantPackDocID3}",
                "value": {
-                  "document_url": "http://dm-store-perftest.service.core-compute-perftest.internal/documents/#{blankOrderDocHash}", //0c0b11c7-e5be-489a-bb13-9fbb9d09e94e
+                  "document_url": "http://dm-store-perftest.service.core-compute-perftest.internal/documents/#{blankOrderDocHash}",
                   "document_filename": "blank_order_fl404b_final.pdf",
                   "document_binary_url": "http://dm-store-perftest.service.core-compute-perftest.internal/documents/#{blankOrderDocHash}/binary"
                }
             },
             {
-               "id": "#{applicantPackDocID4}",  //8da1b610-f33a-4024-b24b-9c13e9a60020
+               "id": "#{applicantPackDocID4}",
                "value": {
-                  "document_url": "http://dm-store-perftest.service.core-compute-perftest.internal/documents/#{oneTwentyDocHash}",  //e9dfb2a0-1354-4940-adfc-43214f380689
+                  "document_url": "http://dm-store-perftest.service.core-compute-perftest.internal/documents/#{oneTwentyDocHash}",
                   "document_filename": "120KB.pdf", 
                   "document_binary_url": "http://dm-store-perftest.service.core-compute-perftest.internal/documents/#{oneTwentyDocHash}/binary"
                }
@@ -56,23 +56,23 @@
       "unServedRespondentPack": {
          "partyIds": [
             {
-               "id": "#{respondentPartyID}",  //0979d4b2-fc0d-49fe-8e85-3c5d8a128e25
-               "value": "#{respondentPartyIDValue}" //7c4cb389-9071-4656-98bb-ccfb6bd23c13
+               "id": "#{respondentPartyID}",
+               "value": "#{respondentPartyIDValue}"
             }
          ],
          "servedBy": "PRL Court admin",
          "packDocument": [
             {
-               "id": "#{respondentPackDocID}",  //c3adda78-9fce-4084-9492-15f64145bfbd
+               "id": "#{respondentPackDocID}",
                "value": {
-                  "document_url": "http://dm-store-perftest.service.core-compute-perftest.internal/documents/#{coverLetterDocHash}", //40b083fc-0ebc-416d-9e19-a19f5a90b851
+                  "document_url": "http://dm-store-perftest.service.core-compute-perftest.internal/documents/#{coverLetterDocHash}",
                   "document_filename": "cover_letter_re4.pdf",
                   "document_binary_url": "http://dm-store-perftest.service.core-compute-perftest.internal/documents/#{coverLetterDocHash}/binary",
                   "document_creation_date": "#{coverDocCreationDate}"
                }
             },
             {
-               "id": "#{respondentPackDocID1}",  //0e46f9d6-a4d4-45e6-84d3-240a50993518
+               "id": "#{respondentPackDocID1}",
                "value": {
                   "document_url": "http://dm-store-perftest.service.core-compute-perftest.internal/documents/#{finalDocHash}",
                   "document_filename": "FL401FinalDocument.pdf",
@@ -80,7 +80,7 @@
                }
             },
             {
-               "id": "#{respondentPackDocID2}",  //48c7406c-0932-4c90-b57d-a13531d61d4a
+               "id": "#{respondentPackDocID2}",
                "value": {
                   "document_url": "http://dm-store-perftest.service.core-compute-perftest.internal/documents/#{threeMBDocHash}",
                   "document_filename": "3MB.pdf",
@@ -88,7 +88,7 @@
                }
             },
             {
-               "id": "#{respondentPackDocID3}",  //a0b9b3ca-366b-4edd-9d3b-67a45d2b5488
+               "id": "#{respondentPackDocID3}",
                "value": {
                   "document_url": "http://dm-store-perftest.service.core-compute-perftest.internal/documents/#{privacyNoticeDocHash}",
                   "document_filename": "Privacy_Notice.pdf",
@@ -96,15 +96,15 @@
                }
             },
             {
-               "id": "#{respondentPackDocID4}", //fb13c98a-4ff3-41ef-b437-31ae885c7e09
+               "id": "#{respondentPackDocID4}",
                "value": {
-                  "document_url": "http://dm-store-perftest.service.core-compute-perftest.internal/documents/#{flDocHash}", //debc4964-395f-4b39-b2bb-0ac139a57126
+                  "document_url": "http://dm-store-perftest.service.core-compute-perftest.internal/documents/#{flDocHash}",
                   "document_filename": "FL415.pdf",
                   "document_binary_url": "http://dm-store-perftest.service.core-compute-perftest.internal/documents/#{flDocHash}/binary"
                }
             },
             {
-               "id": "#{respondentPackDocID5}",  //081ed8f6-4f43-4217-8343-eab89ce451a7
+               "id": "#{respondentPackDocID5}",
                "value": {
                   "document_url": "http://dm-store-perftest.service.core-compute-perftest.internal/documents/#{blankOrderDocHash}",
                   "document_filename": "blank_order_fl404b_final.pdf",
@@ -112,7 +112,7 @@
                }
             },
             {
-               "id": "#{respondentPackDocID6}",  //d94b895e-6ea9-4b3c-9d4a-f104f1e1d0c9
+               "id": "#{respondentPackDocID6}",
                "value": {
                   "document_url": "http://dm-store-perftest.service.core-compute-perftest.internal/documents/#{oneTwentyDocHash}",
                   "document_filename": "120KB.pdf",
@@ -127,7 +127,7 @@
       "unServedOthersPack": null,
       "unServedCafcassCymruPack": null,
       "c8Document": {
-         "document_url": "http://dm-store-perftest.service.core-compute-perftest.internal/documents/#{cEightDocHash}", //387f4da9-5e4a-4a25-952e-5a02e746cf47
+         "document_url": "http://dm-store-perftest.service.core-compute-perftest.internal/documents/#{cEightDocHash}",
          "document_filename": "C8_Document.pdf",
          "document_binary_url": "http://dm-store-perftest.service.core-compute-perftest.internal/documents/#{cEightDocHash}/binary"
       },

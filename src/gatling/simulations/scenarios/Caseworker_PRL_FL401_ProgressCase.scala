@@ -576,10 +576,6 @@ val CourtAdminServiceApplication =
       .check(jsonPath("$.case_fields[2].value.packDocument[5].id").saveAs("respondentPackDocID3"))
       .check(jsonPath("$.case_fields[2].value.packDocument[6].id").saveAs("respondentPackDocID4"))
       .check(jsonPath("$ case_fields[2].value.packDocument[0].value.document_creation_date").saveAs("coverDocCreationDate"))
-     
-
-
-
       .check(jsonPath("$.id").is("confidentialityCheck"))
       .check(status.in(200, 403)))
 
