@@ -24,11 +24,11 @@ object Citizen_PRL_C100_Respondent {
   val RetrieveCase =
 
     exec(http("PRL_C100Respondent_030_EnterPinPage")
-			.get(prlURL + "pin-activation/enter-pin")
-			.headers(Headers.navigationHeader)
-      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-      .check(CsrfCheck.save)
-      .check(substring("Access your case")))
+		.get(prlURL + "pin-activation/enter-pin")
+		.headers(Headers.navigationHeader)
+		.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+		.check(CsrfCheck.save)
+		.check(substring("Access your case")))
 
 		.pause(MinThinkTime, MaxThinkTime)
 
