@@ -21,7 +21,7 @@ class PRL_Simulation extends Simulation {
   val fl401caseFeeder = csv("FL401CourtAdminData.csv")
   val c100CaseFeeder = csv("C100CourtAdminData.csv")
   val c100RespondentData = csv("C100RespondentData.csv")
-  val fl401RespondentData = csv("fl401RespondentData.csv")
+  val fl401RespondentData = csv("FL401RespondentData.csv")
 
   val WaitTime = Environment.waitTime
   
@@ -118,7 +118,7 @@ class PRL_Simulation extends Simulation {
     }
 
 /*===============================================================================================
-* PRL Citizen Journey - Create C100 Case
+* PRL Citizen Journey - Progress FL401 Case
 ===============================================================================================*/
 
   val PRLFL401CaseworkerScenario = scenario("***** PRL FL401 Caseworker Journey *****")
@@ -206,7 +206,7 @@ class PRL_Simulation extends Simulation {
   * PRL Citizen FL401 Respondent Journey 
   ===============================================================================================*/
   
-  val PRLC100RespondentScenario = scenario("***** PRL Citizen FL401 Respondent Journey *****")
+  val PRLFL401RespondentScenario = scenario("***** PRL Citizen FL401 Respondent Journey *****")
     .exitBlockOnFail {
       exec(_.set("env", s"${env}")
       .set("caseType", "PRLAPPS"))
@@ -215,9 +215,9 @@ class PRL_Simulation extends Simulation {
       .exec(Login.PrlLogin)
       .repeat(1) {
         feed(fl401RespondentData)
-        .exec(Citizen_PRL_C100_Respondent.RetrieveCase)
-        .exec(Citizen_PRL_C100_Respondent.GetCase)
-        //.exec(Citizen_PRL_C100_Respondent.KeepDetailsPrivate)
+        .exec(Citizen_PRL_FL401_Respondent.RetrieveCase)
+        .exec(Citizen_PRL_FL401_Respondent.GetCase)
+        .exec(Citizen_PRL_FL401_Respondent.KeepDetailsPrivate)
         //.exec(Citizen_PRL_C100_Respondent.ContactPreferences)
        //.exec(Citizen_PRL_C100_Respondent.SupportYouNeed)
         //./exec(Citizen_PRL_C100_Respondent.RespondToApplication)
@@ -273,9 +273,10 @@ class PRL_Simulation extends Simulation {
   // PRLC100CitizenScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
   //  CafcasDownloadByDocScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
   //PRLC100CaseworkerScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-   PRLFL401CaseworkerScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+   //PRLFL401CaseworkerScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
    //PrlFL401Create.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
   //PRLC100RespondentScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+  PRLFL401RespondentScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
 
   ).protocols(httpProtocol)
     .assertions(assertions(testType))
