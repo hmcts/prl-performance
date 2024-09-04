@@ -553,8 +553,33 @@ val CourtAdminServiceApplication =
       .check(jsonPath("$.case_fields[1].value.partyIds[0].id").saveAs("applicantPartyID"))
       .check(jsonPath("$.case_fields[1].value.partyIds[0].value").saveAs("applicantPartyIDValue"))
       .check(jsonPath("$.case_fields[1].value.packDocument[0].id").saveAs("applicantPackDocID"))
+      .check(jsonPath("$.case_fields[1].value.packDocument[1].id").saveAs("applicantPackDocID1"))
+      .check(jsonPath("$.case_fields[1].value.packDocument[2].id").saveAs("applicantPackDocID2"))
+      .check(jsonPath("$.case_fields[1].value.packDocument[3].id").saveAs("applicantPackDocID3"))
+      .check(jsonPath("$.case_fields[1].value.packDocument[4].id").saveAs("applicantPackDocID4"))
+      .check(regex("""document_url": "http:\/\/dm-store-perftest.service.core-compute-perftest.internal\/documents\/([a-f0-9\-]{36})",\s*"document_filename": "FL401FinalDocument.pdf""").saveAs("finalDocHash"))
+      .check(regex("""document_url": "http:\/\/dm-store-perftest.service.core-compute-perftest.internal\/documents\/([a-f0-9\-]{36})",\s*"document_filename": "3MB.pdf""").saveAs("threeMBDocHash"))
+      .check(regex("""document_url": "http:\/\/dm-store-perftest.service.core-compute-perftest.internal\/documents\/([a-f0-9\-]{36})",\s*"document_filename": "Privacy_Notice.pdf""").saveAs("privacyNoticeDocHash"))
+      .check(regex("""document_url": "http:\/\/dm-store-perftest.service.core-compute-perftest.internal\/documents\/([a-f0-9\-]{36})",\s*"document_filename": "blank_order_fl404b_final.pdf""").saveAs("blankOrderDocHash"))
+      .check(regex("""document_url": "http:\/\/dm-store-perftest.service.core-compute-perftest.internal\/documents\/([a-f0-9\-]{36})",\s*"document_filename": "120KB.pdf""").saveAs("oneTwentyKBDocHash"))
+      .check(regex("""document_url": "http:\/\/dm-store-perftest.service.core-compute-perftest.internal\/documents\/([a-f0-9\-]{36})",\s*"document_filename": "cover_letter_re4.pdf""").saveAs("coverLetterDocHash"))
+      .check(regex("""document_url": "http:\/\/dm-store-perftest.service.core-compute-perftest.internal\/documents\/([a-f0-9\-]{36})",\s*"document_filename": "FL415.pdf""").saveAs("flDocHash"))    
+      .check(regex("""document_url": "http:\/\/dm-store-perftest.service.core-compute-perftest.internal\/documents\/([a-f0-9\-]{36})",\s*"document_filename": "C8_Document.pdf""").saveAs("cEightDocHash"))    
+      .check(jsonPath("$.case_fields[1].value.packCreatedDate").saveAs("packCreatedDate"))
       .check(jsonPath("$.case_fields[2].value.partyIds[0].id").saveAs("respondentPartyID"))
       .check(jsonPath("$.case_fields[2].value.partyIds[0].value").saveAs("respondentPartyIDValue"))
+      .check(jsonPath("$.case_fields[2].value.packDocument[0].id").saveAs("respondentPackDocID"))
+      .check(jsonPath("$.case_fields[2].value.packDocument[1].id").saveAs("respondentPackDocID1"))
+      .check(jsonPath("$.case_fields[2].value.packDocument[2].id").saveAs("respondentPackDocID2"))
+      .check(jsonPath("$.case_fields[2].value.packDocument[3].id").saveAs("respondentPackDocID3"))
+      .check(jsonPath("$.case_fields[2].value.packDocument[4].id").saveAs("respondentPackDocID4"))
+      .check(jsonPath("$.case_fields[2].value.packDocument[5].id").saveAs("respondentPackDocID3"))
+      .check(jsonPath("$.case_fields[2].value.packDocument[6].id").saveAs("respondentPackDocID4"))
+      .check(jsonPath("$ case_fields[2].value.packDocument[0].value.document_creation_date").saveAs("coverDocCreationDate"))
+     
+
+
+
       .check(jsonPath("$.id").is("confidentialityCheck"))
       .check(status.in(200, 403)))
 
