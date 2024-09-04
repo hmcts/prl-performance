@@ -196,11 +196,10 @@ class PRL_Simulation extends Simulation {
         .exec(Citizen_PRL_C100_Respondent.ContactPreferences)
         .exec(Citizen_PRL_C100_Respondent.SupportYouNeed)
         .exec(Citizen_PRL_C100_Respondent.RespondToApplication)
-        // .exec(Citizen_PRL_C100_Respondent.UploadDocuments)
-        
+        .exec(Citizen_PRL_C100_Respondent.CheckApplication)
+        .exec(Logout.CUILogout)
       }
     }
-
 
   /*===============================================================================================
   * Simulation Configuration
