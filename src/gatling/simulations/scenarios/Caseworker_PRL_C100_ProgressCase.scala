@@ -41,23 +41,13 @@ object Caseworker_PRL_C100_ProgressCase {
       .headers(Headers.xuiHeader)
       .check(substring("HMCTS Manage cases")))
 
-    
-      
-  //   .exec(Common.activity)
-  //   .exec(Common.configUI)
-  //   .exec(Common.configJson)
-  //   .exec(Common.userDetails)
-
     .exec(http("XUI_PRL_XXX_310_SelectCaseTask")
       .get(BaseURL + "/workallocation/case/task/#{caseId}")
       .headers(Headers.xuiHeader)
       .header("Accept", "application/json, text/plain, */*")
       .header("x-xsrf-token", "#{XSRFToken}")
       .check(jsonPath("$[0].id").optional.saveAs("taskId"))
-      .check(jsonPath("$[0].type").optional.saveAs("taskType"))
-      // .check(regex(""""id":"(.*)","name":""").optional.saveAs("respTaskId"))
-      // .check(regex(""","type":"(.*)","task_state":""").optional.saveAs("respTaskType"))
-      )
+      .check(jsonPath("$[0].type").optional.saveAs("taskType")))
 
     //Save taskType from response
     .exec(session => {
@@ -95,9 +85,7 @@ object Caseworker_PRL_C100_ProgressCase {
       .get(BaseURL + "/workallocation/case/tasks/#{caseId}/event/issueAndSendToLocalCourtCallback/caseType/PRLAPPS/jurisdiction/PRIVATELAW")
       .headers(Headers.navigationHeader)
       .header("accept", "application/json")
-      .check(jsonPath("$.task_required_for_event").is("false"))
-      // .check(jsonPath("$.tasks[0].id").optional.saveAs("taskId"))
-      )
+      .check(jsonPath("$.task_required_for_event").is("false")))
 
     .exec(Common.activity)
     .exec(Common.profile)
@@ -108,7 +96,6 @@ object Caseworker_PRL_C100_ProgressCase {
       .header("Accept", "application/json, text/plain, */*")
       .check(jsonPath("$.event_token").saveAs("event_token"))
       .check(jsonPath("$.id").is("issueAndSendToLocalCourtCallback"))
-      //.check(jsonPath("$.case_fields[1].value.list_items").saveAs("courtListItems"))
       .check(status.in(200, 403)))
 
     .exec(http("XUI_PRL_XXX_380_IssueAndSendToLocalCourtEvent")
@@ -228,7 +215,6 @@ object Caseworker_PRL_C100_ProgressCase {
       .get(BaseURL + "/data/internal/cases/#{caseId}/event-triggers/sendToGateKeeper?ignore-warning=false")
       .headers(Headers.navigationHeader)
       .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-start-event-trigger.v2+json;charset=UTF-8")
-      //.check(jsonPath("$.case_fields[0].formatted_value[0].id").saveAs("gateKeeper_id"))
       .check(jsonPath("$.event_token").saveAs("event_token"))
       .check(jsonPath("$.id").is("sendToGateKeeper")))
 
