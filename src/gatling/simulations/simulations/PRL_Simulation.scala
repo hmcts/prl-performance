@@ -17,6 +17,7 @@ class PRL_Simulation extends Simulation {
   val UserFeederPRL = csv("UserDataPRL.csv").circular
   val UserCitizenPRL = csv("UserDataPRLCitizen.csv").circular
   val UserCourtAdminPRL = csv("UserDataCourtAdmin.csv").circular
+  val UserCaseManagerPRL = csv("UserDataCaseManager.csv")
   val UserFeederPRLRespondent = csv("UserDataRespondent.csv").circular
   val fl401caseFeeder = csv("FL401CourtAdminData.csv")
   val c100CaseFeeder = csv("C100CourtAdminData.csv")
@@ -134,6 +135,10 @@ class PRL_Simulation extends Simulation {
         .exec(Caseworker_PRL_FL401_ProgressCase.CourtAdminSendToGateKeeper)
         .exec(Caseworker_PRL_FL401_ProgressCase.CourtAdminManageOrders)
         .exec(Caseworker_PRL_FL401_ProgressCase.CourtAdminServiceApplication)
+        .exec(Logout.XUILogout)
+        .feed(UserCaseManagerPRL)
+        .exec(Homepage.XUIHomePage)
+        .exec(Login.XUILogin)
       }
     }
 
@@ -273,10 +278,10 @@ class PRL_Simulation extends Simulation {
   // PRLC100CitizenScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
   //  CafcasDownloadByDocScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
   //PRLC100CaseworkerScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-   //PRLFL401CaseworkerScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+   PRLFL401CaseworkerScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
    //PrlFL401Create.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
   //PRLC100RespondentScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-  PRLFL401RespondentScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+  //PRLFL401RespondentScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
 
   ).protocols(httpProtocol)
     .assertions(assertions(testType))

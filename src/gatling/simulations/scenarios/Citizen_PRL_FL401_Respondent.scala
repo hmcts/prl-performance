@@ -12,11 +12,8 @@ import java.io.{BufferedWriter, FileWriter}
 
 object Citizen_PRL_FL401_Respondent {
   
-  val PayURL = Environment.payURL
   val prlURL = Environment.prlURL
-  val IdamUrl = Environment.idamURL
-  val PRLCitizens = csv("UserDataPRLCitizen.csv").circular
-  val postcodeFeeder = csv("postcodes.csv").circular
+  val cuiRaURL = Environment.cuiRaURL
 
   val MinThinkTime = Environment.minThinkTime
   val MaxThinkTime = Environment.maxThinkTime
@@ -28,7 +25,7 @@ object Citizen_PRL_FL401_Respondent {
   val RetrieveCase =
 
     exec(http("PRL_FL401Respondent_030_EnterPinPage")
-			.get(prlURL + "pin-activation/enter-pin")
+			.get(prlURL + "/pin-activation/enter-pin")
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
       .check(CsrfCheck.save)
@@ -48,13 +45,13 @@ object Citizen_PRL_FL401_Respondent {
 
 		.pause(MinThinkTime, MaxThinkTime)
 
-		.exec(http("PRL_FL401Respondent_040_CaseActivated")
+		.exec(http("PRL_FL401Respondent_050_CaseActivated")
 			.post(prlURL + "/pin-activation/case-activated")
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 			.formParam("_csrf", "#{csrf}")
 			.formParam("onlyContinue", "true")
-      .check(substring("Respond to an application about a child")))
+      .check(substring("You have been named as the respondent")))
 
     .pause(MinThinkTime, MaxThinkTime)
 
@@ -64,7 +61,7 @@ object Citizen_PRL_FL401_Respondent {
 
   val GetCase = 
 
-    exec(http("PRL_FL401Respondent_050_OpenCase")
+    exec(http("PRL_FL401Respondent_060_OpenCase")
 			.get(prlURL + "/case/#{caseId}")
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -79,7 +76,7 @@ object Citizen_PRL_FL401_Respondent {
 
   val KeepDetailsPrivate = 
 
-    exec(http("PRL_FL401Respondent_060_OpenKeepDetailsPrivate")
+    exec(http("PRL_FL401Respondent_070_OpenKeepDetailsPrivate")
 			.get(prlURL + "/respondent/keep-details-private/details_known/#{caseId}")
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -87,7 +84,7 @@ object Citizen_PRL_FL401_Respondent {
 
 		.pause(MinThinkTime, MaxThinkTime)
 
-		.exec(http("PRL_FL401Respondent_070_SelectDetailsKnown")
+		.exec(http("PRL_FL401Respondent_080_SelectDetailsKnown")
 			.post(prlURL + "/respondent/keep-details-private/details_known")
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -98,7 +95,7 @@ object Citizen_PRL_FL401_Respondent {
 
 		.pause(MinThinkTime, MaxThinkTime)
 
-		.exec(http("PRL_FL401Respondent_080_SelectKnownDetails")
+		.exec(http("PRL_FL401Respondent_090_SelectKnownDetails")
 			.post(prlURL + "/respondent/keep-details-private/start_alternative")
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -115,7 +112,7 @@ object Citizen_PRL_FL401_Respondent {
       
 		.pause(MinThinkTime, MaxThinkTime)
 
-		.exec(http("PRL_FL401Respondent_090_ConfirmDetails")
+		.exec(http("PRL_FL401Respondent_100_ConfirmDetails")
 			.post(prlURL + "/respondent/keep-details-private/private_details_not_confirmed")
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -130,7 +127,7 @@ object Citizen_PRL_FL401_Respondent {
 
   val ContactPreferences = 
 
-    exec(http("PRL_FL401Respondent_100_OpenContactPreferences")
+    exec(http("PRL_FL401Respondent_110_OpenContactPreferences")
 			.get(prlURL + "/respondent/contact-preference/choose-a-contact-preference")
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -138,7 +135,7 @@ object Citizen_PRL_FL401_Respondent {
       
 		.pause(MinThinkTime, MaxThinkTime)
 
-		.exec(http("PRL_FL401Respondent_110_ChooseContactPreference")
+		.exec(http("PRL_FL401Respondent_120_ChooseContactPreference")
 			.post(prlURL + "/respondent/contact-preference/choose-a-contact-preference")
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -149,7 +146,7 @@ object Citizen_PRL_FL401_Respondent {
       
 		.pause(MinThinkTime, MaxThinkTime)
 
-		.exec(http("PRL_FL401Respondent_120_ChooseContactPreferenceReview")
+		.exec(http("PRL_FL401Respondent_130_ChooseContactPreferenceReview")
 			.post(prlURL + "/respondent/contact-preference/review")
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -159,7 +156,7 @@ object Citizen_PRL_FL401_Respondent {
       
 		.pause(MinThinkTime, MaxThinkTime)
 
-		.exec(http("PRL_FL401Respondent_130_ConfirmContactPreference")
+		.exec(http("PRL_FL401Respondent_140_ConfirmContactPreference")
 			.post(prlURL + "/respondent/contact-preference/confirmation")
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -174,7 +171,7 @@ object Citizen_PRL_FL401_Respondent {
   
   val SupportYouNeed =
 
-    exec(http("PRL_FL401Respondent_140_ReasonableAdjustmentsIntro")
+    exec(http("PRL_FL401Respondent_150_ReasonableAdjustmentsIntro")
 			.get(prlURL + "/respondent/reasonable-adjustments/intro")
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -182,7 +179,7 @@ object Citizen_PRL_FL401_Respondent {
       
 		.pause(MinThinkTime, MaxThinkTime)
 
-		.exec(http("PRL_FL401Respondent_150_ReasonableAdjustmentsStart")
+		.exec(http("PRL_FL401Respondent_160_ReasonableAdjustmentsStart")
 			.post(prlURL + "/respondent/reasonable-adjustments/intro")
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -192,7 +189,7 @@ object Citizen_PRL_FL401_Respondent {
       
 		.pause(MinThinkTime, MaxThinkTime)
 
-		.exec(http("PRL_FL401Respondent_160_LanguageRequirements")
+		.exec(http("PRL_FL401Respondent_170_LanguageRequirements")
 			.post(prlURL + "/respondent/reasonable-adjustments/language-requirements-and-special-arrangements")
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -203,7 +200,7 @@ object Citizen_PRL_FL401_Respondent {
       
 		.pause(MinThinkTime, MaxThinkTime)
 
-		.exec(http("PRL_FL401Respondent_170_NoDisabilities")
+		.exec(http("PRL_FL401Respondent_180_NoDisabilities")
 			.post(cuiRaURL + "/journey/flags/display/PF0001-RA0001")
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -213,7 +210,7 @@ object Citizen_PRL_FL401_Respondent {
       
 		.pause(MinThinkTime, MaxThinkTime)
 
-		.exec(http("PRL_FL401Respondent_180_ReviewSupport")
+		.exec(http("PRL_FL401Respondent_190_ReviewSupport")
 			.post(cuiRaURL + "/review")
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -222,7 +219,7 @@ object Citizen_PRL_FL401_Respondent {
       
 		.pause(MinThinkTime, MaxThinkTime)
 
-		.exec(http("PRL_FL401Respondent_190_ConfirmSupport")
+		.exec(http("PRL_FL401Respondent_200_ConfirmSupport")
 			.post(prlURL + "/respondent/reasonable-adjustments/confirmation")
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -237,11 +234,11 @@ object Citizen_PRL_FL401_Respondent {
 
     val CheckApplication =
 
-    exec(http("PRL_FL401Respondent_200_CheckApplication")
+    exec(http("PRL_FL401Respondent_210_CheckApplication")
 			.get(prlURL + "/respondent/documents/download/type/cada-document")
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-      .check(status().is(200)))
+      .check(status.is(200)))
 
     .pause(MinThinkTime, MaxThinkTime)
 

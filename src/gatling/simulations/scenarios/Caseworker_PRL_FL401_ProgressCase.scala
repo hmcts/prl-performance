@@ -531,4 +531,62 @@ val CourtAdminServiceApplication =
       } finally fw.close()
       session
     }
+
+  val CaseManagerConfidentialityCheck =
+
+  /*=====================================================================================
+  * Confidentiality Check  (Case Manager)
+  ======================================================================================*/
+
+    exec(http("XUI_PRL_XXX_690_ConfidentialityCheck")
+      .get(BaseURL + "/workallocation/case/tasks/#{caseId}/event/confidentialityCheck/caseType/PRLAPPS/jurisdiction/PRIVATELAW")
+      .headers(Headers.navigationHeader)
+      .header("accept", "application/json")
+      .check(jsonPath("$.task_required_for_event").is("false")))
+
+
+    .exec(http("XUI_PRL_XXX_700_AmmendRespondentsDetailsEventTrigger")
+      .get(BaseURL + "/data/internal/cases/#{caseId}/event-triggers/confidentialityCheck?ignore-warning=false")
+      .headers(Headers.xuiHeader)
+      .header("Accept", "application/json, text/plain, */*") 
+      .check(jsonPath("$.event_token").saveAs("event_token"))
+      .check(jsonPath("$.case_fields[1].value.partyIds[0].id").saveAs("applicantPartyID"))
+      .check(jsonPath("$.case_fields[1].value.partyIds[0].value").saveAs("applicantPartyIDValue"))
+      .check(jsonPath("$.case_fields[1].value.packDocument[0].id").saveAs("applicantPackDocID"))
+      .check(jsonPath("$.case_fields[2].value.partyIds[0].id").saveAs("respondentPartyID"))
+      .check(jsonPath("$.case_fields[2].value.partyIds[0].value").saveAs("respondentPartyIDValue"))
+      .check(jsonPath("$.id").is("confidentialityCheck"))
+      .check(status.in(200, 403)))
+
+    .exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).saveAs("XSRFToken")))
+
+    .exec(http("XUI_PRL_XXX_710_AmmendRespondentDetailsEvent")
+      .get(BaseURL + "/workallocation/case/tasks/#{caseId}/event/confidentialityCheck/caseType/PRLAPPS/jurisdiction/PRIVATELAW")
+      .headers(Headers.navigationHeader)
+      .header("accept", "application/json"))
+     
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+  /*=====================================================================================
+  * Confidentiality Check  (Case Manager) - Can the Order be served - Yes
+  ======================================================================================*/
+
+    .group("XUI_PRL_XXX_720_SelectOrder") {
+      exec(http("XUI_PRL_XXX_540_005_SelectOrder")
+        .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=confidentialityCheck1")
+        .headers(Headers.xuiHeader)
+        .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
+        .header("x-xsrf-token", "#{XSRFToken}")
+        .body(ElFileBody("bodies/prl/courtAdmin/PRLConfidentialityCheck.json"))
+        .check(substring("caApplicant3InternalFlags")))
+    }
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+
+
+
+
+
 }
