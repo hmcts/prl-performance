@@ -15,6 +15,16 @@ object Citizen_ReasonableAdjustments {
   val MinThinkTime = Environment.minThinkTime
   val MaxThinkTime = Environment.maxThinkTime
 
+  val GetCase = 
+
+    exec(http("PRL_RA_OpenCase")
+			.get(prlURL + "/case/#{caseId}")
+			.headers(Headers.navigationHeader)
+      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+      .check(substring("You should respond within 14 days of receiving the application")))
+
+     .pause(MinThinkTime, MaxThinkTime)
+
   val ReasonableAdjustmentsAdd = 
 
     exec(http("PRL_RA_010_OpenAdditionalSupport")
@@ -271,9 +281,9 @@ object Citizen_ReasonableAdjustments {
 			.post(prlURL + "/respondent/reasonable-adjustments/language-requirements-and-special-arrangements/review")
 			.headers(Headers.navigationHeader)
       .header("Content-type", "application/x-www-form-urlencoded")
-      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
 			.formParam("_csrf", "#{csrf}")
-      .check(CsrfCheck.save)
+      .formParam("onlyContinue", "true")
       .check(substring("Support for")))
 
     .pause(MinThinkTime, MaxThinkTime)
@@ -282,7 +292,6 @@ object Citizen_ReasonableAdjustments {
 			.get(cuiRaURL + "/home/intro")
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-      .check(CsrfCheck.save)
       .check(substring("I want to tell you that my support needs have changed")))
 
     .pause(MinThinkTime, MaxThinkTime)
@@ -291,16 +300,16 @@ object Citizen_ReasonableAdjustments {
 			.get(cuiRaURL + "/review")
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-      .check(CsrfCheck.save)
       .check(substring("Review the support"))
-      .check(regex("""id="remove-(.+?))" class='govuk-link govuk-link--no-visited-state'""").saveAs("reasonableAdjustmentToRemove")))
+      .check(regex("""id="remove-(.+?)" class='govuk-link govuk-link--no-visited-state'""").saveAs("reasonableAdjustmentToRemove")))
 
     .pause(MinThinkTime, MaxThinkTime)
 
 		.exec(http("PRL_RA_070_RemoveRA")
 			.get(cuiRaURL + "/review/set-inactive?id=#{reasonableAdjustmentToRemove}")
 			.headers(Headers.navigationHeader)
-      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"))
+      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+      .check(CsrfCheck.save))
 
 		.pause(MinThinkTime, MaxThinkTime)
 
@@ -308,7 +317,8 @@ object Citizen_ReasonableAdjustments {
 			.post(cuiRaURL + "/review")
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-			.formParam("_csrf", "#{csrf}"))
+			.formParam("_csrf", "#{csrf}")
+      .check(CsrfCheck.save))
 
     .pause(MinThinkTime, MaxThinkTime)
 
