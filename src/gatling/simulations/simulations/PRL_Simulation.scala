@@ -239,9 +239,6 @@ class PRL_Simulation extends Simulation {
         .exec(Citizen_PRL_FL401_Respondent.ContactDetails)
         .exec(Citizen_PRL_FL401_Respondent.SupportYouNeed)
         .exec(Citizen_PRL_FL401_Respondent.CheckApplication)
-        //./exec(Citizen_PRL_C100_Respondent.RespondToApplication)
-        // .exec(Citizen_PRL_C100_Respondent.UploadDocuments)
-        
       }
     }
 

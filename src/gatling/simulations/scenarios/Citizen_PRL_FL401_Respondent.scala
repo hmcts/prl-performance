@@ -120,8 +120,6 @@ object Citizen_PRL_FL401_Respondent {
 
     .pause(MinThinkTime, MaxThinkTime)
 
-
-
   //========================================================================================
   // Select Contact Preferences
   //========================================================================================   
@@ -142,11 +140,12 @@ object Citizen_PRL_FL401_Respondent {
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
       .check(CsrfCheck.save))
 
-	.exec(http("PRL_FL401Respondent_120_OpenContactDetails")
-	  .get(prlURL + "/respondent/confirm-contact-details/checkanswers")
-	  .headers(Headers.navigationHeader)
-      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-      .check(CsrfCheck.save))
+	// Redirect to
+	//.exec(http("PRL_FL401Respondent_120_OpenContactDetails")
+	//  .get(prlURL + "/respondent/confirm-contact-details/checkanswers")
+	//  .headers(Headers.navigationHeader)
+    //  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+    //  .check(CsrfCheck.save))
 
 	.pause(MinThinkTime, MaxThinkTime)
 
@@ -154,7 +153,7 @@ object Citizen_PRL_FL401_Respondent {
   // Select Edit (Place of Birth)
   //========================================================================================   
 	
-	.exec(http("PRL_FL401Respondent_130_EditPlaceOfBirth")
+	.exec(http("PRL_FL401Respondent_120_EditPlaceOfBirth")
 	  .get(prlURL + "/respondent/confirm-contact-details/personaldetails")
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -166,7 +165,7 @@ object Citizen_PRL_FL401_Respondent {
   // Enter Place of Birth and Continue
   //========================================================================================  
 
-	.exec(http("PRL_FL401Respondent_140_SubmitPlaceOfBirthContinue")
+	.exec(http("PRL_FL401Respondent_130_SubmitPlaceOfBirthContinue")
 	  .post(prlURL + "/respondent/confirm-contact-details/personaldetails")
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -181,11 +180,12 @@ object Citizen_PRL_FL401_Respondent {
 	  .formParam("saveAndContinue", "true")
       .check(CsrfCheck.save))
 
-	.exec(http("PRL_FL401Respondent_140_SubmitPlaceOfBirthCheckAnswers")
-	  .get(prlURL + "/respondent/confirm-contact-details/checkanswers")
-	  .headers(Headers.navigationHeader)
-      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-      .check(CsrfCheck.save))
+	// Redirect to
+	//.exec(http("PRL_FL401Respondent_140_SubmitPlaceOfBirthCheckAnswers")
+	//  .get(prlURL + "/respondent/confirm-contact-details/checkanswers")
+	//  .headers(Headers.navigationHeader)
+    //  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+    //  .check(CsrfCheck.save))
 
 	.pause(MinThinkTime, MaxThinkTime)
 
@@ -193,26 +193,22 @@ object Citizen_PRL_FL401_Respondent {
   // Save & Continue
   //========================================================================================   
 
-	.exec(http("PRL_FL401Respondent_150_Save&Continue")
+	.exec(http("PRL_FL401Respondent_140_Save&Continue")
 	  .post(prlURL + "/respondent/confirm-contact-details/checkanswers")
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 	  .formParam("_csrf", "#{csrf}")
-	  //.formParam("citizenUserFirstNames", "Jane")
-	  //.formParam("citizenUserLastNames", "email")
-	  //.formParam("citizenUserAdditionalName", "email")
-	  //.formParam("citizenUserDateOfBirth-day", "email")
-	  //.formParam("citizenUserDateOfBirth-month", "email")
-	  //.formParam("ccitizenUserDateOfBirth-year", "email")
 	  .formParam("citizenUserPlaceOfBirth", "#{PRLRandomString} City")
 	  .formParam("saveAndContinue", "true"))
-      //.check(CsrfCheck.save))
 
-	.exec(http("PRL_FL401Respondent_150_Save&ContinueGetTasklist")
-	  .get(prlURL + "/task-list/respondent")
-	  .headers(Headers.navigationHeader)
-      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-      .check(CsrfCheck.save))
+	.pause(MinThinkTime, MaxThinkTime)
+
+	// Redirect to
+	//.exec(http("PRL_FL401Respondent_150_Save&ContinueGetTasklist")
+	//  .get(prlURL + "/task-list/respondent")
+	//  .headers(Headers.navigationHeader)
+    //  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+    //  .check(CsrfCheck.save))
 
 
   //========================================================================================
