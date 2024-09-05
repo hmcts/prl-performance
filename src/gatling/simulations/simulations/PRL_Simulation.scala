@@ -119,7 +119,7 @@ class PRL_Simulation extends Simulation {
     }
 
 /*===============================================================================================
-* PRL Citizen Journey - Progress FL401 Case
+* PRL Caseworker Journey - Progress FL401 Case
 ===============================================================================================*/
 
   val PRLFL401CaseworkerScenario = scenario("***** PRL FL401 Caseworker Journey *****")
@@ -135,18 +135,23 @@ class PRL_Simulation extends Simulation {
         .exec(Caseworker_PRL_FL401_ProgressCase.CourtAdminSendToGateKeeper)
         .exec(Caseworker_PRL_FL401_ProgressCase.CourtAdminManageOrders)
         .exec(Caseworker_PRL_FL401_ProgressCase.CourtAdminServiceApplication)
-        .exec(Logout.XUILogout)
-        .exec(flushHttpCache)   //Clear previous user cache and cookies
-        .exec(flushCookieJar)
-        .exec(flushSessionCookies)
-        .exec(_.remove("state"))  // remove login session attributes
-        .exec(_.remove("nonce"))
-        .exec(_.set("env", s"${env}")
-        .set("caseType", "PRLAPPS"))
-        .feed(UserCaseManagerPRL)
-        .exec(Homepage.XUIHomePage)
-        .exec(Login.XUILogin)
-        .exec(Caseworker_PRL_FL401_ProgressCase.CaseManagerConfidentialityCheck)
+      }
+    }
+
+/*===============================================================================================
+* PRL CaseManager Journey - Progress FL401 Case
+===============================================================================================*/
+
+  val PRLFL401CaseManagerScenario = scenario("***** PRL FL401 CaseManager Journey *****")
+    .exitBlockOnFail {
+      exec(_.set("env", s"${env}")
+      .set("caseType", "PRLAPPS"))
+      .feed(UserCaseManagerPRL)
+      .exec(Homepage.XUIHomePage)
+      .exec(Login.XUILogin)
+      .repeat(1) {
+        feed(fl401caseFeeder)
+        .exec(CaseManager_PRL_FL401_ProgressCase.CaseManagerConfidentialityCheck)
       }
     }
 
@@ -228,17 +233,17 @@ class PRL_Simulation extends Simulation {
       .exec(Login.PrlLogin)
       .repeat(1) {
         feed(fl401RespondentData)
-        .exec(Citizen_PRL_FL401_Respondent.RetrieveCase)
+        //.exec(Citizen_PRL_FL401_Respondent.RetrieveCase)
         .exec(Citizen_PRL_FL401_Respondent.GetCase)
         .exec(Citizen_PRL_FL401_Respondent.KeepDetailsPrivate)
-        //.exec(Citizen_PRL_C100_Respondent.ContactPreferences)
-       //.exec(Citizen_PRL_C100_Respondent.SupportYouNeed)
+        .exec(Citizen_PRL_FL401_Respondent.ContactDetails)
+        .exec(Citizen_PRL_FL401_Respondent.SupportYouNeed)
+        .exec(Citizen_PRL_FL401_Respondent.CheckApplication)
         //./exec(Citizen_PRL_C100_Respondent.RespondToApplication)
         // .exec(Citizen_PRL_C100_Respondent.UploadDocuments)
         
       }
     }
-
 
   /*===============================================================================================
   * Simulation Configuration
@@ -286,10 +291,13 @@ class PRL_Simulation extends Simulation {
   // PRLC100CitizenScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
   //  CafcasDownloadByDocScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
   //PRLC100CaseworkerScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-   PRLFL401CaseworkerScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+   //PRLFL401CaseworkerScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+   //PRLFL401CaseManagerScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
    //PrlFL401Create.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
   //PRLC100RespondentScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-  //PRLFL401RespondentScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+  PRLFL401RespondentScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+
+
 
   ).protocols(httpProtocol)
     .assertions(assertions(testType))

@@ -23,7 +23,7 @@ object Citizen_PRL_FL401_Respondent {
   //========================================================================================
 
   val RetrieveCase =
-
+ 
     exec(http("PRL_FL401Respondent_030_EnterPinPage")
 	  .get(prlURL + "/pin-activation/enter-pin")
 	  .headers(Headers.navigationHeader)
@@ -65,7 +65,7 @@ object Citizen_PRL_FL401_Respondent {
 	  .get(prlURL + "/case/#{caseId}")
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-      .check(substring("You should respond within 14 days of receiving the application")))
+      .check(substring("You have been named as the respondent in a domestic abuse application and have an order from the court")))
 
      .pause(MinThinkTime, MaxThinkTime)
 
@@ -119,6 +119,101 @@ object Citizen_PRL_FL401_Respondent {
 	  .formParam("saveAndContinue", "true"))
 
     .pause(MinThinkTime, MaxThinkTime)
+
+
+
+  //========================================================================================
+  // Select Contact Preferences
+  //========================================================================================   
+
+  val ContactDetails =
+
+  	exec(_.setAll(
+      "PRLRandomString" -> (Common.randomString(7)),
+      "PRLRandomPhone" -> (Common.randomNumber(8)),
+      "PRLAppDobDay" -> Common.getDay(),
+      "PRLAppDobMonth" -> Common.getMonth(),
+      "PRLAppDobYear" -> Common.getDobYear(),
+      "PRLChildDobYear" -> Common.getDobYearChild()))
+
+	.exec(http("PRL_FL401Respondent_110_OpenContactDetails")
+	  .get(prlURL + "/respondent/confirm-contact-details/checkanswers/#{caseId}")
+	  .headers(Headers.navigationHeader)
+      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+      .check(CsrfCheck.save))
+
+	.exec(http("PRL_FL401Respondent_120_OpenContactDetails")
+	  .get(prlURL + "/respondent/confirm-contact-details/checkanswers")
+	  .headers(Headers.navigationHeader)
+      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+      .check(CsrfCheck.save))
+
+	.pause(MinThinkTime, MaxThinkTime)
+
+  //========================================================================================
+  // Select Edit (Place of Birth)
+  //========================================================================================   
+	
+	.exec(http("PRL_FL401Respondent_130_EditPlaceOfBirth")
+	  .get(prlURL + "/respondent/confirm-contact-details/personaldetails")
+	  .headers(Headers.navigationHeader)
+      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+      .check(CsrfCheck.save))
+
+	.pause(MinThinkTime, MaxThinkTime)
+
+  //========================================================================================
+  // Enter Place of Birth and Continue
+  //========================================================================================  
+
+	.exec(http("PRL_FL401Respondent_140_SubmitPlaceOfBirthContinue")
+	  .post(prlURL + "/respondent/confirm-contact-details/personaldetails")
+	  .headers(Headers.navigationHeader)
+      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+	  .formParam("_csrf", "#{csrf}")
+	  .formParam("citizenUserFirstNames", "Jane")
+	  .formParam("citizenUserLastNames", "email")
+	  .formParam("citizenUserAdditionalName", "email")
+	  .formParam("citizenUserDateOfBirth-day", "email")
+	  .formParam("citizenUserDateOfBirth-month", "email")
+	  .formParam("ccitizenUserDateOfBirth-year", "email")
+	  .formParam("citizenUserPlaceOfBirth", "#{PRLRandomString} City")
+	  .formParam("saveAndContinue", "true")
+      .check(CsrfCheck.save))
+
+	.exec(http("PRL_FL401Respondent_140_SubmitPlaceOfBirthCheckAnswers")
+	  .get(prlURL + "/respondent/confirm-contact-details/checkanswers")
+	  .headers(Headers.navigationHeader)
+      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+      .check(CsrfCheck.save))
+
+	.pause(MinThinkTime, MaxThinkTime)
+
+  //========================================================================================
+  // Save & Continue
+  //========================================================================================   
+
+	.exec(http("PRL_FL401Respondent_150_Save&Continue")
+	  .post(prlURL + "/respondent/confirm-contact-details/checkanswers")
+	  .headers(Headers.navigationHeader)
+      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+	  .formParam("_csrf", "#{csrf}")
+	  //.formParam("citizenUserFirstNames", "Jane")
+	  //.formParam("citizenUserLastNames", "email")
+	  //.formParam("citizenUserAdditionalName", "email")
+	  //.formParam("citizenUserDateOfBirth-day", "email")
+	  //.formParam("citizenUserDateOfBirth-month", "email")
+	  //.formParam("ccitizenUserDateOfBirth-year", "email")
+	  .formParam("citizenUserPlaceOfBirth", "#{PRLRandomString} City")
+	  .formParam("saveAndContinue", "true"))
+      //.check(CsrfCheck.save))
+
+	.exec(http("PRL_FL401Respondent_150_Save&ContinueGetTasklist")
+	  .get(prlURL + "/task-list/respondent")
+	  .headers(Headers.navigationHeader)
+      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+      .check(CsrfCheck.save))
+
 
   //========================================================================================
   // Select Contact Preferences

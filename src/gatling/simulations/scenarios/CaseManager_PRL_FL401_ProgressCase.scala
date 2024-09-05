@@ -119,4 +119,14 @@ object CaseManager_PRL_FL401_ProgressCase {
       .body(ElFileBody("bodies/prl/courtAdmin/PRLConfidentialityCheckEvent.json"))
       .check(jsonPath("$.after_submit_callback_response.confirmation_header").is("# The application is ready for personal service")))
 
+
+    //Write case to file to know which ones are progressed to correct state
+    .exec { session =>
+      val fw = new BufferedWriter(new FileWriter("FL401caseNumberProgressed.csv", true))
+      try {
+        fw.write(session("caseId").as[String] + "\r\n")
+      } finally fw.close()
+      session
+    }
+
 }
