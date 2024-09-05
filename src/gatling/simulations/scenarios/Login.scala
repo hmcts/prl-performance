@@ -30,6 +30,11 @@ object Login {
         .headers(Headers.postHeader)
         .check(regex("Manage cases")))
 
+      //see xui-webapp cookie capture in the Homepage scenario for details of why this is being used
+      //.exec(addCookie(Cookie("xui-webapp", "#{xuiWebAppCookie}")
+      //  .withMaxAge(28800)
+      //  .withSecure(true)))
+
         .exec(Common.configurationui)
         .exec(Common.configJson)
         .exec(Common.TsAndCs)

@@ -136,9 +136,17 @@ class PRL_Simulation extends Simulation {
         .exec(Caseworker_PRL_FL401_ProgressCase.CourtAdminManageOrders)
         .exec(Caseworker_PRL_FL401_ProgressCase.CourtAdminServiceApplication)
         .exec(Logout.XUILogout)
+        .exec(flushHttpCache)   //Clear previous user cache and cookies
+        .exec(flushCookieJar)
+        .exec(flushSessionCookies)
+        .exec(_.remove("state"))  // remove login session attributes
+        .exec(_.remove("nonce"))
+        .exec(_.set("env", s"${env}")
+        .set("caseType", "PRLAPPS"))
         .feed(UserCaseManagerPRL)
         .exec(Homepage.XUIHomePage)
         .exec(Login.XUILogin)
+        .exec(Caseworker_PRL_FL401_ProgressCase.CaseManagerConfidentialityCheck)
       }
     }
 
