@@ -129,7 +129,7 @@ class PRL_Simulation extends Simulation {
       .feed(UserCourtAdminPRL)
       .exec(Homepage.XUIHomePage)
       .exec(Login.XUILogin)
-      .repeat(1) {
+      .repeat(29) {
         feed(fl401caseFeeder)
         .exec(Caseworker_PRL_FL401_ProgressCase.CourtAdminCheckApplication)
         .exec(Caseworker_PRL_FL401_ProgressCase.CourtAdminSendToGateKeeper)
@@ -149,7 +149,7 @@ class PRL_Simulation extends Simulation {
       .feed(UserCaseManagerPRL)
       .exec(Homepage.XUIHomePage)
       .exec(Login.XUILogin)
-      .repeat(1) {
+      .repeat(46) {
         feed(fl401caseFeeder)
         .exec(CaseManager_PRL_FL401_ProgressCase.CaseManagerConfidentialityCheck)
       }
@@ -182,7 +182,8 @@ class PRL_Simulation extends Simulation {
         .set("caseType", "PRLAPPS"))
         .exec(Homepage.XUIHomePage)
         .exec(Login.XUILogin)
-        .exec(Solicitor_PRL_FL401_CaseCreate.CreatePrivateLawCase)
+        .repeat(1) {
+         exec(Solicitor_PRL_FL401_CaseCreate.CreatePrivateLawCase)
         .exec(Solicitor_PRL_FL401_CaseCreate.TypeOfApplication)
         .exec(Solicitor_PRL_FL401_CaseCreate.WithoutNoticeOrder)
         .exec(Solicitor_PRL_FL401_CaseCreate.ApplicantDetails)
@@ -194,6 +195,7 @@ class PRL_Simulation extends Simulation {
         .exec(Solicitor_PRL_FL401_CaseCreate.UploadDocuments)
         .exec(Solicitor_PRL_FL401_CaseCreate.ViewPDF)
         .exec(Solicitor_PRL_FL401_CaseCreate.StatementOfTruth)
+        }
       }
 
   /*===============================================================================================
@@ -289,16 +291,15 @@ class PRL_Simulation extends Simulation {
   //  CafcasDownloadByDocScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
   //PRLC100CaseworkerScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
    //PRLFL401CaseworkerScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-   //PRLFL401CaseManagerScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+   PRLFL401CaseManagerScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
    //PrlFL401Create.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
   //PRLC100RespondentScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-  PRLFL401RespondentScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+  //PRLFL401RespondentScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
 
 
 
   ).protocols(httpProtocol)
     .assertions(assertions(testType))
     // .maxDuration(75 minutes)
-  
   
 }

@@ -1710,7 +1710,7 @@ object Citizen_PRL_C100_Applicant {
         .formParam("cardNo", "4444333322221111")
         .formParam("expiryMonth", "04")
         .formParam("expiryYear", "27")
-        .formParam("cardholderName", "John Smith")
+        .formParam("cardholderName", "#{ApplicantFirstName} #{ApplicantLastName}")
         .formParam("cvc", "123")
         .formParam("addressCountry", "GB")
         .formParam("addressLine1", "12 Test Street")

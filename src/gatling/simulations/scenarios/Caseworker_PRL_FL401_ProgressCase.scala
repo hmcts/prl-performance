@@ -20,6 +20,10 @@ object Caseworker_PRL_FL401_ProgressCase {
     exec(http("XUI_PRL_XXX_290_SelectCase")
       .get(BaseURL + "/data/internal/cases/#{caseId}")
       .headers(Headers.xuiHeader)
+      .check(jsonPath("$.tabs[6].fields[3].value.firstName").saveAs("ApplicantFirstName"))
+      .check(jsonPath("$.tabs[6].fields[3].value.lastName").saveAs("ApplicantLastName"))
+      .check(jsonPath("$.tabs[6].fields[8].value.firstName").saveAs("RespondentFirstName"))
+      .check(jsonPath("$.tabs[6].fields[8].value.lastName").saveAs("RespondentLastName"))
       .check(jsonPath("$.case_id").is("#{caseId}")))
       
     .exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).saveAs("XSRFToken")))

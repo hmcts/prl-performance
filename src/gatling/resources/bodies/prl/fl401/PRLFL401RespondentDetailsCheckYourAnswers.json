@@ -1,15 +1,15 @@
 {
   "data": {
      "respondentsFL401": {
-        "firstName": "Jane",
-        "lastName": "Smith",
+        "firstName": "#{RespondentFirstName}",
+        "lastName": "#{RespondentLastName}",
         "previousName": null,
         "isDateOfBirthKnown": "Yes",
         "dateOfBirth": "1981-04-10",
         "respondentLivedWithApplicant": "Yes",
         "isCurrentAddressKnown": "Yes",
         "canYouProvideEmailAddress": "Yes",
-        "email": "respondent@perftest12345.com",
+        "email": "#{RespondentFirstName}#{RespondentLastName}@perftest12345.com",
         "canYouProvidePhoneNumber": "Yes",
         "phoneNumber": "07000000000",
         "isDateOfBirthUnknown": null,

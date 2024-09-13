@@ -502,9 +502,9 @@
                     }
                  ]
               },
-              "applicantName": "John Smith",
+              "applicantName": "#{ApplicantFirstName} #{ApplicantLastName}",
               "applicantSolicitor": "Solfirst,Sollast",
-              "respondentName": "Jane Smith",
+              "respondentName": "#{RespondentFirstName} #{RespondentLastName}",
               "respondentSolicitor": "null,null",
               "applicantName1": null,
               "applicantName2": null,

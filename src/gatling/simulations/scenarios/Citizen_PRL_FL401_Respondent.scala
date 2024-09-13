@@ -79,7 +79,8 @@ object Citizen_PRL_FL401_Respondent {
 	  .get(prlURL + "/respondent/keep-details-private/details_known/#{caseId}")
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-      .check(CsrfCheck.save))
+      .check(CsrfCheck.save)
+	  .check(substring("Do the other people named in this application")))
 
 	.pause(MinThinkTime, MaxThinkTime)
 
@@ -90,7 +91,9 @@ object Citizen_PRL_FL401_Respondent {
 	  .formParam("_csrf", "#{csrf}")
 	  .formParam("detailsKnown", "yes")
 	  .formParam("onlyContinue", "true")
-      .check(CsrfCheck.save))
+      .check(CsrfCheck.save)
+	  .check(substring("Do you want to keep your contact details private from the other people named in the application")))
+
 
 	.pause(MinThinkTime, MaxThinkTime)
 
@@ -107,7 +110,8 @@ object Citizen_PRL_FL401_Respondent {
 	  .formParam("contactDetailsPrivate", "email")
 	  .formParam("startAlternative", "No")
 	  .formParam("saveAndContinue", "true")
-      .check(CsrfCheck.save))
+      .check(CsrfCheck.save)
+	  .check(substring("The court will not keep your contact details private")))
       
 	.pause(MinThinkTime, MaxThinkTime)
 
@@ -116,7 +120,8 @@ object Citizen_PRL_FL401_Respondent {
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 	  .formParam("_csrf", "#{csrf}")
-	  .formParam("saveAndContinue", "true"))
+	  .formParam("saveAndContinue", "true")
+	  .check(substring("You have been named as the respondent in a domestic abuse application")))
 
     .pause(MinThinkTime, MaxThinkTime)
 
@@ -138,7 +143,8 @@ object Citizen_PRL_FL401_Respondent {
 	  .get(prlURL + "/respondent/confirm-contact-details/checkanswers/#{caseId}")
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-      .check(CsrfCheck.save))
+      .check(CsrfCheck.save)
+	  .check(substring("Read the information to make sure it is correct, and add any missing details")))
 
 	// Redirect to
 	//.exec(http("PRL_FL401Respondent_120_OpenContactDetails")
@@ -157,8 +163,9 @@ object Citizen_PRL_FL401_Respondent {
 	  .get(prlURL + "/respondent/confirm-contact-details/personaldetails")
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-      .check(CsrfCheck.save))
-
+      .check(CsrfCheck.save)
+	  .check(substring("Your name and date of birth")))
+	  
 	.pause(MinThinkTime, MaxThinkTime)
 
   //========================================================================================
@@ -170,7 +177,7 @@ object Citizen_PRL_FL401_Respondent {
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 	  .formParam("_csrf", "#{csrf}")
-	  .formParam("citizenUserFirstNames", "Jane")
+	  .formParam("citizenUserFirstNames", "Jane")     // ***** NEED TO CORRELATE VALUES HERE
 	  .formParam("citizenUserLastNames", "email")
 	  .formParam("citizenUserAdditionalName", "email")
 	  .formParam("citizenUserDateOfBirth-day", "email")
@@ -178,7 +185,8 @@ object Citizen_PRL_FL401_Respondent {
 	  .formParam("ccitizenUserDateOfBirth-year", "email")
 	  .formParam("citizenUserPlaceOfBirth", "#{PRLRandomString} City")
 	  .formParam("saveAndContinue", "true")
-      .check(CsrfCheck.save))
+      .check(CsrfCheck.save)
+	  .check(substring("Check your details")))
 
 	// Redirect to
 	//.exec(http("PRL_FL401Respondent_140_SubmitPlaceOfBirthCheckAnswers")
@@ -221,7 +229,8 @@ object Citizen_PRL_FL401_Respondent {
 	  .get(prlURL + "/respondent/contact-preference/choose-a-contact-preference")
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-      .check(CsrfCheck.save))
+      .check(CsrfCheck.save)
+	  .check(substring("You can choose to receive case updates by email or post")))
       
 	.pause(MinThinkTime, MaxThinkTime)
 
@@ -232,7 +241,8 @@ object Citizen_PRL_FL401_Respondent {
 	  .formParam("_csrf", "#{csrf}")
 	  .formParam("partyContactPreference", "email")
 	  .formParam("onlycontinue", "true")
-      .check(CsrfCheck.save))
+      .check(CsrfCheck.save)
+	  .check(substring("You have decided to receive updates by email")))
       
 	.pause(MinThinkTime, MaxThinkTime)
 
@@ -242,7 +252,8 @@ object Citizen_PRL_FL401_Respondent {
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 	  .formParam("_csrf", "#{csrf}")
 	  .formParam("saveAndContinue", "true")
-      .check(CsrfCheck.save))
+      .check(CsrfCheck.save)
+	  .check(substring("You will receive digital updates about the case.")))
       
 	.pause(MinThinkTime, MaxThinkTime)
 
@@ -251,7 +262,8 @@ object Citizen_PRL_FL401_Respondent {
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 	  .formParam("_csrf", "#{csrf}")
-	  .formParam("saveAndContinue", "true"))
+	  .formParam("saveAndContinue", "true")
+	  .check(substring("You have been named as the respondent in a domestic abuse application")))
 
     .pause(MinThinkTime, MaxThinkTime)
 
@@ -265,7 +277,8 @@ object Citizen_PRL_FL401_Respondent {
 	  .get(prlURL + "/respondent/reasonable-adjustments/intro")
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-      .check(CsrfCheck.save))
+      .check(CsrfCheck.save)
+	  .check(substring("Some people need support during their case")))
       
 	  .pause(MinThinkTime, MaxThinkTime)
 
@@ -275,7 +288,8 @@ object Citizen_PRL_FL401_Respondent {
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 	  .formParam("_csrf", "#{csrf}")
 	  .formParam("onlyContinue", "true")
-      .check(CsrfCheck.save))
+      .check(CsrfCheck.save)
+	  .check(substring("Think about all communication with the court")))
       
 	  .pause(MinThinkTime, MaxThinkTime)
 
@@ -286,7 +300,8 @@ object Citizen_PRL_FL401_Respondent {
 	  .formParam("_csrf", "#{csrf}")
 	  .formParam("ra_languageReqAndSpecialArrangements", "")
 	  .formParam("onlyContinue", "true")
-      .check(CsrfCheck.save))
+      .check(CsrfCheck.save)
+	  .check(substring("We know some people need support to access information and use our services")))
       
 	.pause(MinThinkTime, MaxThinkTime)
 
@@ -296,7 +311,8 @@ object Citizen_PRL_FL401_Respondent {
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 	  .formParam("enabled", "none")
 	  .formParam("_csrf", "#{csrf}")
-      .check(CsrfCheck.save))
+      .check(CsrfCheck.save)
+	  .check(substring("Review the support")))
       
 	.pause(MinThinkTime, MaxThinkTime)
 
@@ -305,7 +321,8 @@ object Citizen_PRL_FL401_Respondent {
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 	  .formParam("_csrf", "#{csrf}")
-      .check(CsrfCheck.save))
+      .check(CsrfCheck.save)
+	  .check(substring("You have submitted your request to the court")))
       
 	.pause(MinThinkTime, MaxThinkTime)
 
@@ -314,7 +331,8 @@ object Citizen_PRL_FL401_Respondent {
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 	  .formParam("_csrf", "#{csrf}")
-	  .formParam("onlyContinue", "true"))
+	  .formParam("onlyContinue", "true")
+	  .check(substring("You have been named as the respondent in a domestic abuse application")))
 
     .pause(MinThinkTime, MaxThinkTime)
 
@@ -325,9 +343,10 @@ object Citizen_PRL_FL401_Respondent {
   val CheckApplication =
 
     exec(http("PRL_FL401Respondent_210_CheckApplication")
-			.get(prlURL + "/respondent/documents/download/type/cada-document")
-			.headers(Headers.navigationHeader)
+	  .get(prlURL + "/respondent/documents/download/type/cada-document")
+	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+	  .check(substring("Apply for a non-molestation or occupation order"))
       .check(status.is(200)))
 
     .pause(MinThinkTime, MaxThinkTime)

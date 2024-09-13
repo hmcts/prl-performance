@@ -1,6 +1,6 @@
 {
   "data": {
-     "applicantOrRespondentCaseName": "Perf Test FL401"
+     "applicantOrRespondentCaseName": "#{ApplicantFirstName} #{ApplicantLastName} FL401"
   },
   "event": {
      "id": "solicitorCreate",
@@ -13,7 +13,7 @@
      "confidentialityStatementDisclaimer": [
         "confidentialityStatementUnderstood"
      ],
-     "applicantOrRespondentCaseName": "Perf Test FL401"
+     "applicantOrRespondentCaseName": "#{ApplicantFirstName} #{ApplicantLastName} FL401"
   },
   "event_token": "#{event_token}",
   "ignore_warning": false

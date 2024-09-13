@@ -1,15 +1,15 @@
 {
   "data": {
      "applicantsFL401": {
-        "firstName": "John",
-        "lastName": "Smith",
+        "firstName": "#{ApplicantFirstName}",
+        "lastName": "#{RespondentLastName}",
         "previousName": null,
         "dateOfBirth": "1980-02-01",
         "gender": "male",
         "otherGender": null,
         "isAddressConfidential": "No",
         "canYouProvideEmailAddress": "Yes",
-        "email": "johnsmith@perftesting.xom",
+        "email": "#{ApplicantFirstName}#{RespondentLastName}@perftesting.xom",
         "isEmailAddressConfidential": "No",
         "phoneNumber": "07000000000",
         "isPhoneNumberConfidential": "No",

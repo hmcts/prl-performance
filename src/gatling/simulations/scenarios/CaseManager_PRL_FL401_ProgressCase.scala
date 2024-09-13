@@ -26,8 +26,12 @@ object CaseManager_PRL_FL401_ProgressCase {
     .exec(http("XUI_PRL_XXX_685_SelectCase")
       .get(BaseURL + "/data/internal/cases/#{caseId}")
       .headers(Headers.xuiHeader)
+      .check(jsonPath("$.tabs[7].fields[3].value.firstName").saveAs("ApplicantFirstName"))
+      .check(jsonPath("$.tabs[7].fields[3].value.lastName").saveAs("ApplicantLastName"))
+      .check(jsonPath("$.tabs[8].fields[11].value.firstName").saveAs("RespondentFirstName"))
+      .check(jsonPath("$.tabs[8].fields[11].value.lastName").saveAs("RespondentLastName"))
       .check(jsonPath("$.case_id").is("#{caseId}")))
-      
+
     .exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).saveAs("XSRFToken")))
 
     .exec(Common.waJurisdictions)

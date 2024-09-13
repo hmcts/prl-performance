@@ -50,7 +50,7 @@
      "appointedGuardianName": [
         {
            "value": {
-              "guardianFullName": "John Smith"
+              "guardianFullName": "#{ApplicantFirstName} #{ApplicantLastName}"
            },
            "id": "#{guardianId}"
         }
