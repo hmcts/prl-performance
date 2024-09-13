@@ -23,6 +23,8 @@ class PRL_Simulation extends Simulation {
   val c100CaseFeeder = csv("C100CourtAdminData.csv")
   val c100RespondentData = csv("C100RespondentData.csv")
   val fl401RespondentData = csv("FL401RespondentData.csv")
+  val RAData_Add = csv("ReasonableAdjustments_Add.csv")
+  val RAData_Modify = csv("ReasonableAdjustments_Modify.csv")
 
   val WaitTime = Environment.waitTime
   
@@ -217,9 +219,47 @@ class PRL_Simulation extends Simulation {
         .exec(Citizen_PRL_C100_Respondent.ContactPreferences)
         .exec(Citizen_PRL_C100_Respondent.SupportYouNeed)
         .exec(Citizen_PRL_C100_Respondent.RespondToApplication)
-        // .exec(Citizen_PRL_C100_Respondent.UploadDocuments)
-        
+        .exec(Citizen_PRL_C100_Respondent.CheckApplication)
+        .exec(Logout.CUILogout)
       }
+    }
+
+  /*===============================================================================================
+  * PRL Citizen Reasonable Adjustments Journey - Add 
+  ===============================================================================================*/
+  
+  val PRLReasonableAdjustmentsAdd = scenario("***** PRL Citizen Reasonable Adjustments Journey - Add *****")
+    .exitBlockOnFail {
+      exec(_.set("env", s"${env}")
+      .set("caseType", "PRLAPPS"))
+      .feed(UserFeederPRLRespondent)
+      .exec(Homepage.PRLHomePage)
+      .exec(Login.PrlLogin)
+      .repeat(1) {
+        feed(RAData_Add)
+        .exec(Citizen_PRL_C100_Respondent.GetCase)
+        .exec(Citizen_ReasonableAdjustments.ReasonableAdjustmentsAdd)
+      }
+      .exec(Logout.CUILogout)
+    }
+
+  /*===============================================================================================
+  * PRL Citizen Reasonable Adjustments Journey - Modify 
+  ===============================================================================================*/
+  
+  val PRLReasonableAdjustmentsModify = scenario("***** PRL Citizen Reasonable Adjustments Journey - Modify *****")
+    .exitBlockOnFail {
+      exec(_.set("env", s"${env}")
+      .set("caseType", "PRLAPPS"))
+      .feed(UserFeederPRLRespondent)
+      .exec(Homepage.PRLHomePage)
+      .exec(Login.PrlLogin)
+      .repeat(1) {
+        feed(RAData_Modify)
+        .exec(Citizen_ReasonableAdjustments.GetCase)
+        .exec(Citizen_ReasonableAdjustments.ReasonableAdjustmentsModify)
+      }
+      .exec(Logout.CUILogout)
     }
 
   /*===============================================================================================
@@ -293,10 +333,12 @@ class PRL_Simulation extends Simulation {
    //PRLFL401CaseworkerScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
   // PRLFL401CaseManagerScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
    //PrlFL401Create.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
-  //PRLC100RespondentScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+  //// PRLC100RespondentScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
   PRLFL401RespondentScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
 
 
+
+  PRLReasonableAdjustmentsModify.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
 
   ).protocols(httpProtocol)
     .assertions(assertions(testType))

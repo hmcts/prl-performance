@@ -18,7 +18,6 @@ object Citizen_PRL_C100_Respondent {
   val MinThinkTime = Environment.minThinkTime
   val MaxThinkTime = Environment.maxThinkTime
 
-
   // Enter Case ID & Pin
 
   val RetrieveCase =
@@ -72,7 +71,8 @@ object Citizen_PRL_C100_Respondent {
 			.get(prlURL + "/respondent/keep-details-private/details_known/#{caseId}")
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-      .check(CsrfCheck.save))
+      .check(CsrfCheck.save)
+      .check(substring("Do the other people named in this application")))
 
 		.pause(MinThinkTime, MaxThinkTime)
 
@@ -83,7 +83,8 @@ object Citizen_PRL_C100_Respondent {
 			.formParam("_csrf", "#{csrf}")
 			.formParam("detailsKnown", "yes")
 			.formParam("onlyContinue", "true")
-      .check(CsrfCheck.save))
+      .check(CsrfCheck.save)
+      .check(substring("Do you want to keep your contact details private from the other people named in the application")))
 
 		.pause(MinThinkTime, MaxThinkTime)
 
@@ -100,7 +101,8 @@ object Citizen_PRL_C100_Respondent {
 			.formParam("contactDetailsPrivate", "email")
 			.formParam("startAlternative", "No")
 			.formParam("saveAndContinue", "true")
-      .check(CsrfCheck.save))
+      .check(CsrfCheck.save)
+      .check(substring("The court will not keep your contact details private")))
       
 		.pause(MinThinkTime, MaxThinkTime)
 
@@ -109,7 +111,8 @@ object Citizen_PRL_C100_Respondent {
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 			.formParam("_csrf", "#{csrf}")
-			.formParam("saveAndContinue", "true"))
+			.formParam("saveAndContinue", "true")
+      .check(substring("Respond to an application about a child")))
 
     .pause(MinThinkTime, MaxThinkTime)
       
@@ -119,7 +122,8 @@ object Citizen_PRL_C100_Respondent {
 			.get(prlURL + "/respondent/contact-preference/choose-a-contact-preference")
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-      .check(CsrfCheck.save))
+      .check(CsrfCheck.save)
+      .check(substring("You can choose to receive case updates by email or post")))
       
 		.pause(MinThinkTime, MaxThinkTime)
 
@@ -130,7 +134,8 @@ object Citizen_PRL_C100_Respondent {
 			.formParam("_csrf", "#{csrf}")
 			.formParam("partyContactPreference", "email")
 			.formParam("onlycontinue", "true")
-      .check(CsrfCheck.save))
+      .check(CsrfCheck.save)
+      .check(substring("You have decided to receive updates by email")))
       
 		.pause(MinThinkTime, MaxThinkTime)
 
@@ -140,7 +145,8 @@ object Citizen_PRL_C100_Respondent {
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 			.formParam("_csrf", "#{csrf}")
 			.formParam("saveAndContinue", "true")
-      .check(CsrfCheck.save))
+      .check(CsrfCheck.save)
+      .check(substring("You will receive digital updates about the case.")))
       
 		.pause(MinThinkTime, MaxThinkTime)
 
@@ -149,7 +155,8 @@ object Citizen_PRL_C100_Respondent {
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 			.formParam("_csrf", "#{csrf}")
-			.formParam("saveAndContinue", "true"))
+			.formParam("saveAndContinue", "true")
+      .check(substring("Respond to an application about a child")))
 
     .pause(MinThinkTime, MaxThinkTime)
   
@@ -159,7 +166,8 @@ object Citizen_PRL_C100_Respondent {
 			.get(prlURL + "/respondent/reasonable-adjustments/intro")
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-      .check(CsrfCheck.save))
+      .check(CsrfCheck.save)
+      .check(substring("Some people need support during their case")))
       
 		.pause(MinThinkTime, MaxThinkTime)
 
@@ -169,7 +177,8 @@ object Citizen_PRL_C100_Respondent {
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 			.formParam("_csrf", "#{csrf}")
 			.formParam("onlyContinue", "true")
-      .check(CsrfCheck.save))
+      .check(CsrfCheck.save)
+      .check(substring("Think about all communication with the court")))
       
 		.pause(MinThinkTime, MaxThinkTime)
 
@@ -180,7 +189,8 @@ object Citizen_PRL_C100_Respondent {
 			.formParam("_csrf", "#{csrf}")
 			.formParam("ra_languageReqAndSpecialArrangements", "")
 			.formParam("onlyContinue", "true")
-      .check(CsrfCheck.save))
+      .check(CsrfCheck.save)
+      .check(substring("We know some people need support to access information and use our services")))
       
 		.pause(MinThinkTime, MaxThinkTime)
 
@@ -190,7 +200,8 @@ object Citizen_PRL_C100_Respondent {
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 			.formParam("enabled", "none")
 			.formParam("_csrf", "#{csrf}")
-      .check(CsrfCheck.save))
+      .check(CsrfCheck.save)
+      .check(substring("Review the support")))
       
 		.pause(MinThinkTime, MaxThinkTime)
 
@@ -199,7 +210,8 @@ object Citizen_PRL_C100_Respondent {
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 			.formParam("_csrf", "#{csrf}")
-      .check(CsrfCheck.save))
+      .check(CsrfCheck.save)
+      .check(substring("You have submitted your request to the court")))
       
 		.pause(MinThinkTime, MaxThinkTime)
 
@@ -208,31 +220,32 @@ object Citizen_PRL_C100_Respondent {
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 			.formParam("_csrf", "#{csrf}")
-			.formParam("onlyContinue", "true"))
+			.formParam("onlyContinue", "true")
+      .check(substring("Respond to an application about a child")))
 
     .pause(MinThinkTime, MaxThinkTime)
 
   val RespondToApplication = 
 
-    exec(http("request_0")
+    exec(http("PRL_C100Respondent_200_TaskListPage")
 			.get(prlURL + "/tasklistresponse/start")
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
       .check(CsrfCheck.save)
       .check(substring("Respond to the application")))
       
-		.pause(1)
+		.pause(MinThinkTime, MaxThinkTime)
 
-    .exec(http("request_1")
+    .exec(http("PRL_C100Respondent_210_LegalRepresentation")
 			.get(prlURL + "/tasklistresponse/legalrepresentation/start")
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
       .check(CsrfCheck.save)
       .check(substring("Will you be using a legal representative")))
       
-		.pause(1)
+		.pause(MinThinkTime, MaxThinkTime)
 
-		.exec(http("request_12")
+		.exec(http("PRL_C100Respondent_220_NoLegalRepresentation")
 			.post(prlURL + "/tasklistresponse/legalrepresentation/start")
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -242,31 +255,29 @@ object Citizen_PRL_C100_Respondent {
       .check(CsrfCheck.save)
       .check(substring("Complete your response")))
       
-		.pause(4)
+		.pause(MinThinkTime, MaxThinkTime)
 
-		.exec(http("request_18")
+		.exec(http("PRL_C100Respondent_230_ConfirmNoLegalRepresentation")
 			.post(prlURL + "/tasklistresponse/legalrepresentation/solicitornotdirect")
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 			.formParam("_csrf", "#{csrf}")
 			.formParam("onlyContinue", "true")
       .check(CsrfCheck.save)
-      // .check(substring(""))
-      )
+      .check(substring("Your response will be shared with the other people in this case")))
       
-		.pause(2)
+		.pause(MinThinkTime, MaxThinkTime)
 
-		.exec(http("request_24")
+		.exec(http("PRL_C100Respondent_240_DoYouConsentToApplication")
 			.get(prlURL + "/tasklistresponse/consent-to-application/consent/#{caseId}")
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
       .check(CsrfCheck.save)
-      // .check(substring(""))
-      )
+      .check(substring("Your understanding of the application")))
       
-		.pause(13)
+		.pause(MinThinkTime, MaxThinkTime)
 
-		.exec(http("request_30")
+		.exec(http("PRL_C100Respondent_250_CheckYourConsent")
 			.post(prlURL + "/tasklistresponse/consent-to-application/consent")
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -280,41 +291,43 @@ object Citizen_PRL_C100_Respondent {
 			.formParam("courtPermission", "No")
 			.formParam("onlyContinue", "true")
       .check(CsrfCheck.save)
-      // .check(substring(""))
-      )
+      .check(substring("Your consent to the application")))
       
-		.pause(1)
+		.pause(MinThinkTime, MaxThinkTime)
 
-		.exec(http("request_36")
+		.exec(http("PRL_C100Respondent_260_ConfirmYourConsent")
 			.post(prlURL + "/tasklistresponse/consent-to-application/summary")
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 			.formParam("_csrf", "#{csrf}")
 			.formParam("saveAndContinue", "true")
-      .check(CsrfCheck.save))
+      .check(CsrfCheck.save)
+      .check(substring("Your response will be shared with the other people in this case")))
       
-		.pause(6)
+		.pause(MinThinkTime, MaxThinkTime)
 
-		.exec(http("request_42")
+		.exec(http("PRL_C100Respondent_270_HaveYouAttendedMIAM")
 			.get(prlURL + "/tasklistresponse/miam/miam-start/#{caseId}")
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-      .check(CsrfCheck.save))
+      .check(CsrfCheck.save)
+      .check(substring("Have you attended a Mediation Information and Assessment Meeting")))
       
-		.pause(11)
+		.pause(MinThinkTime, MaxThinkTime)
 
-		.exec(http("request_48")
+		.exec(http("PRL_C100Respondent_280_WillingToAttendMIAM")
 			.post(prlURL + "/tasklistresponse/miam/miam-start")
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 			.formParam("_csrf", "#{csrf}")
 			.formParam("miamStart", "No")
 			.formParam("onlyContinue", "true")
-      .check(CsrfCheck.save))
+      .check(CsrfCheck.save)
+      .check(substring("Would you be willing to attend a MIAM")))
       
-		.pause(4)
+		.pause(MinThinkTime, MaxThinkTime)
 
-		.exec(http("request_54")
+		.exec(http("PRL_C100Respondent_290_MIAMCheckYourAnswers")
 			.post(prlURL + "/tasklistresponse/miam/willingness-to-attend-miam")
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -322,29 +335,32 @@ object Citizen_PRL_C100_Respondent {
 			.formParam("miamWillingness", "Yes")
 			.formParam("miamNotWillingExplnation", "Perf testing")
 			.formParam("onlyContinue", "true")
-      .check(CsrfCheck.save))
+      .check(CsrfCheck.save)
+      .check(substring("Mediation Information and Assessment Meeting (MIAM) attendance")))
       
-		.pause(1)
+		.pause(MinThinkTime, MaxThinkTime)
 
-		.exec(http("request_60")
+		.exec(http("PRL_C100Respondent_300_MIAMConfirmAnswers")
 			.post(prlURL + "/tasklistresponse/miam/summary")
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 			.formParam("_csrf", "#{csrf}")
 			.formParam("saveAndContinue", "true")
-      .check(CsrfCheck.save))
+      .check(CsrfCheck.save)
+      .check(substring("Your response will be shared with the other people in this case")))
       
-		.pause(3)
+		.pause(MinThinkTime, MaxThinkTime)
 
-		.exec(http("request_78")
+		.exec(http("PRL_C100Respondent_310_EverBeenInvolvedInProceedings")
 			.get(prlURL + "/tasklistresponse/proceedings/start/#{caseId}")
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-      .check(CsrfCheck.save))
+      .check(CsrfCheck.save)
+      .check(substring("Have you or the children ever been involved in court proceedings")))
       
-		.pause(5)
+		.pause(MinThinkTime, MaxThinkTime)
 
-		.exec(http("request_84")
+		.exec(http("PRL_C100Respondent_320_PreviousProceedingsCheckYourAnswers")
 			.post(prlURL + "/tasklistresponse/proceedings/start")
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -352,86 +368,97 @@ object Citizen_PRL_C100_Respondent {
 			.formParam("proceedingsStart", "No")
 			.formParam("proceedingsStartOrder", "No")
 			.formParam("onlyContinue", "true")
-      .check(CsrfCheck.save))
+      .check(CsrfCheck.save)
+      .check(substring("Current or previous proceedings")))
       
-		.pause(1)
+		.pause(MinThinkTime, MaxThinkTime)
 
-		.exec(http("request_90")
+		.exec(http("PRL_C100Respondent_330_PreviousProceedingsConfirmAnswers")
 			.post(prlURL + "/tasklistresponse/proceedings/summary")
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 			.formParam("_csrf", "#{csrf}")
 			.formParam("saveAndContinue", "true")
-      .check(CsrfCheck.save))
+      .check(CsrfCheck.save)
+      .check(substring("Your response will be shared with the other people in this case")))
       
-		.pause(8)
+		.pause(MinThinkTime, MaxThinkTime)
 
-		.exec(http("request_102")
+		.exec(http("PRL_C100Respondent_340_SafetyConcerns")
 			.post(prlURL + "/respondent/safety-concerns/concern-guidance")
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 			.formParam("_csrf", "#{csrf}")
 			.formParam("saveAndContinue", "true")
-      .check(CsrfCheck.save))
+      .check(CsrfCheck.save)
+      .check(substring("Do you have any concerns for your safety or the safety of the children")))
       
-		.pause(5)
+		.pause(MinThinkTime, MaxThinkTime)
 
-		.exec(http("request_108")
+		.exec(http("PRL_C100Respondent_350_AnySafetyConcerns")
 			.post(prlURL + "/respondent/safety-concerns/concerns-for-safety")
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 			.formParam("_csrf", "#{csrf}")
 			.formParam("c1A_haveSafetyConcerns", "No")
 			.formParam("saveAndContinue", "true")
-      .check(CsrfCheck.save))
+      .check(CsrfCheck.save)
+      .check(substring("Please review your answers before you finish your application")))
+
+    .pause(MinThinkTime, MaxThinkTime)
       
-    .exec(http("request_114")
+    .exec(http("PRL_C100Respondent_360_SafetyConcernsConfirmAnswers")
 			.post(prlURL + "/respondent/safety-concerns/review")
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 			.formParam("_csrf", "#{csrf}")
 			.formParam("saveAndContinue", "true")
-      .check(CsrfCheck.save))
+      .check(CsrfCheck.save)
+      .check(substring("Your response will be shared with the other people in this case")))
       
-		.pause(3)
+		.pause(MinThinkTime, MaxThinkTime)
 
-		.exec(http("request_120")
+		.exec(http("PRL_C100Respondent_370_RespondToAllegations")
 			.get(prlURL + "/respondent/tasklistresponse/respond-to-allegations-of-harm/willing-to-respond")
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-      .check(CsrfCheck.save))
+      .check(CsrfCheck.save)
+      .check(substring("Do you wish to respond to the applicant")))
       
-		.pause(4)
+		.pause(MinThinkTime, MaxThinkTime)
 
-		.exec(http("request_126")
+		.exec(http("PRL_C100Respondent_380_RespondToAllegationsCheckYourAnswers")
 			.post(prlURL + "/respondent/tasklistresponse/respond-to-allegations-of-harm/willing-to-respond")
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 			.formParam("_csrf", "#{csrf}")
 			.formParam("aoh_wishToRespond", "No")
 			.formParam("onlyContinue", "true")
-      .check(CsrfCheck.save))
+      .check(CsrfCheck.save)
+      .check(substring("Check your answers")))
       
-		.pause(1)
+		.pause(MinThinkTime, MaxThinkTime)
 
-		.exec(http("request_132")
+		.exec(http("PRL_C100Respondent_390_RespondToAllegationsConfirmAnswers")
 			.post(prlURL + "/respondent/tasklistresponse/respond-to-allegations-of-harm/review")
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 			.formParam("_csrf", "#{csrf}")
 			.formParam("saveAndContinue", "true")
-      .check(CsrfCheck.save))
+      .check(CsrfCheck.save)
+      .check(substring("Your response will be shared with the other people in this case")))
       
-		.pause(2)
+		.pause(MinThinkTime, MaxThinkTime)
 
-		.exec(http("request_138")
+		.exec(http("PRL_C100Respondent_400_StartInternationalFactors")
 			.get(prlURL + "/tasklistresponse/international-factors/start/#{caseId}")
 			.headers(Headers.navigationHeader)
-      .check(CsrfCheck.save))
+      .check(CsrfCheck.save)
+      .check(substring("lives mainly based outside of England and Wales")))
       
-		.pause(3)
+		.pause(MinThinkTime, MaxThinkTime)
 
-		.exec(http("request_144")
+		.exec(http("PRL_C100Respondent_410_ChildrensLivesBasedOutsideUK")
 			.post(prlURL + "/tasklistresponse/international-factors/start")
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -439,11 +466,12 @@ object Citizen_PRL_C100_Respondent {
 			.formParam("iFactorsStartProvideDetails", "")
 			.formParam("start", "No")
 			.formParam("onlyContinue", "true")
-      .check(CsrfCheck.save))
+      .check(CsrfCheck.save)
+      .check(substring("parents (or anyone significant to the children) mainly based outside of England and Wales")))
       
-		.pause(3)
+		.pause(MinThinkTime, MaxThinkTime)
 
-		.exec(http("request_150")
+		.exec(http("PRL_C100Respondent_420_ChildrensParentsBasedOutsideUK")
 			.post(prlURL + "/tasklistresponse/international-factors/parents")
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -451,11 +479,12 @@ object Citizen_PRL_C100_Respondent {
 			.formParam("iFactorsParentsProvideDetails", "")
 			.formParam("parents", "No")
 			.formParam("onlyContinue", "true")
-      .check(CsrfCheck.save))
+      .check(CsrfCheck.save)
+      .check(substring("Could another person in the application apply for a similar order in a country outside England or Wales")))
       
-		.pause(3)
+		.pause(MinThinkTime, MaxThinkTime)
 
-		.exec(http("request_156")
+		.exec(http("PRL_C100Respondent_430_OtherPersonOutsideUK")
 			.post(prlURL + "/tasklistresponse/international-factors/jurisdiction")
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -463,11 +492,12 @@ object Citizen_PRL_C100_Respondent {
 			.formParam("iFactorsJurisdictionProvideDetails", "")
 			.formParam("jurisdiction", "No")
 			.formParam("onlyContinue", "true")
-      .check(CsrfCheck.save))
+      .check(CsrfCheck.save)
+      .check(substring("Has another country asked (or been asked) for information or help for the children")))
       
-		.pause(3)
+		.pause(MinThinkTime, MaxThinkTime)
 
-		.exec(http("request_162")
+		.exec(http("PRL_C100Respondent_440_OtherCountryAskedForInfo")
 			.post(prlURL + "/tasklistresponse/international-factors/request")
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -475,31 +505,34 @@ object Citizen_PRL_C100_Respondent {
 			.formParam("iFactorsRequestProvideDetails", "")
 			.formParam("request", "No")
 			.formParam("onlyContinue", "true")
-      .check(CsrfCheck.save))
+      .check(CsrfCheck.save)
+      .check(substring("International elements")))
       
-		.pause(1)
+		.pause(MinThinkTime, MaxThinkTime)
 
-		.exec(http("request_168")
+		.exec(http("PRL_C100Respondent_450_InternationalFactorsConfirmAnswers")
 			.post(prlURL + "/tasklistresponse/international-factors/summary")
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 			.formParam("_csrf", "#{csrf}")
 			.formParam("saveAndContinue", "true")
-      .check(CsrfCheck.save))
+      .check(CsrfCheck.save)
+      .check(substring("Your response will be shared with the other people in this case")))
       
-		.pause(2)
+		.pause(MinThinkTime, MaxThinkTime)
 
-		.exec(http("request_174")
+		.exec(http("PRL_C100Respondent_460_ReviewAndSubmit")
 			.post(prlURL + "/tasklistresponse/start")
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 			.formParam("_csrf", "#{csrf}")
 			.formParam("onlyContinue", "true")
-      .check(CsrfCheck.save))
+      .check(CsrfCheck.save)
+      .check(substring("Please review your answers before you complete your response")))
       
-		.pause(5)
+		.pause(MinThinkTime, MaxThinkTime)
 
-		.exec(http("request_180")
+		.exec(http("PRL_C100Respondent_470_CheckYourAnswers")
 			.post(prlURL + "/tasklistresponse/summary")
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -510,9 +543,9 @@ object Citizen_PRL_C100_Respondent {
       .check(CsrfCheck.save)
       .check(substring("Response submitted successfully")))
       
-		.pause(9)
+		.pause(MinThinkTime, MaxThinkTime)
 
-    .exec(http("request_198")
+    .exec(http("PRL_C100Respondent_480_SubmitYourResponse")
 			.post(prlURL + "/tasklistresponse/summary-confirmation")
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -522,96 +555,24 @@ object Citizen_PRL_C100_Respondent {
 
     .pause(MinThinkTime, MaxThinkTime)
 
-  val UploadDocuments = 
-
-    exec(http("request_0")
-			.get(prlURL + "/respondent/documents/upload")
-			.headers(Headers.navigationHeader)
-      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-      .check(substring("Select the type of document")))
-      
-		.pause(2)
-
-    .exec(http("request_1")
-			.get(prlURL + "/respondent/documents/upload/other-documents/has-the-court-asked-for-this-documents")
-			.headers(Headers.navigationHeader)
-      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-      .check(substring("Has the court asked for this document?"))
-      .check(CsrfCheck.save))
-      
-		.pause(2)
-
-    .exec(http("request_2")
-			.post(prlURL + "/respondent/documents/upload/other-documents/has-the-court-asked-for-this-documents")
+    .exec(http("PRL_C100Respondent_490_ReturnToSummary")
+			.post(prlURL + "/tasklistresponse/summary-confirmation")
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 			.formParam("_csrf", "#{csrf}")
-      .formParam("hasCourtAskedForThisDoc", "Yes")
-			.formParam("onlyContinue", "true")
-      .check(CsrfCheck.save)
-      .check(substring("Before you submit a document")))
-
-		.pause(5)
-
-		.exec(http("request_3")
-			.post(prlURL + "/respondent/documents/upload/other-documents/document-sharing-details")
-			.headers(Headers.navigationHeader)
-      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-			.formParam("_csrf", "#{csrf}")
-			.formParam("onlyContinue", "true")
-      .check(CsrfCheck.save)
-      .check(substring("Sharing your documents")))
-
-		.pause(5)
-
-		.exec(http("request_4")
-			.post(prlURL + "/respondent/documents/upload/other-documents/sharing-your-documents")
-			.headers(Headers.navigationHeader)
-      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-			.formParam("_csrf", "#{csrf}")
-			.formParam("haveReasonForDocNotToBeShared", "No")
 			.formParam("saveAndContinue", "true")
-      .check(CsrfCheck.save)
-      .check(regex("""action="?docCategory=other-documents&_csrf=(.+?)"""").saveAs("docCsrf"))
-      .check(substring("Other documents")))
-
-		.pause(19)
-
-		.exec(http("request_5")
-			.post(prlURL + "/respondent/documents/upload/other-documents/upload-your-documents?docCategory=other-documents&_csrf=#{docCsrf}")
-			.headers(Headers.navigationHeader)
-      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8")
-      .formParam("_csrf", "#{docCsrf}")
-      .formParam("docCategory", "other-documents")
-      .bodyPart(RawFileBodyPart("documents", "120KB.pdf")
-      .contentType("application/pdf")
-      .fileName("120KB.pdf")
-      .transferEncoding("binary"))
-      .check(CsrfCheck.save))
-
-		.pause(6)
-
-		.exec(http("request_6")
-			.post(prlURL + "/respondent/documents/upload/other-documents/upload-your-documents")
-			.headers(Headers.uploadHeader)
-      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-			.formParam("_csrf", "#{csrf}")
-			.formParam("declarationCheck", "")
-			.formParam("declarationCheck", "declaration")
-			.formParam("onlyContinue", "true")
-      .check(CsrfCheck.save)
-      .check(substring("Document submitted")))
-
-		.pause(4)
-
-		.exec(http("request_7")
-			.post(prlURL + "/respondent/documents/upload/other-documents/upload-documents-success?_csrf=#{csrf}")
-			.headers(Headers.navigationHeader)
-      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-			.formParam("returnToCaseView", "true")
-			.formParam("answers-checked", "true")
       .check(substring("Respond to an application about a child")))
 
-    
+    .pause(MinThinkTime, MaxThinkTime)
+
+  val CheckApplication =
+
+    exec(http("PRL_C100Respondent_500_CheckApplication")
+      .get(prlURL + "/respondent/documents/download/type/cada-document")
+      .headers(Headers.navigationHeader)
+      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+      .check(status.is(200)))
+
+    .pause(MinThinkTime, MaxThinkTime)
 
 }
