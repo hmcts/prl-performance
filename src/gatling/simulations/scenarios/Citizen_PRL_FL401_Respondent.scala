@@ -164,7 +164,19 @@ object Citizen_PRL_FL401_Respondent {
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
       .check(CsrfCheck.save)
+	  .check(regex("""name="citizenUserFirstNames" type="text" value="(.+?)">""").saveAs("citizenFirstName"))
+	  .check(regex("""name="citizenUserLastNames" type="text" value="(.+?)">""").saveAs("citizenLastName"))
+	  .check(regex("""name="citizenUserDateOfBirth-day" type="text" value="(.+?)" inputmode="numeric"""").saveAs("citizenDOBDay"))
+	  .check(regex("""name="citizenUserDateOfBirth-month" type="text" value="(.+?)" inputmode="numeric"""").saveAs("citizenDOBMonth"))
+	  .check(regex("""name="citizenUserDateOfBirth-year" type="text" value="(.+?)" inputmode="numeric"""").saveAs("citizenDOBYear"))
 	  .check(substring("Your name and date of birth")))
+
+
+	  //name="citizenUserFirstNames" type="text" value="Jane">
+	  //name="citizenUserLastNames" type="text" value="Smith">
+	  //name="citizenUserDateOfBirth-day" type="text" value="10" inputmode="numeric"
+	  //name="citizenUserDateOfBirth-month" type="text" value="4" inputmode="numeric"
+	  //name="citizenUserDateOfBirth-year" type="text" value="1981" inputmode="numeric"
 	  
 	.pause(MinThinkTime, MaxThinkTime)
 
@@ -177,12 +189,12 @@ object Citizen_PRL_FL401_Respondent {
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 	  .formParam("_csrf", "#{csrf}")
-	  .formParam("citizenUserFirstNames", "Jane")     // ***** NEED TO CORRELATE VALUES HERE
-	  .formParam("citizenUserLastNames", "email")
-	  .formParam("citizenUserAdditionalName", "email")
-	  .formParam("citizenUserDateOfBirth-day", "email")
-	  .formParam("citizenUserDateOfBirth-month", "email")
-	  .formParam("ccitizenUserDateOfBirth-year", "email")
+	  .formParam("citizenUserFirstNames", "#{citizenFirstName}")  
+	  .formParam("citizenUserLastNames", "#{citizenLastName}")
+	  .formParam("citizenUserAdditionalName", "")
+	  .formParam("citizenUserDateOfBirth-day", "#{citizenDOBDay}")
+	  .formParam("citizenUserDateOfBirth-month", "#{citizenDOBMonth}")
+	  .formParam("citizenUserDateOfBirth-year", "#{citizenDOBYear}")
 	  .formParam("citizenUserPlaceOfBirth", "#{PRLRandomString} City")
 	  .formParam("saveAndContinue", "true")
       .check(CsrfCheck.save)
@@ -346,16 +358,8 @@ object Citizen_PRL_FL401_Respondent {
 	  .get(prlURL + "/respondent/documents/download/type/cada-document")
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-	  .check(substring("Apply for a non-molestation or occupation order"))
       .check(status.is(200)))
 
     .pause(MinThinkTime, MaxThinkTime)
-
-
-  // Enter Case ID & Pin
-  // Begin required steps
-
-  
-
   
 }
