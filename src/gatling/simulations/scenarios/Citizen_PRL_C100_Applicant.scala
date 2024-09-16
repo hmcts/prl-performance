@@ -130,7 +130,7 @@ object Citizen_PRL_C100_Applicant {
         .formParam("c100RebuildChildPostCode", "KT25BU")
         .formParam("saveAndContinue", "true")
         .check(CsrfCheck.save)
-        .check(substring("Do you have a written agreement with the other people in the case that you want the court to review?")))
+        .check(substring("Where do the children live?")))
     }
 
     .pause(MinThinkTime, MaxThinkTime)

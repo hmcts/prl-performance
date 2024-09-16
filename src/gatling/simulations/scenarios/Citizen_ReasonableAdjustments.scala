@@ -1,5 +1,6 @@
 package scenarios
 
+import java.io.{BufferedWriter, FileWriter}
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import utils.{Common, CsrfCheck, CsrfCheck2, Environment, Headers}
@@ -9,7 +10,7 @@ import utils.{Common, CsrfCheck, CsrfCheck2, Environment, Headers}
 ======================================================================================*/
 
 object Citizen_ReasonableAdjustments {
-  
+ 
   val prlURL = Environment.prlURL
   val cuiRaURL = Environment.cuiRaURL
   val MinThinkTime = Environment.minThinkTime
@@ -30,7 +31,7 @@ object Citizen_ReasonableAdjustments {
     exec(http("PRL_RA_010_OpenAdditionalSupport")
 			.get(prlURL + "/respondent/reasonable-adjustments/intro")
 			.headers(Headers.navigationHeader)
-      .check(substring("Tell us if your support needs have changed"))
+      .check(substring("Tell us if you need support"))
       .check(CsrfCheck.save))
       
 		.pause(MinThinkTime, MaxThinkTime)
@@ -50,7 +51,7 @@ object Citizen_ReasonableAdjustments {
     .exec(http("PRL_RA_030_LaunchReasonableAdjustments")
 			.get(prlURL + "/reasonable-adjustments/launch")
 			.headers(Headers.navigationHeader)
-      .check(substring("Tell us if your support needs have changed"))
+      .check(substring("Select all that apply to you"))
       .check(CsrfCheck.save)
       .check(substring("Do you have a physical, mental or learning disability")))
       
@@ -222,7 +223,7 @@ object Citizen_ReasonableAdjustments {
 			.formParam("data[PF0001-RA0001-RA0007-OT0001][flagComment]", "Perf test hearing")
 			.formParam("_csrf", "#{csrf}")
       .check(CsrfCheck.save)
-      .check(substring("Review the support you've requested")))
+      .check(substring("New support you want to request now")))
       
 		.pause(MinThinkTime, MaxThinkTime)
 
@@ -245,6 +246,27 @@ object Citizen_ReasonableAdjustments {
       .check(substring("Your court hearings")))
 
     .pause(MinThinkTime, MaxThinkTime)
+
+	//Write added RA to the Modify RA data file
+	// Gatling exec block to write session variable to file
+	/*.exec { session =>
+	val caseId = session("caseId").as[String]  // Fetch session variables
+	val email = session("user").as[String]
+	val password = session("password").as[String]
+	//val comma = ",".as[String]
+	val data = email + "," + password + "," + caseId
+	writeToCSV(data)  // Write the value to CSV
+	session  // Return session for further chaining
+	}*/
+
+	.exec { session =>
+	val fw = new BufferedWriter(new FileWriter("ModifyRAData.csv", true))
+	try {
+		fw.write(session("user").as[String] + "," + session("password").as[String] + "," + session("caseId").as[String] + "\r\n")
+	} finally fw.close()
+	session
+	} 
+
 
   val ReasonableAdjustmentsModify = 
 

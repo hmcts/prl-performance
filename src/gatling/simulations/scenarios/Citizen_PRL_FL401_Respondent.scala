@@ -302,20 +302,53 @@ object Citizen_PRL_FL401_Respondent {
 	  .formParam("onlyContinue", "true")
       .check(CsrfCheck.save)
 	  .check(substring("Think about all communication with the court")))
-      
-	  .pause(MinThinkTime, MaxThinkTime)
 
-	.exec(http("PRL_FL401Respondent_170_LanguageRequirements")
+	//Redirected to: 
+	//.exec(http("PRL_FL401Respondent_170_LanguageRequirements")
+	//  .get(prlURL + "/respondent/reasonable-adjustments/language-requirements-and-special-arrangements")
+	//  .headers(Headers.navigationHeader)
+    //  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+    //  .check(CsrfCheck.save)
+	//  .check(substring("Language requirements and special arrangements")))
+
+	.pause(MinThinkTime, MaxThinkTime)
+
+	.exec(http("PRL_FL401Respondent_175_LanguageRequirements")
 	  .post(prlURL + "/respondent/reasonable-adjustments/language-requirements-and-special-arrangements")
       .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 	  .formParam("_csrf", "#{csrf}")
-	  .formParam("ra_languageReqAndSpecialArrangements", "")
+	  .formParam("ra_languageReqAndSpecialArrangements", "Perf Test - Add Reasonable Adjustments")
 	  .formParam("onlyContinue", "true")
       .check(CsrfCheck.save)
-	  .check(substring("We know some people need support to access information and use our services")))
-      
-	.pause(MinThinkTime, MaxThinkTime)
+	  .check(substring("Review your language requirements and special arrangements")))
+
+	//Redirected to:
+	//.exec(http("PRL_FL401Respondent_177_LanguageRequirementsReview")
+	//  .get(prlURL + "/respondent/reasonable-adjustments/language-requirements-and-special-arrangements/review")
+	//  .headers(Headers.navigationHeader)
+    //  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+    //  .check(CsrfCheck.save)
+	//  .check(substring("Review your language requirements and special arrangements")))
+
+	 .pause(MinThinkTime, MaxThinkTime)
+
+	.exec(http("PRL_FL401Respondent_175_LanguageRequirementsReview")
+	  .post(prlURL + "/respondent/reasonable-adjustments/language-requirements-and-special-arrangements/review")
+      .headers(Headers.navigationHeader)
+      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+	  .formParam("_csrf", "#{csrf}")
+	 .formParam("onlyContinue", "true")
+      .check(CsrfCheck.save)
+	  .check(substring("Do you have a physical, mental or learning disability")))
+
+	//Redirect to:
+	//.exec(http("PRL_RA_030_LaunchReasonableAdjustments")
+	//  .get(prlURL + "/reasonable-adjustments/launch")
+	//  .headers(Headers.navigationHeader)
+    //  .check(substring("Select all that apply to you"))
+    //  .check(CsrfCheck.save)
+    //  .check(substring("Do you have a physical, mental or learning disability")))
 
 	.exec(http("PRL_FL401Respondent_180_NoDisabilities")
 	  .post(cuiRaURL + "/journey/flags/display/PF0001-RA0001")
@@ -344,7 +377,7 @@ object Citizen_PRL_FL401_Respondent {
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 	  .formParam("_csrf", "#{csrf}")
 	  .formParam("onlyContinue", "true")
-	  .check(substring("You have been named as the respondent in a domestic abuse application")))
+	  .check(substring("Child arrangements and family injunction cases")))
 
     .pause(MinThinkTime, MaxThinkTime)
 
@@ -361,5 +394,15 @@ object Citizen_PRL_FL401_Respondent {
       .check(status.is(200)))
 
     .pause(MinThinkTime, MaxThinkTime)
+
+
+// write cases for use in Add RA script
+	.exec { session =>
+	val fw = new BufferedWriter(new FileWriter("AddRAData.csv", true))
+	try {
+		fw.write(session("user").as[String] + "," + session("password").as[String] + "," + session("caseId").as[String] + "\r\n")
+	} finally fw.close()
+	session
+	} 
   
 }
