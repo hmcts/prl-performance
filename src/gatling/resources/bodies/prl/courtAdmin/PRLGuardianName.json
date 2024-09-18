@@ -3,7 +3,7 @@
      "appointedGuardianName": [
         {
            "value": {
-              "guardianFullName": "#{ApplicantFirstName} #{ApplicantLastName}"
+              "guardianFullName": "#{PRLRandomString}First #{PRLRandomString}Last"
            },
            "id": "#{guardianId}"
         }
@@ -42,7 +42,7 @@
      "appointedGuardianName": [
         {
            "value": {
-              "guardianFullName": "#{ApplicantFirstName} #{ApplicantLastName}"
+              "guardianFullName": "#{PRLRandomString}First #{PRLRandomString}Last"
            },
            "id": "#{guardianId}"
         }

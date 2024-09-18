@@ -22,7 +22,7 @@ object Citizen_ReasonableAdjustments {
 			.get(prlURL + "/case/#{caseId}")
 			.headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-      .check(substring("You should respond within 14 days of receiving the application")))
+      .check(substring("Check the application (PDF)")))
 
      .pause(MinThinkTime, MaxThinkTime)
 
@@ -262,7 +262,7 @@ object Citizen_ReasonableAdjustments {
 	.exec { session =>
 	val fw = new BufferedWriter(new FileWriter("ModifyRAData.csv", true))
 	try {
-		fw.write(session("user").as[String] + "," + session("password").as[String] + "," + session("caseId").as[String] + "\r\n")
+		fw.write(session("user").as[String] + "," + session("password").as[String] + "," + session("caseId").as[String] + "," + session("caseType").as[String] + "\r\n")
 	} finally fw.close()
 	session
 	} 
@@ -273,6 +273,7 @@ object Citizen_ReasonableAdjustments {
     exec(http("PRL_RA_010_OpenAdditionalSupport")
 			.get(prlURL + "/respondent/reasonable-adjustments/intro")
 			.headers(Headers.navigationHeader)
+			.check(substring("Tell us if your support needs have changed"))
       .check(CsrfCheck.save))
 
     .pause(MinThinkTime, MaxThinkTime)

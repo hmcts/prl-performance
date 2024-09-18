@@ -51,7 +51,7 @@ object Citizen_PRL_FL401_Respondent {
 	  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 	  .formParam("_csrf", "#{csrf}")
 	  .formParam("onlyContinue", "true")
-	  .check(substring("You have been named as the respondent")))
+	  .check(substring("Keep your details private")))
 
     .pause(MinThinkTime, MaxThinkTime)
 
@@ -65,9 +65,18 @@ object Citizen_PRL_FL401_Respondent {
 	  .get(prlURL + "/case/#{caseId}")
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-      .check(substring("You have been named as the respondent in a domestic abuse application and have an order from the court")))
+      .check(substring("Keep your details private")))
 
      .pause(MinThinkTime, MaxThinkTime)
+
+	 // write cases for use in Add RA script
+	//.exec { session =>
+	//val fw = new BufferedWriter(new FileWriter("AddRAData.csv", true))
+	//try {
+	//	fw.write(session("user").as[String] + "," + session("password").as[String] + "," + session("caseId").as[String] + "\r\n")
+	//} finally fw.close()
+	//session
+	//} 
 
   //========================================================================================
   // Select Keep Details Private
@@ -84,6 +93,10 @@ object Citizen_PRL_FL401_Respondent {
 
 	.pause(MinThinkTime, MaxThinkTime)
 
+  //========================================================================================
+  // Does the other person named in your application (the respondent) know any of your contact details? - Yes
+  //========================================================================================   
+
 	.exec(http("PRL_FL401Respondent_080_SelectDetailsKnown")
 	  .post(prlURL + "/respondent/keep-details-private/details_known")
 	  .headers(Headers.navigationHeader)
@@ -93,7 +106,6 @@ object Citizen_PRL_FL401_Respondent {
 	  .formParam("onlyContinue", "true")
       .check(CsrfCheck.save)
 	  .check(substring("Do you want to keep your contact details private from the other people named in the application")))
-
 
 	.pause(MinThinkTime, MaxThinkTime)
 
@@ -121,7 +133,7 @@ object Citizen_PRL_FL401_Respondent {
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 	  .formParam("_csrf", "#{csrf}")
 	  .formParam("saveAndContinue", "true")
-	  .check(substring("You have been named as the respondent in a domestic abuse application")))
+	  .check(substring("Keep your details private")))
 
     .pause(MinThinkTime, MaxThinkTime)
 
@@ -275,7 +287,7 @@ object Citizen_PRL_FL401_Respondent {
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 	  .formParam("_csrf", "#{csrf}")
 	  .formParam("saveAndContinue", "true")
-	  .check(substring("You have been named as the respondent in a domestic abuse application")))
+	  .check(substring("Keep your details private")))
 
     .pause(MinThinkTime, MaxThinkTime)
 
@@ -313,7 +325,7 @@ object Citizen_PRL_FL401_Respondent {
 
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.exec(http("PRL_FL401Respondent_175_LanguageRequirements")
+	.exec(http("PRL_FL401Respondent_170_LanguageRequirements")
 	  .post(prlURL + "/respondent/reasonable-adjustments/language-requirements-and-special-arrangements")
       .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -333,7 +345,7 @@ object Citizen_PRL_FL401_Respondent {
 
 	 .pause(MinThinkTime, MaxThinkTime)
 
-	.exec(http("PRL_FL401Respondent_175_LanguageRequirementsReview")
+	.exec(http("PRL_FL401Respondent_180_LanguageRequirementsReview")
 	  .post(prlURL + "/respondent/reasonable-adjustments/language-requirements-and-special-arrangements/review")
       .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -350,7 +362,7 @@ object Citizen_PRL_FL401_Respondent {
     //  .check(CsrfCheck.save)
     //  .check(substring("Do you have a physical, mental or learning disability")))
 
-	.exec(http("PRL_FL401Respondent_180_NoDisabilities")
+	.exec(http("PRL_FL401Respondent_190_NoDisabilities")
 	  .post(cuiRaURL + "/journey/flags/display/PF0001-RA0001")
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -361,7 +373,7 @@ object Citizen_PRL_FL401_Respondent {
       
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.exec(http("PRL_FL401Respondent_190_ReviewSupport")
+	.exec(http("PRL_FL401Respondent_200_ReviewSupport")
 	  .post(cuiRaURL + "/review")
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -371,7 +383,7 @@ object Citizen_PRL_FL401_Respondent {
       
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.exec(http("PRL_FL401Respondent_200_ConfirmSupport")
+	.exec(http("PRL_FL401Respondent_210_ConfirmSupport")
 	  .post(prlURL + "/respondent/reasonable-adjustments/confirmation")
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -387,7 +399,7 @@ object Citizen_PRL_FL401_Respondent {
 
   val CheckApplication =
 
-    exec(http("PRL_FL401Respondent_210_CheckApplication")
+    exec(http("PRL_FL401Respondent_220_CheckApplication")
 	  .get(prlURL + "/respondent/documents/download/type/cada-document")
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -400,7 +412,7 @@ object Citizen_PRL_FL401_Respondent {
 	.exec { session =>
 	val fw = new BufferedWriter(new FileWriter("AddRAData.csv", true))
 	try {
-		fw.write(session("user").as[String] + "," + session("password").as[String] + "," + session("caseId").as[String] + "\r\n")
+		fw.write(session("user").as[String] + "," + session("password").as[String] + "," + session("caseId").as[String] + "," + "FL401" + "\r\n")
 	} finally fw.close()
 	session
 	} 

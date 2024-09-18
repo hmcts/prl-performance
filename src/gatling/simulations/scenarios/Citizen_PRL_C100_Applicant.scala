@@ -130,7 +130,7 @@ object Citizen_PRL_C100_Applicant {
         .formParam("c100RebuildChildPostCode", "KT25BU")
         .formParam("saveAndContinue", "true")
         .check(CsrfCheck.save)
-        .check(substring("Where do the children live?")))
+        .check(substring("Do you have a written agreement with the other people")))
     }
 
     .pause(MinThinkTime, MaxThinkTime)
@@ -1710,7 +1710,7 @@ object Citizen_PRL_C100_Applicant {
         .formParam("cardNo", "4444333322221111")
         .formParam("expiryMonth", "04")
         .formParam("expiryYear", "27")
-        .formParam("cardholderName", "#{ApplicantFirstName} #{ApplicantLastName}")
+        .formParam("cardholderName", "#{PRLRandomString}Applicant #{PRLRandomString}Name")
         .formParam("cvc", "123")
         .formParam("addressCountry", "GB")
         .formParam("addressLine1", "12 Test Street")

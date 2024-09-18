@@ -17,7 +17,15 @@ object Caseworker_PRL_C100_ProgressCase {
 
   val CourtAdminCheckApplication =
 
-    exec(http("XUI_PRL_XXX_290_SelectCase")
+    exec(_.setAll(
+      "PRLRandomString" -> (Common.randomString(7)),
+      "PRLRandomPhone" -> (Common.randomNumber(8)),
+      "PRLAppDobDay" -> Common.getDay(),
+      "PRLAppDobMonth" -> Common.getMonth(),
+      "PRLAppDobYear" -> Common.getDobYear(),
+      "PRLChildDobYear" -> Common.getDobYearChild()))
+
+    .exec(http("XUI_PRL_XXX_290_SelectCase")
       .get(BaseURL + "/data/internal/cases/#{caseId}")
       .headers(Headers.xuiHeader)
       .check(jsonPath("$.case_id").is("#{caseId}")))

@@ -23,7 +23,7 @@ object Citizen_PRL_C100_Respondent {
   val RetrieveCase =
 
     exec(http("PRL_C100Respondent_030_EnterPinPage")
-		.get(prlURL + "pin-activation/enter-pin")
+		.get(prlURL + "/pin-activation/enter-pin")
 		.headers(Headers.navigationHeader)
 		.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 		.check(CsrfCheck.save)
@@ -52,6 +52,15 @@ object Citizen_PRL_C100_Respondent {
       .check(substring("Respond to an application about a child")))
 
     .pause(MinThinkTime, MaxThinkTime)
+
+	// write cases for use in Add RA script
+	.exec { session =>
+	val fw = new BufferedWriter(new FileWriter("AddRAData.csv", true))
+	try {
+		fw.write(session("user").as[String] + "," + session("password").as[String] + "," + session("caseId").as[String] + "," + "C100" + "\r\n")
+	} finally fw.close()
+	session
+	} 
 
   // Begin required steps
 
@@ -574,5 +583,14 @@ object Citizen_PRL_C100_Respondent {
       .check(status.is(200)))
 
     .pause(MinThinkTime, MaxThinkTime)
+
+	// write cases for use in Add RA script
+	.exec { session =>
+	val fw = new BufferedWriter(new FileWriter("AddRAData.csv", true))
+	try {
+		fw.write(session("user").as[String] + "," + session("password").as[String] + "," + session("caseId").as[String] + "," + "C100" + "\r\n")
+	} finally fw.close()
+	session
+	} 
 
 }
