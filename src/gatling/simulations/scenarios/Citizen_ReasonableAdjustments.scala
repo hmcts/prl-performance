@@ -300,87 +300,99 @@ object Citizen_ReasonableAdjustments {
   val ReasonableAdjustmentsModify = 
 
     exec(http("PRL_RA_010_OpenAdditionalSupport")
-			.get(prlURL + "/respondent/reasonable-adjustments/intro")
-			.headers(Headers.navigationHeader)
-			.check(substring("Tell us if your support needs have changed"))
-      .check(CsrfCheck.save))
+		.get(prlURL + "/respondent/reasonable-adjustments/intro")
+		.headers(Headers.navigationHeader)
+		.check(substring("Tell us if your support needs have changed"))
+     	 .check(CsrfCheck.save))
 
     .pause(MinThinkTime, MaxThinkTime)
 
-    .exec(http("PRL_RA_020_StartAdditionalSupport")
-			.post(prlURL + "/respondent/reasonable-adjustments/intro")
-			.headers(Headers.navigationHeader)
-      .formParam("_csrf", "#{csrf}")
-			.formParam("onlyContinue", "true")
-      .check(CsrfCheck.save)
-      .check(substring("Language requirements and special arrangements")))
+	.group("PRL_RA_020_StartAdditionalSupport") {
+    	exec(http("PRL_RA_020_005_StartAdditionalSupport")
+		.post(prlURL + "/respondent/reasonable-adjustments/intro")
+		.headers(Headers.navigationHeader)
+		.formParam("_csrf", "#{csrf}")
+		.formParam("onlyContinue", "true")
+		.check(CsrfCheck.save)
+		.check(substring("Language requirements and special arrangements")))
+	}
 
     .pause(MinThinkTime, MaxThinkTime)
 
-    .exec(http("PRL_RA_030_ReviewSpecialArrangements")
-			.post(prlURL + "/respondent/reasonable-adjustments/language-requirements-and-special-arrangements")
-			.headers(Headers.navigationHeader)
-      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-			.formParam("_csrf", "#{csrf}")
-			.formParam("ra_languageReqAndSpecialArrangements", "Perf Test - Modify Reasonable Adjustments")
-			.formParam("onlyContinue", "true")
-      .check(substring("Review your language requirements and special arrangements"))
-      .check(CsrfCheck.save))
-      
-		.pause(MinThinkTime, MaxThinkTime)
+	.group("PRL_RA_030_ReviewSpecialArrangements") {
+    	exec(http("PRL_RA_030_005_ReviewSpecialArrangements")
+		.post(prlURL + "/respondent/reasonable-adjustments/language-requirements-and-special-arrangements")
+		.headers(Headers.navigationHeader)
+		.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+		.formParam("_csrf", "#{csrf}")
+		.formParam("ra_languageReqAndSpecialArrangements", "Perf Test - Modify Reasonable Adjustments")
+		.formParam("onlyContinue", "true")
+		.check(substring("Review your language requirements and special arrangements"))
+		.check(CsrfCheck.save))
+	}
+	
+	.pause(MinThinkTime, MaxThinkTime)
 
-    .exec(http("PRL_RA_040_ReviewTheRequestedSupport")
-			.post(prlURL + "/respondent/reasonable-adjustments/language-requirements-and-special-arrangements/review")
-			.headers(Headers.navigationHeader)
-      .header("Content-type", "application/x-www-form-urlencoded")
-      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
-			.formParam("_csrf", "#{csrf}")
-      .formParam("onlyContinue", "true")
-      .check(substring("Support for")))
+	.group("PRL_RA_040_ReviewTheRequestedSupport") {
+		exec(http("PRL_RA_040_005_ReviewTheRequestedSupport")
+		.post(prlURL + "/respondent/reasonable-adjustments/language-requirements-and-special-arrangements/review")
+		.headers(Headers.navigationHeader)
+		.header("Content-type", "application/x-www-form-urlencoded")
+		.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
+		.formParam("_csrf", "#{csrf}")
+		.formParam("onlyContinue", "true")
+		.check(substring("Support for")))
+	}
 
     .pause(MinThinkTime, MaxThinkTime)
 
     .exec(http("PRL_RA_050_RequestRAChanges")
-			.get(cuiRaURL + "/home/intro")
-			.headers(Headers.navigationHeader)
-      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-      .check(substring("I want to tell you that my support needs have changed")))
+		.get(cuiRaURL + "/home/intro")
+		.headers(Headers.navigationHeader)
+		.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+		.check(substring("I want to tell you that my support needs have changed")))
 
     .pause(MinThinkTime, MaxThinkTime)
 
     .exec(http("PRL_RA_060_SelectRAToModify")
-			.get(cuiRaURL + "/review")
-			.headers(Headers.navigationHeader)
-      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-      .check(substring("Review the support"))
-      .check(regex("""id="remove-(.+?)" class='govuk-link govuk-link--no-visited-state'""").saveAs("reasonableAdjustmentToRemove")))
+		.get(cuiRaURL + "/review")
+		.headers(Headers.navigationHeader)
+		.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+		.check(substring("Review the support"))
+		.check(regex("""id="remove-(.+?)" class='govuk-link govuk-link--no-visited-state'""").saveAs("reasonableAdjustmentToRemove")))
 
     .pause(MinThinkTime, MaxThinkTime)
 
-		.exec(http("PRL_RA_070_RemoveRA")
-			.get(cuiRaURL + "/review/set-inactive?id=#{reasonableAdjustmentToRemove}")
-			.headers(Headers.navigationHeader)
-      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-      .check(CsrfCheck.save))
+	.group("PRL_RA_070_RemoveRA") {
+		exec(http("PRL_RA_070_005_RemoveRA")
+		.get(cuiRaURL + "/review/set-inactive?id=#{reasonableAdjustmentToRemove}")
+		.headers(Headers.navigationHeader)
+     	.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+      	.check(CsrfCheck.save))
+	}
 
-		.pause(MinThinkTime, MaxThinkTime)
+	.pause(MinThinkTime, MaxThinkTime)
 
-		.exec(http("PRL_RA_080_ConfirmRAModify")
-			.post(cuiRaURL + "/review")
-			.headers(Headers.navigationHeader)
-      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-			.formParam("_csrf", "#{csrf}")
-      .check(CsrfCheck.save))
+	.group("PRL_RA_080_ConfirmRAModify") {
+		exec(http("PRL_RA_080_005_ConfirmRAModify")
+		.post(cuiRaURL + "/review")
+		.headers(Headers.navigationHeader)
+		.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+		.formParam("_csrf", "#{csrf}")
+		.check(CsrfCheck.save))
+	}
 
     .pause(MinThinkTime, MaxThinkTime)
 
-    .exec(http("PRL_RA_090_ReturnToCaseView")
-			.post(prlURL + "/respondent/reasonable-adjustments/confirmation")
-			.headers(Headers.navigationHeader)
-      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-			.formParam("_csrf", "#{csrf}")
-      .formParam("onlyContinue", "true")
-      .check(substring("Your court hearings")))
+	.group("PRL_RA_090_ReturnToCaseView") {
+   	 	exec(http("PRL_RA_090_005_ReturnToCaseView")
+		.post(prlURL + "/respondent/reasonable-adjustments/confirmation")
+		.headers(Headers.navigationHeader)
+		.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+		.formParam("_csrf", "#{csrf}")
+		.formParam("onlyContinue", "true")
+		.check(substring("Your court hearings")))
+	}
 
     .pause(MinThinkTime, MaxThinkTime)
 
