@@ -33,7 +33,8 @@ object Citizen_PRL_FL401_Respondent {
 
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.exec(http("PRL_FL401Respondent_040_EnterPinAndCase")
+	.group("PRL_FL401Respondent_040_EnterPinAndCase") {
+	  exec(http("PRL_FL401Respondent_040_005_EnterPinAndCase")
 	  .post(prlURL + "/pin-activation/enter-pin")
 	  .headers(Headers.navigationHeader)
 	  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -42,16 +43,19 @@ object Citizen_PRL_FL401_Respondent {
 	  .formParam("accessCode", "#{accessCode}")
 	  .formParam("onlyContinue", "true")
 	  .check(CsrfCheck.save))
+	}
 
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.exec(http("PRL_FL401Respondent_050_CaseActivated")
+	.group("PRL_FL401Respondent_050_CaseActivated") {
+	  exec(http("PRL_FL401Respondent_050_005_CaseActivated")
 	  .post(prlURL + "/pin-activation/case-activated")
 	  .headers(Headers.navigationHeader)
 	  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 	  .formParam("_csrf", "#{csrf}")
 	  .formParam("onlyContinue", "true")
 	  .check(substring("Keep your details private")))
+	}
 
     .pause(MinThinkTime, MaxThinkTime)
 
@@ -61,11 +65,13 @@ object Citizen_PRL_FL401_Respondent {
 
   val GetCase = 
 
-    exec(http("PRL_FL401Respondent_060_OpenCase")
+	group("PRL_FL401Respondent_060_OpenCase") {
+      exec(http("PRL_FL401Respondent_060_005_OpenCase")
 	  .get(prlURL + "/case/#{caseId}")
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
       .check(substring("Keep your details private")))
+	}
 
      .pause(MinThinkTime, MaxThinkTime)
 
@@ -84,12 +90,14 @@ object Citizen_PRL_FL401_Respondent {
 
   val KeepDetailsPrivate = 
 
-    exec(http("PRL_FL401Respondent_070_OpenKeepDetailsPrivate")
+	group("PRL_FL401Respondent_070_OpenKeepDetailsPrivate") {
+      exec(http("PRL_FL401Respondent_070_005_OpenKeepDetailsPrivate")
 	  .get(prlURL + "/respondent/keep-details-private/details_known/#{caseId}")
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
       .check(CsrfCheck.save)
 	  .check(substring("Do the other people named in this application")))
+	}
 
 	.pause(MinThinkTime, MaxThinkTime)
 
@@ -97,7 +105,8 @@ object Citizen_PRL_FL401_Respondent {
   // Does the other person named in your application (the respondent) know any of your contact details? - Yes
   //========================================================================================   
 
-	.exec(http("PRL_FL401Respondent_080_SelectDetailsKnown")
+	.group("PRL_FL401Respondent_080_SelectDetailsKnown") {
+	  exec(http("PRL_FL401Respondent_080_005_SelectDetailsKnown")
 	  .post(prlURL + "/respondent/keep-details-private/details_known")
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -106,10 +115,12 @@ object Citizen_PRL_FL401_Respondent {
 	  .formParam("onlyContinue", "true")
       .check(CsrfCheck.save)
 	  .check(substring("Do you want to keep your contact details private from the other people named in the application")))
+	}
 
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.exec(http("PRL_FL401Respondent_090_SelectKnownDetails")
+	.group("PRL_FL401Respondent_090_SelectKnownDetails") {
+	  exec(http("PRL_FL401Respondent_090_005_SelectKnownDetails")
 	  .post(prlURL + "/respondent/keep-details-private/start_alternative")
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -124,16 +135,19 @@ object Citizen_PRL_FL401_Respondent {
 	  .formParam("saveAndContinue", "true")
       .check(CsrfCheck.save)
 	  .check(substring("The court will not keep your contact details private")))
+	}
       
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.exec(http("PRL_FL401Respondent_100_ConfirmDetails")
+	.group("PRL_FL401Respondent_100_ConfirmDetails") {
+	  exec(http("PRL_FL401Respondent_100_005_ConfirmDetails")
 	  .post(prlURL + "/respondent/keep-details-private/private_details_not_confirmed")
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 	  .formParam("_csrf", "#{csrf}")
 	  .formParam("saveAndContinue", "true")
 	  .check(substring("Keep your details private")))
+	}
 
     .pause(MinThinkTime, MaxThinkTime)
 
@@ -151,12 +165,14 @@ object Citizen_PRL_FL401_Respondent {
       "PRLAppDobYear" -> Common.getDobYear(),
       "PRLChildDobYear" -> Common.getDobYearChild()))
 
-	.exec(http("PRL_FL401Respondent_110_OpenContactDetails")
+	.group("PRL_FL401Respondent_110_OpenContactDetails") {
+	  exec(http("PRL_FL401Respondent_110_005_OpenContactDetails")
 	  .get(prlURL + "/respondent/confirm-contact-details/checkanswers/#{caseId}")
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
       .check(CsrfCheck.save)
 	  .check(substring("Read the information to make sure it is correct, and add any missing details")))
+	}
 
 	// Redirect to
 	//.exec(http("PRL_FL401Respondent_120_OpenContactDetails")
@@ -196,7 +212,8 @@ object Citizen_PRL_FL401_Respondent {
   // Enter Place of Birth and Continue
   //========================================================================================  
 
-	.exec(http("PRL_FL401Respondent_130_SubmitPlaceOfBirthContinue")
+	.group("PRL_FL401Respondent_130_SubmitPlaceOfBirthContinue") {
+	  exec(http("PRL_FL401Respondent_130_005_SubmitPlaceOfBirthContinue")
 	  .post(prlURL + "/respondent/confirm-contact-details/personaldetails")
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -211,6 +228,7 @@ object Citizen_PRL_FL401_Respondent {
 	  .formParam("saveAndContinue", "true")
       .check(CsrfCheck.save)
 	  .check(substring("Check your details")))
+	}
 
 	// Redirect to
 	//.exec(http("PRL_FL401Respondent_140_SubmitPlaceOfBirthCheckAnswers")
@@ -225,13 +243,15 @@ object Citizen_PRL_FL401_Respondent {
   // Save & Continue
   //========================================================================================   
 
-	.exec(http("PRL_FL401Respondent_140_Save&Continue")
+	.group("PRL_FL401Respondent_140_Save&Continue") {
+	  exec(http("PRL_FL401Respondent_140_005_Save&Continue")
 	  .post(prlURL + "/respondent/confirm-contact-details/checkanswers")
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 	  .formParam("_csrf", "#{csrf}")
 	  .formParam("citizenUserPlaceOfBirth", "#{PRLRandomString} City")
 	  .formParam("saveAndContinue", "true"))
+	}
 
 	.pause(MinThinkTime, MaxThinkTime)
 
@@ -244,12 +264,12 @@ object Citizen_PRL_FL401_Respondent {
 
 
   //========================================================================================
-  // Select Contact Preferences
+  // Select Contact Preferences --- ** Not currently used within FL401 Respondent Journey  **
   //========================================================================================   
 
   val ContactPreferences = 
 
-    exec(http("PRL_FL401Respondent_110_OpenContactPreferences")
+    exec(http("PRL_FL401Respondent_XXX_OpenContactPreferences")
 	  .get(prlURL + "/respondent/contact-preference/choose-a-contact-preference")
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -258,7 +278,7 @@ object Citizen_PRL_FL401_Respondent {
       
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.exec(http("PRL_FL401Respondent_120_ChooseContactPreference")
+	.exec(http("PRL_FL401Respondent_XXX_ChooseContactPreference")
 	  .post(prlURL + "/respondent/contact-preference/choose-a-contact-preference")
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -270,7 +290,7 @@ object Citizen_PRL_FL401_Respondent {
       
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.exec(http("PRL_FL401Respondent_130_ChooseContactPreferenceReview")
+	.exec(http("PRL_FL401Respondent_XXX_ChooseContactPreferenceReview")
 	  .post(prlURL + "/respondent/contact-preference/review")
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -281,7 +301,7 @@ object Citizen_PRL_FL401_Respondent {
       
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.exec(http("PRL_FL401Respondent_140_ConfirmContactPreference")
+	.exec(http("PRL_FL401Respondent_XXX_ConfirmContactPreference")
 	  .post(prlURL + "/respondent/contact-preference/confirmation")
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -292,7 +312,7 @@ object Citizen_PRL_FL401_Respondent {
     .pause(MinThinkTime, MaxThinkTime)
 
   //========================================================================================
-  // Select Support you need during your case
+  // Select Support you need during your case link (Reasonable Adjustments)
   //========================================================================================     
   
   val SupportYouNeed =
@@ -304,9 +324,10 @@ object Citizen_PRL_FL401_Respondent {
       .check(CsrfCheck.save)
 	  .check(substring("Some people need support during their case")))
       
-	  .pause(MinThinkTime, MaxThinkTime)
+	.pause(MinThinkTime, MaxThinkTime)
 
-	.exec(http("PRL_FL401Respondent_160_ReasonableAdjustmentsStart")
+	.group("PRL_FL401Respondent_160_ReasonableAdjustmentsStart") {
+	  exec(http("PRL_FL401Respondent_160_005_ReasonableAdjustmentsStart")
 	  .post(prlURL + "/respondent/reasonable-adjustments/intro")
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -314,6 +335,7 @@ object Citizen_PRL_FL401_Respondent {
 	  .formParam("onlyContinue", "true")
       .check(CsrfCheck.save)
 	  .check(substring("Think about all communication with the court")))
+	}
 
 	//Redirected to: 
 	//.exec(http("PRL_FL401Respondent_170_LanguageRequirements")
@@ -325,7 +347,8 @@ object Citizen_PRL_FL401_Respondent {
 
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.exec(http("PRL_FL401Respondent_170_LanguageRequirements")
+	.group("PRL_FL401Respondent_170_LanguageRequirements") {
+	  exec(http("PRL_FL401Respondent_170_005_LanguageRequirements")
 	  .post(prlURL + "/respondent/reasonable-adjustments/language-requirements-and-special-arrangements")
       .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -334,6 +357,7 @@ object Citizen_PRL_FL401_Respondent {
 	  .formParam("onlyContinue", "true")
       .check(CsrfCheck.save)
 	  .check(substring("Review your language requirements and special arrangements")))
+	}
 
 	//Redirected to:
 	//.exec(http("PRL_FL401Respondent_177_LanguageRequirementsReview")
@@ -345,14 +369,16 @@ object Citizen_PRL_FL401_Respondent {
 
 	 .pause(MinThinkTime, MaxThinkTime)
 
-	.exec(http("PRL_FL401Respondent_180_LanguageRequirementsReview")
+	.group("PRL_FL401Respondent_180_LanguageRequirementsReview") {
+	  exec(http("PRL_FL401Respondent_180_005_LanguageRequirementsReview")
 	  .post(prlURL + "/respondent/reasonable-adjustments/language-requirements-and-special-arrangements/review")
       .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 	  .formParam("_csrf", "#{csrf}")
-	 .formParam("onlyContinue", "true")
+	  .formParam("onlyContinue", "true")
       .check(CsrfCheck.save)
 	  .check(substring("Do you have a physical, mental or learning disability")))
+	}
 
 	//Redirect to:
 	//.exec(http("PRL_RA_030_LaunchReasonableAdjustments")
@@ -362,7 +388,8 @@ object Citizen_PRL_FL401_Respondent {
     //  .check(CsrfCheck.save)
     //  .check(substring("Do you have a physical, mental or learning disability")))
 
-	.exec(http("PRL_FL401Respondent_190_NoDisabilities")
+	.group("PRL_FL401Respondent_190_NoDisabilities") {
+	  exec(http("PRL_FL401Respondent_190_005_NoDisabilities")
 	  .post(cuiRaURL + "/journey/flags/display/PF0001-RA0001")
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -370,26 +397,31 @@ object Citizen_PRL_FL401_Respondent {
 	  .formParam("_csrf", "#{csrf}")
       .check(CsrfCheck.save)
 	  .check(substring("Review the support")))
+	}
       
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.exec(http("PRL_FL401Respondent_200_ReviewSupport")
+	.group("PRL_FL401Respondent_200_ReviewSupport") {
+	  exec(http("PRL_FL401Respondent_200_005_ReviewSupport")
 	  .post(cuiRaURL + "/review")
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 	  .formParam("_csrf", "#{csrf}")
       .check(CsrfCheck.save)
 	  .check(substring("You have submitted your request to the court")))
+	}
       
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.exec(http("PRL_FL401Respondent_210_ConfirmSupport")
+	.group("PRL_FL401Respondent_210_ConfirmSupport") {
+	  exec(http("PRL_FL401Respondent_210_005_ConfirmSupport")
 	  .post(prlURL + "/respondent/reasonable-adjustments/confirmation")
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 	  .formParam("_csrf", "#{csrf}")
 	  .formParam("onlyContinue", "true")
 	  .check(substring("Child arrangements and family injunction cases")))
+	}
 
     .pause(MinThinkTime, MaxThinkTime)
 
@@ -406,7 +438,6 @@ object Citizen_PRL_FL401_Respondent {
       .check(status.is(200)))
 
     .pause(MinThinkTime, MaxThinkTime)
-
 
 // write cases for use in Add RA script
 	.exec { session =>

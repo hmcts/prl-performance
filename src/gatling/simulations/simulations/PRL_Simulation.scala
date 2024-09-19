@@ -220,13 +220,13 @@ class PRL_Simulation extends Simulation {
       .repeat(1) {
         feed(c100RespondentData)
         .exec(Citizen_PRL_C100_Respondent.RetrieveCase)
-        //.exec(Citizen_PRL_C100_Respondent.GetCase)
-        //.exec(Citizen_PRL_C100_Respondent.KeepDetailsPrivate)
-        //.exec(Citizen_PRL_C100_Respondent.ContactPreferences)
-        //.exec(Citizen_PRL_C100_Respondent.SupportYouNeed)
-        //.exec(Citizen_PRL_C100_Respondent.RespondToApplication)
-        //.exec(Citizen_PRL_C100_Respondent.CheckApplication)
-        //.exec(Logout.CUILogout)
+        .exec(Citizen_PRL_C100_Respondent.GetCase)
+        .exec(Citizen_PRL_C100_Respondent.KeepDetailsPrivate)
+        .exec(Citizen_PRL_C100_Respondent.ContactPreferences)
+        .exec(Citizen_PRL_C100_Respondent.SupportYouNeed)
+        .exec(Citizen_PRL_C100_Respondent.RespondToApplication)
+        .exec(Citizen_PRL_C100_Respondent.CheckApplication)
+        .exec(Logout.CUILogout)
       }
     }
 
