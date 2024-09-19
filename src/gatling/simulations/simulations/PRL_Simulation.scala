@@ -52,12 +52,12 @@ class PRL_Simulation extends Simulation {
   /* PERFORMANCE TEST CONFIGURATION */
   val prlTargetPerHour: Double = 30
   val caseworkerTargetPerHour: Double = 30
-  //val c100AppTargetPerHour: Double = 62
-  //val defaultTargetPerHour: Double = 10
+  val c100AppTargetPerHour: Double = 62
+  val defaultTargetPerHour: Double = 10
 
   // *** Smoke test config ****
-  val c100AppTargetPerHour: Double = 10//31
-  val defaultTargetPerHour: Double = 2//5
+  //val c100AppTargetPerHour: Double = 10//31
+  //val defaultTargetPerHour: Double = 2//5
   
   //This determines the percentage split of PRL journeys, by C100 or FL401
   val prlC100Percentage = 100 //Percentage of C100s (the rest will be FL401s) - should be 66 for the 2:1 ratio
@@ -356,7 +356,7 @@ class PRL_Simulation extends Simulation {
   //=================================================
   //PRLC100RespondentScenario.inject(constantConcurrentUsers(41).during(10)),
    //PRLFL401RespondentScenario.inject(constantConcurrentUsers(41).during(10)),
-   //PRLC100CitizenScenario.inject(constantConcurrentUsers(40).during(10)),
+   //PRLC100CitizenScenario.inject(constantConcurrentUsers(20).during(10)),
    //PRLC100CaseworkerScenario.inject(constantConcurrentUsers(27).during(10)),
    //PRLReasonableAdjustmentsAdd.inject(constantConcurrentUsers(14).during(10)),
 
