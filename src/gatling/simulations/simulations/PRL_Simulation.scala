@@ -359,6 +359,7 @@ class PRL_Simulation extends Simulation {
    //PRLC100CitizenScenario.inject(constantConcurrentUsers(20).during(10)),
    //PRLC100CaseworkerScenario.inject(constantConcurrentUsers(27).during(10)),
    //PRLReasonableAdjustmentsAdd.inject(constantConcurrentUsers(14).during(10)),
+   //PRLReasonableAdjustmentsModify.inject(constantConcurrentUsers(1).during(10)),
 
   ).protocols(httpProtocol)
     .assertions(assertions(testType))
