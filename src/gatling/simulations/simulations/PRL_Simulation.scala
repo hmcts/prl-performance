@@ -53,6 +53,7 @@ class PRL_Simulation extends Simulation {
   val prlTargetPerHour: Double = 30
   val caseworkerTargetPerHour: Double = 30
   val c100AppTargetPerHour: Double = 62
+  val reasonableAdjustmentTargetPerHour = 25
   val defaultTargetPerHour: Double = 10
 
   // *** Smoke test config ****
@@ -339,8 +340,8 @@ class PRL_Simulation extends Simulation {
   PRLC100CitizenScenario.inject(simulationProfile(testType, c100AppTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
   PRLC100RespondentScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
   PRLFL401RespondentScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-  PRLReasonableAdjustmentsAdd.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-  PRLReasonableAdjustmentsModify.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+  PRLReasonableAdjustmentsAdd.inject(simulationProfile(testType, reasonableAdjustmentTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+  PRLReasonableAdjustmentsModify.inject(simulationProfile(testType, reasonableAdjustmentTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
 
   //=================================================
   //Case creation/progression Scenarios:
