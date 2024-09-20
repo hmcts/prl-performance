@@ -280,7 +280,7 @@ class PRL_Simulation extends Simulation {
       .exec(Login.PrlLogin)
       .repeat(1) {
         feed(fl401RespondentData)
-        //.exec(Citizen_PRL_FL401_Respondent.RetrieveCase)
+        .exec(Citizen_PRL_FL401_Respondent.RetrieveCase)
         .exec(Citizen_PRL_FL401_Respondent.GetCase)
         .exec(Citizen_PRL_FL401_Respondent.KeepDetailsPrivate)
         .exec(Citizen_PRL_FL401_Respondent.ContactDetails)
