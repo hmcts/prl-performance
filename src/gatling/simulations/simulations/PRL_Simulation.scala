@@ -280,7 +280,7 @@ class PRL_Simulation extends Simulation {
       .exec(Login.PrlLogin)
       .repeat(1) {
         feed(fl401RespondentData)
-        .exec(Citizen_PRL_FL401_Respondent.RetrieveCase)
+        //.exec(Citizen_PRL_FL401_Respondent.RetrieveCase)
         .exec(Citizen_PRL_FL401_Respondent.GetCase)
         .exec(Citizen_PRL_FL401_Respondent.KeepDetailsPrivate)
         .exec(Citizen_PRL_FL401_Respondent.ContactDetails)
@@ -355,7 +355,7 @@ class PRL_Simulation extends Simulation {
   //Closed workload model scenarios for DataPrep:
   //=================================================
   //PRLC100RespondentScenario.inject(constantConcurrentUsers(41).during(10)),
-   //PRLFL401RespondentScenario.inject(constantConcurrentUsers(41).during(10)),
+   //PRLFL401RespondentScenario.inject(constantConcurrentUsers(1).during(10)),
    //PRLC100CitizenScenario.inject(constantConcurrentUsers(20).during(10)),
    //PRLC100CaseworkerScenario.inject(constantConcurrentUsers(27).during(10)),
    //PRLReasonableAdjustmentsAdd.inject(constantConcurrentUsers(14).during(10)),
