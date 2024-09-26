@@ -72,8 +72,8 @@ object Citizen_PRL_C100_Respondent {
 
   val GetCase = 
 
-	group("PRL_C100Respondent_040_CaseActivated") {
-    	exec(http("PRL_C100Respondent_050_OpenCase")
+	group("PRL_C100Respondent_050_OpenCase") {
+    	exec(http("PRL_C100Respondent_050_005_OpenCase")
 		.get(prlURL + "/case/#{caseId}")
 		.headers(Headers.navigationHeader)
 		.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
