@@ -52,9 +52,9 @@ class PRL_Simulation extends Simulation {
   /* PERFORMANCE TEST CONFIGURATION */
   val prlTargetPerHour: Double = 30
   val caseworkerTargetPerHour: Double = 30
-  val c100AppTargetPerHour: Double = 62
-  val reasonableAdjustmentTargetPerHour = 25
-  val defaultTargetPerHour: Double = 10
+  val c100AppTargetPerHour: Double = 31 //62
+  val reasonableAdjustmentTargetPerHour = 12
+  val defaultTargetPerHour: Double = 12
 
   // *** Smoke test config ****
   //val c100AppTargetPerHour: Double = 10//31
@@ -337,11 +337,11 @@ class PRL_Simulation extends Simulation {
   //=================================================
   //C100 & CUIRA Release Scenarios
   //=================================================
-  //PRLC100CitizenScenario.inject(simulationProfile(testType, c100AppTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-  //PRLC100RespondentScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-  //PRLFL401RespondentScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-  //PRLReasonableAdjustmentsAdd.inject(simulationProfile(testType, reasonableAdjustmentTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-  //PRLReasonableAdjustmentsModify.inject(simulationProfile(testType, reasonableAdjustmentTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+  PRLC100CitizenScenario.inject(simulationProfile(testType, c100AppTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+  PRLC100RespondentScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+  PRLFL401RespondentScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+  PRLReasonableAdjustmentsAdd.inject(simulationProfile(testType, reasonableAdjustmentTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+  PRLReasonableAdjustmentsModify.inject(simulationProfile(testType, reasonableAdjustmentTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
 
   //=================================================
   //Case creation/progression Scenarios:
@@ -356,7 +356,7 @@ class PRL_Simulation extends Simulation {
   //Closed workload model scenarios for DataPrep:
   //=================================================
   
-  PrlDataPrep.inject(constantConcurrentUsers(1).during(10)),
+  //PrlDataPrep.inject(constantConcurrentUsers(1).during(10)),
   //PRLFL401CaseworkerScenario.inject(constantConcurrentUsers(20).during(20)),
   //PRLFL401CaseManagerScenario.inject(constantConcurrentUsers(20).during(20)),
   //PrlFL401Create.inject(constantConcurrentUsers(20).during(20)),
