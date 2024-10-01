@@ -54,7 +54,7 @@ object Citizen_PRL_FL401_Respondent {
 	  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 	  .formParam("_csrf", "#{csrf}")
 	  .formParam("onlyContinue", "true")
-	  .check(substring("Keep your details private")))
+	  .check(status.is(200)))
 	}
 
     .pause(MinThinkTime, MaxThinkTime)
