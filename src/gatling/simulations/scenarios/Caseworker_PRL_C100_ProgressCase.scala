@@ -90,13 +90,14 @@ object Caseworker_PRL_C100_ProgressCase {
   ======================================================================================*/
 
   .exec(http("XUI_PRL_XXX_320_ClaimTask")
-      .post(BaseURL + "/workallocation/task/taskId/claim")
+      .post(BaseURL + "/workallocation/task/#{taskId}/claim")
       .headers(Headers.xuiHeader)
       .header("Accept", "application/json, text/plain, */*")
       .header("x-xsrf-token", "#{XSRFToken}")
-      .body(ElFileBody("bodies/prl/courtAdmin/PRLLocalCourt.json"))
-      .check(jsonPath("$.data.courtList.value.code").is("234946:")))  //Value does not change for now. 
+      .body(StringBody("""{}"""))
+      .check(status.in(200, 204)))
 
+  .pause(MinThinkTime, MaxThinkTime)
 
   /*=====================================================================================
   * Select Issue and send to local Court
