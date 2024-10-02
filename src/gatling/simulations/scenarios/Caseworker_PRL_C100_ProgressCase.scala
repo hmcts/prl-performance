@@ -86,6 +86,19 @@ object Caseworker_PRL_C100_ProgressCase {
   }
 
   /*=====================================================================================
+  * Claim the task
+  ======================================================================================*/
+
+  .exec(http("XUI_PRL_XXX_320_ClaimTask")
+      .post(BaseURL + "/workallocation/task/taskId/claim")
+      .headers(Headers.xuiHeader)
+      .header("Accept", "application/json, text/plain, */*")
+      .header("x-xsrf-token", "#{XSRFToken}")
+      .body(ElFileBody("bodies/prl/courtAdmin/PRLLocalCourt.json"))
+      .check(jsonPath("$.data.courtList.value.code").is("234946:")))  //Value does not change for now. 
+
+
+  /*=====================================================================================
   * Select Issue and send to local Court
   ======================================================================================*/
 
@@ -93,7 +106,7 @@ object Caseworker_PRL_C100_ProgressCase {
       .get(BaseURL + "/workallocation/case/tasks/#{caseId}/event/issueAndSendToLocalCourtCallback/caseType/PRLAPPS/jurisdiction/PRIVATELAW")
       .headers(Headers.navigationHeader)
       .header("accept", "application/json")
-      .check(jsonPath("$.task_required_for_event").is("false")))
+      .check(jsonPath("$.task_required_for_event").is("true")))
 
     .exec(Common.activity)
     .exec(Common.profile)
