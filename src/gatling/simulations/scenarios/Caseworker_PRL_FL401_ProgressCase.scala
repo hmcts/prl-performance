@@ -44,7 +44,7 @@ object Caseworker_PRL_FL401_ProgressCase {
       .get(BaseURL + "/workallocation/case/tasks/#{caseId}/event/issueAndSendToLocalCourtCallback/caseType/PRLAPPS/jurisdiction/PRIVATELAW")
       .headers(Headers.navigationHeader)
       .header("accept", "application/json")
-      .check(jsonPath("$.task_required_for_event").is("false")))
+      .check(jsonPath("$.task_required_for_event").is("true")))
 
     .exec(Common.activity)
     .exec(Common.profile)

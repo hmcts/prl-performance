@@ -337,11 +337,11 @@ class PRL_Simulation extends Simulation {
   //=================================================
   //C100 & CUIRA Release Scenarios
   //=================================================
-  PRLC100CitizenScenario.inject(simulationProfile(testType, c100AppTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-  PRLC100RespondentScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-  PRLFL401RespondentScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-  PRLReasonableAdjustmentsAdd.inject(simulationProfile(testType, reasonableAdjustmentTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-  PRLReasonableAdjustmentsModify.inject(simulationProfile(testType, reasonableAdjustmentTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+  //PRLC100CitizenScenario.inject(simulationProfile(testType, c100AppTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+  //PRLC100RespondentScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+  //PRLFL401RespondentScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+  //PRLReasonableAdjustmentsAdd.inject(simulationProfile(testType, reasonableAdjustmentTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+  //PRLReasonableAdjustmentsModify.inject(simulationProfile(testType, reasonableAdjustmentTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
 
   //=================================================
   //Case creation/progression Scenarios:
@@ -357,13 +357,13 @@ class PRL_Simulation extends Simulation {
   //=================================================
   
   //PrlDataPrep.inject(constantConcurrentUsers(1).during(10)),
-  //PRLFL401CaseworkerScenario.inject(constantConcurrentUsers(20).during(20)),
-  //PRLFL401CaseManagerScenario.inject(constantConcurrentUsers(20).during(20)),
-  //PrlFL401Create.inject(constantConcurrentUsers(20).during(20)),
+  //PRLFL401CaseworkerScenario.inject(constantConcurrentUsers(21).during(20)),
+  //PRLFL401CaseManagerScenario.inject(constantConcurrentUsers(21).during(20)),
+  //PrlFL401Create.inject(constantConcurrentUsers(30).during(20)),
   //PRLC100RespondentScenario.inject(constantConcurrentUsers(41).during(10)),
    //PRLFL401RespondentScenario.inject(constantConcurrentUsers(1).during(10)),
    //PRLC100CitizenScenario.inject(constantConcurrentUsers(20).during(10)),
-   //PRLC100CaseworkerScenario.inject(constantConcurrentUsers(30).during(10)),
+   PRLC100CaseworkerScenario.inject(constantConcurrentUsers(34).during(10)),
    //PRLReasonableAdjustmentsAdd.inject(constantConcurrentUsers(14).during(10)),
    //PRLReasonableAdjustmentsModify.inject(constantConcurrentUsers(1).during(10)),
 

@@ -50,7 +50,7 @@ object CaseManager_PRL_FL401_ProgressCase {
       .get(BaseURL + "/workallocation/case/tasks/#{caseId}/event/confidentialityCheck/caseType/PRLAPPS/jurisdiction/PRIVATELAW")
       .headers(Headers.navigationHeader)
       .header("accept", "application/json")
-      .check(jsonPath("$.task_required_for_event").is("false")))
+      .check(jsonPath("$.task_required_for_event").is("true")))
 
 
     .exec(http("XUI_PRL_XXX_700_AmmendRespondentsDetailsEventTrigger")
