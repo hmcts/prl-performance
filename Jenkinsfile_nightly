@@ -1,7 +1,7 @@
 #!groovy
 
 properties([
-      pipelineTriggers([cron('00 21 * * *')]),
+      pipelineTriggers([cron('H 08 * * 1-5')]),
       //A build parameter TEST_TYPE is used to tell the script to use the pipeline simulation configuration
       parameters([
               choice(name: 'TEST_TYPE', choices: 'pipeline', description: 'Test type (must be \'pipeline\' for Jenkins use)')
@@ -13,8 +13,8 @@ properties([
 @Library("Infrastructure") 
 
 
-def product = "xui"
-def component = "MANAGE ORGANISATION"
+def product = "prl"
+def component = "citizen-frontend"
 
 def secrets = [
         'ccd-perftest': [
@@ -31,7 +31,7 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
     ]
 }
 
-withNightlyPipeline("java", product, component) {
+withNightlyPipeline("nodejs", product, component) {
 
     loadVaultSecrets(secrets)
 
