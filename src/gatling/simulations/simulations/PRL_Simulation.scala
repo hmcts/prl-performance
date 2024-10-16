@@ -61,7 +61,6 @@ class PRL_Simulation extends Simulation {
   
   val rampUpDurationMins = 1
   val rampDownDurationMins = 1
-  
   val testDurationMins = 10 
   
   val numberOfPipelineUsers = 5
