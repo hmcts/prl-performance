@@ -57,7 +57,7 @@ class PRL_Simulation extends Simulation {
   val defaultTargetPerHour: Double = 12
  
   //This determines the percentage split of PRL journeys, by C100 or FL401
-  val prlC100Percentage = 66 //Percentage of C100s (the rest will be FL401s) - should be 66 for the 2:1 ratio
+  val prlC100Percentage = 100 //Percentage of C100s (the rest will be FL401s) - should be 66 for the 2:1 ratio
   
   val rampUpDurationMins = 5
   val rampDownDurationMins = 5
@@ -334,10 +334,10 @@ class PRL_Simulation extends Simulation {
   //C100 & CUIRA Release Scenarios
   //=================================================
   PRLC100CitizenScenario.inject(simulationProfile(testType, c100AppTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-  PRLC100RespondentScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-  PRLFL401RespondentScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-  PRLReasonableAdjustmentsAdd.inject(simulationProfile(testType, reasonableAdjustmentTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-  PRLReasonableAdjustmentsModify.inject(simulationProfile(testType, reasonableAdjustmentTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+  //PRLC100RespondentScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+  //PRLFL401RespondentScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+  //PRLReasonableAdjustmentsAdd.inject(simulationProfile(testType, reasonableAdjustmentTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+  //PRLReasonableAdjustmentsModify.inject(simulationProfile(testType, reasonableAdjustmentTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
 
   //=================================================
   //Case creation/progression Scenarios:
@@ -351,7 +351,6 @@ class PRL_Simulation extends Simulation {
   //=================================================
   //Closed workload model scenarios for DataPrep:
   //=================================================
-  
   //PrlDataPrep.inject(constantConcurrentUsers(1).during(10)),
   //PRLFL401CaseworkerScenario.inject(constantConcurrentUsers(21).during(20)),
   //PRLFL401CaseManagerScenario.inject(constantConcurrentUsers(21).during(20)),
