@@ -1,0 +1,23 @@
+{
+  "data": {
+    "fl401UploadWitnessDocuments": [
+      {
+        "id": null,
+        "value": {
+          "document_url": "#{DocumentURL}",
+          "document_binary_url": "#{DocumentURL}/binary",
+          "document_filename": "3MB.pdf",
+          "document_hash": "#{documentHash}"
+        }
+      }
+    ],
+    "fl401UploadSupportDocuments": []
+  },
+  "event": {
+    "id": "fl401UploadDocuments",
+    "summary": "",
+    "description": ""
+  },
+  "event_token": "#{event_token}",
+  "ignore_warning": false
+}

@@ -3,23 +3,23 @@
     "applicants": [
       {
         "value": {
-          "firstName": "${PRLRandomString} First",
-          "lastName": "${PRLRandomString} Last",
+          "firstName": "#{PRLRandomString} First",
+          "lastName": "#{PRLRandomString} Last",
           "previousName": null,
-          "dateOfBirt#": "${PRLAppDobYear}-${PRLAppDobMont#}-${PRLAppDobDay}",
+          "dateOfBirt#": "#{PRLAppDobYear}-#{PRLAppDobMont#}-#{PRLAppDobDay}",
           "gender": "male",
           "placeOfBirt#": "London",
           "isAddressConfidential": "No",
           "isAtAddressLessT#an5Years": "No",
           "canYouProvideEmailAddress": "Yes",
-          "email": "${PRLRandomString}@gmail.com",
+          "email": "#{PRLRandomString}@gmail.com",
           "isEmailAddressConfidential": "No",
           "p#oneNumber": "0123456789",
           "isP#oneNumberConfidential": "Yes",
-          "representativeFirstName": "${PRLRandomString} Rep",
-          "representativeLastName": "${PRLRandomString} Name",
-          "solicitorEmail": "${PRLRandomString}email@gmail.com",
-          "solicitorReference": "${PRLRandomString} Ref",
+          "representativeFirstName": "#{PRLRandomString} Rep",
+          "representativeLastName": "#{PRLRandomString} Name",
+          "solicitorEmail": "#{PRLRandomString}email@gmail.com",
+          "solicitorReference": "#{PRLRandomString} Ref",
           "dxNumber": "1234567890",
           "isDateOfBirt#Unknown": null,
           "isAddressUnknown": null,
@@ -42,23 +42,23 @@
           "contactPreferences": null,
           "isRemoveLegalRepresentativeRequested": null,
           "address": {
-            "AddressLine1": "${PRLRandomString} Address",
+            "AddressLine1": "#{PRLRandomString} Address",
             "AddressLine2": "",
             "AddressLine3": "",
-            "PostTown": "${PRLRandomString}  Town",
+            "PostTown": "#{PRLRandomString}  Town",
             "County": "",
             "PostCode": "TW3 2##",
             "Country": "United Kingdom"
           },
           "solicitorOrg": {
-            "OrganisationID": "${orgref}",
-            "OrganisationName": "${orgname}"
+            "OrganisationID": "#{orgref}",
+            "OrganisationName": "#{orgname}"
           },
           "solicitorAddress": {
-            "AddressLine1": "${PRLRandomString} Soli ",
+            "AddressLine1": "#{PRLRandomString} Soli ",
             "AddressLine2": "",
             "AddressLine3": "",
-            "PostTown": "${PRLRandomString} Soli Town",
+            "PostTown": "#{PRLRandomString} Soli Town",
             "County": "",
             "PostCode": "TW3 2##",
             "Country": "United Kingdom"
@@ -78,23 +78,23 @@
     "applicants": [
       {
         "value": {
-          "firstName": "${PRLRandomString} First",
-          "lastName": "${PRLRandomString} Last",
+          "firstName": "#{PRLRandomString} First",
+          "lastName": "#{PRLRandomString} Last",
           "previousName": null,
-          "dateOfBirt#": "${PRLAppDobYear}-${PRLAppDobMont#}-${PRLAppDobDay}",
+          "dateOfBirt#": "#{PRLAppDobYear}-#{PRLAppDobMont#}-#{PRLAppDobDay}",
           "gender": "male",
           "placeOfBirt#": "London",
           "isAddressConfidential": "No",
           "isAtAddressLessT#an5Years": "No",
           "canYouProvideEmailAddress": "Yes",
-          "email": "${PRLRandomString}@gmail.com",
+          "email": "#{PRLRandomString}@gmail.com",
           "isEmailAddressConfidential": "No",
           "p#oneNumber": "0123456789",
           "isP#oneNumberConfidential": "Yes",
-          "representativeFirstName": "${PRLRandomString} Rep",
-          "representativeLastName": "${PRLRandomString} Name",
-          "solicitorEmail": "${PRLRandomString}email@gmail.com",
-          "solicitorReference": "${PRLRandomString} Ref",
+          "representativeFirstName": "#{PRLRandomString} Rep",
+          "representativeLastName": "#{PRLRandomString} Name",
+          "solicitorEmail": "#{PRLRandomString}email@gmail.com",
+          "solicitorReference": "#{PRLRandomString} Ref",
           "dxNumber": "1234567890",
           "isDateOfBirt#Unknown": null,
           "isAddressUnknown": null,
@@ -117,23 +117,23 @@
           "contactPreferences": null,
           "isRemoveLegalRepresentativeRequested": null,
           "address": {
-            "AddressLine1": "${PRLRandomString} Address",
+            "AddressLine1": "#{PRLRandomString} Address",
             "AddressLine2": "",
             "AddressLine3": "",
-            "PostTown": "${PRLRandomString}  Town",
+            "PostTown": "#{PRLRandomString}  Town",
             "County": "",
             "PostCode": "TW3 2##",
             "Country": "United Kingdom"
           },
           "solicitorOrg": {
-            "OrganisationID": "${orgref}",
-            "OrganisationName": "${orgname}"
+            "OrganisationID": "#{orgref}",
+            "OrganisationName": "#{orgname}"
           },
           "solicitorAddress": {
-            "AddressLine1": "${PRLRandomString} Soli ",
+            "AddressLine1": "#{PRLRandomString} Soli ",
             "AddressLine2": "",
             "AddressLine3": "",
-            "PostTown": "${PRLRandomString} Soli Town",
+            "PostTown": "#{PRLRandomString} Soli Town",
             "County": "",
             "PostCode": "TW3 2##",
             "Country": "United Kingdom"
@@ -144,7 +144,7 @@
       }
     ]
   },
-  "event_token": "${event_token}",
+  "event_token": "#{event_token}",
   "ignore_warning": false,
-  "case_reference": "${caseId}"
+  "case_reference": "#{caseId}"
 }
