@@ -4,6 +4,8 @@ results/*
 target/**
 *.iml
 *.project
+.gradle/
+build/**
 *.log
 out/**
 src/gatling/resources/application.conf
