@@ -89,8 +89,7 @@ object Common {
   def getCurrentTime(): String = {
     timeNow.format(patternTime)
   }
-
-
+  
   def getCurrentDateTime (): String = {
     ZonedDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"))
   }

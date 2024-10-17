@@ -1,7 +1,7 @@
 {
   "data": {
     "fl401StmtOfTruth": {
-      "date": "2024-07-26",
+      "date": "#{todayDate}",
       "fullname": "Perf Solicitor",
       "nameOfFirm": "#{orgname}",
       "signOnBehalf": "Solicitor",
@@ -17,7 +17,7 @@
   },
   "event_data": {
     "fl401StmtOfTruth": {
-      "date": "2024-07-26",
+      "date": "#{todayDate}",
       "fullname": "Perf Solicitor",
       "nameOfFirm": "#{orgname}",
       "signOnBehalf": "Solicitor",

@@ -15,6 +15,12 @@ object Caseworker_PRL_FL401_ProgressCase {
   val MinThinkTime = Environment.minThinkTime
   val MaxThinkTime = Environment.maxThinkTime
 
+    //set session variables
+  exec(_.setAll(
+    "JudgeFirstName" -> (Common.randomString(4) + "judgefirst"),
+    "JudgeLastName" -> (Common.randomString(4) + "judgeLast"),
+    "LegalAdviserName" -> (Common.randomString(4) + " " + Common.randomString(4) + "legAdv")))
+
   val CourtAdminCheckApplication =
 
     exec(http("XUI_PRL_XXX_290_SelectCase")
