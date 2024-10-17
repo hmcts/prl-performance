@@ -75,15 +75,6 @@ object Citizen_PRL_FL401_Respondent {
 
      .pause(MinThinkTime, MaxThinkTime)
 
-	 // write cases for use in Add RA script
-	//.exec { session =>
-	//val fw = new BufferedWriter(new FileWriter("AddRAData.csv", true))
-	//try {
-	//	fw.write(session("user").as[String] + "," + session("password").as[String] + "," + session("caseId").as[String] + "\r\n")
-	//} finally fw.close()
-	//session
-	//} 
-
   //========================================================================================
   // Select Keep Details Private
   //========================================================================================   
@@ -161,9 +152,7 @@ object Citizen_PRL_FL401_Respondent {
       "PRLRandomString" -> (Common.randomString(7)),
       "PRLRandomPhone" -> (Common.randomNumber(8)),
       "PRLAppDobDay" -> Common.getDay(),
-      "PRLAppDobMonth" -> Common.getMonth(),
-      "PRLAppDobYear" -> Common.getDobYear(),
-      "PRLChildDobYear" -> Common.getDobYearChild()))
+      "PRLAppDobMonth" -> Common.getMonth()))
 
 	.group("PRL_FL401Respondent_110_OpenContactDetails") {
 	  exec(http("PRL_FL401Respondent_110_005_OpenContactDetails")
@@ -173,13 +162,6 @@ object Citizen_PRL_FL401_Respondent {
       .check(CsrfCheck.save)
 	  .check(substring("Read the information to make sure it is correct, and add any missing details")))
 	}
-
-	// Redirect to
-	//.exec(http("PRL_FL401Respondent_120_OpenContactDetails")
-	//  .get(prlURL + "/respondent/confirm-contact-details/checkanswers")
-	//  .headers(Headers.navigationHeader)
-    //  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-    //  .check(CsrfCheck.save))
 
 	.pause(MinThinkTime, MaxThinkTime)
 
@@ -198,13 +180,6 @@ object Citizen_PRL_FL401_Respondent {
 	  .check(regex("""name="citizenUserDateOfBirth-month" type="text" value="(.+?)" inputmode="numeric"""").saveAs("citizenDOBMonth"))
 	  .check(regex("""name="citizenUserDateOfBirth-year" type="text" value="(.+?)" inputmode="numeric"""").saveAs("citizenDOBYear"))
 	  .check(substring("Your name and date of birth")))
-
-
-	  //name="citizenUserFirstNames" type="text" value="Jane">
-	  //name="citizenUserLastNames" type="text" value="Smith">
-	  //name="citizenUserDateOfBirth-day" type="text" value="10" inputmode="numeric"
-	  //name="citizenUserDateOfBirth-month" type="text" value="4" inputmode="numeric"
-	  //name="citizenUserDateOfBirth-year" type="text" value="1981" inputmode="numeric"
 	  
 	.pause(MinThinkTime, MaxThinkTime)
 
@@ -230,13 +205,6 @@ object Citizen_PRL_FL401_Respondent {
 	  .check(substring("Check your details")))
 	}
 
-	// Redirect to
-	//.exec(http("PRL_FL401Respondent_140_SubmitPlaceOfBirthCheckAnswers")
-	//  .get(prlURL + "/respondent/confirm-contact-details/checkanswers")
-	//  .headers(Headers.navigationHeader)
-    //  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-    //  .check(CsrfCheck.save))
-
 	.pause(MinThinkTime, MaxThinkTime)
 
   //========================================================================================
@@ -254,14 +222,6 @@ object Citizen_PRL_FL401_Respondent {
 	}
 
 	.pause(MinThinkTime, MaxThinkTime)
-
-	// Redirect to
-	//.exec(http("PRL_FL401Respondent_150_Save&ContinueGetTasklist")
-	//  .get(prlURL + "/task-list/respondent")
-	//  .headers(Headers.navigationHeader)
-    //  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-    //  .check(CsrfCheck.save))
-
 
   //========================================================================================
   // Select Contact Preferences --- ** Not currently used within FL401 Respondent Journey  **
@@ -337,14 +297,6 @@ object Citizen_PRL_FL401_Respondent {
 	  .check(substring("Think about all communication with the court")))
 	}
 
-	//Redirected to: 
-	//.exec(http("PRL_FL401Respondent_170_LanguageRequirements")
-	//  .get(prlURL + "/respondent/reasonable-adjustments/language-requirements-and-special-arrangements")
-	//  .headers(Headers.navigationHeader)
-    //  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-    //  .check(CsrfCheck.save)
-	//  .check(substring("Language requirements and special arrangements")))
-
 	.pause(MinThinkTime, MaxThinkTime)
 
 	.group("PRL_FL401Respondent_170_LanguageRequirements") {
@@ -359,14 +311,6 @@ object Citizen_PRL_FL401_Respondent {
 	  .check(substring("Review your language requirements and special arrangements")))
 	}
 
-	//Redirected to:
-	//.exec(http("PRL_FL401Respondent_177_LanguageRequirementsReview")
-	//  .get(prlURL + "/respondent/reasonable-adjustments/language-requirements-and-special-arrangements/review")
-	//  .headers(Headers.navigationHeader)
-    //  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-    //  .check(CsrfCheck.save)
-	//  .check(substring("Review your language requirements and special arrangements")))
-
 	 .pause(MinThinkTime, MaxThinkTime)
 
 	.group("PRL_FL401Respondent_180_LanguageRequirementsReview") {
@@ -380,13 +324,7 @@ object Citizen_PRL_FL401_Respondent {
 	  .check(substring("Do you have a physical, mental or learning disability")))
 	}
 
-	//Redirect to:
-	//.exec(http("PRL_RA_030_LaunchReasonableAdjustments")
-	//  .get(prlURL + "/reasonable-adjustments/launch")
-	//  .headers(Headers.navigationHeader)
-    //  .check(substring("Select all that apply to you"))
-    //  .check(CsrfCheck.save)
-    //  .check(substring("Do you have a physical, mental or learning disability")))
+	.pause(MinThinkTime, MaxThinkTime)
 
 	.group("PRL_FL401Respondent_190_NoDisabilities") {
 	  exec(http("PRL_FL401Respondent_190_005_NoDisabilities")

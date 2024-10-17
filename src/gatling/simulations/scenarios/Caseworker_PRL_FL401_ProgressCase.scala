@@ -174,8 +174,7 @@ object Caseworker_PRL_FL401_ProgressCase {
       "PRLRandomString" -> (Common.randomString(7)),
       "todayDate" -> Common.getDate(),
       "PRLAppDobDay" -> Common.getDay(),
-      "PRLAppDobMonth" -> Common.getMonth(),
-      "PRLAppDobYear" -> Common.getDobYear()))
+      "PRLAppDobMonth" -> Common.getMonth()))
 
     /*======================================================================================
     * Click on 'Manage Orders'
@@ -412,18 +411,20 @@ val CourtAdminServiceApplication =
         .headers(Headers.xuiHeader)
         .header("accept", "application/json, text/plain, */*")
         .header("content-type", "multipart/form-data")
-      .header("x-xsrf-token", "#{XSRFToken}")
-      .bodyPart(RawFileBodyPart("files", "TestFile.pdf")
+        .header("x-xsrf-token", "#{XSRFToken}")
+        .bodyPart(RawFileBodyPart("files", "TestFile.pdf")
         .fileName("TestFile.pdf")
         .transferEncoding("binary"))
-      .asMultipartForm
-      .formParam("classification", "PUBLIC")
-      .formParam("caseTypeId", "PRLAPPS")
-      .formParam("jurisdictionId", "PRIVATELAW")
-      .check(substring("originalDocumentName"))
-      .check(jsonPath("$.documents[0].hashToken").saveAs("documentHashSoN"))
-      .check(jsonPath("$.documents[0]._links.self.href").saveAs("DocumentURLSoN")))
+        .asMultipartForm
+        .formParam("classification", "PUBLIC")
+        .formParam("caseTypeId", "PRLAPPS")
+        .formParam("jurisdictionId", "PRIVATELAW")
+        .check(substring("originalDocumentName"))
+        .check(jsonPath("$.documents[0].hashToken").saveAs("documentHashSoN"))
+        .check(jsonPath("$.documents[0]._links.self.href").saveAs("DocumentURLSoN")))
      }
+
+    .pause(MinThinkTime, MaxThinkTime)
 
   /*======================================================================================
   * Service of Application document uploads

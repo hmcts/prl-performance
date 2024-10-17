@@ -41,6 +41,7 @@ object Solicitor_PRL_CitizenDataPrep {
         "PRLRandomString" -> (Common.randomString(7)),
         "PRLAppDobDay" -> Common.getDay(),
         "PRLAppDobMonth" -> Common.getMonth(),
+        "PRLChildDobYear" -> Common.getDobYearChild(),
         "PRLAppDobYear" -> Common.getDobYear()))
 
 

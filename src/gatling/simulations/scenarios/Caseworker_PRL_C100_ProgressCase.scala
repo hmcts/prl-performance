@@ -21,9 +21,7 @@ object Caseworker_PRL_C100_ProgressCase {
       "PRLRandomString" -> (Common.randomString(7)),
       "PRLRandomPhone" -> (Common.randomNumber(8)),
       "PRLAppDobDay" -> Common.getDay(),
-      "PRLAppDobMonth" -> Common.getMonth(),
-      "PRLAppDobYear" -> Common.getDobYear(),
-      "PRLChildDobYear" -> Common.getDobYearChild()))
+      "PRLAppDobMonth" -> Common.getMonth()))
 
     .exec(http("XUI_PRL_XXX_290_SelectCase")
       .get(BaseURL + "/data/internal/cases/#{caseId}")
@@ -191,12 +189,12 @@ object Caseworker_PRL_C100_ProgressCase {
       .check(jsonPath("$[0].type").optional.saveAs("taskType"))
       )
 
-    // // Log task Type
-    // .exec (session => {
-    //   println(s"Current respTaskType: ${session("respTaskType").as[String]}")
-    //   println(s"Current respTaskId: ${session("respTaskId").as[String]}")
-    //   session
-    // })
+    // Log task Type
+      // .exec (session => {
+      //   println(s"Current respTaskType: ${session("respTaskType").as[String]}")
+      //   println(s"Current respTaskId: ${session("respTaskId").as[String]}")
+      //   session
+      // })
 
     //Save taskType from response
     .exec(session => {
@@ -207,7 +205,7 @@ object Caseworker_PRL_C100_ProgressCase {
       }
     })
 
-    // Loop until the task type matches "checkApplicationC100"
+    // Loop until the task type matches "sendToGateKeeperC100"
     .asLongAs(session => session("taskType").as[String] != "sendToGateKeeperC100") {
       exec(http("XUI_PRL_XXX_445_SelectCaseTaskRepeat")
         .get(BaseURL + "/workallocation/case/task/#{caseId}")
@@ -292,8 +290,7 @@ object Caseworker_PRL_C100_ProgressCase {
     exec(_.setAll(
       "PRLRandomString" -> (Common.randomString(7)),
       "PRLAppDobDay" -> Common.getDay(),
-      "PRLAppDobMonth" -> Common.getMonth(),
-      "PRLAppDobYear" -> Common.getDobYear()))
+      "PRLAppDobMonth" -> Common.getMonth()))
 
     /*======================================================================================
     * Click on 'Manage Orders'
@@ -528,9 +525,7 @@ object Caseworker_PRL_C100_ProgressCase {
       .check(jsonPath("$.documents[0]._links.self.href").saveAs("DocumentURLPD36Q")))
      }
 
-    .repeat(10) {
-      pause(1)
-    }
+    .pause(MinThinkTime, MaxThinkTime)
 
   /*======================================================================================
   * Special arrangements letter  Upload

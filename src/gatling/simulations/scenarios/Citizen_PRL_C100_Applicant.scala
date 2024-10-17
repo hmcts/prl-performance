@@ -31,9 +31,7 @@ object Citizen_PRL_C100_Applicant {
       "PRLRandomString" -> (Common.randomString(7)),
       "PRLRandomPhone" -> (Common.randomNumber(8)),
       "PRLAppDobDay" -> Common.getDay(),
-      "PRLAppDobMonth" -> Common.getMonth(),
-      "PRLAppDobYear" -> Common.getDobYear(),
-      "PRLChildDobYear" -> Common.getDobYearChild()))
+      "PRLAppDobMonth" -> Common.getMonth()))
 
     // .feed(PRLCitizens)
 
@@ -623,7 +621,6 @@ object Citizen_PRL_C100_Applicant {
     ======================================================================================*/
 
     .group("PRL_CitizenC100_300_WhichDecision") {
-
       exec(http("PRL_CitizenC100_300_005_WhichDecision")
         .post(prlURL + "/c100-rebuild/child-details/#{childId}/child-matters?_csrf=#{csrf}")
         .headers(Headers.commonHeader)
@@ -715,7 +712,7 @@ object Citizen_PRL_C100_Applicant {
         .formParam("applicantFirstName", "#{PRLRandomString}" + "Applicant")
         .formParam("applicantLastName", "#{PRLRandomString}" + "Name")
         .formParam("saveAndContinue", "true")
-        // .check(CsrfCheck.save)
+        .check(CsrfCheck.save)
         .check(headerRegex("location", """c100-rebuild\/applicant\/(.{8}-.{4}-.{4}-.{4}-.{12})\/confidentiality\/details-know""").ofType[(String)].saveAs("applicantId"))
         .check(status.is(302))
         )
@@ -971,9 +968,7 @@ object Citizen_PRL_C100_Applicant {
       "PRLRandomString" -> (Common.randomString(7)),
       "PRLRandomPhone" -> (Common.randomNumber(8)),
       "PRLAppDobDay" -> Common.getDay(),
-      "PRLAppDobMonth" -> Common.getMonth(),
-      "PRLAppDobYear" -> Common.getDobYear(),
-      "PRLChildDobYear" -> Common.getDobYearChild()))
+      "PRLAppDobMonth" -> Common.getMonth()))
 
     .group("PRL_CitizenC100_460_RespondentDetails") {
       exec(http("PRL_CitizenC100_460_005_RespondentDetails")
