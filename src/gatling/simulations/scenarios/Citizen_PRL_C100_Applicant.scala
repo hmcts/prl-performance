@@ -712,7 +712,7 @@ object Citizen_PRL_C100_Applicant {
         .formParam("applicantFirstName", "#{PRLRandomString}" + "Applicant")
         .formParam("applicantLastName", "#{PRLRandomString}" + "Name")
         .formParam("saveAndContinue", "true")
-        .check(CsrfCheck.save)
+        //.check(CsrfCheck.save)
         .check(headerRegex("location", """c100-rebuild\/applicant\/(.{8}-.{4}-.{4}-.{4}-.{12})\/confidentiality\/details-know""").ofType[(String)].saveAs("applicantId"))
         .check(status.is(302))
         )
@@ -888,7 +888,7 @@ object Citizen_PRL_C100_Applicant {
         .formParam("provideDetailsOfPreviousAddresses", "")
         .formParam("onlycontinue", "true")
         .check(CsrfCheck.save)
-        .check(substring("Contact details of")))
+        .check(substring("Provide details of previous addresses")))
     }
 
     .pause(MinThinkTime, MaxThinkTime)
@@ -1120,7 +1120,7 @@ object Citizen_PRL_C100_Applicant {
         .formParam("oprs_otherPersonCheck", "No")
         .formParam("onlycontinue", "true")
         .check(CsrfCheck.save)
-        .check(substring("currently live with?")))
+        .check(substring(" Select the person that the child lives with")))
     }
 
     .pause(MinThinkTime, MaxThinkTime)

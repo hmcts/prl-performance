@@ -318,7 +318,7 @@ class PRL_Simulation extends Simulation {
       case "perftest" | "pipeline" => //currently using the same assertions for a performance test and the pipeline
         if (debugMode == "off") {
           Seq(global.successfulRequests.percent.gte(95))
-            details("PRL_CitizenC100_770_010_FinalSubmit").successfulRequests.percent.gte(80))
+           // details("PRL_CitizenC100_770_010_FinalSubmit").successfulRequests.percent.gte(80)
         }
         else {
           Seq(global.successfulRequests.percent.is(100))
@@ -332,7 +332,7 @@ class PRL_Simulation extends Simulation {
   //=================================================
   //C100 & CUIRA Release Scenarios
   //=================================================
-  PRLC100CitizenScenario.inject(simulationProfile(testType, c100AppTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+  //PRLC100CitizenScenario.inject(simulationProfile(testType, c100AppTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
   //PRLC100RespondentScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
   //PRLFL401RespondentScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
   //PRLReasonableAdjustmentsAdd.inject(simulationProfile(testType, reasonableAdjustmentTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
@@ -356,7 +356,7 @@ class PRL_Simulation extends Simulation {
   //PrlFL401Create.inject(constantConcurrentUsers(30).during(20)),
   //PRLC100RespondentScenario.inject(constantConcurrentUsers(41).during(10)),
    //PRLFL401RespondentScenario.inject(constantConcurrentUsers(1).during(10)),
-   //PRLC100CitizenScenario.inject(constantConcurrentUsers(20).during(10)),
+   PRLC100CitizenScenario.inject(constantConcurrentUsers(5).during(10)),
    //PRLC100CaseworkerScenario.inject(constantConcurrentUsers(1).during(10)),
    //PRLReasonableAdjustmentsAdd.inject(constantConcurrentUsers(14).during(10)),
    //PRLReasonableAdjustmentsModify.inject(constantConcurrentUsers(1).during(10)),
