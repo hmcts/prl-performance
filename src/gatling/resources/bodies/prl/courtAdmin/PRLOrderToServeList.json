@@ -40,7 +40,7 @@
      "typeOfC21Order": "",
      "isTheOrderByConsent": "Yes",
      "wasTheOrderApprovedAtHearing": "No",
-     "judgeOrMagistrateTitle": "Honour Judge #{JudgeLastName}",
+     "judgeOrMagistrateTitle": "districtJudge",
      "judgeOrMagistratesLastName": "#{JudgeLastName}",
      "justiceLegalAdviserFullName": "#{LegalAdviserName}",
      "dateOrderMade": "#{todayDate}",

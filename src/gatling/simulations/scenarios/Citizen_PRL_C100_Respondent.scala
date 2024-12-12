@@ -18,8 +18,9 @@ object Citizen_PRL_C100_Respondent {
   val MinThinkTime = Environment.minThinkTime
   val MaxThinkTime = Environment.maxThinkTime
 
-  // Enter Case ID & Pin
-
+/*=======================================================================================
+Click Access Code &  Enter Case ID & Pin
+========================================================================================*/
   val RetrieveCase =
 
     exec(http("PRL_C100Respondent_030_EnterPinPage")

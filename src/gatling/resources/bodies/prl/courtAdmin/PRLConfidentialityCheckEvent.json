@@ -10,43 +10,43 @@
          "servedBy": "PRL Court admin",
          "packDocument": [
             {
-               "id": "#{applicantPackDocID}",
+               "id": "#{applicantPackDocID(0)}",
                "value": {
-                  "document_url": "#{finalDocURL}",
+                  "document_url": "#{applicantPackDocURL(0)}",
                   "document_filename": "FL401FinalDocument.pdf",
-                  "document_binary_url": "#{finalDocURL}/binary"
+                  "document_binary_url": "#{applicantPackDocURL(0)}/binary"
                }
             },
             {
-               "id": "#{applicantPackDocID1}", 
+               "id": "#{applicantPackDocID(1)}", 
                "value": {
-                  "document_url": "#{threeMBDocURL}",
+                  "document_url": "#{applicantPackDocURL(1)}",
                   "document_filename": "3MB.pdf",
-                  "document_binary_url": "#{threeMBDocURL}/binary"
+                  "document_binary_url": "#{applicantPackDocURL(1)}/binary"
                }
             },
             {
-               "id": "#{applicantPackDocID2}",
+               "id": "#{applicantPackDocID(2)}",
                "value": {
-                  "document_url": "#{privacyNoticeDocURL}",
+                  "document_url": "#{applicantPackDocURL(2)}",
                   "document_filename": "Privacy_Notice.pdf",
-                  "document_binary_url": "#{privacyNoticeDocURL}/binary"
+                  "document_binary_url": "#{applicantPackDocURL(2)}/binary"
                }
             },
             {
-               "id": "#{applicantPackDocID3}",
+               "id": "#{applicantPackDocID(3)}",
                "value": {
-                  "document_url": "#{blankOrderDocURL}",
+                  "document_url": "#{applicantPackDocURL(3)}",
                   "document_filename": "blank_order_fl404b_final.pdf",
-                  "document_binary_url": "#{blankOrderDocURL}/binary"
+                  "document_binary_url": "#{applicantPackDocURL(3)}/binary"
                }
             },
             {
-               "id": "#{applicantPackDocID4}",
+               "id": "#{applicantPackDocID(4)}",
                "value": {
-                  "document_url": "#{oneTwentyKBDocURL}",
+                  "document_url": "#{applicantPackDocURL(4)}",
                   "document_filename": "120KB.pdf", 
-                  "document_binary_url": "#{oneTwentyKBDocURL}/binary"
+                  "document_binary_url": "#{applicantPackDocURL(4)}/binary"
                }
             }
          ],
@@ -63,7 +63,7 @@
          "servedBy": "PRL Court admin",
          "packDocument": [
             {
-               "id": "#{respondentPackDocID}",
+               "id": "#{respondentPackDocID(0)}",
                "value": {
                   "document_url": "#{coverLetterDocURL}",
                   "document_filename": "cover_letter_re4.pdf",
@@ -72,31 +72,31 @@
                }
             },
             {
-               "id": "#{respondentPackDocID1}",
+               "id": "#{respondentPackDocID(1)}",
                "value": {
-                  "document_url": "#{finalDocURL}",
+                  "document_url": "#{applicantPackDocURL(0)}",
                   "document_filename": "FL401FinalDocument.pdf",
-                  "document_binary_url": "#{finalDocURL}/binary"
+                  "document_binary_url": "#{applicantPackDocURL(0)}/binary"
                }
             },
             {
-               "id": "#{respondentPackDocID2}",
+               "id": "#{respondentPackDocID(2)}",
                "value": {
-                  "document_url": "#{threeMBDocURL}",
+                  "document_url": "#{applicantPackDocURL(1)}",
                   "document_filename": "3MB.pdf",
-                  "document_binary_url": "#{threeMBDocURL}/binary"
+                  "document_binary_url": "#{applicantPackDocURL(1)}/binary"
                }
             },
             {
-               "id": "#{respondentPackDocID3}",
+               "id": "#{respondentPackDocID(3)}",
                "value": {
-                  "document_url": "#{privacyNoticeDocURL}",
+                  "document_url": "#{applicantPackDocURL(2)}",
                   "document_filename": "Privacy_Notice.pdf",
-                  "document_binary_url": "#{privacyNoticeDocURL}/binary"
+                  "document_binary_url": "#{applicantPackDocURL(2)}/binary"
                }
             },
             {
-               "id": "#{respondentPackDocID4}",
+               "id": "#{respondentPackDocID(4)}",
                "value": {
                   "document_url": "#{flDocURL}",
                   "document_filename": "FL415.pdf",
@@ -104,19 +104,11 @@
                }
             },
             {
-               "id": "#{respondentPackDocID5}",
+               "id": "#{respondentPackDocID(5)}",
                "value": {
-                  "document_url": "#{blankOrderDocURL}",
+                  "document_url": "#{applicantPackDocURL(3)}",
                   "document_filename": "blank_order_fl404b_final.pdf",
-                  "document_binary_url": "#{blankOrderDocURL}/binary"
-               }
-            },
-            {
-               "id": "#{respondentPackDocID6}",
-               "value": {
-                  "document_url": "#{oneTwentyKBDocURL}",
-                  "document_filename": "120KB.pdf",
-                  "document_binary_url": "#{oneTwentyKBDocURL}/binary"
+                  "document_binary_url": "#{applicantPackDocURL(3)}/binary"
                }
             }
          ],

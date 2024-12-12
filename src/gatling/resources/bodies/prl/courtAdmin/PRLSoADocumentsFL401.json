@@ -19,7 +19,8 @@
      "noticeOfSafetySupportLetter": {
         "document_url": "#{DocumentURLSoN}",
         "document_binary_url": "#{DocumentURLSoN}/binary",
-        "document_filename": "120KB.pdf"
+        "document_filename": "120KB.pdf",
+        "document_hash": "#{documentHashSoN}"
      },
      "additionalDocumentsList": [],
      "soaIsOrderListEmpty": "No",
@@ -50,7 +51,8 @@
      "noticeOfSafetySupportLetter": {
         "document_url": "#{DocumentURLSoN}",
         "document_binary_url": "#{DocumentURLSoN}/binary",
-        "document_filename": "120KB.pdf"
+        "document_filename": "120KB.pdf",
+        "document_hash": "#{documentHashSoN}"
      },
      "additionalDocumentsList": [],
      "soaIsOrderListEmpty": "No",

@@ -20,17 +20,22 @@
      "noticeOfSafetySupportLetter": {
         "document_url": "#{DocumentURLSoN}",
         "document_binary_url": "#{DocumentURLSoN}/binary",
-        "document_filename": "120KB.pdf"
+        "document_filename": "120KB.pdf",
+        "document_hash": "#{documentHashSoN}"
+        
      },
      "additionalDocumentsList": [],
      "caseTypeOfApplication": "FL401",
      "soaIsOrderListEmpty": "No",
      "missingAddressWarningText": "",
-     "caseCreatedBy": "SOLICITOR",
+     "displayLegalRepOption": "Yes",
      "isC8CheckNeeded": null,
      "responsibleForService": null,
      "isOccupationOrderSelected": null,
-     "soaServingRespondentsOptionsDA": "courtAdmin"
+     "isApplicantRepresented": null,
+     "productHearingBundleOn": null,
+     "soaServeToRespondentOptions": "Yes",
+     "soaServingRespondentsOptions": "courtAdmin"
   },
   "event": {
      "id": "serviceOfApplication",

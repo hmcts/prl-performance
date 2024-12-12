@@ -25,6 +25,7 @@ class PRL_Simulation extends Simulation {
   val fl401RespondentData = csv("FL401RespondentData.csv")
   val RAData_Add = csv("ReasonableAdjustments_Add.csv")
   val RAData_Modify = csv("ReasonableAdjustments_Modify.csv").circular
+  val cafcassCaseFeeder = csv("caseIdsForDocUpload305.csv").circular
 
   val WaitTime = Environment.waitTime
   
@@ -87,6 +88,18 @@ class PRL_Simulation extends Simulation {
     println(s"Test Environment: ${env}")
     println(s"Debug Mode: ${debugMode}")
   }
+
+
+/*===============================================================================================
+* API CAFCASS - UploadDocument
+===============================================================================================*/
+
+  val PRLAPICAFCASSGetDocument = scenario("***** API CAFCASS Get Document *****")
+    .exitBlockOnFail {
+      feed(cafcassCaseFeeder)
+         exec(API_CAFCASS.GetDocument)
+      }
+    
 
 /*===============================================================================================
 * PRL Citizen Journey - Create C100 Case
@@ -351,18 +364,23 @@ class PRL_Simulation extends Simulation {
   //Closed workload model scenarios for DataPrep:
   //=================================================
   //PrlDataPrep.inject(constantConcurrentUsers(1).during(10)),
-  //PRLFL401CaseworkerScenario.inject(constantConcurrentUsers(21).during(20)),
-  //PRLFL401CaseManagerScenario.inject(constantConcurrentUsers(21).during(20)),
-  //PrlFL401Create.inject(constantConcurrentUsers(30).during(20)),
+  //PRLFL401CaseworkerScenario.inject(constantConcurrentUsers(9).during(20)),
+//PRLFL401CaseManagerScenario.inject(constantConcurrentUsers(9).during(20)),
+  //PrlFL401Create.inject(constantConcurrentUsers(10).during(20)),
   //PRLC100RespondentScenario.inject(constantConcurrentUsers(41).during(10)),
    //PRLFL401RespondentScenario.inject(constantConcurrentUsers(1).during(10)),
-   PRLC100CitizenScenario.inject(constantConcurrentUsers(5).during(10)),
-   //PRLC100CaseworkerScenario.inject(constantConcurrentUsers(1).during(10)),
+   //PRLC100CitizenScenario.inject(constantConcurrentUsers(5).during(10)),
+   //PRLC100CaseworkerScenario.inject(constantConcurrentUsers(10).during(10)),
    //PRLReasonableAdjustmentsAdd.inject(constantConcurrentUsers(14).during(10)),
    //PRLReasonableAdjustmentsModify.inject(constantConcurrentUsers(1).during(10)),
 
+   //=========================================================
+   // At Once Users - For API Tests
+   //=========================================================
+   PRLAPICAFCASSGetDocument.inject(atOnceUsers(5)),
+
   ).protocols(httpProtocol)
     .assertions(assertions(testType))
-    .maxDuration(75 minutes)
+    .maxDuration(2 minutes) //75
   
 }

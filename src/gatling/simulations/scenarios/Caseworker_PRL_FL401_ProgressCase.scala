@@ -16,10 +16,11 @@ object Caseworker_PRL_FL401_ProgressCase {
   val MaxThinkTime = Environment.maxThinkTime
 
     //set session variables
-  exec(_.setAll(
-    "JudgeFirstName" -> (Common.randomString(4) + "judgefirst"),
-    "JudgeLastName" -> (Common.randomString(4) + "judgeLast"),
-    "LegalAdviserName" -> (Common.randomString(4) + " " + Common.randomString(4) + "legAdv")))
+  //exec(_.setAll(
+  //  "JudgeFirstName" -> (Common.randomString(4) + "judgefirst"),
+  //  "JudgeLastName" -> (Common.randomString(4) + "judgeLast"),
+  //  "todayDate" -> Common.getDate(),
+  //  "LegalAdviserName" -> (Common.randomString(4) + " " + Common.randomString(4) + "legAdv")))
 
   val CourtAdminCheckApplication =
 
@@ -172,9 +173,28 @@ object Caseworker_PRL_FL401_ProgressCase {
 
     exec(_.setAll(
       "PRLRandomString" -> (Common.randomString(7)),
-      "todayDate" -> Common.getDate(),
+      "JudgeFirstName" -> (Common.randomString(4) + "judgefirst"),
+      "JudgeLastName" -> (Common.randomString(4) + "judgeLast"),
       "PRLAppDobDay" -> Common.getDay(),
-      "PRLAppDobMonth" -> Common.getMonth()))
+      "PRLAppDobMonth" -> Common.getMonth(),
+      "todayDate" -> Common.getDate(),
+      "LegalAdviserName" -> (Common.randomString(4) + " " + Common.randomString(4) + "legAdv")))
+
+
+    /*======================================================================================
+    * Click on 'Manage Orders'
+    ======================================================================================*/
+
+    .exec(http("XUI_PRL_XXX_515_SelectCase")
+      .get(BaseURL + "/data/internal/cases/#{caseId}")
+      .headers(Headers.xuiHeader)
+      .check(jsonPath("$.tabs[6].fields[3].value.firstName").saveAs("ApplicantFirstName"))
+      .check(jsonPath("$.tabs[6].fields[3].value.lastName").saveAs("ApplicantLastName"))
+      .check(jsonPath("$.tabs[6].fields[8].value.firstName").saveAs("RespondentFirstName"))
+      .check(jsonPath("$.tabs[6].fields[8].value.lastName").saveAs("RespondentLastName"))
+      .check(jsonPath("$.case_id").is("#{caseId}")))
+
+    .pause(MinThinkTime, MaxThinkTime)
 
     /*======================================================================================
     * Click on 'Manage Orders'
@@ -448,12 +468,12 @@ val CourtAdminServiceApplication =
 
     .group("XUI_PRL_XXX_670_ServiceRecipients") {
       exec(http("XUI_PRL_XXX_670_005_ServiceRecipients")
-        .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=serviceOfApplication3")
+        .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=serviceOfApplication4")
         .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
         .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("bodies/prl/courtAdmin/PRLSoARecipientsFL401.json"))
-        .check(substring("soaServingRespondentsOptionsDA")))
+        .check(substring("soaServingRespondents")))
     }
 
     .pause(MinThinkTime, MaxThinkTime)

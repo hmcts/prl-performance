@@ -19,6 +19,7 @@ object Solicitor_PRL_FL401_CaseCreate {
       "ApplicantLastName" -> (Common.randomString(5) + "applast"),
       "RespondentFirstName" -> (Common.randomString(5) + "respfirst"),
       "RespondentLastName" -> (Common.randomString(5) + "resplast"),
+      "todayDate" -> Common.getDate(),
       "AppDobDay" -> Common.getDay(),
       "AppDobMonth" -> Common.getMonth(),
       "AppDobYear" -> Common.getDobYear(),

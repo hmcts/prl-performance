@@ -1120,18 +1120,37 @@ object Citizen_PRL_C100_Applicant {
         .formParam("oprs_otherPersonCheck", "No")
         .formParam("onlycontinue", "true")
         .check(CsrfCheck.save)
-        .check(substring(" Select the person that the child lives with")))
+        .check(substring("Select the person that the child lives with most of the time")))
     }
 
     .pause(MinThinkTime, MaxThinkTime)
 
     /*======================================================================================
-    * Who does the first child live with?
+    * Who does the child mainly live with?
     ======================================================================================*/
 
-    .group("PRL_CitizenC100_530_ChildLiveWith") {
-      exec(http("PRL_CitizenC100_530_005_ChildLiveWith")
-        .post(prlURL + "/c100-rebuild/child-details/#{childId}/live-with")
+    .group("PRL_CitizenC100_530_ChildMainlyLiveWith") {
+      exec(http("PRL_CitizenC100_530_005_ChildMainlyLiveWith")
+        .post(prlURL + "/c100-rebuild/child-details/#{childId}/live-with/mainly-live-with")
+        .headers(Headers.commonHeader)
+        .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+        .header("content-type", "application/x-www-form-urlencoded")
+        .formParam("_csrf", "#{csrf}")
+        .formParam("mainlyLiveWith", "#{applicantId}")
+        .formParam("onlycontinue", "true")
+        .check(CsrfCheck.save)
+        .check(substring("living arrangements")))
+    }
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+    /*======================================================================================
+    * Childs living arrangements - Select all of the people the child lives with - select top & Continue
+    ======================================================================================*/
+
+    .group("PRL_CitizenC100_535_LivingArrangements") {
+      exec(http("PRL_CitizenC100_535_005_LivingArrangements")
+        .post(prlURL + "/c100-rebuild/child-details/#{childId}/live-with/living-arrangements")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
         .header("content-type", "application/x-www-form-urlencoded")
