@@ -25,7 +25,7 @@ class PRL_Simulation extends Simulation {
   val fl401RespondentData = csv("FL401RespondentData.csv")
   val RAData_Add = csv("ReasonableAdjustments_Add.csv")
   val RAData_Modify = csv("ReasonableAdjustments_Modify.csv").circular
-  val cafcassCaseFeeder = csv("caseIdsForDocUpload305.csv").circular
+  val cafcassCaseFeeder = csv("CasesForDocUpload.csv").circular
 
   val WaitTime = Environment.waitTime
   
@@ -96,8 +96,10 @@ class PRL_Simulation extends Simulation {
 
   val PRLAPICAFCASSGetDocument = scenario("***** API CAFCASS Get Document *****")
     .exitBlockOnFail {
+      exec(_.set("env", s"${env}")
+      .set("caseType", "PRLAPPS"))
       feed(cafcassCaseFeeder)
-         exec(API_CAFCASS.GetDocument)
+        exec(API_CAFCASS.UploadDocument)
       }
     
 

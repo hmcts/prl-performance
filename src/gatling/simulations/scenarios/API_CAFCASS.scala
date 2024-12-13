@@ -4,13 +4,13 @@ import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import utils.{Common, Environment, Headers}
 
-object GetDocument  {
+object API_CAFCASS  {
   
   /*====================================================================================
   *API CALL FOR GET DOCUMENT
   *=====================================================================================*/
   
-  val UploadDocumentScenario =
+  val UploadDocument =
 
     exec(http("Upload Document Request")
       .post("https://cft-api-mgmt.perftest.platform.hmcts.net/prl-document-api/#{caseId}/document") 
