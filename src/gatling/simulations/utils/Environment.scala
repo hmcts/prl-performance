@@ -13,6 +13,7 @@ object Environment {
  val ccdAPIURL = "http://ccd-data-store-api-#{env}.service.core-compute-#{env}.internal"
  val prlCafcasURL="http://prl-cos-#{env}.service.core-compute-#{env}.internal"
  val cuiRaURL = "https://cui-ra.#{env}.platform.hmcts.net"
+ val apiMgmtURL = "https://cft-api-mgmt.#{env}.platform.hmcts.net/"
 
  val minThinkTime = 2
  val maxThinkTime = 4

@@ -25,7 +25,7 @@ class PRL_Simulation extends Simulation {
   val fl401RespondentData = csv("FL401RespondentData.csv")
   val RAData_Add = csv("ReasonableAdjustments_Add.csv")
   val RAData_Modify = csv("ReasonableAdjustments_Modify.csv").circular
-  val cafcassCaseFeeder = csv("CasesForDocUpload.csv").circular
+  val cafcassCaseFeeder = csv("CasesForDocUpload.csv").queue
 
   val WaitTime = Environment.waitTime
   
@@ -95,13 +95,11 @@ class PRL_Simulation extends Simulation {
 ===============================================================================================*/
 
   val PRLAPICAFCASSGetDocument = scenario("***** API CAFCASS Get Document *****")
-    .exitBlockOnFail {
-      exec(_.set("env", s"${env}")
-      .set("caseType", "PRLAPPS"))
-      feed(cafcassCaseFeeder)
-        exec(API_CAFCASS.UploadDocument)
+      .exitBlockOnFail {
+        exec(_.set("env", s"${env}"))
+          .feed(cafcassCaseFeeder)
+          .exec(API_CAFCASS.UploadDocument)
       }
-    
 
 /*===============================================================================================
 * PRL Citizen Journey - Create C100 Case
@@ -379,7 +377,7 @@ class PRL_Simulation extends Simulation {
    //=========================================================
    // At Once Users - For API Tests
    //=========================================================
-   PRLAPICAFCASSGetDocument.inject(atOnceUsers(5)),
+   PRLAPICAFCASSGetDocument.inject(atOnceUsers(20)),
 
   ).protocols(httpProtocol)
     .assertions(assertions(testType))
