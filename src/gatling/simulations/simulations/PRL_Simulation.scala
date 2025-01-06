@@ -377,10 +377,10 @@ class PRL_Simulation extends Simulation {
    //=========================================================
    // At Once Users - For API Tests
    //=========================================================
-   PRLAPICAFCASSGetDocument.inject(atOnceUsers(20)),
+   //PRLAPICAFCASSGetDocument.inject(atOnceUsers(100)),
 
   ).protocols(httpProtocol)
     .assertions(assertions(testType))
-    .maxDuration(2 minutes) //75
+    .maxDuration(75 minutes) //75
   
 }

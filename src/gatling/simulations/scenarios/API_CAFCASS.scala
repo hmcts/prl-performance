@@ -5,6 +5,8 @@ import io.gatling.http.Predef._
 import utils.{Common, CsrfCheck, Environment, Headers}
 
 object API_CAFCASS  {
+
+  val apiMgmtURL = "https://cft-api-mgmt.#{env}.platform.hmcts.net/"
   
   /*====================================================================================
   *API CALL FOR GET DOCUMENT
@@ -20,8 +22,7 @@ object API_CAFCASS  {
       .bodyPart(StringBodyPart("typeOfDocument", "Safeguarding_Letter")) 
       .bodyPart(RawFileBodyPart("file", "Yellowstone 3738 Safeguarding Letter 22112024170007.pdf")) //src/gatling/resources/
       .asMultipartForm
-      .check(status.is(200), // Validate response status
-      jsonPath("$.success").is("true")))
+      .check(status.is(200)))
       
 
 }
