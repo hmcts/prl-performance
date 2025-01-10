@@ -81,7 +81,7 @@ class PRL_Simulation extends Simulation {
     .baseUrl(Environment.baseURL.replace("${env}", s"${env}"))
     .inferHtmlResources()
     .silentResources
-    .header("experimental", "true") //used to send through client id, s2s and bearer tokens. Might be temporary
+    //.header("experimental", "true") //used to send through client id, s2s and bearer tokens. Might be temporary
   
   before {
     println(s"Test Type: ${testType}")
@@ -127,7 +127,7 @@ class PRL_Simulation extends Simulation {
       .feed(UserCourtAdminPRL)
       .exec(Homepage.XUIHomePage)
       .exec(Login.XUILogin)
-      .repeat(1) {
+      .repeat(1) { 
         feed(c100CaseFeeder)
         .exec(Caseworker_PRL_C100_ProgressCase.CourtAdminCheckApplication)
         .exec(Caseworker_PRL_C100_ProgressCase.CourtAdminSendToGateKeeper)
@@ -364,14 +364,14 @@ class PRL_Simulation extends Simulation {
   //Closed workload model scenarios for DataPrep:
   //=================================================
   //PrlDataPrep.inject(constantConcurrentUsers(1).during(10)),
-  //PRLFL401CaseworkerScenario.inject(constantConcurrentUsers(9).during(20)),
-//PRLFL401CaseManagerScenario.inject(constantConcurrentUsers(9).during(20)),
-  //PrlFL401Create.inject(constantConcurrentUsers(10).during(20)),
-  //PRLC100RespondentScenario.inject(constantConcurrentUsers(41).during(10)),
+  //PRLFL401CaseworkerScenario.inject(constantConcurrentUsers(13).during(20)),
+  //PRLFL401CaseManagerScenario.inject(constantConcurrentUsers(7).during(20)),
+  //PrlFL401Create.inject(constantConcurrentUsers(15).during(20)),
+   //PRLC100RespondentScenario.inject(constantConcurrentUsers(1).during(10)),
    //PRLFL401RespondentScenario.inject(constantConcurrentUsers(1).during(10)),
-   //PRLC100CitizenScenario.inject(constantConcurrentUsers(5).during(10)),
-   //PRLC100CaseworkerScenario.inject(constantConcurrentUsers(10).during(10)),
-   //PRLReasonableAdjustmentsAdd.inject(constantConcurrentUsers(14).during(10)),
+   PRLC100CitizenScenario.inject(constantConcurrentUsers(1).during(10)),
+   //PRLC100CaseworkerScenario.inject(constantConcurrentUsers(15).during(60)),
+   //PRLReasonableAdjustmentsAdd.inject(constantConcurrentUsers(1).during(10)),
    //PRLReasonableAdjustmentsModify.inject(constantConcurrentUsers(1).during(10)),
 
    //=========================================================

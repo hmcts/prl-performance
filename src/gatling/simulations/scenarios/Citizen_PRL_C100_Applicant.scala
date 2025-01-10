@@ -18,6 +18,9 @@ object Citizen_PRL_C100_Applicant {
   val PRLCitizens = csv("UserDataPRLCitizen.csv").circular
   val postcodeFeeder = csv("postcodes.csv").circular
 
+  // Variables for user flow control
+  val hwfScreens = 1; // Controls wether or not to select help with fees (internal no redirect to gov.uk)
+
   val MinThinkTime = Environment.minThinkTime
   val MaxThinkTime = Environment.maxThinkTime
 
@@ -153,7 +156,7 @@ object Citizen_PRL_C100_Applicant {
     .pause(MinThinkTime, MaxThinkTime)
 
     /*======================================================================================
-    * Before you go to court
+    * Before you go to court --> Continue
     ======================================================================================*/
 
     .group("PRL_CitizenC100_080_BeforeCourt") {
@@ -171,7 +174,7 @@ object Citizen_PRL_C100_Applicant {
     .pause(MinThinkTime, MaxThinkTime)
 
     /*======================================================================================
-    * Other ways to reach an agreement - Yes
+    * Other ways to reach an agreement - Continue
     ======================================================================================*/
 
     .group("PRL_CitizenC100_090_ReachAgreement") {
@@ -290,7 +293,7 @@ object Citizen_PRL_C100_Applicant {
     .pause(MinThinkTime, MaxThinkTime)
 
     /*======================================================================================
-    * Attending a Mediation Information and Assessment Meeting MIAM
+    * Attending a Mediation Information and Assessment Meeting MIAM --> Checkbox --> Continue
     ======================================================================================*/
 
     .group("PRL_CitizenC100_150_AttendingMIAM") {
@@ -367,7 +370,7 @@ object Citizen_PRL_C100_Applicant {
     .pause(MinThinkTime, MaxThinkTime)
 
     /*======================================================================================
-    * MIAM certificate Upload Submit
+    * MIAM certificate Upload Submit --> Continue
     ======================================================================================*/
 
     .group("PRL_CitizenC100_190_MIAMUploadSubmit") {
@@ -441,7 +444,7 @@ object Citizen_PRL_C100_Applicant {
     .pause(MinThinkTime, MaxThinkTime)
 
     /*======================================================================================
-    * You would like the court to stop the other people in the application:
+    * You would like the court to stop the other people in the application: --> Continue
     ======================================================================================*/
 
     .group("PRL_CitizenC100_220_WouldLikeCourtTo") {
@@ -648,7 +651,7 @@ object Citizen_PRL_C100_Applicant {
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
         .header("content-type", "application/x-www-form-urlencoded")
         .formParam("_csrf", "#{csrf}")
-        .formParam("statement", "Perf ParentalResponsibility")
+        .formParam("statement", "Childs mother")
         .formParam("_ctx", "pr")
         .formParam("onlycontinue", "true")
         .check(CsrfCheck.save)
@@ -782,7 +785,7 @@ object Citizen_PRL_C100_Applicant {
     .pause(MinThinkTime, MaxThinkTime)
 
     /*======================================================================================
-    * Provide details for Applicant
+    * Provide details for Applicant - No, Male, Rand DOB
     ======================================================================================*/
 
     .group("PRL_CitizenC100_380_ApplicantDetails") {
@@ -820,6 +823,27 @@ object Citizen_PRL_C100_Applicant {
         .formParam("_csrf", "#{csrf}")
         .formParam("relationshipType", "Father")
         .formParam("otherRelationshipTypeDetails", "")
+        .formParam("onlycontinue", "true")
+        .check(CsrfCheck.save)
+        .check(substring("A refuge is a secure place for people")))
+    }
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+    /*======================================================================================
+    * Staying in a refuge
+    ======================================================================================*/
+
+    .group("PRL_CitizenC100_400_StayingInARefuge") {
+      exec(http("PRL_CitizenC100_400_005_StayingInARefuge")
+        .post(prlURL + "/c100-rebuild/refuge/staying-in-refuge/#{applicantId}")
+        .headers(Headers.commonHeader)
+        //.header("cache-control", "max-age=0")
+        //.header("referer", "https://privatelaw.perftest.platform.hmcts.net/")
+        .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
+        .header("content-type", "application/x-www-form-urlencoded")
+        .formParam("_csrf", "#{csrf}")
+        .formParam("isCitizenLivingInRefuge", "No")
         .formParam("onlycontinue", "true")
         .check(CsrfCheck.save)
         .check(substring("Current postcode")))
@@ -884,7 +908,7 @@ object Citizen_PRL_C100_Applicant {
         .formParam("addressCounty", "#{PRLRandomString}" + "County")
         .formParam("addressPostcode", "KT25BU")
         .formParam("country", "United Kingdom")
-        .formParam("addressHistory", "Yes")
+        .formParam("addressHistory", "No")
         .formParam("provideDetailsOfPreviousAddresses", "")
         .formParam("onlycontinue", "true")
         .check(CsrfCheck.save)
@@ -1650,11 +1674,82 @@ object Citizen_PRL_C100_Applicant {
 
     .pause(MinThinkTime, MaxThinkTime)
 
+    //=====================
+    // Flag for HWF
+    //====================
+    if (hwfScreens == 1)
+    {
+    /*======================================================================================
+    * Do you need help with paying the fee for this application? - Yes & No 
+
+    Add Logic. 
+    ======================================================================================*/
+   
+    group("PRL_CitizenC100_750_HelpWithPayingYes") {
+      exec(http("PRL_CitizenC100_750_005_HelpWithPayingYes")
+        .post(prlURL + "/c100-rebuild/help-with-fees/need-help-with-fees")
+        .headers(Headers.commonHeader)
+        .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+        .header("content-type", "application/x-www-form-urlencoded")
+        .formParam("_csrf", "#{csrf}")
+        .formParam("hwf_needHelpWithFees", "Yes")
+        .formParam("saveAndContinue", "true")
+        .check(CsrfCheck.save)
+        .check(substring("Check your Answers"))
+      )
+    }
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+    /*======================================================================================
+    * Have you already applied for help with your application fee? - No 
+    ======================================================================================*/
+   
+    .group("PRL_CitizenC100_751_FeesApplied") {
+      exec(http("PRL_CitizenC100_751_005_FeesApplied")
+        .post(prlURL + "/c100-rebuild/help-with-fees/fees-applied")
+        .headers(Headers.commonHeader)
+        .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+        .header("content-type", "application/x-www-form-urlencoded")
+        .formParam("_csrf", "#{csrf}")
+        .formParam("helpWithFeesReferenceNumber", "")
+        .formParam("hwf_feesAppliedDetails", "No")
+        .formParam("saveAndContinue", "true")
+        .check(CsrfCheck.save)
+        .check(substring("You need to apply for help with your child"))
+      )
+    }
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+   /*======================================================================================
+    * You need to apply for help with your child arrangements application fee - Enter ref number
+    ======================================================================================*/
+   
+    .group("PRL_CitizenC100_752_EnterHWFRefNumber") {
+      exec(http("PRL_CitizenC100_752_005_EnterHWFRefNumber")
+        .post(prlURL + "/c100-rebuild/help-with-fees/hwf-guidance")
+        .headers(Headers.commonHeader)
+        .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+        .header("content-type", "application/x-www-form-urlencoded")
+        .formParam("_csrf", "#{csrf}")
+        .formParam("helpWithFeesReferenceNumber", "HWF-A2B-12C")
+        .formParam("hwf_feesAppliedDetails", "No")
+        .formParam("saveAndContinue", "true")
+        .check(CsrfCheck.save)
+        .check(substring("You need to apply for help with your child"))
+      )
+    }
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+    } else { // Else no help with fees
+
     /*======================================================================================
     * Do you need help with paying the fee for this application? - No
     ======================================================================================*/
 
-    .group("PRL_CitizenC100_750_HelpWithPaying") {
+    group("PRL_CitizenC100_750_HelpWithPaying") {
       exec(http("PRL_CitizenC100_750_005_HelpWithPaying")
         .post(prlURL + "/c100-rebuild/help-with-fees/need-help-with-fees")
         .headers(Headers.commonHeader)
@@ -1670,8 +1765,10 @@ object Citizen_PRL_C100_Applicant {
 
     .pause(MinThinkTime, MaxThinkTime)
 
+    } //End of HWF steps
+
     /*======================================================================================
-    * Check your Answers
+    * Check your Answers (different payloads dependent on HWF selection?)
     ======================================================================================*/
 
     .group("PRL_CitizenC100_760_CheckYourAnswers") {
@@ -1685,7 +1782,11 @@ object Citizen_PRL_C100_Applicant {
         .formParam("statementOfTruth", "")
         .formParam("statementOfTruth", "Yes")
         .formParam("saveAndContinue", "true")
-        .check(headerRegex("Location", """https:\/\/card.payments.service.gov.uk\/secure\/(.{8}-.{4}-.{4}-.{4}-.{12})""").ofType[(String)].saveAs("paymentId"))
+        .check(header("Location") // Extract the Location header
+          .transform(location => location.split("/").last) // Optionally, extract the UUID directly
+          .saveAs("paymentId") // Save the extracted UUID
+      )
+        //.check(headerRegex("Location", """https:\/\/card.payments.service.gov.uk\/secure\/(.{8}-.{4}-.{4}-.{4}-.{12})""").ofType[(String)].saveAs("paymentId"))
         .check(status.in(302, 403, 200)))
 
       .exec(http("PRL_CitizenC100_760_010_GetPaymentLink")

@@ -17,7 +17,7 @@ object CaseManager_PRL_FL401_ProgressCase {
 
   val CaseManagerConfidentialityCheck =
 
-  /*=====================================================================================
+   /*=====================================================================================
   * Select Case  (Case Manager)
   ======================================================================================*/
 
@@ -32,7 +32,8 @@ object CaseManager_PRL_FL401_ProgressCase {
       .check(jsonPath("$.tabs[8].fields[11].value.lastName").saveAs("RespondentLastName"))
       .check(jsonPath("$.case_id").is("#{caseId}")))
 
-    .exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).saveAs("XSRFToken")))
+    //.exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).saveAs("XSRFToken")))
+      .exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).withSecure(true).saveAs("XSRFToken")))
 
     .exec(Common.waJurisdictions)
     .exec(Common.activity)
@@ -43,6 +44,69 @@ object CaseManager_PRL_FL401_ProgressCase {
     .pause(MinThinkTime, MaxThinkTime)
 
   /*=====================================================================================
+   * Select task tab 
+   ======================================================================================*/
+
+    .exec(http("XUI_PRL_XXX_686_SelectCase")
+      .get(BaseURL + "/cases/case-details/#{caseId}/task")
+      .headers(Headers.xuiHeader)
+      .check(substring("HMCTS Manage cases")))
+
+    .exec(http("XUI_PRL_XXX_687_SelectCaseTask")
+      .get(BaseURL + "/workallocation/case/task/#{caseId}")
+      .headers(Headers.xuiHeader)
+      .header("Accept", "application/json, text/plain, */*")
+      .header("x-xsrf-token", "#{XSRFToken}")
+      .check(jsonPath("$[*].id").findAll.saveAs("taskIds"))
+      .check(jsonPath("$[*].type").findAll.saveAs("taskTypes")))
+
+      .pause(MinThinkTime, MaxThinkTime)
+
+    //==========================================
+    // Select correct task type and ID logic 
+    //==========================================
+    // Get the index of the task type we are looking for, then capture the task ID from the same index
+    .exec { session =>
+      val ids = session("taskIds").as[Seq[String]]
+      val types = session("taskTypes").as[Seq[String]]
+      val targetType = "confidentialCheckSOA" // Task type we are looking for
+      val matchedIndex = types.indexOf(targetType)
+
+    if (matchedIndex == -1) {
+      throw new RuntimeException(s"ID $targetType not found")
+    }
+
+    // Get the corresponding ID and Type using the matched index
+    val matchedId = ids(matchedIndex)
+    val matchedType = types(matchedIndex)
+
+    // Logger Debuggo
+    println(s"Matched Index: $matchedIndex")
+    println(s"Matched ID: $matchedId")
+    println(s"Matched Type: $matchedType")
+
+    // Set the matched values as session variables
+    session
+      .set("matchedIndex", matchedIndex)
+      .set("matchedTaskId", matchedId)
+      .set("matchedTaskType", matchedType)
+    }
+
+  /*=====================================================================================
+  * Claim the task
+  ======================================================================================*/
+
+  .exec(http("XUI_PRL_XXX_689_ClaimTask")
+      .post(BaseURL + "/workallocation/task/#{matchedTaskId}/claim")
+      .headers(Headers.xuiHeader)
+      .header("Accept", "application/json, text/plain, */*")
+      .header("x-xsrf-token", "#{XSRFToken}")
+      .body(StringBody("""{}"""))
+      .check(status.in(200, 204)))
+
+  .pause(MinThinkTime, MaxThinkTime)
+
+  /*=====================================================================================
   * Confidentiality Check  (Case Manager)
   ======================================================================================*/
 
@@ -51,7 +115,6 @@ object CaseManager_PRL_FL401_ProgressCase {
       .headers(Headers.navigationHeader)
       .header("accept", "application/json")
       .check(jsonPath("$.task_required_for_event").is("true")))
-
 
     .exec(http("XUI_PRL_XXX_700_AmmendRespondentsDetailsEventTrigger")
       .get(BaseURL + "/data/internal/cases/#{caseId}/event-triggers/confidentialityCheck?ignore-warning=false")
@@ -72,6 +135,8 @@ object CaseManager_PRL_FL401_ProgressCase {
       //.check(jsonPath("$.case_fields[1].value.packDocument[3].value.document_url").saveAs("blankOrderDocURL"))
       //.check(jsonPath("$.case_fields[1].value.packDocument[4].value.document_url").saveAs("oneTwentyKBDocURL"))
       .check(jsonPath("$.case_fields[2].value.packDocument[0].value.document_url").saveAs("coverLetterDocURL"))
+      .check(jsonPath("$.case_fields[2].value.coverLettersMap[0].value.coverLetters[0].id").saveAs("coverLetterDocID"))
+      .check(jsonPath("$.case_fields[2].value.coverLettersMap[0].id").saveAs("coverLettersMapID"))
       .check(jsonPath("$.case_fields[2].value.packDocument[1].value.document_url").saveAs("flDocURL"))
       .check(jsonPath("$.case_fields[7].value.document_url").saveAs("cEightDocURL"))
       .check(jsonPath("$.case_fields[1].value.packCreatedDate").saveAs("packCreatedDate"))
@@ -86,6 +151,10 @@ object CaseManager_PRL_FL401_ProgressCase {
       //check(jsonPath("$.case_fields[2].value.packDocument[5].id").saveAs("respondentPackDocID5"))
       //.check(jsonPath("$.case_fields[2].value.packDocument[6].id").saveAs("respondentPackDocID6"))
       .check(jsonPath("$.case_fields[2].value.packDocument[0].value.document_creation_date").saveAs("coverDocCreationDate"))
+    //.check(jsonPath("$.data.unServedRespondentPack.packDocument[0].value.document_url").saveAs("unservedCoverLetterDocURL"))
+    //.check(jsonPath("$.data.unServedRespondentPack.packDocument[0].value.document_creation_date").saveAs("unservedCoverLetterDocCreationDate"))
+    //.check(jsonPath("$.data.unServedRespondentPack.coverLettersMap[0].value.coverLetters[0].id").saveAs("unservedCoverLetterDocID"))
+    //.check(jsonPath("$.event_data.unServedRespondentPack.coverLettersMap[0].id").saveAs("unservedCoverLettersMapID"))
       .check(jsonPath("$.id").is("confidentialityCheck"))
       .check(status.in(200, 403)))
 

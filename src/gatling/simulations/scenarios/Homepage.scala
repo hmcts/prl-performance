@@ -31,7 +31,7 @@ object Homepage {
       .exec(Common.configJson)
       .exec(Common.TsAndCs)
       .exec(Common.configUI)
-      .exec(Common.userDetails)
+      //.exec(Common.userDetails)
       .exec(Common.isAuthenticated)
 
       .exec(http("XUI_010_010_AuthLogin")

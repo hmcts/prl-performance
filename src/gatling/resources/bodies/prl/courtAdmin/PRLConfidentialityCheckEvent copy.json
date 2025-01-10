@@ -37,7 +37,7 @@
                "id": "#{applicantPackDocID(3)}",
                "value": {
                   "document_url": "#{applicantPackDocURL(3)}",
-                  "document_filename": "Annex 1 - Confidential contact details notice.pdf",
+                  "document_filename": "blank_order_fl404b_final.pdf",
                   "document_binary_url": "#{applicantPackDocURL(3)}/binary"
                }
             },
@@ -45,24 +45,12 @@
                "id": "#{applicantPackDocID(4)}",
                "value": {
                   "document_url": "#{applicantPackDocURL(4)}",
-                  "document_filename": "blank_order_fl404b_final.pdf", 
-                  "document_binary_url": "#{applicantPackDocURL(4)}/binary"
-               }
-            },
-            {
-               "id": "#{applicantPackDocID(5)}",
-               "value": {
-                  "document_url": "#{applicantPackDocURL(5)}",
                   "document_filename": "120KB.pdf", 
-                  "document_binary_url": "#{applicantPackDocURL(5)}/binary"
+                  "document_binary_url": "#{applicantPackDocURL(4)}/binary"
                }
             }
          ],
-	          "coverLettersMap":[
-            
-         ],
          "packCreatedDate": "#{packCreatedDate}",
-	 "servedPartyEmail":null,
          "personalServiceBy": "courtAdmin"
       },
       "unServedRespondentPack": {
@@ -110,51 +98,23 @@
             {
                "id": "#{respondentPackDocID(4)}",
                "value": {
-                  "document_url": "#{applicantPackDocURL(3)}", 
-                  "document_filename": "Annex 1 - Confidential contact details notice.pdf",
-                  "document_binary_url": "#{applicantPackDocURL(3)}/binary"
+                  "document_url": "#{flDocURL}",
+                  "document_filename": "FL415.pdf",
+                  "document_binary_url": "#{flDocURL}/binary"
                }
             },
             {
                "id": "#{respondentPackDocID(5)}",
                "value": {
-                  "document_url": "#{applicantPackDocURL(4)}",
+                  "document_url": "#{applicantPackDocURL(3)}",
                   "document_filename": "blank_order_fl404b_final.pdf",
-                  "document_binary_url": "#{applicantPackDocURL(4)}/binary"
+                  "document_binary_url": "#{applicantPackDocURL(3)}/binary"
                }
-            },
-            {
-               "id": "#{respondentPackDocID(6)}",
-               "value": {
-                  "document_url": "#{applicantPackDocURL(5)}",
-                  "document_filename": "120KB.pdf", 
-                  "document_binary_url": "#{applicantPackDocURL(5)}/binary"
-               }
-            }
-         ],
-	 "coverLettersMap":[
-            {
-               "value":{
-                  "coverLetters":[
-                     {
-                        "value":{
-                  	   "document_url": "#{coverLetterDocURL}",
-                  	   "document_filename": "cover_letter_re4.pdf",
-                  	   "document_binary_url": "#{coverLetterDocURL}/binary",
-                  	   "document_creation_date": "#{coverDocCreationDate}"
-                        },
-                        "id":"#{coverLetterDocID}"
-                     }
-                  ]
-               },
-               "id":"#{coverLettersMapID}"
             }
          ],
          "packCreatedDate": "#{packCreatedDate}",
-	      "servedPartyEmail":null,
          "personalServiceBy": "courtAdmin"
       },
-      "unservedCitizenRespondentPack":null,
       "unServedLaPack": null,
       "unServedOthersPack": null,
       "unServedCafcassCymruPack": null,
@@ -163,14 +123,6 @@
          "document_filename": "C8_Document.pdf",
          "document_binary_url": "#{cEightDocURL}/binary"
       },
-      "respBC8EngDocument":null,
-      "respBC8WelDocument":null,
-      "respCC8EngDocument":null,
-      "respCC8WelDocument":null,
-      "respDC8EngDocument":null,
-      "respDC8WelDocument":null,
-      "respEC8EngDocument":null,
-      "respEC8WelDocument":null,
       "applicationServedYesNo": "Yes",
       "isC8CheckApproved": null,
       "responsibleForService": "courtAdmin",

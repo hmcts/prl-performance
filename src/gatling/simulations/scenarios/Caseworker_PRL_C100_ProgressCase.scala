@@ -15,15 +15,19 @@ object Caseworker_PRL_C100_ProgressCase {
   val MinThinkTime = Environment.minThinkTime
   val MaxThinkTime = Environment.maxThinkTime
 
-  val CourtAdminCheckApplication =
-
-    exec(_.setAll(
+  exec(_.setAll(
       "PRLRandomString" -> (Common.randomString(7)),
       "PRLRandomPhone" -> (Common.randomNumber(8)),
       "PRLAppDobDay" -> Common.getDay(),
-      "PRLAppDobMonth" -> Common.getMonth()))
+      "PRLAppDobMonth" -> Common.getMonth(),
+      "JudgeFirstName" -> (Common.randomString(4) + "judgefirst"),
+      "JudgeLastName" -> (Common.randomString(4) + "judgeLast"),
+      "todayDate" -> Common.getDate(),
+      "LegalAdviserName" -> (Common.randomString(4) + " " + Common.randomString(4) + "legAdv")))
 
-    .exec(http("XUI_PRL_XXX_290_SelectCase")
+  val CourtAdminCheckApplication =
+
+    exec(http("XUI_PRL_XXX_290_SelectCase")
       .get(BaseURL + "/data/internal/cases/#{caseId}")
       .headers(Headers.xuiHeader)
       .check(jsonPath("$.case_id").is("#{caseId}")))
@@ -34,7 +38,7 @@ object Caseworker_PRL_C100_ProgressCase {
     .exec(Common.caseActivityGet)
     .exec(Common.isAuthenticated)
 
-    .exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).saveAs("XSRFToken")))
+    .exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).withSecure(true).saveAs("XSRFToken")))
 
     .pause(MinThinkTime, MaxThinkTime)
 
@@ -173,8 +177,9 @@ object Caseworker_PRL_C100_ProgressCase {
       .headers(Headers.xuiHeader)
       .check(substring("HMCTS Manage cases")))
 
-    .exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).saveAs("XSRFToken")))
-      
+    //.exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).saveAs("XSRFToken")))
+    .exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).withSecure(true).saveAs("XSRFToken")))
+
     .exec(Common.activity)
     .exec(Common.configUI)
     .exec(Common.configJson)
@@ -239,7 +244,9 @@ object Caseworker_PRL_C100_ProgressCase {
       .check(jsonPath("$.id").is("sendToGateKeeper")))
 
       .exec(Common.userDetails)
-      .exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).saveAs("XSRFToken")))
+
+      .exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).withSecure(true).saveAs("XSRFToken")))
+      //.exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).saveAs("XSRFToken")))
 
     .pause(MinThinkTime, MaxThinkTime)
 
@@ -287,10 +294,18 @@ object Caseworker_PRL_C100_ProgressCase {
 
   val CourtAdminManageOrders = 
 
-    exec(_.setAll(
+  exec(_.setAll(
       "PRLRandomString" -> (Common.randomString(7)),
+      "PRLRandomPhone" -> (Common.randomNumber(8)),
       "PRLAppDobDay" -> Common.getDay(),
-      "PRLAppDobMonth" -> Common.getMonth()))
+      "PRLAppDobMonth" -> Common.getMonth(),
+      "JudgeFirstName" -> (Common.randomString(4) + "judgefirst"),
+      "JudgeLastName" -> (Common.randomString(4) + "judgeLast"),
+      "todayDate" -> Common.getDate(),
+      "OrderDateYear" -> Common.getCurrentYear(),
+      "OrderDateMonth" -> Common.getCurrentMonth(),
+      "OrderDateDay" -> Common.getCurrentDay(),
+      "LegalAdviserName" -> (Common.randomString(4) + " " + Common.randomString(4) + "legAdv")))
 
     /*======================================================================================
     * Click on 'Manage Orders'
@@ -305,7 +320,8 @@ object Caseworker_PRL_C100_ProgressCase {
         .check(jsonPath("$.id").is("manageOrders")))
 
         .exec(Common.userDetails)
-        .exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).saveAs("XSRFToken")))
+        .exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).withSecure(true).saveAs("XSRFToken")))
+        //.exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).saveAs("XSRFToken")))
     }
 
     .pause(MinThinkTime, MaxThinkTime)
@@ -336,7 +352,7 @@ object Caseworker_PRL_C100_ProgressCase {
         .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
         .header("x-xsrf-token", "#{XSRFToken}")
-        .body(ElFileBody("bodies/prl/courtAdmin//PRLSelectOrder.json"))
+        .body(ElFileBody("bodies/prl/courtAdmin/PRLSelectOrder.json"))
         .check(substring("otherPartyInTheCaseRevised")))
     }
 
@@ -489,15 +505,16 @@ object Caseworker_PRL_C100_ProgressCase {
         .check(jsonPath("$.event_token").saveAs("event_token"))
         .check(jsonPath("$.case_fields[7].value.list_items[0].code")saveAs("serviceOfApplicationScreenCode"))
         .check(jsonPath("$.case_fields[7].value.list_items[0].label")saveAs("serviceOfApplicationScreenLabel"))
-        .check(jsonPath("$.case_fields[28].value.list_items[0].code")saveAs("serviceOfApplicationApplicantCode"))
-        .check(jsonPath("$.case_fields[28].value.list_items[0].label")saveAs("serviceOfApplicationApplicantName"))
-        .check(jsonPath("$.case_fields[28].value.list_items[1].code")saveAs("serviceOfApplicationRespondentCode"))
-        .check(jsonPath("$.case_fields[28].value.list_items[1].label")saveAs("serviceOfApplicationRespondentName"))
+        .check(jsonPath("$.case_fields[30].value.list_items[0].code")saveAs("serviceOfApplicationApplicantCode"))
+        .check(jsonPath("$.case_fields[30].value.list_items[0].label")saveAs("serviceOfApplicationApplicantName"))
+        .check(jsonPath("$.case_fields[30].value.list_items[1].code")saveAs("serviceOfApplicationRespondentCode"))
+        .check(jsonPath("$.case_fields[30].value.list_items[1].label")saveAs("serviceOfApplicationRespondentName"))
         .check(jsonPath("$.id").is("serviceOfApplication")))
 
         .exec(Common.userDetails)
 
-        .exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).saveAs("XSRFToken")))
+        .exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).withSecure(true).saveAs("XSRFToken")))
+        //.exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).saveAs("XSRFToken")))
     }
 
     .pause(MinThinkTime, MaxThinkTime)
@@ -526,6 +543,16 @@ object Caseworker_PRL_C100_ProgressCase {
      }
 
     .pause(MinThinkTime, MaxThinkTime)
+
+  .exec(session => {
+  for (_ <- 1 to 10) { // Adjust the loop count as needed
+    Thread.sleep(500)  // 500ms delay per iteration
+    println("Debug: Delaying the script...")
+  }
+  session
+  })
+
+    
 
   /*======================================================================================
   * Special arrangements letter  Upload
@@ -595,13 +622,24 @@ object Caseworker_PRL_C100_ProgressCase {
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8")
         .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("bodies/prl/courtAdmin/PRLSoASubmit.json"))
-        .check(jsonPath("$.data.caseInvites[1].value.accessCode").saveAs("prlAccessCode")))
+        .check(jsonPath("$.data.caseInvites[0].value.accessCode").saveAs("prlAccessCodeApplicant"))
+        .check(jsonPath("$.data.caseInvites[1].value.accessCode").saveAs("prlAccessCodeRespondent")))
     }
 
+
+//Write applicant access code to file
     .exec { session =>
-      val fw = new BufferedWriter(new FileWriter("C100caseNumberAndCode.csv", true))
+      val fw = new BufferedWriter(new FileWriter("C100caseNumberAndCodeApplicant.csv", true))
       try {
-        fw.write(session("caseId").as[String] + "," + session("prlAccessCode").as[String] + "\r\n")
+        fw.write(session("caseId").as[String] + "," + session("prlAccessCodeApplicant").as[String] + "\r\n")
+      } finally fw.close()
+      session
+    }
+    //Write respondent access code to file
+    .exec { session =>
+      val fw = new BufferedWriter(new FileWriter("C100caseNumberAndCodeRespondent.csv", true))
+      try {
+        fw.write(session("caseId").as[String] + "," + session("prlAccessCodeRespondent").as[String] + "\r\n")
       } finally fw.close()
       session
     }

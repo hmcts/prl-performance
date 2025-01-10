@@ -691,6 +691,35 @@ Click Access Code &  Enter Case ID & Pin
 
     .pause(MinThinkTime, MaxThinkTime)
 
+	/*======================================================================================
+	* Check the allegations of harm and violence (PDF)
+	======================================================================================*/
+
+  val CheckHarmViolenceAllegations =
+
+    exec(http("PRL_C100Respondent_510_CheckApplication")
+      .get(prlURL + "/respondent/documents/download/type/aoh-document/en")
+      .headers(Headers.navigationHeader)
+      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+      .check(status.is(200)))
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+	/*======================================================================================
+	* Select View All Documents Link
+	======================================================================================*/
+
+  val ViewAllDocuments =
+
+    exec(http("PRL_C100Respondent_510_CheckApplication")
+      .get(prlURL + "/respondent/documents/view/all-categories")
+      .headers(Headers.navigationHeader)
+      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+      .check(status.is(200)))
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+
 	// write cases for use in Add RA script
 	.exec { session =>
 	val fw = new BufferedWriter(new FileWriter("AddRAData.csv", true))

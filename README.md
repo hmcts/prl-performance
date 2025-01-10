@@ -30,3 +30,12 @@ FL401
 
 C100
 6. PRLC100CaseworkerScenario - Progress created C100 cases as a caseworker within Manage Case XUI --> Reads from C100CourtAdminData.csv --> Writes to output file: C100caseNumberAndCode.csv
+
+
+Data Preparation for CUIRA Journeys
+----------------------------------------------------
+For the CUIRA (add) journey cases need to be responded to within the CUI. The above data prep needs to be completed then the cases responded to via the Citizen_PRL_C100_Respondent and Citizen_PRL_FL401_Respondent journeys. These two scripts output to the following files:
+AddRAData.csv 
+
+To generate data for the modifyRA journey the data needs to be run through the PRLReasonableAdjustmentsAdd scenario. This writes data to:
+ModifyRAData.csv

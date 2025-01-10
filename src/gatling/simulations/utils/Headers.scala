@@ -4,7 +4,7 @@ object Headers {
 
   val navigationHeader = Map(
     "accept" -> "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
-    "accept-encoding" -> "gzip, deflate, br",
+    "accept-encoding" -> "gzip, deflate, br, zstd",
     "accept-language" -> "en-GB,en;q=0.9",
     "sec-fetch-dest" -> "document",
     "sec-fetch-mode" -> "navigate",
@@ -13,7 +13,7 @@ object Headers {
     "upgrade-insecure-requests" -> "1")
 
   val commonHeader = Map(
-    "accept-encoding" -> "gzip, deflate, br",
+    "accept-encoding" -> "gzip, deflate, br, zstd",
     "accept-language" -> "en-GB,en;q=0.9",
     "sec-fetch-dest" -> "empty",
     "sec-fetch-mode" -> "cors",

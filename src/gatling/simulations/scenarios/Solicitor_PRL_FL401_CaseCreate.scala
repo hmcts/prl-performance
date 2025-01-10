@@ -58,7 +58,9 @@ object Solicitor_PRL_FL401_CaseCreate {
         .exec(Common.userDetails)
     }
 
-    .exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).saveAs("XSRFToken")))
+    //.exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).saveAs("XSRFToken")))
+    .exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).withSecure(true).saveAs("XSRFToken")))
+    //.exec(getCookieValue(CookieKey("xsrf-token,manage-case.perftest.platform.hmcts.net,/").saveAs("XSRFToken")))
 
     .pause(MinThinkTime, MaxThinkTime)
 
@@ -75,7 +77,7 @@ object Solicitor_PRL_FL401_CaseCreate {
         .body(ElFileBody("bodies/prl/fl401/PRLFL401SelectApplicationType.json"))
         .check(substring("caseTypeOfApplication")))
 
-      .exec(Common.userDetails)
+      //.exec(Common.userDetails)
     }
 
     .pause(MinThinkTime, MaxThinkTime)
@@ -93,7 +95,7 @@ object Solicitor_PRL_FL401_CaseCreate {
         .body(ElFileBody("bodies/prl/fl401/PRLFL401ConfidentialityStatement.json"))
         .check(substring("confidentialityStatementDisclaimer")))
 
-      .exec(Common.userDetails)
+      //.exec(Common.userDetails)
     }
 
     .pause(MinThinkTime, MaxThinkTime)

@@ -16,11 +16,14 @@ object Caseworker_PRL_FL401_ProgressCase {
   val MaxThinkTime = Environment.maxThinkTime
 
     //set session variables
-  //exec(_.setAll(
-  //  "JudgeFirstName" -> (Common.randomString(4) + "judgefirst"),
-  //  "JudgeLastName" -> (Common.randomString(4) + "judgeLast"),
-  //  "todayDate" -> Common.getDate(),
-  //  "LegalAdviserName" -> (Common.randomString(4) + " " + Common.randomString(4) + "legAdv")))
+    exec(_.setAll(
+      "PRLRandomString" -> (Common.randomString(7)),
+      "JudgeFirstName" -> (Common.randomString(4) + "judgefirst"),
+      "JudgeLastName" -> (Common.randomString(4) + "judgeLast"),
+      "PRLAppDobDay" -> Common.getDay(),
+      "PRLAppDobMonth" -> Common.getMonth(),
+      "todayDate" -> Common.getDate(),
+      "LegalAdviserName" -> (Common.randomString(4) + " " + Common.randomString(4) + "legAdv")))
 
   val CourtAdminCheckApplication =
 
@@ -33,7 +36,8 @@ object Caseworker_PRL_FL401_ProgressCase {
       .check(jsonPath("$.tabs[6].fields[8].value.lastName").saveAs("RespondentLastName"))
       .check(jsonPath("$.case_id").is("#{caseId}")))
       
-    .exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).saveAs("XSRFToken")))
+    //.exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).saveAs("XSRFToken")))
+     .exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).withSecure(true).saveAs("XSRFToken")))
 
     .exec(Common.waJurisdictions)
     .exec(Common.activity)
@@ -109,7 +113,8 @@ object Caseworker_PRL_FL401_ProgressCase {
       .headers(Headers.xuiHeader)
       .check(substring("HMCTS Manage cases")))
 
-    .exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).saveAs("XSRFToken")))
+    //.exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).saveAs("XSRFToken")))
+    .exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).withSecure(true).saveAs("XSRFToken")))
       
     .exec(Common.activity)
     .exec(Common.configUI)
@@ -130,7 +135,8 @@ object Caseworker_PRL_FL401_ProgressCase {
       .check(jsonPath("$.id").is("sendToGateKeeper")))
 
       .exec(Common.userDetails)
-      .exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).saveAs("XSRFToken")))
+      //.exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).saveAs("XSRFToken")))
+      .exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).withSecure(true).saveAs("XSRFToken")))
 
     .pause(MinThinkTime, MaxThinkTime)
 
@@ -171,21 +177,11 @@ object Caseworker_PRL_FL401_ProgressCase {
 
   val CourtAdminManageOrders = 
 
-    exec(_.setAll(
-      "PRLRandomString" -> (Common.randomString(7)),
-      "JudgeFirstName" -> (Common.randomString(4) + "judgefirst"),
-      "JudgeLastName" -> (Common.randomString(4) + "judgeLast"),
-      "PRLAppDobDay" -> Common.getDay(),
-      "PRLAppDobMonth" -> Common.getMonth(),
-      "todayDate" -> Common.getDate(),
-      "LegalAdviserName" -> (Common.randomString(4) + " " + Common.randomString(4) + "legAdv")))
-
-
     /*======================================================================================
     * Click on 'Manage Orders'
     ======================================================================================*/
 
-    .exec(http("XUI_PRL_XXX_515_SelectCase")
+    exec(http("XUI_PRL_XXX_515_SelectCase")
       .get(BaseURL + "/data/internal/cases/#{caseId}")
       .headers(Headers.xuiHeader)
       .check(jsonPath("$.tabs[6].fields[3].value.firstName").saveAs("ApplicantFirstName"))
@@ -209,9 +205,9 @@ object Caseworker_PRL_FL401_ProgressCase {
         .check(jsonPath("$.id").is("manageOrders")))
 
         .exec(Common.userDetails)
-        .exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).saveAs("XSRFToken")))
     }
-
+    //.exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).saveAs("XSRFToken")))
+    .exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).withSecure(true).saveAs("XSRFToken")))
     .pause(MinThinkTime, MaxThinkTime)
 
     /*======================================================================================
@@ -415,9 +411,9 @@ val CourtAdminServiceApplication =
         .check(jsonPath("$.id").is("serviceOfApplication")))
 
         .exec(Common.userDetails)
-
-        .exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).saveAs("XSRFToken")))
     }
+    //.exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).saveAs("XSRFToken")))
+    .exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).withSecure(true).saveAs("XSRFToken")))
 
     .pause(MinThinkTime, MaxThinkTime)
 
