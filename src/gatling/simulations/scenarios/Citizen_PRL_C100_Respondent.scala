@@ -201,6 +201,80 @@ Click Access Code &  Enter Case ID & Pin
     .pause(MinThinkTime, MaxThinkTime)
 
 	/*======================================================================================
+	* Select Confirm or Edit your contact details link
+	======================================================================================*/
+      
+  val ConfirmEditContactDetails = 
+
+	group("PRL_C100Respondent_131_OpenContactPreferences") {
+    	exec(http("PRL_C100Respondent_131_005_OpenContactPreferences")
+		.get(prlURL + "/respondent/confirm-contact-details/checkanswers/{caseId}")
+		.headers(Headers.navigationHeader)
+      	.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+      	.check(CsrfCheck.save)
+      	.check(substring("Check your details")))
+	}
+      
+	.pause(MinThinkTime, MaxThinkTime)
+
+	/*======================================================================================
+	* Select Edit for living in refuge details 
+	======================================================================================*/
+
+    .exec(http("PRL_C100Respondent_132_005_EditStayingInRefuge")
+		.get(prlURL + "/respondent/refuge/staying-in-refuge")
+		.headers(Headers.navigationHeader)
+      	.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+      	.check(CsrfCheck.save)
+      	.check(substring("Do you currently live in a refuge?")))
+      
+	.pause(MinThinkTime, MaxThinkTime)
+
+	/*======================================================================================
+	* Staying in Refuge --> No --> Continue
+	======================================================================================*/
+
+	.group("PRL_C100Respondent_133_StayingInRefugeNo") {
+    	exec(http("PRL_C100Respondent_133_005_StayingInRefugeNo")
+		.post(prlURL + "/respondent/refuge/staying-in-refuge")
+		.headers(Headers.navigationHeader)
+		.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+		.formParam("_csrf", "#{csrf}")
+		.formParam("isCitizenLivingInRefuge", "No")
+		.formParam("onlyContinue", "true")
+		.check(substring("Your address")))
+      
+	.pause(MinThinkTime, MaxThinkTime)
+
+	/*======================================================================================
+	* Your address --> Continue
+	======================================================================================*/
+	
+    .exec(http("PRL_C100Respondent_134_005_ConfirmAddressContinue")
+		.get(prlURL + "/respondent/confirm-contact-details/checkanswers?")
+		.headers(Headers.navigationHeader)
+      	.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+      	.check(CsrfCheck.save)
+      	.check(substring("Check your details")))
+	}
+      
+	.pause(MinThinkTime, MaxThinkTime)
+
+	/*======================================================================================
+	* Check your details --> Save & continue
+	======================================================================================*/
+	
+    .exec(http("PRL_C100Respondent_134_005_CheckAnswersSaveContinue")
+		.post(prlURL + "/respondent/confirm-contact-details/checkanswers?")
+		.headers(Headers.navigationHeader)
+		.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+		.formParam("_csrf", "#{csrf}")
+		.formParam("saveAndContinue", "true")
+		.check(substring("Respond to the application")))
+      
+	.pause(MinThinkTime, MaxThinkTime)
+
+	/*======================================================================================
 	* Select Support you need during your case Link (Reasonable Adjustments)
 	======================================================================================*/
   
@@ -727,7 +801,7 @@ Click Access Code &  Enter Case ID & Pin
 
   val ViewAllDocuments =
 
-    exec(http("PRL_C100Respondent_510_CheckApplication")
+    exec(http("PRL_C100Respondent_510_ViewAllDocuments")
       .get(prlURL + "/respondent/documents/view/all-categories")
       .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -944,9 +1018,9 @@ Click Access Code &  Enter Case ID & Pin
       .headers(Headers.navigationHeader)
 	  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 	  .formParam("_csrf", "#{csrf}")
-	  .bodyPart(RawFileBodyPart("documents", "PRL-ScreenShot-172KB.jpg"))
-	  .contentType("image/jpeg")
-	  .fileName("PRL-ScreenShot-172KB.jpg")
+	  .bodyPart(RawFileBodyPart("documents", "PRL-ScreenShot-172KB.jpg")
+		.contentType("image/jpeg")
+	  	.fileName("PRL-ScreenShot-172KB.jpg"))
 	  .formParam("docCategory", "media-files")
 	  .check(CsrfCheck.save)
       .check(substring("Remove")))
@@ -987,10 +1061,6 @@ Click Access Code &  Enter Case ID & Pin
 	}
 
     .pause(MinThinkTime, MaxThinkTime)
-
-
-
-
 
 	// write cases for use in Add RA script
 	.exec { session =>

@@ -236,6 +236,10 @@ class PRL_Simulation extends Simulation {
         .exec(Citizen_PRL_C100_Respondent.SupportYouNeed)
         .exec(Citizen_PRL_C100_Respondent.RespondToApplication)
         .exec(Citizen_PRL_C100_Respondent.CheckApplication)
+        .exec(Citizen_PRL_C100_Respondent.CheckHarmViolenceAllegations) //New for R6.0
+        .exec(Citizen_PRL_C100_Respondent.MakeRequestToCourtAboutCase) //New for R6.0/7.0
+        .exec(Citizen_PRL_C100_Respondent.UploadDocumentsApplicationsStatements) //New for R6.0
+        .exec(Citizen_PRL_C100_Respondent.ViewAllDocuments) //New for R6.0 
         .exec(Logout.CUILogout)
       }
     }
@@ -367,9 +371,9 @@ class PRL_Simulation extends Simulation {
   //PRLFL401CaseworkerScenario.inject(constantConcurrentUsers(13).during(20)),
   //PRLFL401CaseManagerScenario.inject(constantConcurrentUsers(7).during(20)),
   //PrlFL401Create.inject(constantConcurrentUsers(15).during(20)),
-   //PRLC100RespondentScenario.inject(constantConcurrentUsers(1).during(10)),
+   PRLC100RespondentScenario.inject(constantConcurrentUsers(1).during(10)),
    //PRLFL401RespondentScenario.inject(constantConcurrentUsers(1).during(10)),
-   PRLC100CitizenScenario.inject(constantConcurrentUsers(1).during(10)),
+   //PRLC100CitizenScenario.inject(constantConcurrentUsers(1).during(10)),
    //PRLC100CaseworkerScenario.inject(constantConcurrentUsers(15).during(60)),
    //PRLReasonableAdjustmentsAdd.inject(constantConcurrentUsers(1).during(10)),
    //PRLReasonableAdjustmentsModify.inject(constantConcurrentUsers(1).during(10)),
