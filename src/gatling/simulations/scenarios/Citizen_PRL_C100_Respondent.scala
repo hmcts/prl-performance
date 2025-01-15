@@ -796,6 +796,47 @@ Click Access Code &  Enter Case ID & Pin
 	.pause(MinThinkTime, MaxThinkTime)
 
 	/*======================================================================================
+	* Select The response to application link
+	======================================================================================*/
+
+  val ResponseToApplication = // ** NEW FUNCTIONALITY FOR PRL R6.0
+
+    exec(http("PRL_C100Respondent_510_RespondentDocuments")
+      .get(prlURL + "/respondent/documents/view/respondent/doc")
+      .headers(Headers.navigationHeader)
+      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+	  .check(regex("<a href=/respondent/documents/download/(.*) target=\"_blank\">C7_Document.pdf</a>").saveAs("respondentDocIdName"))
+	  .check(substring("Respondent's documents")))
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+	/*======================================================================================
+	* Select the document link to open doc
+	======================================================================================*/
+
+    .exec(http("PRL_C100Respondent_510_RespondentDocumentDownload")
+      .get(prlURL + "/respondent/documents/download/#{respondentDocIdName}")
+      .headers(Headers.navigationHeader)
+      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+      .check(status.is(200)))
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+	/*======================================================================================
+	* Return to CaseView
+	======================================================================================*/
+
+	.group("PRL_C100Respondent_510_ReturnToCaseView") {
+       exec(http("PRL_C100Respondent_510_ReturnToCaseView")
+      .get(prlURL + "/case/#{caseId}")
+      .headers(Headers.navigationHeader)
+      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+      .check(substring("Case number #{caseId}")))
+	}
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+	/*======================================================================================
 	* Select View All Documents Link
 	======================================================================================*/
 
