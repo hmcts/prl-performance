@@ -844,8 +844,9 @@ Click Access Code &  Enter Case ID & Pin
       .headers(Headers.navigationHeader)
 	  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 	  .formParam("_csrf", "#{csrf}")
-	  .formParam("statementText", "Test+witness+statement.+a+fair+amount+of+text+should+be+here+as+a+witness+statement+would+be+relatively+long.+%0D%0A%0D%0AYou+can+write+your+statement+in+the+text+box+or+upload+it.%0D%0A%0D%0AIf+you+are+uploading+documents+from+a+computer%2C+name+the+files+clearly.+For+example%2C+letter-from-school.doc.%0D%0A%0D%0AFiles+must+end+with+JPG%2C+BMP%2C+PNG%2CTIF%2C+PDF%2C+DOC+or+DOCX+and+have+a+maximum+size+of+20mb.%0D%0A%0D%0Aroceedings+for+contempt+of+court+may+be+brought+against+anyone+who+makes%2C+or+causes+to+be+made%2C+a+false+statement+verified+by+a+statement+of+truth+without+an+honest+belief+in+its+truth.%0D%0A%0D%0AThis+confirms+that+the+information+you+are+submitting+is+true+and+accurate%2C+to+the+best+of+your+knowledge.")
-	  .formParam("generateDocument", "true")
+	  .formParam("declarationCheck", "")
+	  .formParam("declarationCheck", "declaration")
+	  .formParam("onlyContinue", "true")
 	  .check(CsrfCheck.save)
       .check(substring("Document submitted")))
 	}
@@ -867,6 +868,125 @@ Click Access Code &  Enter Case ID & Pin
 
     .pause(MinThinkTime, MaxThinkTime)
 
+	/*======================================================================================
+	* Select Emails, screenshots, images and other media files link (media files)
+	======================================================================================*/
+
+ 	.exec(http("PRL_C100Respondent_590_SelectMediaFilesLink")
+      .get(prlURL + "/respondent/documents/upload/media-files/has-the-court-asked-for-this-documents")
+      .headers(Headers.navigationHeader)
+      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+	  .check(CsrfCheck.save)
+      .check(substring("Emails, screenshots, images")))
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+	/*======================================================================================
+	* Your Position Statement Link - Has the court asked for this document? --> Yes, Continue
+	======================================================================================*/
+
+	.group("PRL_C100Respondent_600_HasCourtAskedForDocumentYes") {
+       exec(http("PRL_C100Respondent_600_005_HasCourtAskedForDocumentYes")
+      .post(prlURL + "/respondent/documents/upload/media-files/has-the-court-asked-for-this-documents")
+      .headers(Headers.navigationHeader)
+	  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+	  .formParam("_csrf", "#{csrf}")
+	  .formParam("hasCourtAskedForThisDoc", "Yes")
+	  .formParam("onlyContinue", "true")
+	  .check(CsrfCheck.save)
+      .check(substring("Before you submit a document")))
+	}
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+	/*======================================================================================
+	* Before you submit a document --> Continue
+	======================================================================================*/
+
+	.group("PRL_C100Respondent_610_DocumentSharingDetails") {
+       exec(http("PRL_C100Respondent_610_005_DocumentSharingDetails")
+      .post(prlURL + "/respondent/documents/upload/media-files/document-sharing-details")
+      .headers(Headers.navigationHeader)
+	  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+	  .formParam("_csrf", "#{csrf}")
+	  .formParam("onlyContinue", "true")
+	  .check(CsrfCheck.save)
+      .check(substring("Sharing your documents")))
+	}
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+	/*======================================================================================
+	* Sharing your documents, Is there a good reason... --> No, Continue
+	======================================================================================*/
+
+	.group("PRL_C100Respondent_620_SharingDocumentsNo") {
+       exec(http("PRL_C100Respondent_620_005_SharingDocumentsNo")
+      .post(prlURL + "/respondent/documents/upload/media-files/sharing-your-documents")
+      .headers(Headers.navigationHeader)
+	  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+	  .formParam("_csrf", "#{csrf}")
+	  .formParam("haveReasonForDocNotToBeShared", "No")
+	  .formParam("saveAndContinue", "true")
+	  .check(CsrfCheck.save)
+      .check(substring("Emails, screenshots, images")))
+	}
+
+    .pause(MinThinkTime, MaxThinkTime)	
+
+	/*======================================================================================
+	* Witness statements and evidence, select choose file button, select file and then upload
+	======================================================================================*/
+
+	.group("PRL_C100Respondent_630_UploadDocument") {
+       exec(http("PRL_C100Respondent_630_005_UploadDocument")
+      .post(prlURL + "/respondent/documents/upload/media-files/upload-your-documents?docCategory=media-files&_csrf={#csrf}")
+      .headers(Headers.navigationHeader)
+	  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+	  .formParam("_csrf", "#{csrf}")
+	  .bodyPart(RawFileBodyPart("documents", "PRL-ScreenShot-172KB.jpg"))
+	  .contentType("image/jpeg")
+	  .fileName("PRL-ScreenShot-172KB.jpg")
+	  .formParam("docCategory", "media-files")
+	  .check(CsrfCheck.save)
+      .check(substring("Remove")))
+    }
+	
+    .pause(MinThinkTime, MaxThinkTime)
+
+	/*======================================================================================
+	* Witness statements and evidence, Select checkbox declaratiom -> Continue
+	======================================================================================*/
+
+	.group("PRL_C100Respondent_640_UploadDocumentContinue") {
+       exec(http("PRL_C100Respondent_640_005_UploadDocumentContinue")
+      .post(prlURL + "/respondent/documents/upload/media-files/upload-your-documents")
+      .headers(Headers.navigationHeader)
+	  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+	  .formParam("_csrf", "#{csrf}")
+	  .formParam("declarationCheck", "")
+	  .formParam("declarationCheck", "declaration")
+	  .formParam("onlyContinue", "true")
+	  .check(CsrfCheck.save)
+      .check(substring("Document submitted")))
+	}
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+	/*======================================================================================
+	* Select return to case overview 
+	======================================================================================*/
+
+	.group("PRL_C100Respondent_580_ReturnToCaseOverview") {
+       exec(http("PRL_C100Respondent_580_005_UploadDocumentContinue")
+      .post(prlURL + "/respondent/documents/upload/your-position-statements/upload-documents-success?_csrf=#{csrf}")
+      .headers(Headers.navigationHeader)
+	  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+	  .formParam("returnToCaseView", "true")
+      .check(substring("Select the type of document")))
+	}
+
+    .pause(MinThinkTime, MaxThinkTime)
 
 
 
