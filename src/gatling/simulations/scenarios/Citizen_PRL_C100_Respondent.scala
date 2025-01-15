@@ -697,13 +697,29 @@ Click Access Code &  Enter Case ID & Pin
 
   val CheckHarmViolenceAllegations =
 
-    exec(http("PRL_C100Respondent_510_CheckApplication")
+    exec(http("PRL_C100Respondent_510_HarmAndViolenceDoc")
       .get(prlURL + "/respondent/documents/download/type/aoh-document/en")
       .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
       .check(status.is(200)))
 
     .pause(MinThinkTime, MaxThinkTime)
+
+	/*======================================================================================
+	* Make a request to the court about your case --> Click Link
+	======================================================================================*/
+
+  val MakeRequestToCourtAboutCase =  // ** NEW FUNCTIONALITY FOR PRL R7.0 (Out of scope for R6.0)
+
+    exec(http("PRL_C100Respondent_520_MakeRequestToCourtAboutCase")
+	  .get(prlURL + "/respondent/application-within-proceedings/list-of-applications/1")
+	  .headers(Headers.navigationHeader)
+	  .headers(Headers.navigationHeader)
+	  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+	  .check(CsrfCheck.save)
+	  .check(substring("Make a request to the court about your case")))
+
+	.pause(MinThinkTime, MaxThinkTime)
 
 	/*======================================================================================
 	* Select View All Documents Link
@@ -715,9 +731,145 @@ Click Access Code &  Enter Case ID & Pin
       .get(prlURL + "/respondent/documents/view/all-categories")
       .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-      .check(status.is(200)))
+	  .check(substring("View all documents")))
 
     .pause(MinThinkTime, MaxThinkTime)
+
+
+	/*======================================================================================
+	* Select View All Documents Link
+	======================================================================================*/
+
+  val UploadDocumentsApplicationsStatements =
+
+    exec(http("PRL_C100Respondent_510_DocumentsUpload")
+      .get(prlURL + "/respondent/documents/upload")
+      .headers(Headers.navigationHeader)
+      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+      .check(substring("Select the type of document")))
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+	/*======================================================================================
+	* Select Your Position Statement Link
+	======================================================================================*/
+
+    .exec(http("PRL_C100Respondent_520_YourPositionStatement")
+      .get(prlURL + "/respondent/documents/upload/your-position-statements/has-the-court-asked-for-this-documents")
+      .headers(Headers.navigationHeader)
+      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+	  .check(CsrfCheck.save)
+      .check(substring("Your position statement")))
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+	/*======================================================================================
+	* Your Position Statement Link - Has the court asked for this document? --> Yes, Continue
+	======================================================================================*/
+
+	.group("PRL_C100Respondent_530_HasCourtAskedForDocumentYes") {
+       exec(http("PRL_C100Respondent_530_005_HasCourtAskedForDocumentYes")
+      .post(prlURL + "/respondent/documents/upload/your-position-statements/has-the-court-asked-for-this-documents")
+      .headers(Headers.navigationHeader)
+	  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+	  .formParam("_csrf", "#{csrf}")
+	  .formParam("hasCourtAskedForThisDoc", "Yes")
+	  .formParam("onlyContinue", "true")
+	  .check(CsrfCheck.save)
+      .check(substring("Before you submit a document")))
+	}
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+	/*======================================================================================
+	* Before you submit a document --> Continue
+	======================================================================================*/
+
+	.group("PRL_C100Respondent_540_DocumentSharingDetails") {
+       exec(http("PRL_C100Respondent_540_005_DocumentSharingDetails")
+      .post(prlURL + "/respondent/documents/upload/your-position-statements/document-sharing-details")
+      .headers(Headers.navigationHeader)
+	  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+	  .formParam("_csrf", "#{csrf}")
+	  .formParam("onlyContinue", "true")
+	  .check(CsrfCheck.save)
+      .check(substring("Sharing your documents")))
+	}
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+	/*======================================================================================
+	* Sharing your documents, Is there a good reason... --> No, Continue
+	======================================================================================*/
+
+	.group("PRL_C100Respondent_550_SharingDocumentsNo") {
+       exec(http("PRL_C100Respondent_550_005_SharingDocumentsNo")
+      .post(prlURL + "/respondent/documents/upload/your-position-statements/sharing-your-documents")
+      .headers(Headers.navigationHeader)
+	  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+	  .formParam("_csrf", "#{csrf}")
+	  .formParam("haveReasonForDocNotToBeShared", "No")
+	  .formParam("saveAndContinue", "true")
+	  .check(CsrfCheck.save)
+      .check(substring("Position statement")))
+	}
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+	/*======================================================================================
+	* Position statement, Write witness statement free text-> Submit
+	======================================================================================*/
+
+	.group("PRL_C100Respondent_560_WitnessStatementSubmit") {
+       exec(http("PRL_C100Respondent_560_005_WitnessStatementSubmit")
+      .post(prlURL + "/respondent/documents/upload/your-position-statements/upload-your-documents?docCategory=your-position-statements&_csrf=#{csrf}")
+      .headers(Headers.navigationHeader)
+	  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+	  .formParam("_csrf", "#{csrf}")
+	  .formParam("statementText", "Test+witness+statement.+a+fair+amount+of+text+should+be+here+as+a+witness+statement+would+be+relatively+long.+%0D%0A%0D%0AYou+can+write+your+statement+in+the+text+box+or+upload+it.%0D%0A%0D%0AIf+you+are+uploading+documents+from+a+computer%2C+name+the+files+clearly.+For+example%2C+letter-from-school.doc.%0D%0A%0D%0AFiles+must+end+with+JPG%2C+BMP%2C+PNG%2CTIF%2C+PDF%2C+DOC+or+DOCX+and+have+a+maximum+size+of+20mb.%0D%0A%0D%0Aroceedings+for+contempt+of+court+may+be+brought+against+anyone+who+makes%2C+or+causes+to+be+made%2C+a+false+statement+verified+by+a+statement+of+truth+without+an+honest+belief+in+its+truth.%0D%0A%0D%0AThis+confirms+that+the+information+you+are+submitting+is+true+and+accurate%2C+to+the+best+of+your+knowledge.")
+	  .formParam("generateDocument", "true")
+	  .check(CsrfCheck.save)
+      .check(substring("_position_statements_")))
+	}
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+	/*======================================================================================
+	* Position statement, Select checkbox declaratiom -> Continue
+	======================================================================================*/
+
+	.group("PRL_C100Respondent_570_UploadDocumentContinue") {
+       exec(http("PRL_C100Respondent_570_005_UploadDocumentContinue")
+      .post(prlURL + "/respondent/documents/upload/your-position-statements/upload-your-documents")
+      .headers(Headers.navigationHeader)
+	  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+	  .formParam("_csrf", "#{csrf}")
+	  .formParam("statementText", "Test+witness+statement.+a+fair+amount+of+text+should+be+here+as+a+witness+statement+would+be+relatively+long.+%0D%0A%0D%0AYou+can+write+your+statement+in+the+text+box+or+upload+it.%0D%0A%0D%0AIf+you+are+uploading+documents+from+a+computer%2C+name+the+files+clearly.+For+example%2C+letter-from-school.doc.%0D%0A%0D%0AFiles+must+end+with+JPG%2C+BMP%2C+PNG%2CTIF%2C+PDF%2C+DOC+or+DOCX+and+have+a+maximum+size+of+20mb.%0D%0A%0D%0Aroceedings+for+contempt+of+court+may+be+brought+against+anyone+who+makes%2C+or+causes+to+be+made%2C+a+false+statement+verified+by+a+statement+of+truth+without+an+honest+belief+in+its+truth.%0D%0A%0D%0AThis+confirms+that+the+information+you+are+submitting+is+true+and+accurate%2C+to+the+best+of+your+knowledge.")
+	  .formParam("generateDocument", "true")
+	  .check(CsrfCheck.save)
+      .check(substring("Document submitted")))
+	}
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+	/*======================================================================================
+	* Select upload another document link
+	======================================================================================*/
+
+	.group("PRL_C100Respondent_580_UploadDocumentContinue") {
+       exec(http("PRL_C100Respondent_580_005_UploadDocumentContinue")
+      .post(prlURL + "/respondent/documents/upload/your-position-statements/upload-documents-success?_csrf=#{csrf}")
+      .headers(Headers.navigationHeader)
+	  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+	  .formParam("returnToUploadDoc", "true")
+      .check(substring("Select the type of document")))
+	}
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+
+
+
 
 
 	// write cases for use in Add RA script

@@ -32,7 +32,6 @@ object Headers {
     "content-type" -> "application/x-www-form-urlencoded"
   )
 
-
   val taskHeader = Map(
     "cache-control" -> "no-cache",
     "dnt" -> "1",
@@ -54,4 +53,5 @@ object Headers {
     "sec-fetch-dest" -> "empty",
     "sec-fetch-mode" -> "cors",
     "sec-fetch-site" -> "same-origin")
+
 }
