@@ -14,6 +14,11 @@ object Citizen_PRL_C100_Respondent {
   
   val prlURL = Environment.prlURL
   val cuiRaURL = Environment.cuiRaURL
+  val pcqURL = Environment.pcqURL
+
+  // Variables for user flow control
+  val hwfScreens = 0; // Controls whether or not to select help with fees (internal no redirect to gov.uk)
+  val pcqScreens = 0; // Controls whether or not to go to PCQ questions
 
   val MinThinkTime = Environment.minThinkTime
   val MaxThinkTime = Environment.maxThinkTime
@@ -722,10 +727,229 @@ Click Access Code &  Enter Case ID & Pin
 		.formParam("declarationCheck", "declaration")
 		.formParam("onlyContinue", "true")
 		.check(CsrfCheck.save)
-		.check(substring("Response submitted successfully")))
+		.check(substring("Equality and diversity questions")))
 	}
 	
 	.pause(MinThinkTime, MaxThinkTime)
+
+	//================================================================================================
+	//PCQ Pages - Equality and diversity questions
+	//================================================================================================
+
+ 	//=====================
+    // Flag for PCQ
+    //=====================
+    // Save the flag for PCQ screens into session
+    .exec { session =>
+    session.set("pcqScreens", pcqScreens)
+    }
+
+.doIf(session => session("pcqScreens").as[Int] != 1) {
+
+	/*======================================================================================
+    * Equality and diversity questions - I don't want to answer these questions 
+    ======================================================================================*/
+
+    group("PRL_CitizenC100_471_PCQStartNo") {
+      exec(http("PRL_CitizenC100_571_005_PCQStartNo")
+        .post(pcqURL + "/opt-out")
+        .headers(Headers.commonHeader)
+        .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
+        .header("content-type", "application/x-www-form-urlencoded")
+        .formParam("_csrf", "#{csrf}")
+        .formParam("opt-out-button", "")
+        .check(regex("""card-details" name="cardDetails" method="POST" action="/card_details/(.*)"""").optional.saveAs("chargeId"))
+        .check(regex("""<strong>(.{16})<\/strong>""").optional.saveAs("caseNumber"))
+        .check(regex("""csrf" name="csrfToken" type="hidden" value="(.*)"""").optional.saveAs("csrf"))
+        .check(regex("""csrf2" name="csrfToken" type="hidden" value="(.*)"""").optional.saveAs("csrf2"))
+        .check(substring("Equality and diversity questions")))
+    } 
+} // end of doIf
+
+.doIf(session => session("pcqScreens").as[Int] == 1) { // PCQ Steps if flag is set to 1
+    /*======================================================================================
+    * Equality and diversity questions - Continue to questions
+    ======================================================================================*/
+
+    group("PRL_CitizenC100_471_PCQStartYes") {
+      exec(http("PRL_CitizenC100_471_005_PCQStartYes")
+        .post(pcqURL + "/start-page")
+        .headers(Headers.commonHeader)
+        .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
+        .header("content-type", "application/x-www-form-urlencoded")
+        .formParam("_csrf", "#{csrf}")
+        .check(CsrfCheck.save)
+        .check(substring("What is your main language")))
+    }
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+    /*======================================================================================
+    * Equality and diversity questions - What is your Language? - English
+    ======================================================================================*/
+
+    .group("PRL_CitizenC100_472_SelectLanguage") {
+      exec(http("PRL_CitizenC100_472_005_SelectLanguage")
+        .post(pcqURL + "/language")
+        .headers(Headers.commonHeader)
+        .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
+        .header("content-type", "application/x-www-form-urlencoded")
+        .formParam("_csrf", "#{csrf}")
+        .formParam("language_main", "4")
+        .formParam("language_other", "")
+        .check(CsrfCheck.save)
+        .check(substring("What is your sex?")))
+    } 
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+    /*======================================================================================
+    * Equality and diversity questions - What is your Sex? - Prefer not to say
+    ======================================================================================*/
+
+    .group("PRL_CitizenC100_473_SelectSex") {
+      exec(http("PRL_CitizenC100_473_005_SelectSex")
+        .post(pcqURL + "/sex")
+        .headers(Headers.commonHeader)
+        .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
+        .header("content-type", "application/x-www-form-urlencoded")
+        .formParam("_csrf", "#{csrf}")
+        .formParam("sex", "0")
+        .check(CsrfCheck.save)
+        .check(substring("Which of the following best describes how you think of yourself?")))
+    } 
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+    /*======================================================================================
+    * Equality and diversity questions - Which of the following best describes how you think of yourself? - Hetero or straight
+    ======================================================================================*/
+
+    .group("PRL_CitizenC100_474_SelectSexualOrientation") {
+      exec(http("PRL_CitizenC100_474_005_SelectSexualOrientation")
+        .post(pcqURL + "/sexual-orientation")
+        .headers(Headers.commonHeader)
+        .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
+        .header("content-type", "application/x-www-form-urlencoded")
+        .formParam("_csrf", "#{csrf}")
+        .formParam("sexuality", "1")
+        .formParam("sexuality_other", "")
+        .check(CsrfCheck.save)
+        .check(substring("Are you married or in a legally registered civil partnership?")))
+    } 
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+   /*======================================================================================
+    * Equality and diversity questions - Are you married or in a legally registered civil partnership? - Yes
+    ======================================================================================*/
+
+    .group("PRL_CitizenC100_475_SelectMaritialStatus") {
+      exec(http("PRL_CitizenC100_475_005_SelectMaritialStatus")
+        .post(pcqURL + "/marital-status")
+        .headers(Headers.commonHeader)
+        .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
+        .header("content-type", "application/x-www-form-urlencoded")
+        .formParam("_csrf", "#{csrf}")
+        .formParam("marriage", "1")
+        .check(CsrfCheck.save)
+        .check(substring("What is your ethnic group?")))
+    } 
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+    /*======================================================================================
+    * Equality and diversity questions - What is your ethnic group? - Prefer not to say
+    ======================================================================================*/
+
+    .group("PRL_CitizenC100_476_SelectEthnicGroup") {
+      exec(http("PRL_CitizenC100_476_005_SelectEthnicGroup")
+        .post(pcqURL + "/ethnic-group")
+        .headers(Headers.commonHeader)
+        .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
+        .header("content-type", "application/x-www-form-urlencoded")
+        .formParam("_csrf", "#{csrf}")
+        .formParam("ethnic_group", "0")
+        .check(CsrfCheck.save)
+        .check(substring("What is your religion?")))
+    } 
+
+    .pause(MinThinkTime, MaxThinkTime)
+  
+    /*======================================================================================
+    * Equality and diversity questions - What is your religion? - Prefer not to say
+    ======================================================================================*/
+
+    .group("PRL_CitizenC100_477_SelectReligion") {
+      exec(http("PRL_CitizenC100_477_005_SelectReligion")
+        .post(pcqURL + "/religion")
+        .headers(Headers.commonHeader)
+        .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
+        .header("content-type", "application/x-www-form-urlencoded")
+        .formParam("_csrf", "#{csrf}")
+        .formParam("religion_other", "")
+        .formParam("religion", "0")
+        .check(CsrfCheck.save)
+        .check(substring("Do you have any physical or mental health conditions")))
+    } 
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+    /*======================================================================================
+    * Equality and diversity questions - Do you have any physical or mental health conditions? - No
+    ======================================================================================*/
+
+    .group("PRL_CitizenC100_478_HealthConditions") {
+      exec(http("PRL_CitizenC100_478_005_HealthConditions")
+        .post(pcqURL + "/disability")
+        .headers(Headers.commonHeader)
+        .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
+        .header("content-type", "application/x-www-form-urlencoded")
+        .formParam("_csrf", "#{csrf}")
+        .formParam("disability_conditions", "2")
+        .check(CsrfCheck.save)
+        .check(substring("Are you pregnant or have you been pregnant in the last year?")))
+    } 
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+    /*======================================================================================
+    * Equality and diversity questions - Are you pregnant or have you been pregnant in the last year? - No
+    ======================================================================================*/
+
+    .group("PRL_CitizenC100_479_SelectPregnancy") {
+      exec(http("PRL_CitizenC100_479_005_SelectPregnancy")
+        .post(pcqURL + "/pregnant")
+        .headers(Headers.commonHeader)
+        .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
+        .header("content-type", "application/x-www-form-urlencoded")
+        .formParam("_csrf", "#{csrf}")
+        .formParam("pregnancy", "2")
+        .check(substring("You have answered the equality questions")))
+    } 
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+    /*======================================================================================
+    * Equality and diversity questions - You have answered the equality questions - Continue to next steps
+    ======================================================================================*/
+
+    .group("PRL_CitizenC100_4791_PCQReturnToService") {
+      exec(http("PRL_CitizenC100_4791_005_PCQReturnToService")
+        .get(pcqURL + "/return-to-service")
+        .headers(Headers.navigationHeader)
+        .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
+		.check(CsrfCheck.save)
+        //.check(regex("""card-details" name="cardDetails" method="POST" action="/card_details/(.*)"""").optional.saveAs("chargeId"))
+        //.check(regex("""csrf" name="csrfToken" type="hidden" value="(.*)"""").optional.saveAs("csrf"))
+        //.check(regex("""csrf2" name="csrfToken" type="hidden" value="(.*)"""").optional.saveAs("csrf2"))
+        //.check(regex("""<strong>(.{16})<\/strong>""").optional.saveAs("caseNumber"))
+        .check(status.in(302, 200)))
+    } 
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+} // End of PCQ steps
 
 	.group("PRL_C100Respondent_480_SubmitYourResponse") {
 		exec(http("PRL_C100Respondent_480_005_SubmitYourResponse")
@@ -852,7 +1076,7 @@ Click Access Code &  Enter Case ID & Pin
 
 
 	/*======================================================================================
-	* Select View All Documents Link
+	* Select Upload documents, applications and statements Link
 	======================================================================================*/
 
   val UploadDocumentsApplicationsStatements =
@@ -1100,6 +1324,20 @@ Click Access Code &  Enter Case ID & Pin
 	  .formParam("returnToCaseView", "true")
       .check(substring("Select the type of document")))
 	}
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+	/*======================================================================================
+	* Select Upload documents, applications and statements Link
+	======================================================================================*/
+
+  val PCQ =
+
+    exec(http("PRL_C100Respondent_510_DocumentsUpload")
+      .get(prlURL + "/respondent/documents/upload")
+      .headers(Headers.navigationHeader)
+      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+      .check(substring("Select the type of document")))
 
     .pause(MinThinkTime, MaxThinkTime)
 

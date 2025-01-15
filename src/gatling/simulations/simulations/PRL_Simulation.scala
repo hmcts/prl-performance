@@ -233,6 +233,7 @@ class PRL_Simulation extends Simulation {
         .exec(Citizen_PRL_C100_Respondent.GetCase)
         .exec(Citizen_PRL_C100_Respondent.KeepDetailsPrivate)
         .exec(Citizen_PRL_C100_Respondent.ContactPreferences)
+        .exec(Citizen_PRL_C100_Respondent.ConfirmEditContactDetails) // New for R6.0
         .exec(Citizen_PRL_C100_Respondent.SupportYouNeed)
         .exec(Citizen_PRL_C100_Respondent.RespondToApplication)
         .exec(Citizen_PRL_C100_Respondent.CheckApplication)
