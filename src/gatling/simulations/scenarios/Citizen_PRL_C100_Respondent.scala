@@ -213,7 +213,7 @@ Click Access Code &  Enter Case ID & Pin
 
 	group("PRL_C100Respondent_131_OpenContactPreferences") {
     	exec(http("PRL_C100Respondent_131_005_OpenContactPreferences")
-		.get(prlURL + "/respondent/confirm-contact-details/checkanswers/{caseId}")
+		.get(prlURL + "/respondent/confirm-contact-details/checkanswers/#{caseId}")
 		.headers(Headers.navigationHeader)
       	.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
       	.check(CsrfCheck.save)
@@ -316,7 +316,7 @@ Click Access Code &  Enter Case ID & Pin
 		.formParam("ra_languageReqAndSpecialArrangements", "")
 		.formParam("onlyContinue", "true")
 		.check(CsrfCheck.save)
-		.check(substring("We know some people need support to access information and use our services")))
+		.check(substring("Do you have a physical, mental or learning disability")))
 	}
 	
 	.pause(MinThinkTime, MaxThinkTime)
@@ -750,19 +750,18 @@ Click Access Code &  Enter Case ID & Pin
     * Equality and diversity questions - I don't want to answer these questions 
     ======================================================================================*/
 
-    group("PRL_CitizenC100_471_PCQStartNo") {
-      exec(http("PRL_CitizenC100_571_005_PCQStartNo")
+    group("PRL_C100Respondent_471_PCQStartNo") {
+      exec(http("PRL_C100Respondent_571_005_PCQStartNo")
         .post(pcqURL + "/opt-out")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
         .header("content-type", "application/x-www-form-urlencoded")
         .formParam("_csrf", "#{csrf}")
         .formParam("opt-out-button", "")
-        .check(regex("""card-details" name="cardDetails" method="POST" action="/card_details/(.*)"""").optional.saveAs("chargeId"))
+        //.check(regex("""card-details" name="cardDetails" method="POST" action="/card_details/(.*)"""").optional.saveAs("chargeId")) // Needed if fees are added due to extra apps?
         .check(regex("""<strong>(.{16})<\/strong>""").optional.saveAs("caseNumber"))
         .check(regex("""csrf" name="csrfToken" type="hidden" value="(.*)"""").optional.saveAs("csrf"))
-        .check(regex("""csrf2" name="csrfToken" type="hidden" value="(.*)"""").optional.saveAs("csrf2"))
-        .check(substring("Equality and diversity questions")))
+        .check(substring("Response submitted successfully")))
     } 
 } // end of doIf
 
@@ -771,8 +770,8 @@ Click Access Code &  Enter Case ID & Pin
     * Equality and diversity questions - Continue to questions
     ======================================================================================*/
 
-    group("PRL_CitizenC100_471_PCQStartYes") {
-      exec(http("PRL_CitizenC100_471_005_PCQStartYes")
+    group("PRL_C100Respondent_471_PCQStartYes") {
+      exec(http("PRL_C100Respondent_471_005_PCQStartYes")
         .post(pcqURL + "/start-page")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
@@ -788,8 +787,8 @@ Click Access Code &  Enter Case ID & Pin
     * Equality and diversity questions - What is your Language? - English
     ======================================================================================*/
 
-    .group("PRL_CitizenC100_472_SelectLanguage") {
-      exec(http("PRL_CitizenC100_472_005_SelectLanguage")
+    .group("PRL_C100Respondent_472_SelectLanguage") {
+      exec(http("PRL_C100Respondent_472_005_SelectLanguage")
         .post(pcqURL + "/language")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
@@ -807,8 +806,8 @@ Click Access Code &  Enter Case ID & Pin
     * Equality and diversity questions - What is your Sex? - Prefer not to say
     ======================================================================================*/
 
-    .group("PRL_CitizenC100_473_SelectSex") {
-      exec(http("PRL_CitizenC100_473_005_SelectSex")
+    .group("PRL_C100Respondent_473_SelectSex") {
+      exec(http("PRL_C100Respondent_473_005_SelectSex")
         .post(pcqURL + "/sex")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
@@ -825,8 +824,8 @@ Click Access Code &  Enter Case ID & Pin
     * Equality and diversity questions - Which of the following best describes how you think of yourself? - Hetero or straight
     ======================================================================================*/
 
-    .group("PRL_CitizenC100_474_SelectSexualOrientation") {
-      exec(http("PRL_CitizenC100_474_005_SelectSexualOrientation")
+    .group("PRL_C100Respondent_474_SelectSexualOrientation") {
+      exec(http("PRL_C100Respondent_474_005_SelectSexualOrientation")
         .post(pcqURL + "/sexual-orientation")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
@@ -844,8 +843,8 @@ Click Access Code &  Enter Case ID & Pin
     * Equality and diversity questions - Are you married or in a legally registered civil partnership? - Yes
     ======================================================================================*/
 
-    .group("PRL_CitizenC100_475_SelectMaritialStatus") {
-      exec(http("PRL_CitizenC100_475_005_SelectMaritialStatus")
+    .group("PRL_C100Respondent_475_SelectMaritialStatus") {
+      exec(http("PRL_C100Respondent_475_005_SelectMaritialStatus")
         .post(pcqURL + "/marital-status")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
@@ -862,8 +861,8 @@ Click Access Code &  Enter Case ID & Pin
     * Equality and diversity questions - What is your ethnic group? - Prefer not to say
     ======================================================================================*/
 
-    .group("PRL_CitizenC100_476_SelectEthnicGroup") {
-      exec(http("PRL_CitizenC100_476_005_SelectEthnicGroup")
+    .group("PRL_C100Respondent_476_SelectEthnicGroup") {
+      exec(http("PRL_C100Respondent_476_005_SelectEthnicGroup")
         .post(pcqURL + "/ethnic-group")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
@@ -880,8 +879,8 @@ Click Access Code &  Enter Case ID & Pin
     * Equality and diversity questions - What is your religion? - Prefer not to say
     ======================================================================================*/
 
-    .group("PRL_CitizenC100_477_SelectReligion") {
-      exec(http("PRL_CitizenC100_477_005_SelectReligion")
+    .group("PRL_C100Respondent_477_SelectReligion") {
+      exec(http("PRL_C100Respondent_477_005_SelectReligion")
         .post(pcqURL + "/religion")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
@@ -899,8 +898,8 @@ Click Access Code &  Enter Case ID & Pin
     * Equality and diversity questions - Do you have any physical or mental health conditions? - No
     ======================================================================================*/
 
-    .group("PRL_CitizenC100_478_HealthConditions") {
-      exec(http("PRL_CitizenC100_478_005_HealthConditions")
+    .group("PRL_C100Respondent_478_HealthConditions") {
+      exec(http("PRL_C100Respondent_478_005_HealthConditions")
         .post(pcqURL + "/disability")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
@@ -917,8 +916,8 @@ Click Access Code &  Enter Case ID & Pin
     * Equality and diversity questions - Are you pregnant or have you been pregnant in the last year? - No
     ======================================================================================*/
 
-    .group("PRL_CitizenC100_479_SelectPregnancy") {
-      exec(http("PRL_CitizenC100_479_005_SelectPregnancy")
+    .group("PRL_C100Respondent_479_SelectPregnancy") {
+      exec(http("PRL_C100Respondent_479_005_SelectPregnancy")
         .post(pcqURL + "/pregnant")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
@@ -934,8 +933,8 @@ Click Access Code &  Enter Case ID & Pin
     * Equality and diversity questions - You have answered the equality questions - Continue to next steps
     ======================================================================================*/
 
-    .group("PRL_CitizenC100_4791_PCQReturnToService") {
-      exec(http("PRL_CitizenC100_4791_005_PCQReturnToService")
+    .group("PRL_C100Respondent_4791_PCQReturnToService") {
+      exec(http("PRL_C100Respondent_4791_005_PCQReturnToService")
         .get(pcqURL + "/return-to-service")
         .headers(Headers.navigationHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
@@ -951,30 +950,6 @@ Click Access Code &  Enter Case ID & Pin
 
 } // End of PCQ steps
 
-	.group("PRL_C100Respondent_480_SubmitYourResponse") {
-		exec(http("PRL_C100Respondent_480_005_SubmitYourResponse")
-		.post(prlURL + "/tasklistresponse/summary-confirmation")
-		.headers(Headers.navigationHeader)
-		.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-		.formParam("_csrf", "#{csrf}")
-		.formParam("saveAndContinue", "true")
-		.check(substring("Respond to an application about a child")))
-	}
-
-	.pause(MinThinkTime, MaxThinkTime)
-
-	.group("PRL_C100Respondent_490_ReturnToSummary") {
-		exec(http("PRL_C100Respondent_490_005_ReturnToSummary")
-		.post(prlURL + "/tasklistresponse/summary-confirmation")
-		.headers(Headers.navigationHeader)
-		.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-		.formParam("_csrf", "#{csrf}")
-		.formParam("saveAndContinue", "true")
-		.check(substring("Respond to an application about a child")))
-	}
-
-    .pause(MinThinkTime, MaxThinkTime)
-
 	/*======================================================================================
 	* Select Check application Link
 	======================================================================================*/
@@ -982,7 +957,7 @@ Click Access Code &  Enter Case ID & Pin
   val CheckApplication =
 
     exec(http("PRL_C100Respondent_500_CheckApplication")
-      .get(prlURL + "/respondent/documents/download/type/cada-document")
+      .get(prlURL + "/respondent/documents/download/type/cada-document/en")
       .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
       .check(status.is(200)))
@@ -1268,6 +1243,7 @@ Click Access Code &  Enter Case ID & Pin
 	  .formParam("haveReasonForDocNotToBeShared", "No")
 	  .formParam("saveAndContinue", "true")
 	  .check(CsrfCheck.save)
+	  .check(regex("""csrf" id="csrfToken" value="(.*)"""").optional.saveAs("csrfStatic"))
       .check(substring("Emails, screenshots, images")))
 	}
 
@@ -1279,14 +1255,15 @@ Click Access Code &  Enter Case ID & Pin
 
 	.group("PRL_C100Respondent_630_UploadDocument") {
        exec(http("PRL_C100Respondent_630_005_UploadDocument")
-      .post(prlURL + "/respondent/documents/upload/media-files/upload-your-documents?docCategory=media-files&_csrf={#csrf}")
+      .post(prlURL + "/respondent/documents/upload/media-files/upload-your-documents?docCategory=media-files&_csrf=#{csrf}")
       .headers(Headers.navigationHeader)
-	  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-	  .formParam("_csrf", "#{csrf}")
-	  .bodyPart(RawFileBodyPart("documents", "PRL-ScreenShot-172KB.jpg")
-		.contentType("image/jpeg")
-	  	.fileName("PRL-ScreenShot-172KB.jpg"))
-	  .formParam("docCategory", "media-files")
+	  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
+	  //.bodyPart(StringBodyPart("contentType", "image/jpeg")) 
+	  //.bodyPart(StringBodyPart("fileName", "PRL-ScreenShot-172KB.jpg")) 	  
+	  .bodyPart(RawFileBodyPart("fileName", "Yellowstone 3738 Safeguarding Letter 22112024170007.pdf")
+		.contentType("application/pdf")
+	  	//.fileName("Yellowstone 3738 Safeguarding Letter 22112024170007.pdf")
+		.transferEncoding("binary"))
 	  .check(CsrfCheck.save)
       .check(substring("Remove")))
     }
@@ -1294,7 +1271,7 @@ Click Access Code &  Enter Case ID & Pin
     .pause(MinThinkTime, MaxThinkTime)
 
 	/*======================================================================================
-	* Witness statements and evidence, Select checkbox declaratiom -> Continue
+	* Witness statements and evidence, Select checkbox declaration -> Continue
 	======================================================================================*/
 
 	.group("PRL_C100Respondent_640_UploadDocumentContinue") {
@@ -1324,20 +1301,6 @@ Click Access Code &  Enter Case ID & Pin
 	  .formParam("returnToCaseView", "true")
       .check(substring("Select the type of document")))
 	}
-
-    .pause(MinThinkTime, MaxThinkTime)
-
-	/*======================================================================================
-	* Select Upload documents, applications and statements Link
-	======================================================================================*/
-
-  val PCQ =
-
-    exec(http("PRL_C100Respondent_510_DocumentsUpload")
-      .get(prlURL + "/respondent/documents/upload")
-      .headers(Headers.navigationHeader)
-      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-      .check(substring("Select the type of document")))
 
     .pause(MinThinkTime, MaxThinkTime)
 

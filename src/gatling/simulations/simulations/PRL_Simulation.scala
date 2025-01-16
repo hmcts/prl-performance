@@ -229,13 +229,13 @@ class PRL_Simulation extends Simulation {
       .exec(Login.PrlLogin)
       .repeat(1) {
         feed(c100RespondentData)
-        .exec(Citizen_PRL_C100_Respondent.RetrieveCase)
+        //.exec(Citizen_PRL_C100_Respondent.RetrieveCase)
         .exec(Citizen_PRL_C100_Respondent.GetCase)
-        .exec(Citizen_PRL_C100_Respondent.KeepDetailsPrivate)
-        .exec(Citizen_PRL_C100_Respondent.ContactPreferences)
-        .exec(Citizen_PRL_C100_Respondent.ConfirmEditContactDetails) // New for R6.0
-        .exec(Citizen_PRL_C100_Respondent.SupportYouNeed)
-        .exec(Citizen_PRL_C100_Respondent.RespondToApplication)
+        //.exec(Citizen_PRL_C100_Respondent.KeepDetailsPrivate)
+        //.exec(Citizen_PRL_C100_Respondent.ContactPreferences)
+        //.exec(Citizen_PRL_C100_Respondent.ConfirmEditContactDetails) // New for R6.0
+        //.exec(Citizen_PRL_C100_Respondent.SupportYouNeed)
+        //.exec(Citizen_PRL_C100_Respondent.RespondToApplication)
         .exec(Citizen_PRL_C100_Respondent.CheckApplication)
         .exec(Citizen_PRL_C100_Respondent.CheckHarmViolenceAllegations) //New for R6.0
         .exec(Citizen_PRL_C100_Respondent.MakeRequestToCourtAboutCase) //New for R6.0/7.0
