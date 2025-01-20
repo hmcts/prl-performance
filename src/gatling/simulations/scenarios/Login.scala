@@ -72,8 +72,8 @@ object Login {
 
   val PrlLogin = 
 
-    group("PRL_CitizenC100_020_Login") {
-      exec(http("PRL_CitizenC100_020_005_Login")
+    group("PRL_CUI_020_Login") {
+      exec(http("PRL_CUI_020_005_Login")
         .post(IdamUrl + "/login?client_id=prl-citizen-frontend&response_type=code&redirect_uri=" + Environment.prlURL + "/receiver")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -85,6 +85,7 @@ object Login {
         .formParam("_csrf", "#{csrf}")
         .check(substring("Child arrangements and family injunction cases")))
     }
+
 
     .pause(MinThinkTime, MaxThinkTime)
 

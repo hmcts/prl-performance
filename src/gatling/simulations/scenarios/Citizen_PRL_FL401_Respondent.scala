@@ -137,7 +137,7 @@ object Citizen_PRL_FL401_Respondent {
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 	  .formParam("_csrf", "#{csrf}")
 	  .formParam("saveAndContinue", "true")
-	  .check(substring("Keep your details private")))
+	  .check(substring("<strong id=\"keepYourDetailsPrivate-status\" class=\"govuk-tag app-task-list__tag govuk-tag--green\">Completed</strong>")))
 	}
 
     .pause(MinThinkTime, MaxThinkTime)
@@ -146,7 +146,7 @@ object Citizen_PRL_FL401_Respondent {
   // Select Contact Preferences
   //========================================================================================   
 
-  val ContactDetails =
+  val ContactDetails = // Section no longer needed in R6.0? 
 
   	exec(_.setAll(
       "PRLRandomString" -> (Common.randomString(7)),
@@ -224,12 +224,86 @@ object Citizen_PRL_FL401_Respondent {
 	.pause(MinThinkTime, MaxThinkTime)
 
   //========================================================================================
-  // Select Contact Preferences --- ** Not currently used within FL401 Respondent Journey  **
+  // Select link: Confirm or edit your contact details
+  //========================================================================================   
+
+  val ConfirmEditContactDetails = 
+
+	group("PRL_FL401Respondent_110_OpenContactDetails") {
+    	exec(http("PRL_FL401Respondent_110_005_OpenContactDetails")
+		.get(prlURL + "/respondent/confirm-contact-details/checkanswers/#{caseId}")
+		.headers(Headers.navigationHeader)
+      	.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+      	.check(CsrfCheck.save)
+      	.check(substring("Check your details")))
+	}
+      
+	.pause(MinThinkTime, MaxThinkTime)
+
+	/*======================================================================================
+	* Select Edit for living in refuge details 
+	======================================================================================*/
+
+    .exec(http("PRL_FL401Respondent_120_EditStayingInRefuge")
+		.get(prlURL + "/respondent/refuge/staying-in-refuge")
+		.headers(Headers.navigationHeader)
+      	.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+      	.check(CsrfCheck.save)
+      	.check(substring("Do you currently live in a refuge?")))
+      
+	.pause(MinThinkTime, MaxThinkTime)
+
+	/*======================================================================================
+	* Staying in Refuge --> No --> Continue
+	======================================================================================*/
+
+	.group("PRL_FL401Respondent_130_StayingInRefugeNo") {
+    	exec(http("PRL_FL401Respondent_130_005_StayingInRefugeNo")
+		.post(prlURL + "/respondent/refuge/staying-in-refuge")
+		.headers(Headers.navigationHeader)
+		.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+		.formParam("_csrf", "#{csrf}")
+		.formParam("isCitizenLivingInRefuge", "No")
+		.formParam("onlyContinue", "true")
+		.check(substring("Your address")))
+	}
+      
+	.pause(MinThinkTime, MaxThinkTime)
+
+	/*======================================================================================
+	* Your address --> Continue
+	======================================================================================*/
+	
+    .exec(http("PRL_FL401Respondent_140_ConfirmAddressContinue")
+		.get(prlURL + "/respondent/confirm-contact-details/checkanswers?")
+		.headers(Headers.navigationHeader)
+      	.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+      	.check(CsrfCheck.save)
+      	.check(substring("Check your details")))
+      
+	.pause(MinThinkTime, MaxThinkTime)
+
+	/*======================================================================================
+	* Check your details --> Save & continue
+	======================================================================================*/
+	
+    .exec(http("PRL_FL401Respondent_150_005_CheckAnswersSaveContinue")
+		.post(prlURL + "/respondent/confirm-contact-details/checkanswers?")
+		.headers(Headers.navigationHeader)
+		.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+		.formParam("_csrf", "#{csrf}")
+		.formParam("saveAndContinue", "true")
+		.check(substring("<strong id=\"editYouContactDetails-status\" class=\"govuk-tag app-task-list__tag govuk-tag--green\">Completed</strong>")))
+      
+	.pause(MinThinkTime, MaxThinkTime)
+
+  //========================================================================================
+  // Select Contact Preferences --- Open Link
   //========================================================================================   
 
   val ContactPreferences = 
 
-    exec(http("PRL_FL401Respondent_XXX_OpenContactPreferences")
+    exec(http("PRL_FL401Respondent_160_OpenContactPreferences")
 	  .get(prlURL + "/respondent/contact-preference/choose-a-contact-preference")
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -267,7 +341,7 @@ object Citizen_PRL_FL401_Respondent {
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 	  .formParam("_csrf", "#{csrf}")
 	  .formParam("saveAndContinue", "true")
-	  .check(substring("Keep your details private")))
+	  .check(substring("<strong id=\"contactPreferences-status\" class=\"govuk-tag app-task-list__tag govuk-tag--green\">Completed</strong>")))
 
     .pause(MinThinkTime, MaxThinkTime)
 
@@ -317,11 +391,11 @@ object Citizen_PRL_FL401_Respondent {
 	  exec(http("PRL_FL401Respondent_180_005_LanguageRequirementsReview")
 	  .post(prlURL + "/respondent/reasonable-adjustments/language-requirements-and-special-arrangements/review")
       .headers(Headers.navigationHeader)
-      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
 	  .formParam("_csrf", "#{csrf}")
 	  .formParam("onlyContinue", "true")
       .check(CsrfCheck.save)
-	  .check(substring("Do you have a physical, mental or learning disability")))
+	  .check(substring("Do you have a physical")))
 	}
 
 	.pause(MinThinkTime, MaxThinkTime)
@@ -358,7 +432,7 @@ object Citizen_PRL_FL401_Respondent {
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 	  .formParam("_csrf", "#{csrf}")
 	  .formParam("onlyContinue", "true")
-	  .check(substring("Child arrangements and family injunction cases")))
+	  .check(substring("#{caseId}</p>")))
 	}
 
     .pause(MinThinkTime, MaxThinkTime)
@@ -370,10 +444,157 @@ object Citizen_PRL_FL401_Respondent {
   val CheckApplication =
 
     exec(http("PRL_FL401Respondent_220_CheckApplication")
-	  .get(prlURL + "/respondent/documents/download/type/cada-document")
+	  .get(prlURL + "/respondent/documents/download/type/cada-document/en")
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
       .check(status.is(200)))
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+	/*======================================================================================
+	* Make a request to the court about your case --> Click Link
+	======================================================================================*/
+
+  val MakeRequestToCourtAboutCase =  // ** NEW FUNCTIONALITY FOR PRL R7.0 (Out of scope for R6.0)
+
+    exec(http("PRL_FL401Respondent_230_MakeRequestToCourtAboutCase")
+	  .get(prlURL + "/respondent/application-within-proceedings/list-of-applications/1")
+	  .headers(Headers.navigationHeader)
+	  .headers(Headers.navigationHeader)
+	  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+	  .check(CsrfCheck.save)
+	  .check(substring("Make a request to the court about your case")))
+
+	.pause(MinThinkTime, MaxThinkTime)
+
+	/*======================================================================================
+	* Select Upload documents, applications and statements Link
+	======================================================================================*/
+
+  val UploadDocumentsApplicationsStatements =
+
+    exec(http("PRL_FL401Respondent_240_DocumentsUpload")
+      .get(prlURL + "/respondent/documents/upload")
+      .headers(Headers.navigationHeader)
+      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+      .check(substring("Select the type of document")))
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+	/*======================================================================================
+	* Select Your Position Statement Link
+	======================================================================================*/
+
+    .exec(http("PRL_FL401Respondent_250_YourPositionStatement")
+      .get(prlURL + "/respondent/documents/upload/your-position-statements/has-the-court-asked-for-this-documents")
+      .headers(Headers.navigationHeader)
+      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+	  .check(CsrfCheck.save)
+      .check(substring("Your position statement")))
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+	/*======================================================================================
+	* Your Position Statement Link - Has the court asked for this document? --> Yes, Continue
+	======================================================================================*/
+
+	.group("PRL_FL401Respondent_260_HasCourtAskedForDocumentYes") {
+       exec(http("PRL_FL401Respondent_260_005_HasCourtAskedForDocumentYes")
+      .post(prlURL + "/respondent/documents/upload/your-position-statements/has-the-court-asked-for-this-documents")
+      .headers(Headers.navigationHeader)
+	  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+	  .formParam("_csrf", "#{csrf}")
+	  .formParam("hasCourtAskedForThisDoc", "Yes")
+	  .formParam("onlyContinue", "true")
+	  .check(CsrfCheck.save)
+      .check(substring("Before you submit a document")))
+	}
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+	/*======================================================================================
+	* Before you submit a document --> Continue
+	======================================================================================*/
+
+	.group("PRL_FL401Respondent_270_DocumentSharingDetails") {
+       exec(http("PRL_FL401Respondent_270_005_DocumentSharingDetails")
+      .post(prlURL + "/respondent/documents/upload/your-position-statements/document-sharing-details")
+      .headers(Headers.navigationHeader)
+	  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+	  .formParam("_csrf", "#{csrf}")
+	  .formParam("onlyContinue", "true")
+	  .check(CsrfCheck.save)
+      .check(substring("Sharing your documents")))
+	}
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+	/*======================================================================================
+	* Sharing your documents, Is there a good reason... --> No, Continue
+	======================================================================================*/
+
+	.group("PRL_FL401Respondent_280_SharingDocumentsNo") {
+       exec(http("PRL_FL401Respondent_280_005_SharingDocumentsNo")
+      .post(prlURL + "/respondent/documents/upload/your-position-statements/sharing-your-documents")
+      .headers(Headers.navigationHeader)
+	  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+	  .formParam("_csrf", "#{csrf}")
+	  .formParam("haveReasonForDocNotToBeShared", "No")
+	  .formParam("saveAndContinue", "true")
+	  .check(CsrfCheck.save)
+      .check(substring("Position statement")))
+	}
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+	/*======================================================================================
+	* Position statement, Write witness statement free text-> Submit
+	======================================================================================*/
+
+	.group("PRL_FL401Respondent_290_WitnessStatementSubmit") {
+       exec(http("PRL_FL401Respondent_290_005_WitnessStatementSubmit")
+      .post(prlURL + "/respondent/documents/upload/your-position-statements/upload-your-documents?docCategory=your-position-statements&_csrf=#{csrf}")
+      .headers(Headers.navigationHeader)
+	  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+	  .formParam("_csrf", "#{csrf}")
+	  .formParam("statementText", "Test+witness+statement.+a+fair+amount+of+text+should+be+here+as+a+witness+statement+would+be+relatively+long.+%0D%0A%0D%0AYou+can+write+your+statement+in+the+text+box+or+upload+it.%0D%0A%0D%0AIf+you+are+uploading+documents+from+a+computer%2C+name+the+files+clearly.+For+example%2C+letter-from-school.doc.%0D%0A%0D%0AFiles+must+end+with+JPG%2C+BMP%2C+PNG%2CTIF%2C+PDF%2C+DOC+or+DOCX+and+have+a+maximum+size+of+20mb.%0D%0A%0D%0Aroceedings+for+contempt+of+court+may+be+brought+against+anyone+who+makes%2C+or+causes+to+be+made%2C+a+false+statement+verified+by+a+statement+of+truth+without+an+honest+belief+in+its+truth.%0D%0A%0D%0AThis+confirms+that+the+information+you+are+submitting+is+true+and+accurate%2C+to+the+best+of+your+knowledge.")
+	  .formParam("generateDocument", "true")
+	  .check(CsrfCheck.save)
+      .check(substring("_position_statements_")))
+	}
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+	/*======================================================================================
+	* Position statement, Select checkbox declaratiom -> Continue
+	======================================================================================*/
+
+	.group("PRL_FL401Respondent_300_UploadDocumentContinue") {
+       exec(http("PRL_FL401Respondent_300_005_UploadDocumentContinue")
+      .post(prlURL + "/respondent/documents/upload/your-position-statements/upload-your-documents")
+      .headers(Headers.navigationHeader)
+	  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+	  .formParam("_csrf", "#{csrf}")
+	  .formParam("declarationCheck", "")
+	  .formParam("declarationCheck", "declaration")
+	  .formParam("onlyContinue", "true")
+	  .check(CsrfCheck.save)
+      .check(substring("Document submitted")))
+	}
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+	/*======================================================================================
+	* Select View All Documents Link
+	======================================================================================*/
+
+  val ViewAllDocuments =
+
+    exec(http("PRL_FL401Respondent_XXX_ViewAllDocuments")
+      .get(prlURL + "/respondent/documents/view/all-categories")
+      .headers(Headers.navigationHeader)
+      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+	  .check(substring("View all documents")))
 
     .pause(MinThinkTime, MaxThinkTime)
 

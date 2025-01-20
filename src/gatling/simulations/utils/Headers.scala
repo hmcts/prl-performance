@@ -47,8 +47,8 @@ object Headers {
 
 
   val xuiHeader = Map(
-    "accept-encoding" -> "gzip, deflate, br",
-    "accept-language" -> "en-GB,en;q=0.9",
+    "accept-encoding" -> "gzip, deflate, br, zstd",
+    "accept-language" -> "en-GB,en-US;q=0.9,en;q=0.8",
     "content-type" -> "application/json",
     "sec-fetch-dest" -> "empty",
     "sec-fetch-mode" -> "cors",

@@ -22,6 +22,8 @@ class PRL_Simulation extends Simulation {
   val fl401caseFeeder = csv("FL401CourtAdminData.csv")
   val c100CaseFeeder = csv("C100CourtAdminData.csv")
   val c100RespondentData = csv("C100RespondentData.csv")
+  val c100ApplicantDashData = csv("C100ApplicantDashData.csv")
+  val fl401ApplicantDashData = csv("FL401ApplicantDashData.csv")
   val fl401RespondentData = csv("FL401RespondentData.csv")
   val RAData_Add = csv("ReasonableAdjustments_Add.csv")
   val RAData_Modify = csv("ReasonableAdjustments_Modify.csv").circular
@@ -81,7 +83,7 @@ class PRL_Simulation extends Simulation {
     .baseUrl(Environment.baseURL.replace("${env}", s"${env}"))
     //.inferHtmlResources()
     .silentResources
-    //.header("experimental", "true") //used to send through client id, s2s and bearer tokens. Might be temporary
+    .header("experimental", "true") //used to send through client id, s2s and bearer tokens. Might be temporary
   
   before {
     println(s"Test Type: ${testType}")
@@ -240,7 +242,45 @@ class PRL_Simulation extends Simulation {
         .exec(Citizen_PRL_C100_Respondent.CheckHarmViolenceAllegations) //New for R6.0
         .exec(Citizen_PRL_C100_Respondent.MakeRequestToCourtAboutCase) //New for R6.0/7.0
         .exec(Citizen_PRL_C100_Respondent.UploadDocumentsApplicationsStatements) //New for R6.0
-        .exec(Citizen_PRL_C100_Respondent.ViewAllDocuments) //New for R6.0 
+        .exec(Citizen_PRL_C100_Respondent.ViewAllDocuments) //New for R6.0
+        .exec(Citizen_PRL_C100_Respondent.ViewServedAppPack) //New for R6.0
+        .exec(Citizen_PRL_C100_Respondent.ViewAllDocuments) //New for R6.0
+        .exec(Citizen_PRL_C100_Respondent.ViewRespondentsDocuments) //New for R6.0
+        .exec(Logout.CUILogout)
+      }
+    }
+
+
+  /*===============================================================================================
+  * PRL Citizen C100 ApplicantDashboard Journey 
+  ===============================================================================================*/
+  
+  val PRLC100ApplicantDashboardScenario = scenario("***** PRL Citizen C100 Applicant Dashboard Journey *****")
+    .exitBlockOnFail {
+      exec(_.set("env", s"${env}")
+      .set("caseType", "PRLAPPS"))
+      .feed(UserCitizenPRL)
+      .exec(Homepage.PRLHomePage)
+      .exec(Login.PrlLogin)
+      .repeat(1) {
+        feed(c100ApplicantDashData)
+        //.exec(Citizen_PRL_C100_ApplicantDashboard.RetrieveCase)
+        .exec(Citizen_PRL_C100_ApplicantDashboard.GetCase)  // Not needed in this journey as once linked you are redirected to the dashboard (Use for script deb and debugging)
+        //.exec(Citizen_PRL_C100_ApplicantDashboard.KeepDetailsPrivate)
+        //.exec(Citizen_PRL_C100_ApplicantDashboard.ContactPreferences)
+        //.exec(Citizen_PRL_C100_ApplicantDashboard.ConfirmEditContactDetails) // New for R6.0
+        //.exec(Citizen_PRL_C100_ApplicantDashboard.SupportYouNeed)
+        //.exec(Citizen_PRL_C100_ApplicantDashboard.RespondToApplication)
+        .exec(Citizen_PRL_C100_ApplicantDashboard.YourApplication)
+        .exec(Citizen_PRL_C100_ApplicantDashboard.CheckHarmViolenceAllegations) //New for R6.0
+        .exec(Citizen_PRL_C100_ApplicantDashboard.MakeRequestToCourtAboutCase) //New for R6.0/7.0
+        .exec(Citizen_PRL_C100_ApplicantDashboard.UploadDocumentsApplicationsStatements) //New for R6.0
+        .exec(Citizen_PRL_C100_ApplicantDashboard.ViewAllDocuments) //New for R6.0
+        .exec(Citizen_PRL_C100_ApplicantDashboard.ViewServedAppPack) //New for R6.0
+        .exec(Citizen_PRL_C100_ApplicantDashboard.ViewAllDocuments) //New for R6.0
+        //.exec(Citizen_PRL_C100_ApplicantDashboard.ViewRespondentsDocuments) //Not needed in this journey
+        .exec(Citizen_PRL_C100_ApplicantDashboard.ViewApplicantsDocuments) // New for R6.0
+        .exec(Citizen_PRL_C100_ApplicantDashboard.ViewOrdersFromTheCourt) // New for R6.0
         .exec(Logout.CUILogout)
       }
     }
@@ -295,15 +335,56 @@ class PRL_Simulation extends Simulation {
       .exec(Login.PrlLogin)
       .repeat(1) {
         feed(fl401RespondentData)
-        .exec(Citizen_PRL_FL401_Respondent.RetrieveCase)
+        //.exec(Citizen_PRL_FL401_Respondent.RetrieveCase)
         .exec(Citizen_PRL_FL401_Respondent.GetCase)
+        .exec(Citizen_PRL_FL401_Respondent.ConfirmEditContactDetails) // New for R6.0
+        .exec(Citizen_PRL_FL401_Respondent.ContactPreferences) // New for R6.0
         .exec(Citizen_PRL_FL401_Respondent.KeepDetailsPrivate)
-        .exec(Citizen_PRL_FL401_Respondent.ContactDetails)
+        //.exec(Citizen_PRL_FL401_Respondent.ContactDetails) // No longer visible 
         .exec(Citizen_PRL_FL401_Respondent.SupportYouNeed)
         .exec(Citizen_PRL_FL401_Respondent.CheckApplication)
+        .exec(Citizen_PRL_FL401_Respondent.MakeRequestToCourtAboutCase) //New for R6.0/7.0
+        .exec(Citizen_PRL_FL401_Respondent.UploadDocumentsApplicationsStatements) //New for R6.0
+        .exec(Citizen_PRL_FL401_Respondent.ViewAllDocuments) //New for R6.0
+        .exec(Logout.CUILogout)
+
       }
     }
   }
+
+ /*===============================================================================================
+  * PRL Citizen FL401 ApplicantDashboard Journey 
+  ===============================================================================================*/
+  
+  val PRLFL401ApplicantDashboardScenario = scenario("***** PRL Citizen FL401 Applicant Dashboard Journey *****")
+    .exitBlockOnFail {
+      exec(_.set("env", s"${env}")
+      .set("caseType", "PRLAPPS"))
+      .feed(UserCitizenPRL)
+      .exec(Homepage.PRLHomePage)
+      .exec(Login.PrlLogin)
+      .repeat(1) {
+        feed(c100ApplicantDashData)
+        //.exec(Citizen_PRL_FL401_ApplicantDashboard.RetrieveCase)
+        .exec(Citizen_PRL_FL401_ApplicantDashboard.GetCase)  // Not needed in this journey as once linked you are redirected to the dashboard (Use for script deb and debugging)
+        //.exec(Citizen_PRL_FL401_ApplicantDashboard.KeepDetailsPrivate)
+        //.exec(Citizen_PRL_FL401_ApplicantDashboard.ContactPreferences)
+        //.exec(Citizen_PRL_FL401_ApplicantDashboard.ConfirmEditContactDetails) // New for R6.0
+        //.exec(Citizen_PRL_FL401_ApplicantDashboard.SupportYouNeed)
+        //.exec(Citizen_PRL_FL401_ApplicantDashboard.RespondToApplication)
+        .exec(Citizen_PRL_FL401_ApplicantDashboard.YourApplication)
+        .exec(Citizen_PRL_FL401_ApplicantDashboard.CheckHarmViolenceAllegations) //New for R6.0
+        .exec(Citizen_PRL_FL401_ApplicantDashboard.MakeRequestToCourtAboutCase) //New for R6.0/7.0
+        .exec(Citizen_PRL_FL401_ApplicantDashboard.UploadDocumentsApplicationsStatements) //New for R6.0
+        .exec(Citizen_PRL_FL401_ApplicantDashboard.ViewAllDocuments) //New for R6.0
+        .exec(Citizen_PRL_FL401_ApplicantDashboard.ViewServedAppPack) //New for R6.0
+        .exec(Citizen_PRL_FL401_ApplicantDashboard.ViewAllDocuments) //New for R6.0
+        //.exec(Citizen_PRL_FL401_ApplicantDashboard.ViewRespondentsDocuments) //Not needed in this journey
+        .exec(Citizen_PRL_FL401_ApplicantDashboard.ViewApplicantsDocuments) // New for R6.0
+        .exec(Citizen_PRL_FL401_ApplicantDashboard.ViewOrdersFromTheCourt) // New for R6.0
+        .exec(Logout.CUILogout)
+      }
+    }
 
   /*===============================================================================================
   * Simulation Configuration
@@ -372,10 +453,11 @@ class PRL_Simulation extends Simulation {
   //PRLFL401CaseworkerScenario.inject(constantConcurrentUsers(13).during(20)),
   //PRLFL401CaseManagerScenario.inject(constantConcurrentUsers(7).during(20)),
   //PrlFL401Create.inject(constantConcurrentUsers(15).during(20)),
-   PRLC100RespondentScenario.inject(constantConcurrentUsers(1).during(10)),
+   //PRLC100RespondentScenario.inject(constantConcurrentUsers(1).during(10)),
+   PRLC100ApplicantDashboardScenario.inject(constantConcurrentUsers(1).during(10)),
    //PRLFL401RespondentScenario.inject(constantConcurrentUsers(1).during(10)),
    //PRLC100CitizenScenario.inject(constantConcurrentUsers(1).during(10)),
-   //PRLC100CaseworkerScenario.inject(constantConcurrentUsers(15).during(60)),
+   //PRLC100CaseworkerScenario.inject(constantConcurrentUsers(2).during(60)),
    //PRLReasonableAdjustmentsAdd.inject(constantConcurrentUsers(1).during(10)),
    //PRLReasonableAdjustmentsModify.inject(constantConcurrentUsers(1).during(10)),
 

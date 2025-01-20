@@ -30,6 +30,8 @@ object Caseworker_PRL_C100_ProgressCase {
     exec(http("XUI_PRL_XXX_290_SelectCase")
       .get(BaseURL + "/data/internal/cases/#{caseId}")
       .headers(Headers.xuiHeader)
+      .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-case-view.v2+json")
+
       .check(jsonPath("$.case_id").is("#{caseId}")))
 
     .exec(Common.waJurisdictions)
@@ -68,7 +70,7 @@ object Caseworker_PRL_C100_ProgressCase {
       }
     })
 
-    // Loop until the task type matches "checkApplicationC100"
+    // Loop until the task type matches "checkApplicationC100" *For Cases which selected HWF different steps are required here
     .asLongAs(session => session("taskType").as[String] != "checkApplicationC100") {
       exec(http("XUI_PRL_XXX_310_SelectCaseTaskRepeat")
         .get(BaseURL + "/workallocation/case/task/#{caseId}")
