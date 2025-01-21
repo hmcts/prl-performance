@@ -966,7 +966,7 @@ Click Access Code &  Enter Case ID & Pin, Continue
 
   val YourApplication =
 
-    exec(http("PRL_C100ApplicantDashboard_500_YourApplication")
+    exec(http("PRL_C100ApplicantDashboard_510_YourApplication")
       .get(prlURL + "/applicant/documents/download/type/c100-application/en")
       .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
@@ -980,7 +980,7 @@ Click Access Code &  Enter Case ID & Pin, Continue
 
   val CheckHarmViolenceAllegations =
 
-    exec(http("PRL_C100ApplicantDashboard_510_HarmAndViolenceDoc")
+    exec(http("PRL_C100ApplicantDashboard_520_HarmAndViolenceDoc")
       .get(prlURL + "/applicant/documents/download/type/aoh-document/en")
       .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -994,7 +994,7 @@ Click Access Code &  Enter Case ID & Pin, Continue
 
   val MakeRequestToCourtAboutCase =  // ** NEW FUNCTIONALITY FOR PRL R7.0 (Out of scope for R6.0)
 
-    exec(http("PRL_C100ApplicantDashboard_520_MakeRequestToCourtAboutCase")
+    exec(http("PRL_C100ApplicantDashboard_530_MakeRequestToCourtAboutCase")
 	  .get(prlURL + "/applicant/application-within-proceedings/list-of-applications/1")
 	  .headers(Headers.navigationHeader)
 	  .headers(Headers.navigationHeader)
@@ -1051,7 +1051,7 @@ Click Access Code &  Enter Case ID & Pin, Continue
 
   val UploadDocumentsApplicationsStatements =
 
-    exec(http("PRL_C100ApplicantDashboard_510_DocumentsUpload")
+    exec(http("PRL_C100ApplicantDashboard_540_DocumentsUpload")
       .get(prlURL + "/applicant/documents/upload")
       .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -1063,7 +1063,7 @@ Click Access Code &  Enter Case ID & Pin, Continue
 	* Select Your Position Statement Link
 	======================================================================================*/
 
-    .exec(http("PRL_C100ApplicantDashboard_520_YourPositionStatement")
+    .exec(http("PRL_C100ApplicantDashboard_550_YourPositionStatement")
       .get(prlURL + "/applicant/documents/upload/your-position-statements/has-the-court-asked-for-this-documents")
       .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -1076,8 +1076,8 @@ Click Access Code &  Enter Case ID & Pin, Continue
 	* Your Position Statement Link - Has the court asked for this document? --> Yes, Continue
 	======================================================================================*/
 
-	.group("PRL_C100ApplicantDashboard_530_HasCourtAskedForDocumentYes") {
-       exec(http("PRL_C100ApplicantDashboard_530_005_HasCourtAskedForDocumentYes")
+	.group("PRL_C100ApplicantDashboard_560_HasCourtAskedForDocumentYes") {
+       exec(http("PRL_C100ApplicantDashboard_560_005_HasCourtAskedForDocumentYes")
       .post(prlURL + "/applicant/documents/upload/your-position-statements/has-the-court-asked-for-this-documents")
       .headers(Headers.navigationHeader)
 	  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -1094,8 +1094,8 @@ Click Access Code &  Enter Case ID & Pin, Continue
 	* Before you submit a document --> Continue
 	======================================================================================*/
 
-	.group("PRL_C100ApplicantDashboard_540_DocumentSharingDetails") {
-       exec(http("PRL_C100ApplicantDashboard_540_005_DocumentSharingDetails")
+	.group("PRL_C100ApplicantDashboard_570_DocumentSharingDetails") {
+       exec(http("PRL_C100ApplicantDashboard_570_005_DocumentSharingDetails")
       .post(prlURL + "/applicant/documents/upload/your-position-statements/document-sharing-details")
       .headers(Headers.navigationHeader)
 	  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -1111,8 +1111,8 @@ Click Access Code &  Enter Case ID & Pin, Continue
 	* Sharing your documents, Is there a good reason... --> No, Continue
 	======================================================================================*/
 
-	.group("PRL_C100ApplicantDashboard_550_SharingDocumentsNo") {
-       exec(http("PRL_C100ApplicantDashboard_550_005_SharingDocumentsNo")
+	.group("PRL_C100ApplicantDashboard_580_SharingDocumentsNo") {
+       exec(http("PRL_C100ApplicantDashboard_558_005_SharingDocumentsNo")
       .post(prlURL + "/applicant/documents/upload/your-position-statements/sharing-your-documents")
       .headers(Headers.navigationHeader)
 	  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -1129,8 +1129,8 @@ Click Access Code &  Enter Case ID & Pin, Continue
 	* Position statement, Write witness statement free text-> Submit
 	======================================================================================*/
 
-	.group("PRL_C100ApplicantDashboard_560_WitnessStatementSubmit") {
-       exec(http("PRL_C100ApplicantDashboard_560_005_WitnessStatementSubmit")
+	.group("PRL_C100ApplicantDashboard_590_WitnessStatementSubmit") {
+       exec(http("PRL_C100ApplicantDashboard_590_005_WitnessStatementSubmit")
       .post(prlURL + "/applicant/documents/upload/your-position-statements/upload-your-documents?docCategory=your-position-statements&_csrf=#{csrf}")
       .headers(Headers.navigationHeader)
 	  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -1147,8 +1147,8 @@ Click Access Code &  Enter Case ID & Pin, Continue
 	* Position statement, Select checkbox declaratiom -> Continue
 	======================================================================================*/
 
-	.group("PRL_C100ApplicantDashboard_570_UploadDocumentContinue") {
-       exec(http("PRL_C100ApplicantDashboard_570_005_UploadDocumentContinue")
+	.group("PRL_C100ApplicantDashboard_600_UploadDocumentContinue") {
+       exec(http("PRL_C100ApplicantDashboard_600_005_UploadDocumentContinue")
       .post(prlURL + "/applicant/documents/upload/your-position-statements/upload-your-documents")
       .headers(Headers.navigationHeader)
 	  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -1166,8 +1166,8 @@ Click Access Code &  Enter Case ID & Pin, Continue
 	* Select upload another document link
 	======================================================================================*/
 
-	.group("PRL_C100ApplicantDashboard_580_UploadDocumentContinue") {
-       exec(http("PRL_C100ApplicantDashboard_580_005_UploadDocumentContinue")
+	.group("PRL_C100ApplicantDashboard_610_UploadAnotherDocument") {
+       exec(http("PRL_C100ApplicantDashboard_610_005_UploadAnotherDocument")
       .post(prlURL + "/applicant/documents/upload/your-position-statements/upload-documents-success?_csrf=#{csrf}")
       .headers(Headers.navigationHeader)
 	  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -1181,7 +1181,7 @@ Click Access Code &  Enter Case ID & Pin, Continue
 	* Select Emails, screenshots, images and other media files link (media files)
 	======================================================================================*/
 
- 	.exec(http("PRL_C100ApplicantDashboard_590_SelectMediaFilesLink")
+ 	.exec(http("PRL_C100ApplicantDashboard_620_SelectMediaFilesLink")
       .get(prlURL + "/applicant/documents/upload/media-files/has-the-court-asked-for-this-documents")
       .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -1191,11 +1191,11 @@ Click Access Code &  Enter Case ID & Pin, Continue
     .pause(MinThinkTime, MaxThinkTime)
 
 	/*======================================================================================
-	* Your Position Statement Link - Has the court asked for this document? --> Yes, Continue
+	* Emails, screenshots, images and other media files - Has the court asked for this document? --> Yes, Continue
 	======================================================================================*/
 
-	.group("PRL_C100ApplicantDashboard_600_HasCourtAskedForDocumentYes") {
-       exec(http("PRL_C100ApplicantDashboard_600_005_HasCourtAskedForDocumentYes")
+	.group("PRL_C100ApplicantDashboard_630_HasCourtAskedForDocumentYes") {
+       exec(http("PRL_C100ApplicantDashboard_630_005_HasCourtAskedForDocumentYes")
       .post(prlURL + "/applicant/documents/upload/media-files/has-the-court-asked-for-this-documents")
       .headers(Headers.navigationHeader)
 	  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -1212,8 +1212,8 @@ Click Access Code &  Enter Case ID & Pin, Continue
 	* Before you submit a document --> Continue
 	======================================================================================*/
 
-	.group("PRL_C100ApplicantDashboard_610_DocumentSharingDetails") {
-       exec(http("PRL_C100ApplicantDashboard_610_005_DocumentSharingDetails")
+	.group("PRL_C100ApplicantDashboard_640_DocumentSharingDetails") {
+       exec(http("PRL_C100ApplicantDashboard_640_005_DocumentSharingDetails")
       .post(prlURL + "/applicant/documents/upload/media-files/document-sharing-details")
       .headers(Headers.navigationHeader)
 	  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -1229,8 +1229,8 @@ Click Access Code &  Enter Case ID & Pin, Continue
 	* Sharing your documents, Is there a good reason... --> No, Continue
 	======================================================================================*/
 
-	.group("PRL_C100ApplicantDashboard_620_SharingDocumentsNo") {
-       exec(http("PRL_C100ApplicantDashboard_620_005_SharingDocumentsNo")
+	.group("PRL_C100ApplicantDashboard_650_SharingDocumentsNo") {
+       exec(http("PRL_C100ApplicantDashboard_650_005_SharingDocumentsNo")
       .post(prlURL + "/applicant/documents/upload/media-files/sharing-your-documents")
       .headers(Headers.navigationHeader)
 	  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -1245,11 +1245,11 @@ Click Access Code &  Enter Case ID & Pin, Continue
     .pause(MinThinkTime, MaxThinkTime)
 
 	/*======================================================================================
-	* Witness statements and evidence, select choose file button, select file and then upload
+	* Emails, screenshots, images and other media files, select choose file button, select file and then upload
 	======================================================================================*/
 
-	.group("PRL_C100ApplicantDashboard_630_UploadDocument") {
-       exec(http("PRL_C100ApplicantDashboard_630_005_UploadDocument")
+	.group("PRL_C100ApplicantDashboard_660_UploadDocument") {
+       exec(http("PRL_C100ApplicantDashboard_660_005_UploadDocument")
       .post(prlURL + "/applicant/documents/upload/media-files/upload-your-documents?docCategory=media-files&_csrf=#{csrf}")
       .headers(Headers.navigationHeader)
 	  .header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8")
@@ -1268,11 +1268,11 @@ Click Access Code &  Enter Case ID & Pin, Continue
     .pause(MinThinkTime, MaxThinkTime)
 
 	/*======================================================================================
-	* Witness statements and evidence, Select checkbox declaration -> Continue
+	* Emails, screenshots, images and other media files, Select checkbox declaration -> Continue
 	======================================================================================*/
 
-	.group("PRL_C100ApplicantDashboard_640_UploadDocumentContinue") {
-       exec(http("PRL_C100ApplicantDashboard_640_005_UploadDocumentContinue")
+	.group("PRL_C100ApplicantDashboard_670_UploadDocumentContinue") {
+       exec(http("PRL_C100ApplicantDashboard_670_005_UploadDocumentContinue")
       .post(prlURL + "/applicant/documents/upload/media-files/upload-your-documents")
       .headers(Headers.navigationHeader)
 	  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -1290,8 +1290,8 @@ Click Access Code &  Enter Case ID & Pin, Continue
 	* Select return to case overview
 	======================================================================================*/
 
-	.group("PRL_C100ApplicantDashboard_650_ReturnToCaseOverview") {
-       exec(http("PRL_C100ApplicantDashboard_650_005_UploadDocumentContinue")
+	.group("PRL_C100ApplicantDashboard_680_ReturnToCaseOverview") {
+       exec(http("PRL_C100ApplicantDashboard_680_005_UploadDocumentContinue")
       .post(prlURL + "/applicant/documents/upload/your-position-statements/upload-documents-success?_csrf=#{csrf}")
       .headers(Headers.navigationHeader)
 	  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -1307,7 +1307,7 @@ Click Access Code &  Enter Case ID & Pin, Continue
 
   val ViewAllDocuments =
 
-    exec(http("PRL_C100ApplicantDashboard_660_ViewAllDocuments")
+    exec(http("PRL_C100ApplicantDashboard_690_ViewAllDocuments")
       .get(prlURL + "/applicant/documents/view/all-categories")
       .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -1321,7 +1321,7 @@ Click Access Code &  Enter Case ID & Pin, Continue
 
   val ViewServedAppPack =
 
-    exec(http("PRL_C100ApplicantDashboard_670_ViewServedApplicationPack")
+    exec(http("PRL_C100ApplicantDashboard_700_ViewServedApplicationPack")
       .get(prlURL + "/applicant/documents/view/application-pack-documents")
       .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -1354,7 +1354,7 @@ Click Access Code &  Enter Case ID & Pin, Continue
 	//================================================================================================
 	//Open a document from within the pack
 	//================================================================================================
-		.exec(http("PRL_C100ApplicantDashboard_68#{counter}_ApplicationPackDocumentDownload")
+		.exec(http("PRL_C100ApplicantDashboard_71#{counter}_ApplicationPackDocumentDownload")
 		  .get(prlURL + "/applicant/documents/download/#{downloadDocument}")
 		  .headers(Headers.navigationHeader)
 		  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -1369,7 +1369,7 @@ Click Access Code &  Enter Case ID & Pin, Continue
 
   val ViewRespondentsDocuments =
 
-    exec(http("PRL_C100ApplicantDashboard_690_ViewRespondentDocs")
+    exec(http("PRL_C100ApplicantDashboard_710_ViewRespondentDocs")
       .get(prlURL + "/respondent/documents/view/respondent/doc")
       .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -1402,7 +1402,7 @@ Click Access Code &  Enter Case ID & Pin, Continue
 	//================================================================================================
 	//Open a document from within the pack
 	//================================================================================================
-		.exec(http("PRL_C100ApplicantDashboard_70#{counter}_RespondentAppPackDocumentDownload")
+		.exec(http("PRL_C100ApplicantDashboard_72#{counter}_RespondentAppPackDocumentDownload")
 		  .get(prlURL + "/respondent/documents/download/#{downloadDocument}")
 		  .headers(Headers.navigationHeader)
 		  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -1418,7 +1418,7 @@ Click Access Code &  Enter Case ID & Pin, Continue
 
   val ViewApplicantsDocuments =
 
-    exec(http("PRL_C100ApplicantDashboard_690_ViewRespondentDocs")
+    exec(http("PRL_C100ApplicantDashboard_720_ViewApplicantsDocs")
       .get(prlURL + "/applicant/documents/view/applicant/doc")
       .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -1451,7 +1451,7 @@ Click Access Code &  Enter Case ID & Pin, Continue
 	//================================================================================================
 	//Open a document from within the pack
 	//================================================================================================
-		.exec(http("PRL_C100ApplicantDashboard_70#{counter}_RespondentAppPackDocumentDownload")
+		.exec(http("PRL_C100ApplicantDashboard_73#{counter}_ApplicantDocumentDownload")
 		  .get(prlURL + "/applicant/documents/download/#{downloadDocument}")
 		  .headers(Headers.navigationHeader)
 		  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -1466,7 +1466,7 @@ Click Access Code &  Enter Case ID & Pin, Continue
 
   val ViewOrdersFromTheCourt =
 
-    exec(http("PRL_C100ApplicantDashboard_690_ViewOrdersFromTheCourt")
+    exec(http("PRL_C100ApplicantDashboard_740_ViewOrdersFromTheCourt")
       .get(prlURL + "/applicant/documents/view/orders-from-the-court")
       .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -1499,7 +1499,7 @@ Click Access Code &  Enter Case ID & Pin, Continue
 	//================================================================================================
 	//Open a document from within the pack
 	//================================================================================================
-		.exec(http("PRL_C100ApplicantDashboard_70#{counter}_CourtOrderDocumentDownload")
+		.exec(http("PRL_C100ApplicantDashboard_75#{counter}_CourtOrderDocumentDownload")
 		  .get(prlURL + "/applicant/documents/download/#{downloadDocument}")
 		  .headers(Headers.navigationHeader)
 		  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -1507,6 +1507,22 @@ Click Access Code &  Enter Case ID & Pin, Continue
 
     .pause(MinThinkTime, MaxThinkTime) 
 	}
+
+	/*======================================================================================
+	* Select View Check details of your court hearings link
+	======================================================================================*/
+
+  val ViewCourtHearings =
+
+	group("PRL_C100ApplicantDashboard_760_ViewCourtHearings") {
+      exec(http("PRL_C100ApplicantDashboard_460_005_ViewCourtHearings")
+      .get(prlURL + "/applicant/hearings/#{caseId}")
+      .headers(Headers.navigationHeader)
+      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+	  .check(substring("Your court hearings")))
+	}
+
+    .pause(MinThinkTime, MaxThinkTime)
 
 	/*======================================================================================
 	* write cases for use in Add RA script
