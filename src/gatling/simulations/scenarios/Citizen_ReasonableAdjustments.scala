@@ -23,7 +23,7 @@ object Citizen_ReasonableAdjustments {
   val GetCase = 
 
 	group("PRL_RA_OpenCase") {
-     exec(http("PRL_RA_OpenCase_005")
+     exec(http("PRL_RA_030_OpenCase")
 	.get(prlURL + "/case/#{caseId}")
 	.headers(Headers.navigationHeader)
     .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -38,7 +38,7 @@ object Citizen_ReasonableAdjustments {
 
   val ReasonableAdjustmentsAdd = 
 
-	exec(http("PRL_RA_010_OpenAdditionalSupport")
+	exec(http("PRL_RA_040_OpenAdditionalSupport")
 	.get(prlURL + "/respondent/reasonable-adjustments/intro")
 	.headers(Headers.navigationHeader)
 	.check(substring("Tell us if you need support"))
@@ -46,8 +46,8 @@ object Citizen_ReasonableAdjustments {
       
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.group("PRL_RA_020_StartAdditionalSupport") {
-		exec(http("PRL_RA_020_005_StartAdditionalSupport")
+	.group("PRL_RA_050_StartAdditionalSupport") {
+		exec(http("PRL_RA_050_005_StartAdditionalSupport")
 		.post(prlURL + "/respondent/reasonable-adjustments/language-requirements-and-special-arrangements")
 		.headers(Headers.navigationHeader)
 		.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -60,7 +60,7 @@ object Citizen_ReasonableAdjustments {
 
 	.pause(MinThinkTime, MaxThinkTime)
 
-    .exec(http("PRL_RA_030_LaunchReasonableAdjustments")
+    .exec(http("PRL_RA_060_LaunchReasonableAdjustments")
 	 	.get(prlURL + "/reasonable-adjustments/launch")
 		.headers(Headers.navigationHeader)
       	.check(substring("Select all that apply to you"))
@@ -69,8 +69,8 @@ object Citizen_ReasonableAdjustments {
       
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.group("PRL_RA_040_BuildingSupport") {
-		exec(http("PRL_RA_040_005_BuildingSupport")
+	.group("PRL_RA_070_BuildingSupport") {
+		exec(http("PRL_RA_070_005_BuildingSupport")
 		.post(cuiRaURL + "/journey/flags/display/PF0001-RA0001")
 		.headers(Headers.navigationHeader)
     	.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -88,8 +88,8 @@ object Citizen_ReasonableAdjustments {
       
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.group("PRL_RA_050_BuildingEntranceSupport") {
-		exec(http("PRL_RA_050_005_BuildingEntranceSupport")
+	.group("PRL_RA_080_BuildingEntranceSupport") {
+		exec(http("PRL_RA_080_005_BuildingEntranceSupport")
 		.post(cuiRaURL + "/journey/flags/display/PF0001-RA0001-RA0004")
 		.headers(Headers.navigationHeader)
 		.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -110,8 +110,8 @@ object Citizen_ReasonableAdjustments {
       
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.group("PRL_RA_060_AlternativeDocumentsFormat") {
-		exec(http("PRL_RA_060_005_AlternativeDocumentsFormat")
+	.group("PRL_RA_090_AlternativeDocumentsFormat") {
+		exec(http("PRL_RA_090_005_AlternativeDocumentsFormat")
 		.post(cuiRaURL + "/journey/flags/display/PF0001-RA0001-RA0002")
 		.headers(Headers.navigationHeader)
 		.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -131,8 +131,8 @@ object Citizen_ReasonableAdjustments {
 	
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.group("PRL_RA_070_HelpCommunicating") {
-		exec(http("PRL_RA_070_005_HelpCommunicating")
+	.group("PRL_RA_100_HelpCommunicating") {
+		exec(http("PRL_RA_100_005_HelpCommunicating")
 		.post(cuiRaURL + "/journey/flags/display/PF0001-RA0001-RA0008")
 		.headers(Headers.navigationHeader)
 		.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -154,8 +154,8 @@ object Citizen_ReasonableAdjustments {
 	
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.group("PRL_RA_080_HearingEnhancements") {
-		exec(http("PRL_RA_080_005_HearingEnhancements")
+	.group("PRL_RA_110_HearingEnhancements") {
+		exec(http("PRL_RA_110_005_HearingEnhancements")
 		.post(cuiRaURL + "/journey/flags/display/PF0001-RA0001-RA0008-RA0009")
 		.headers(Headers.navigationHeader)
 		.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -171,7 +171,7 @@ object Citizen_ReasonableAdjustments {
       
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.exec(http("PRL_RA_090_SignLanguageHelp")
+	.exec(http("PRL_RA_120_SignLanguageHelp")
 		.post(cuiRaURL + "/journey/flags/display/PF0001-RA0001-RA0008-RA0042")
 		.headers(Headers.navigationHeader)
 		.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -185,8 +185,8 @@ object Citizen_ReasonableAdjustments {
       
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.group("PRL_RA_100_HelpWithForms") {
-		exec(http("PRL_RA_100_005HelpWithForms")
+	.group("PRL_RA_130_HelpWithForms") {
+		exec(http("PRL_RA_130_005_HelpWithForms")
 		.post(cuiRaURL + "/journey/flags/display/PF0001-RA0001-RA0003")
 		.headers(Headers.navigationHeader)
 		.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -201,8 +201,8 @@ object Citizen_ReasonableAdjustments {
 	
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.group("PRL_RA_110_HelpToFeelComfortable") {
-		exec(http("PRL_RA_110_005_HelpToFeelComfortable")
+	.group("PRL_RA_140_HelpToFeelComfortable") {
+		exec(http("PRL_RA_140_005_HelpToFeelComfortable")
 		.post(cuiRaURL + "/journey/flags/display/PF0001-RA0001-RA0006")
 		.headers(Headers.navigationHeader)
 		.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -219,8 +219,8 @@ object Citizen_ReasonableAdjustments {
       
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.group("PRL_RA_120_BringSupport") {
-		exec(http("PRL_RA_120_005_BringSupport")
+	.group("PRL_RA_150_BringSupport") {
+		exec(http("PRL_RA_150_005_BringSupport")
 		.post(cuiRaURL + "/journey/flags/display/PF0001-RA0001-RA0005")
 		.headers(Headers.navigationHeader)
 		.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -240,8 +240,8 @@ object Citizen_ReasonableAdjustments {
 	
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.group("PRL_RA_130_RequestTypeOfHearing") {
-		exec(http("PRL_RA_130_005_RequestTypeOfHearing")
+	.group("PRL_RA_160_RequestTypeOfHearing") {
+		exec(http("PRL_RA_160_005_RequestTypeOfHearing")
 		.post(cuiRaURL + "/journey/flags/display/PF0001-RA0001-RA0007")
 		.headers(Headers.navigationHeader)
 		.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -257,8 +257,8 @@ object Citizen_ReasonableAdjustments {
 	
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.group("PRL_RA_140_ReviewTheRequestedSupport") {
-		exec(http("PRL_RA_140_005_ReviewTheRequestedSupport")
+	.group("PRL_RA_170_ReviewTheRequestedSupport") {
+		exec(http("PRL_RA_170_005_ReviewTheRequestedSupport")
 		.post(cuiRaURL + "/review")
 		.headers(Headers.navigationHeader)
 		.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -269,8 +269,8 @@ object Citizen_ReasonableAdjustments {
 
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.group("PRL_RA_150_SubmitReasonableAdjustments") {
-		exec(http("PRL_RA_150_005_SubmitReasonableAdjustments")
+	.group("PRL_RA_180_SubmitReasonableAdjustments") {
+		exec(http("PRL_RA_180_005_SubmitReasonableAdjustments")
 		.post(prlURL + "/respondent/reasonable-adjustments/confirmation")
 		.headers(Headers.navigationHeader)
 		.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -299,7 +299,7 @@ object Citizen_ReasonableAdjustments {
 
   val ReasonableAdjustmentsModify = 
 
-    exec(http("PRL_RA_010_OpenAdditionalSupport")
+    exec(http("PRL_RA_040_OpenAdditionalSupport")
 		.get(prlURL + "/respondent/reasonable-adjustments/intro")
 		.headers(Headers.navigationHeader)
 		.check(substring("Tell us if your support needs have changed"))
@@ -307,8 +307,8 @@ object Citizen_ReasonableAdjustments {
 
     .pause(MinThinkTime, MaxThinkTime)
 
-	.group("PRL_RA_020_StartAdditionalSupport") {
-    	exec(http("PRL_RA_020_005_StartAdditionalSupport")
+	.group("PRL_RA_050_StartAdditionalSupport") {
+    	exec(http("PRL_RA_050_005_StartAdditionalSupport")
 		.post(prlURL + "/respondent/reasonable-adjustments/intro")
 		.headers(Headers.navigationHeader)
 		.formParam("_csrf", "#{csrf}")
@@ -319,8 +319,8 @@ object Citizen_ReasonableAdjustments {
 
     .pause(MinThinkTime, MaxThinkTime)
 
-	.group("PRL_RA_030_ReviewSpecialArrangements") {
-    	exec(http("PRL_RA_030_005_ReviewSpecialArrangements")
+	.group("PRL_RA_060_ReviewSpecialArrangements") {
+    	exec(http("PRL_RA_060_005_ReviewSpecialArrangements")
 		.post(prlURL + "/respondent/reasonable-adjustments/language-requirements-and-special-arrangements")
 		.headers(Headers.navigationHeader)
 		.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -333,8 +333,8 @@ object Citizen_ReasonableAdjustments {
 	
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.group("PRL_RA_040_ReviewTheRequestedSupport") {
-		exec(http("PRL_RA_040_005_ReviewTheRequestedSupport")
+	.group("PRL_RA_070_ReviewTheRequestedSupport") {
+		exec(http("PRL_RA_070_005_ReviewTheRequestedSupport")
 		.post(prlURL + "/respondent/reasonable-adjustments/language-requirements-and-special-arrangements/review")
 		.headers(Headers.navigationHeader)
 		.header("Content-type", "application/x-www-form-urlencoded")
@@ -346,7 +346,7 @@ object Citizen_ReasonableAdjustments {
 
     .pause(MinThinkTime, MaxThinkTime)
 
-    .exec(http("PRL_RA_050_RequestRAChanges")
+    .exec(http("PRL_RA_080_RequestRAChanges")
 		.get(cuiRaURL + "/home/intro")
 		.headers(Headers.navigationHeader)
 		.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -354,7 +354,7 @@ object Citizen_ReasonableAdjustments {
 
     .pause(MinThinkTime, MaxThinkTime)
 
-    .exec(http("PRL_RA_060_SelectRAToModify")
+    .exec(http("PRL_RA_090_SelectRAToModify")
 		.get(cuiRaURL + "/review")
 		.headers(Headers.navigationHeader)
 		.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -363,7 +363,7 @@ object Citizen_ReasonableAdjustments {
 
     .pause(MinThinkTime, MaxThinkTime)
 
-	.group("PRL_RA_070_RemoveRA") {
+	.group("PRL_RA_100_RemoveRA") {
 		exec(http("PRL_RA_070_005_RemoveRA")
 		.get(cuiRaURL + "/review/set-inactive?id=#{reasonableAdjustmentToRemove}")
 		.headers(Headers.navigationHeader)
@@ -373,8 +373,8 @@ object Citizen_ReasonableAdjustments {
 
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.group("PRL_RA_080_ConfirmRAModify") {
-		exec(http("PRL_RA_080_005_ConfirmRAModify")
+	.group("PRL_RA_110_ConfirmRAModify") {
+		exec(http("PRL_RA_110_005_ConfirmRAModify")
 		.post(cuiRaURL + "/review")
 		.headers(Headers.navigationHeader)
 		.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -384,8 +384,8 @@ object Citizen_ReasonableAdjustments {
 
     .pause(MinThinkTime, MaxThinkTime)
 
-	.group("PRL_RA_090_ReturnToCaseView") {
-   	 	exec(http("PRL_RA_090_005_ReturnToCaseView")
+	.group("PRL_RA_120_ReturnToCaseView") {
+   	 	exec(http("PRL_RA_120_005_ReturnToCaseView")
 		.post(prlURL + "/respondent/reasonable-adjustments/confirmation")
 		.headers(Headers.navigationHeader)
 		.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")

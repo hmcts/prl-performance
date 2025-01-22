@@ -233,10 +233,10 @@ class PRL_Simulation extends Simulation {
         feed(c100RespondentData)
         //.exec(Citizen_PRL_C100_Respondent.RetrieveCase)
         .exec(Citizen_PRL_C100_Respondent.GetCase)
-        //.exec(Citizen_PRL_C100_Respondent.KeepDetailsPrivate)
-        //.exec(Citizen_PRL_C100_Respondent.ContactPreferences)
-        //.exec(Citizen_PRL_C100_Respondent.ConfirmEditContactDetails) // New for R6.0
-        //.exec(Citizen_PRL_C100_Respondent.SupportYouNeed)
+        .exec(Citizen_PRL_C100_Respondent.ConfirmEditContactDetails) // New for R6.0
+        .exec(Citizen_PRL_C100_Respondent.ContactPreferences)
+        .exec(Citizen_PRL_C100_Respondent.KeepDetailsPrivate)
+        .exec(Citizen_PRL_C100_Respondent.SupportYouNeed)
         //.exec(Citizen_PRL_C100_Respondent.RespondToApplication)
         .exec(Citizen_PRL_C100_Respondent.CheckApplication)
         .exec(Citizen_PRL_C100_Respondent.CheckHarmViolenceAllegations) //New for R6.0
@@ -246,6 +246,8 @@ class PRL_Simulation extends Simulation {
         .exec(Citizen_PRL_C100_Respondent.ViewServedAppPack) //New for R6.0
         .exec(Citizen_PRL_C100_Respondent.ViewAllDocuments) //New for R6.0
         .exec(Citizen_PRL_C100_Respondent.ViewRespondentsDocuments) //New for R6.0
+        .exec(Citizen_PRL_C100_Respondent.ViewAllDocuments) //New for R6.0
+        .exec(Citizen_PRL_C100_Respondent.ViewCourtHearings) //New for R6.0
         .exec(Logout.CUILogout)
       }
     }
@@ -265,20 +267,20 @@ class PRL_Simulation extends Simulation {
       .repeat(1) {
         feed(c100ApplicantDashData)
         //.exec(Citizen_PRL_C100_ApplicantDashboard.RetrieveCase)
-        .exec(Citizen_PRL_C100_ApplicantDashboard.GetCase)  // Not needed in this journey as once linked you are redirected to the dashboard (Use for script deb and debugging)
+        .exec(Citizen_PRL_C100_ApplicantDashboard.GetCase)                                // Not needed in this journey as once linked you are redirected to the dashboard (Use for script deb and debugging)
         .exec(Citizen_PRL_C100_ApplicantDashboard.YourApplication)
-        .exec(Citizen_PRL_C100_ApplicantDashboard.CheckHarmViolenceAllegations) //New for R6.0
-        .exec(Citizen_PRL_C100_ApplicantDashboard.MakeRequestToCourtAboutCase) //New for R6.0/7.0
-        .exec(Citizen_PRL_C100_ApplicantDashboard.UploadDocumentsApplicationsStatements) //New for R6.0
-        .exec(Citizen_PRL_C100_ApplicantDashboard.ViewAllDocuments) //New for R6.0
-        .exec(Citizen_PRL_C100_ApplicantDashboard.ViewServedAppPack) //New for R6.0
-        .exec(Citizen_PRL_C100_ApplicantDashboard.ViewAllDocuments) //New for R6.0
-        //.exec(Citizen_PRL_C100_ApplicantDashboard.ViewRespondentsDocuments) //Not needed in this journey
-        .exec(Citizen_PRL_C100_ApplicantDashboard.ViewApplicantsDocuments) // New for R6.0
-        .exec(Citizen_PRL_C100_ApplicantDashboard.ViewAllDocuments) //New for R6.0
-        .exec(Citizen_PRL_C100_ApplicantDashboard.ViewOrdersFromTheCourt) // New for R6.0
-        .exec(Citizen_PRL_C100_ApplicantDashboard.ViewAllDocuments) //New for R6.0
-        .exec(Citizen_PRL_C100_ApplicantDashboard.ViewCourtHearings) // New for R6.0
+        .exec(Citizen_PRL_C100_ApplicantDashboard.CheckHarmViolenceAllegations)           //New for R6.0
+        .exec(Citizen_PRL_C100_ApplicantDashboard.MakeRequestToCourtAboutCase)            //New for R6.0/7.0
+        .exec(Citizen_PRL_C100_ApplicantDashboard.UploadDocumentsApplicationsStatements)  //New for R6.0
+        .exec(Citizen_PRL_C100_ApplicantDashboard.ViewAllDocuments)                       //New for R6.0
+        .exec(Citizen_PRL_C100_ApplicantDashboard.ViewServedAppPack)                      //New for R6.0
+        .exec(Citizen_PRL_C100_ApplicantDashboard.ViewAllDocuments)                       //New for R6.0
+        //.exec(Citizen_PRL_C100_ApplicantDashboard.ViewRespondentsDocuments)             //Not needed in this journey
+        .exec(Citizen_PRL_C100_ApplicantDashboard.ViewApplicantsDocuments)                //New for R6.0
+        .exec(Citizen_PRL_C100_ApplicantDashboard.ViewAllDocuments)                       //New for R6.0
+        .exec(Citizen_PRL_C100_ApplicantDashboard.ViewOrdersFromTheCourt)                 //New for R6.0
+        .exec(Citizen_PRL_C100_ApplicantDashboard.ViewAllDocuments)                       //New for R6.0
+        .exec(Citizen_PRL_C100_ApplicantDashboard.ViewCourtHearings)                      // New for R6.0
         .exec(Logout.CUILogout)
       }
     }
@@ -335,15 +337,18 @@ class PRL_Simulation extends Simulation {
         feed(fl401RespondentData)
         //.exec(Citizen_PRL_FL401_Respondent.RetrieveCase)
         .exec(Citizen_PRL_FL401_Respondent.GetCase)
-        .exec(Citizen_PRL_FL401_Respondent.ConfirmEditContactDetails) // New for R6.0
-        .exec(Citizen_PRL_FL401_Respondent.ContactPreferences) // New for R6.0
+        .exec(Citizen_PRL_FL401_Respondent.ConfirmEditContactDetails)             // New for R6.0
+        .exec(Citizen_PRL_FL401_Respondent.ContactPreferences)                    // New for R6.0
         .exec(Citizen_PRL_FL401_Respondent.KeepDetailsPrivate)
-        //.exec(Citizen_PRL_FL401_Respondent.ContactDetails) // No longer visible 
+        //.exec(Citizen_PRL_FL401_Respondent.ContactDetails)                      // No longer visible 
         .exec(Citizen_PRL_FL401_Respondent.SupportYouNeed)
         .exec(Citizen_PRL_FL401_Respondent.CheckApplication)
-        .exec(Citizen_PRL_FL401_Respondent.MakeRequestToCourtAboutCase) //New for R6.0/7.0
+        .exec(Citizen_PRL_FL401_Respondent.MakeRequestToCourtAboutCase)           //New for R6.0/7.0
         .exec(Citizen_PRL_FL401_Respondent.UploadDocumentsApplicationsStatements) //New for R6.0
-        .exec(Citizen_PRL_FL401_Respondent.ViewAllDocuments) //New for R6.0
+        .exec(Citizen_PRL_FL401_Respondent.ViewAllDocuments)                      //New for R6.0
+        .exec(Citizen_PRL_FL401_Respondent.ViewApplicantsDocuments)               //New for R6.0
+        .exec(Citizen_PRL_FL401_Respondent.ViewAllDocuments)                      //New for R6.0
+        .exec(Citizen_PRL_FL401_Respondent.ViewCourtHearings)                     //New for R6.0
         .exec(Logout.CUILogout)
 
       }
@@ -364,19 +369,19 @@ class PRL_Simulation extends Simulation {
       .repeat(1) {
         feed(fl401ApplicantDashData)
         //.exec(Citizen_PRL_FL401_ApplicantDashboard.RetrieveCase)
-        .exec(Citizen_PRL_FL401_ApplicantDashboard.GetCase)  // Not needed in this journey as once linked you are redirected to the dashboard (Use for script deb and debugging)
-        .exec(Citizen_PRL_FL401_ApplicantDashboard.ConfirmEditContactDetails) // New for R6.0
+        .exec(Citizen_PRL_FL401_ApplicantDashboard.GetCase)                                 // Not needed in this journey as once linked you are redirected to the dashboard (Use for script deb and debugging)
+        .exec(Citizen_PRL_FL401_ApplicantDashboard.ConfirmEditContactDetails)               // New for R6.0
         .exec(Citizen_PRL_FL401_ApplicantDashboard.ContactPreferences)
         .exec(Citizen_PRL_FL401_ApplicantDashboard.KeepDetailsPrivate)
         .exec(Citizen_PRL_FL401_ApplicantDashboard.SupportYouNeed)
         .exec(Citizen_PRL_FL401_ApplicantDashboard.YourApplication)
-        .exec(Citizen_PRL_FL401_ApplicantDashboard.MakeRequestToCourtAboutCase) //New for R6.0/7.0
-        .exec(Citizen_PRL_FL401_ApplicantDashboard.UploadDocumentsApplicationsStatements) //New for R6.0
-        .exec(Citizen_PRL_FL401_ApplicantDashboard.ViewAllDocuments) //New for R6.0
-        .exec(Citizen_PRL_FL401_ApplicantDashboard.ViewOrdersFromTheCourt) // New for R6.0
-        .exec(Citizen_PRL_FL401_ApplicantDashboard.ViewAllDocuments) //New for R6.0
-        .exec(Citizen_PRL_FL401_ApplicantDashboard.ViewApplicantsDocuments) // New for R6.0
-        .exec(Citizen_PRL_FL401_ApplicantDashboard.ViewCourtHearings) // New for R6.0
+        .exec(Citizen_PRL_FL401_ApplicantDashboard.MakeRequestToCourtAboutCase)             //New for R6.0/7.0
+        .exec(Citizen_PRL_FL401_ApplicantDashboard.UploadDocumentsApplicationsStatements)   //New for R6.0
+        .exec(Citizen_PRL_FL401_ApplicantDashboard.ViewAllDocuments)                        //New for R6.0
+        .exec(Citizen_PRL_FL401_ApplicantDashboard.ViewOrdersFromTheCourt)                  //New for R6.0
+        .exec(Citizen_PRL_FL401_ApplicantDashboard.ViewAllDocuments)                        //New for R6.0
+        .exec(Citizen_PRL_FL401_ApplicantDashboard.ViewApplicantsDocuments)                 //New for R6.0
+        .exec(Citizen_PRL_FL401_ApplicantDashboard.ViewCourtHearings)                       //New for R6.0
         .exec(Logout.CUILogout)
         //.exec(Citizen_PRL_FL401_ApplicantDashboard.RespondToApplication)
         //.exec(Citizen_PRL_FL401_ApplicantDashboard.CheckHarmViolenceAllegations) //New for R6.0
@@ -454,13 +459,13 @@ class PRL_Simulation extends Simulation {
   //PRLFL401CaseManagerScenario.inject(constantConcurrentUsers(7).during(20)),
   //PrlFL401Create.inject(constantConcurrentUsers(15).during(20)),
    //PRLC100RespondentScenario.inject(constantConcurrentUsers(1).during(10)),
-   PRLC100ApplicantDashboardScenario.inject(constantConcurrentUsers(1).during(10)),
+   //PRLC100ApplicantDashboardScenario.inject(constantConcurrentUsers(1).during(10)),
    //PRLFL401RespondentScenario.inject(constantConcurrentUsers(1).during(10)),
    //PRLFL401ApplicantDashboardScenario.inject(constantConcurrentUsers(1).during(10)),
-   //PRLC100CitizenScenario.inject(constantConcurrentUsers(1).during(10)),
-   //PRLC100CaseworkerScenario.inject(constantConcurrentUsers(2).during(60)),
+   //PRLC100CitizenScenario.inject(constantConcurrentUsers(20).during(10)),
+   //PRLC100CaseworkerScenario.inject(constantConcurrentUsers(8).during(60)),
    //PRLReasonableAdjustmentsAdd.inject(constantConcurrentUsers(1).during(10)),
-   //PRLReasonableAdjustmentsModify.inject(constantConcurrentUsers(1).during(10)),
+   PRLReasonableAdjustmentsModify.inject(constantConcurrentUsers(2).during(10)),
 
    //=========================================================
    // At Once Users - For API Tests

@@ -3,6 +3,7 @@ package scenarios
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import utils.{Common, CsrfCheck, CsrfCheck2, Environment, Headers}
+import scala.util.Random
 
 import java.io.{BufferedWriter, FileWriter}
 
@@ -70,7 +71,7 @@ object Citizen_PRL_FL401_Respondent {
 	  .get(prlURL + "/case/#{caseId}")
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-      .check(substring("Keep your details private")))
+      .check(substring("<strong id=\"editYouContactDetails-status\"")))
 	}
 
      .pause(MinThinkTime, MaxThinkTime)
@@ -81,8 +82,8 @@ object Citizen_PRL_FL401_Respondent {
 
   val KeepDetailsPrivate = 
 
-	group("PRL_FL401Respondent_070_OpenKeepDetailsPrivate") {
-      exec(http("PRL_FL401Respondent_070_005_OpenKeepDetailsPrivate")
+	group("PRL_FL401Respondent_160_OpenKeepDetailsPrivate") {
+      exec(http("PRL_FL401Respondent_160_005_OpenKeepDetailsPrivate")
 	  .get(prlURL + "/respondent/keep-details-private/details_known/#{caseId}")
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -96,8 +97,8 @@ object Citizen_PRL_FL401_Respondent {
   // Does the other person named in your application (the respondent) know any of your contact details? - Yes
   //========================================================================================   
 
-	.group("PRL_FL401Respondent_080_SelectDetailsKnown") {
-	  exec(http("PRL_FL401Respondent_080_005_SelectDetailsKnown")
+	.group("PRL_FL401Respondent_170_SelectDetailsKnown") {
+	  exec(http("PRL_FL401Respondent_170_005_SelectDetailsKnown")
 	  .post(prlURL + "/respondent/keep-details-private/details_known")
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -110,8 +111,8 @@ object Citizen_PRL_FL401_Respondent {
 
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.group("PRL_FL401Respondent_090_SelectKnownDetails") {
-	  exec(http("PRL_FL401Respondent_090_005_SelectKnownDetails")
+	.group("PRL_FL401Respondent_180_SelectKnownDetails") {
+	  exec(http("PRL_FL401Respondent_180_005_SelectKnownDetails")
 	  .post(prlURL + "/respondent/keep-details-private/start_alternative")
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -130,8 +131,8 @@ object Citizen_PRL_FL401_Respondent {
       
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.group("PRL_FL401Respondent_100_ConfirmDetails") {
-	  exec(http("PRL_FL401Respondent_100_005_ConfirmDetails")
+	.group("PRL_FL401Respondent_190_ConfirmDetails") {
+	  exec(http("PRL_FL401Respondent_190_005_ConfirmDetails")
 	  .post(prlURL + "/respondent/keep-details-private/private_details_not_confirmed")
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -154,8 +155,8 @@ object Citizen_PRL_FL401_Respondent {
       "PRLAppDobDay" -> Common.getDay(),
       "PRLAppDobMonth" -> Common.getMonth()))
 
-	.group("PRL_FL401Respondent_110_OpenContactDetails") {
-	  exec(http("PRL_FL401Respondent_110_005_OpenContactDetails")
+	.group("PRL_FL401Respondent_070_OpenContactDetails") {
+	  exec(http("PRL_FL401Respondent_070_005_OpenContactDetails")
 	  .get(prlURL + "/respondent/confirm-contact-details/checkanswers/#{caseId}")
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -169,7 +170,7 @@ object Citizen_PRL_FL401_Respondent {
   // Select Edit (Place of Birth)
   //========================================================================================   
 	
-	.exec(http("PRL_FL401Respondent_120_EditPlaceOfBirth")
+	.exec(http("PRL_FL401Respondent_080_EditPlaceOfBirth")
 	  .get(prlURL + "/respondent/confirm-contact-details/personaldetails")
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -187,8 +188,8 @@ object Citizen_PRL_FL401_Respondent {
   // Enter Place of Birth and Continue
   //========================================================================================  
 
-	.group("PRL_FL401Respondent_130_SubmitPlaceOfBirthContinue") {
-	  exec(http("PRL_FL401Respondent_130_005_SubmitPlaceOfBirthContinue")
+	.group("PRL_FL401Respondent_090_SubmitPlaceOfBirthContinue") {
+	  exec(http("PRL_FL401Respondent_090_005_SubmitPlaceOfBirthContinue")
 	  .post(prlURL + "/respondent/confirm-contact-details/personaldetails")
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -211,8 +212,8 @@ object Citizen_PRL_FL401_Respondent {
   // Save & Continue
   //========================================================================================   
 
-	.group("PRL_FL401Respondent_140_Save&Continue") {
-	  exec(http("PRL_FL401Respondent_140_005_Save&Continue")
+	.group("PRL_FL401Respondent_100_Save&Continue") {
+	  exec(http("PRL_FL401Respondent_100_005_Save&Continue")
 	  .post(prlURL + "/respondent/confirm-contact-details/checkanswers")
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -229,8 +230,8 @@ object Citizen_PRL_FL401_Respondent {
 
   val ConfirmEditContactDetails = 
 
-	group("PRL_FL401Respondent_110_OpenContactDetails") {
-    	exec(http("PRL_FL401Respondent_110_005_OpenContactDetails")
+	group("PRL_FL401Respondent_070_OpenContactDetails") {
+    	exec(http("PRL_FL401Respondent_070_005_OpenContactDetails")
 		.get(prlURL + "/respondent/confirm-contact-details/checkanswers/#{caseId}")
 		.headers(Headers.navigationHeader)
       	.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -244,7 +245,7 @@ object Citizen_PRL_FL401_Respondent {
 	* Select Edit for living in refuge details 
 	======================================================================================*/
 
-    .exec(http("PRL_FL401Respondent_120_EditStayingInRefuge")
+    .exec(http("PRL_FL401Respondent_080_EditStayingInRefuge")
 		.get(prlURL + "/respondent/refuge/staying-in-refuge")
 		.headers(Headers.navigationHeader)
       	.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -257,8 +258,8 @@ object Citizen_PRL_FL401_Respondent {
 	* Staying in Refuge --> No --> Continue
 	======================================================================================*/
 
-	.group("PRL_FL401Respondent_130_StayingInRefugeNo") {
-    	exec(http("PRL_FL401Respondent_130_005_StayingInRefugeNo")
+	.group("PRL_FL401Respondent_090_StayingInRefugeNo") {
+    	exec(http("PRL_FL401Respondent_090_005_StayingInRefugeNo")
 		.post(prlURL + "/respondent/refuge/staying-in-refuge")
 		.headers(Headers.navigationHeader)
 		.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -274,7 +275,7 @@ object Citizen_PRL_FL401_Respondent {
 	* Your address --> Continue
 	======================================================================================*/
 	
-    .exec(http("PRL_FL401Respondent_140_ConfirmAddressContinue")
+    .exec(http("PRL_FL401Respondent_100_ConfirmAddressContinue")
 		.get(prlURL + "/respondent/confirm-contact-details/checkanswers?")
 		.headers(Headers.navigationHeader)
       	.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -287,13 +288,15 @@ object Citizen_PRL_FL401_Respondent {
 	* Check your details --> Save & continue
 	======================================================================================*/
 	
-    .exec(http("PRL_FL401Respondent_150_005_CheckAnswersSaveContinue")
+	.group("PRL_FL401Respondent_110_CheckAnswersSaveContinue") {
+       exec(http("PRL_FL401Respondent_110_005_CheckAnswersSaveContinue")
 		.post(prlURL + "/respondent/confirm-contact-details/checkanswers?")
 		.headers(Headers.navigationHeader)
 		.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 		.formParam("_csrf", "#{csrf}")
 		.formParam("saveAndContinue", "true")
 		.check(substring("<strong id=\"editYouContactDetails-status\" class=\"govuk-tag app-task-list__tag govuk-tag--green\">Completed</strong>")))
+	}
       
 	.pause(MinThinkTime, MaxThinkTime)
 
@@ -303,7 +306,7 @@ object Citizen_PRL_FL401_Respondent {
 
   val ContactPreferences = 
 
-    exec(http("PRL_FL401Respondent_160_OpenContactPreferences")
+    exec(http("PRL_FL401Respondent_120_OpenContactPreferences")
 	  .get(prlURL + "/respondent/contact-preference/choose-a-contact-preference")
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -312,7 +315,8 @@ object Citizen_PRL_FL401_Respondent {
       
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.exec(http("PRL_FL401Respondent_XXX_ChooseContactPreference")
+	.group("PRL_FL401Respondent_130_ChooseContactPreference") {
+	  exec(http("PRL_FL401Respondent_130_005_ChooseContactPreference")
 	  .post(prlURL + "/respondent/contact-preference/choose-a-contact-preference")
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -321,10 +325,12 @@ object Citizen_PRL_FL401_Respondent {
 	  .formParam("onlycontinue", "true")
       .check(CsrfCheck.save)
 	  .check(substring("You have decided to receive updates by email")))
-      
+	}
+     
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.exec(http("PRL_FL401Respondent_XXX_ChooseContactPreferenceReview")
+	.group("PRL_FL401Respondent_140_ChooseContactPreferenceReview") {
+	  exec(http("PRL_FL401Respondent_140_005_ChooseContactPreferenceReview")
 	  .post(prlURL + "/respondent/contact-preference/review")
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -332,16 +338,19 @@ object Citizen_PRL_FL401_Respondent {
 	  .formParam("saveAndContinue", "true")
       .check(CsrfCheck.save)
 	  .check(substring("You will receive digital updates about the case.")))
+	}
       
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.exec(http("PRL_FL401Respondent_XXX_ConfirmContactPreference")
+	.group("PRL_FL401Respondent_150_ConfirmContactPreference") {
+	  exec(http("PRL_FL401Respondent_150_005_ConfirmContactPreference")
 	  .post(prlURL + "/respondent/contact-preference/confirmation")
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 	  .formParam("_csrf", "#{csrf}")
 	  .formParam("saveAndContinue", "true")
 	  .check(substring("<strong id=\"contactPreferences-status\" class=\"govuk-tag app-task-list__tag govuk-tag--green\">Completed</strong>")))
+	}
 
     .pause(MinThinkTime, MaxThinkTime)
 
@@ -351,7 +360,7 @@ object Citizen_PRL_FL401_Respondent {
   
   val SupportYouNeed =
 
-    exec(http("PRL_FL401Respondent_150_ReasonableAdjustmentsIntro")
+    exec(http("PRL_FL401Respondent_200_ReasonableAdjustmentsIntro")
 	  .get(prlURL + "/respondent/reasonable-adjustments/intro")
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -360,8 +369,8 @@ object Citizen_PRL_FL401_Respondent {
       
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.group("PRL_FL401Respondent_160_ReasonableAdjustmentsStart") {
-	  exec(http("PRL_FL401Respondent_160_005_ReasonableAdjustmentsStart")
+	.group("PRL_FL401Respondent_210_ReasonableAdjustmentsStart") {
+	  exec(http("PRL_FL401Respondent_210_005_ReasonableAdjustmentsStart")
 	  .post(prlURL + "/respondent/reasonable-adjustments/intro")
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -373,11 +382,12 @@ object Citizen_PRL_FL401_Respondent {
 
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.group("PRL_FL401Respondent_170_LanguageRequirements") {
-	  exec(http("PRL_FL401Respondent_170_005_LanguageRequirements")
+	.group("PRL_FL401Respondent_220_LanguageRequirements") {
+	  exec(http("PRL_FL401Respondent_220_005_LanguageRequirements")
 	  .post(prlURL + "/respondent/reasonable-adjustments/language-requirements-and-special-arrangements")
       .headers(Headers.navigationHeader)
-      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
+	  .header("Content-Type","application/x-www-form-urlencoded")
 	  .formParam("_csrf", "#{csrf}")
 	  .formParam("ra_languageReqAndSpecialArrangements", "Perf Test - Add Reasonable Adjustments")
 	  .formParam("onlyContinue", "true")
@@ -387,21 +397,21 @@ object Citizen_PRL_FL401_Respondent {
 
 	 .pause(MinThinkTime, MaxThinkTime)
 
-	.group("PRL_FL401Respondent_180_LanguageRequirementsReview") {
-	  exec(http("PRL_FL401Respondent_180_005_LanguageRequirementsReview")
+	.group("PRL_FL401Respondent_230_LanguageRequirementsReview") {
+	  exec(http("PRL_FL401Respondent_230_005_LanguageRequirementsReview")
 	  .post(prlURL + "/respondent/reasonable-adjustments/language-requirements-and-special-arrangements/review")
       .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
 	  .formParam("_csrf", "#{csrf}")
 	  .formParam("onlyContinue", "true")
       .check(CsrfCheck.save)
-	  .check(substring("Do you have a physical")))
+	  .check(substring("Reasonable adjustment for")))
 	}
 
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.group("PRL_FL401Respondent_190_NoDisabilities") {
-	  exec(http("PRL_FL401Respondent_190_005_NoDisabilities")
+	.group("PRL_FL401Respondent_240_NoDisabilities") {
+	  exec(http("PRL_FL401Respondent_124_005_NoDisabilities")
 	  .post(cuiRaURL + "/journey/flags/display/PF0001-RA0001")
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -413,8 +423,8 @@ object Citizen_PRL_FL401_Respondent {
       
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.group("PRL_FL401Respondent_200_ReviewSupport") {
-	  exec(http("PRL_FL401Respondent_200_005_ReviewSupport")
+	.group("PRL_FL401Respondent_250_ReviewSupport") {
+	  exec(http("PRL_FL401Respondent_250_005_ReviewSupport")
 	  .post(cuiRaURL + "/review")
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -425,8 +435,8 @@ object Citizen_PRL_FL401_Respondent {
       
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.group("PRL_FL401Respondent_210_ConfirmSupport") {
-	  exec(http("PRL_FL401Respondent_210_005_ConfirmSupport")
+	.group("PRL_FL401Respondent_260_ConfirmSupport") {
+	  exec(http("PRL_FL401Respondent_260_005_ConfirmSupport")
 	  .post(prlURL + "/respondent/reasonable-adjustments/confirmation")
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -443,7 +453,7 @@ object Citizen_PRL_FL401_Respondent {
 
   val CheckApplication =
 
-    exec(http("PRL_FL401Respondent_220_CheckApplication")
+    exec(http("PRL_FL401Respondent_270_CheckApplication")
 	  .get(prlURL + "/respondent/documents/download/type/cada-document/en")
 	  .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -457,7 +467,7 @@ object Citizen_PRL_FL401_Respondent {
 
   val MakeRequestToCourtAboutCase =  // ** NEW FUNCTIONALITY FOR PRL R7.0 (Out of scope for R6.0)
 
-    exec(http("PRL_FL401Respondent_230_MakeRequestToCourtAboutCase")
+    exec(http("PRL_FL401Respondent_280_MakeRequestToCourtAboutCase")
 	  .get(prlURL + "/respondent/application-within-proceedings/list-of-applications/1")
 	  .headers(Headers.navigationHeader)
 	  .headers(Headers.navigationHeader)
@@ -473,7 +483,7 @@ object Citizen_PRL_FL401_Respondent {
 
   val UploadDocumentsApplicationsStatements =
 
-    exec(http("PRL_FL401Respondent_240_DocumentsUpload")
+    exec(http("PRL_FL401Respondent_290_DocumentsUpload")
       .get(prlURL + "/respondent/documents/upload")
       .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -485,7 +495,7 @@ object Citizen_PRL_FL401_Respondent {
 	* Select Your Position Statement Link
 	======================================================================================*/
 
-    .exec(http("PRL_FL401Respondent_250_YourPositionStatement")
+    .exec(http("PRL_FL401Respondent_300_YourPositionStatement")
       .get(prlURL + "/respondent/documents/upload/your-position-statements/has-the-court-asked-for-this-documents")
       .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -498,8 +508,8 @@ object Citizen_PRL_FL401_Respondent {
 	* Your Position Statement Link - Has the court asked for this document? --> Yes, Continue
 	======================================================================================*/
 
-	.group("PRL_FL401Respondent_260_HasCourtAskedForDocumentYes") {
-       exec(http("PRL_FL401Respondent_260_005_HasCourtAskedForDocumentYes")
+	.group("PRL_FL401Respondent_310_HasCourtAskedForDocumentYes") {
+       exec(http("PRL_FL401Respondent_310_005_HasCourtAskedForDocumentYes")
       .post(prlURL + "/respondent/documents/upload/your-position-statements/has-the-court-asked-for-this-documents")
       .headers(Headers.navigationHeader)
 	  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -516,8 +526,8 @@ object Citizen_PRL_FL401_Respondent {
 	* Before you submit a document --> Continue
 	======================================================================================*/
 
-	.group("PRL_FL401Respondent_270_DocumentSharingDetails") {
-       exec(http("PRL_FL401Respondent_270_005_DocumentSharingDetails")
+	.group("PRL_FL401Respondent_320_DocumentSharingDetails") {
+       exec(http("PRL_FL401Respondent_320_005_DocumentSharingDetails")
       .post(prlURL + "/respondent/documents/upload/your-position-statements/document-sharing-details")
       .headers(Headers.navigationHeader)
 	  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -533,8 +543,8 @@ object Citizen_PRL_FL401_Respondent {
 	* Sharing your documents, Is there a good reason... --> No, Continue
 	======================================================================================*/
 
-	.group("PRL_FL401Respondent_280_SharingDocumentsNo") {
-       exec(http("PRL_FL401Respondent_280_005_SharingDocumentsNo")
+	.group("PRL_FL401Respondent_330_SharingDocumentsNo") {
+       exec(http("PRL_FL401Respondent_330_005_SharingDocumentsNo")
       .post(prlURL + "/respondent/documents/upload/your-position-statements/sharing-your-documents")
       .headers(Headers.navigationHeader)
 	  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -551,8 +561,8 @@ object Citizen_PRL_FL401_Respondent {
 	* Position statement, Write witness statement free text-> Submit
 	======================================================================================*/
 
-	.group("PRL_FL401Respondent_290_WitnessStatementSubmit") {
-       exec(http("PRL_FL401Respondent_290_005_WitnessStatementSubmit")
+	.group("PRL_FL401Respondent_340_WitnessStatementSubmit") {
+       exec(http("PRL_FL401Respondent_340_005_WitnessStatementSubmit")
       .post(prlURL + "/respondent/documents/upload/your-position-statements/upload-your-documents?docCategory=your-position-statements&_csrf=#{csrf}")
       .headers(Headers.navigationHeader)
 	  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -569,8 +579,8 @@ object Citizen_PRL_FL401_Respondent {
 	* Position statement, Select checkbox declaratiom -> Continue
 	======================================================================================*/
 
-	.group("PRL_FL401Respondent_300_UploadDocumentContinue") {
-       exec(http("PRL_FL401Respondent_300_005_UploadDocumentContinue")
+	.group("PRL_FL401Respondent_350_UploadDocumentContinue") {
+       exec(http("PRL_FL401Respondent_350_005_UploadDocumentContinue")
       .post(prlURL + "/respondent/documents/upload/your-position-statements/upload-your-documents")
       .headers(Headers.navigationHeader)
 	  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -590,11 +600,75 @@ object Citizen_PRL_FL401_Respondent {
 
   val ViewAllDocuments =
 
-    exec(http("PRL_FL401Respondent_XXX_ViewAllDocuments")
+    exec(http("PRL_FL401Respondent_360_ViewAllDocuments")
       .get(prlURL + "/respondent/documents/view/all-categories")
       .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 	  .check(substring("View all documents")))
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+	/*======================================================================================
+	* Select View Applicants Documents link
+	======================================================================================*/
+
+  val ViewApplicantsDocuments =
+
+    exec(http("PRL_FL401Respondent_370_ViewApplicantsDocs")
+      .get(prlURL + "/respondent/documents/view/applicant/doc")
+      .headers(Headers.navigationHeader)
+      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+	  .check(regex("""<a href=/respondent/documents/download/(.*?) target=\"_blank\">""").findAll.saveAs("documentsToView"))
+	  .check(substring("Applicant&#39;s documents")))
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+	//================================================================================================
+	//Get total documents to download and a random number between 1 and total documents
+	//================================================================================================
+	.exec(session => {
+		val documentsToView = session("documentsToView").as[Seq[String]]
+		val maxDocIndex = documentsToView.length
+		println(s"Respondents Docs maxDocIndex: $maxDocIndex") 
+		val randomDocIndex = Random.between(1, maxDocIndex + 1) 
+		println(s"Respondents Docs randomDocIndex: $randomDocIndex") 
+		session.set("randomDocIndex", randomDocIndex) 
+	})
+	//================================================================================================
+	//View a random number of documents within the application pack
+	//================================================================================================
+	.repeat(session => session("randomDocIndex").as[Int], "counter") {
+		exec(session => {
+		val documentsToView = session("documentsToView").as[Seq[String]] 
+		val currentIndex = session("counter").as[Int] 
+		val currentDocument = documentsToView(currentIndex) 
+		session.set("downloadDocument", currentDocument)
+		})
+	//================================================================================================
+	//Open a document from within the pack
+	//================================================================================================
+		.exec(http("PRL_FL401Respondent_38#{counter}_ApplicantDocumentDownload")
+		  .get(prlURL + "/respondent/documents/download/#{downloadDocument}")
+		  .headers(Headers.navigationHeader)
+		  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+		  .check(status.is(200)))
+
+    .pause(MinThinkTime, MaxThinkTime) 
+	}
+
+	/*======================================================================================
+	* Select View Check details of your court hearings link
+	======================================================================================*/
+
+  val ViewCourtHearings =
+
+	group("PRL_FL401Respondent_390_ViewCourtHearings") {
+      exec(http("PRL_FL401Respondent_470_005_ViewCourtHearings")
+      .get(prlURL + "/respondent/hearings/#{caseId}")
+      .headers(Headers.navigationHeader)
+      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+	  .check(substring("Your court hearings")))
+	}
 
     .pause(MinThinkTime, MaxThinkTime)
 
