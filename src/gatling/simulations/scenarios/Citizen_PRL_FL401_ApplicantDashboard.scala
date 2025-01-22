@@ -301,6 +301,7 @@ Click Access Code &  Enter Case ID & Pin, Continue
 		exec(http("PRL_FL401ApplicantDashboard_200_005_ReasonableAdjustmentsStart")
 		.post(prlURL + "/applicant/reasonable-adjustments/intro")
 		.headers(Headers.navigationHeader)
+		.header("content-type", "application/x-www-form-urlencoded")
 		.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 		.formParam("_csrf", "#{csrf}")
 		.formParam("onlyContinue", "true")
@@ -313,6 +314,7 @@ Click Access Code &  Enter Case ID & Pin, Continue
 	.group("PRL_FL401ApplicantDashboard_210_LanguageRequirements") {
 		exec(http("PRL_FL401ApplicantDashboard_210_005_LanguageRequirements")
 		.post(prlURL + "/applicant/reasonable-adjustments/language-requirements-and-special-arrangements")
+		.header("content-type", "application/x-www-form-urlencoded")
 		.headers(Headers.navigationHeader)
 		.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 		.formParam("_csrf", "#{csrf}")
@@ -328,6 +330,7 @@ Click Access Code &  Enter Case ID & Pin, Continue
 		exec(http("PRL_FL401ApplicantDashboard_220_005_NoDisabilities")
 		.post(cuiRaURL + "/journey/flags/display/PF0001-RA0001")
 		.headers(Headers.navigationHeader)
+		.header("content-type", "application/x-www-form-urlencoded")
 		.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 		.formParam("enabled", "none")
 		.formParam("_csrf", "#{csrf}")
@@ -340,6 +343,7 @@ Click Access Code &  Enter Case ID & Pin, Continue
 	.group("PRL_FL401ApplicantDashboard_230_ReviewSupport") {
 		exec(http("PRL_FL401ApplicantDashboard_230_005_ReviewSupport")
 		.post(cuiRaURL + "/review")
+		.header("content-type", "application/x-www-form-urlencoded")
 		.headers(Headers.navigationHeader)
 		.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 		.formParam("_csrf", "#{csrf}")
@@ -352,6 +356,7 @@ Click Access Code &  Enter Case ID & Pin, Continue
 	.group("PRL_FL401ApplicantDashboard_240_ConfirmSupport") {
 		exec(http("PRL_FL401ApplicantDashboard_240_005_ConfirmSupport")
 		.post(prlURL + "/applicant/reasonable-adjustments/confirmation")
+		.header("content-type", "application/x-www-form-urlencoded")
 		.headers(Headers.navigationHeader)
 		.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 		.formParam("_csrf", "#{csrf}")

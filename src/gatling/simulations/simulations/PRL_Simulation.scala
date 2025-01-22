@@ -53,20 +53,20 @@ class PRL_Simulation extends Simulation {
   /* ******************************** */
   
   /* PERFORMANCE TEST CONFIGURATION */
-  val prlTargetPerHour: Double = 30
-  val caseworkerTargetPerHour: Double = 30
-  val c100AppTargetPerHour: Double = 62
-  val reasonableAdjustmentTargetPerHour = 12
-  val defaultTargetPerHour: Double = 12
+  val prlTargetPerHour: Double = 32 //30
+  val caseworkerTargetPerHour: Double = 30 //30
+  val c100AppTargetPerHour: Double = 32 //62
+  val reasonableAdjustmentTargetPerHour = 12 //12
+  val defaultTargetPerHour: Double = 12 //12
   // Smoke Configuration
   val smokeTarget: Double = 4
  
   //This determines the percentage split of PRL journeys, by C100 or FL401
   val prlC100Percentage = 100 //Percentage of C100s (the rest will be FL401s) - should be 66 for the 2:1 ratio
   
-  val rampUpDurationMins = 1
-  val rampDownDurationMins = 1
-  val testDurationMins = 10
+  val rampUpDurationMins = 10
+  val rampDownDurationMins = 5
+  val testDurationMins = 60
   
   val numberOfPipelineUsers = 5
   val pipelinePausesMillis: Long = 3000 //3 seconds
@@ -402,7 +402,7 @@ class PRL_Simulation extends Simulation {
    ===============================================================================================*/
   
   def simulationProfile (simulationType: String, userPerHourRate: Double, numberOfPipelineUsers: Double): Seq[OpenInjectionStep] = {
-    val userPerSecRate = userPerHourRate / 600 //Remember to change back to 3600
+    val userPerSecRate = userPerHourRate / 3600 //Remember to change back to 3600
     simulationType match {
       case "perftest" =>
         if (debugMode == "off") {
@@ -442,11 +442,13 @@ class PRL_Simulation extends Simulation {
   //=================================================
   //C100 & CUIRA Release Scenarios
   //=================================================
-  //PRLC100CitizenScenario.inject(simulationProfile(testType, c100AppTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-  //PRLC100RespondentScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-  //PRLFL401RespondentScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-  //PRLReasonableAdjustmentsAdd.inject(simulationProfile(testType, reasonableAdjustmentTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-  //PRLReasonableAdjustmentsModify.inject(simulationProfile(testType, reasonableAdjustmentTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+  PRLC100CitizenScenario.inject(simulationProfile(testType, c100AppTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+  PRLC100RespondentScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+  PRLFL401RespondentScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+  PRLReasonableAdjustmentsAdd.inject(simulationProfile(testType, reasonableAdjustmentTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+  PRLReasonableAdjustmentsModify.inject(simulationProfile(testType, reasonableAdjustmentTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+  PRLC100ApplicantDashboardScenario.inject(simulationProfile(testType, c100AppTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+  PRLFL401ApplicantDashboardScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
 
     //=================================================
   //C100 & CUIRA Release Scenarios - SMOKE TEST
@@ -472,13 +474,13 @@ class PRL_Simulation extends Simulation {
   //Closed workload model scenarios for DataPrep:
   //=================================================
   //PrlDataPrep.inject(constantConcurrentUsers(1).during(10)),
-  //PRLFL401CaseworkerScenario.inject(constantConcurrentUsers(13).during(20)),
+  //PRLFL401CaseworkerScenario.inject(constantConcurrentUsers(1).during(20)),
   //PRLFL401CaseManagerScenario.inject(constantConcurrentUsers(7).during(20)),
   //PrlFL401Create.inject(constantConcurrentUsers(15).during(20)),
    //PRLC100RespondentScenario.inject(constantConcurrentUsers(1).during(10)),
-   PRLC100ApplicantDashboardScenario.inject(constantConcurrentUsers(1).during(10)),
+   //PRLC100ApplicantDashboardScenario.inject(constantConcurrentUsers(1).during(10)),
    //PRLFL401RespondentScenario.inject(constantConcurrentUsers(1).during(10)),
-   //PRLFL401ApplicantDashboardScenario.inject(constantConcurrentUsers(5).during(20)),
+   //PRLFL401ApplicantDashboardScenario.inject(constantConcurrentUsers(4).during(20)),
    //PRLC100CitizenScenario.inject(constantConcurrentUsers(5).during(20)),
    //PRLC100CaseworkerScenario.inject(constantConcurrentUsers(8).during(60)),
    //PRLReasonableAdjustmentsAdd.inject(constantConcurrentUsers(5).during(20)),

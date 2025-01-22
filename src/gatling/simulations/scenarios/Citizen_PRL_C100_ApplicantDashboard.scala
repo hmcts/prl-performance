@@ -81,7 +81,7 @@ Click Access Code &  Enter Case ID & Pin, Continue
 		.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 		.formParam("_csrf", "#{csrf}")
 		.formParam("onlyContinue", "true")
-		.check(substring("The court has issued your application")))
+		.check(substring("Confirm or edit your contact details")))
 	}
 
     .pause(MinThinkTime, MaxThinkTime)
