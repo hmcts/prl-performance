@@ -233,7 +233,7 @@ class PRL_Simulation extends Simulation {
       .exec(Login.PrlLogin)
       .repeat(1) {
         feed(c100RespondentData)
-        //.exec(Citizen_PRL_C100_Respondent.RetrieveCase)
+        .exec(Citizen_PRL_C100_Respondent.RetrieveCase)
         .exec(Citizen_PRL_C100_Respondent.GetCase)
         .exec(Citizen_PRL_C100_Respondent.ConfirmEditContactDetails) // New for R6.0
         .exec(Citizen_PRL_C100_Respondent.ContactPreferences)
@@ -268,7 +268,7 @@ class PRL_Simulation extends Simulation {
       .exec(Login.PrlLogin)
       .repeat(1) {
         feed(c100ApplicantDashData)
-        //.exec(Citizen_PRL_C100_ApplicantDashboard.RetrieveCase)
+        .exec(Citizen_PRL_C100_ApplicantDashboard.RetrieveCase)
         .exec(Citizen_PRL_C100_ApplicantDashboard.GetCase)                                // Not needed in this journey as once linked you are redirected to the dashboard (Use for script deb and debugging)
         .exec(Citizen_PRL_C100_ApplicantDashboard.YourApplication)
         .exec(Citizen_PRL_C100_ApplicantDashboard.CheckHarmViolenceAllegations)           //New for R6.0
@@ -337,7 +337,7 @@ class PRL_Simulation extends Simulation {
       .exec(Login.PrlLogin)
       .repeat(1) {
         feed(fl401RespondentData)
-        //.exec(Citizen_PRL_FL401_Respondent.RetrieveCase)
+        .exec(Citizen_PRL_FL401_Respondent.RetrieveCase)
         .exec(Citizen_PRL_FL401_Respondent.GetCase)
         .exec(Citizen_PRL_FL401_Respondent.ConfirmEditContactDetails)             // New for R6.0
         .exec(Citizen_PRL_FL401_Respondent.ContactPreferences)                    // New for R6.0
@@ -370,7 +370,7 @@ class PRL_Simulation extends Simulation {
       .exec(Login.PrlLogin)
       .repeat(1) {
         feed(fl401ApplicantDashData)
-        //.exec(Citizen_PRL_FL401_ApplicantDashboard.RetrieveCase)
+        .exec(Citizen_PRL_FL401_ApplicantDashboard.RetrieveCase)
         .exec(Citizen_PRL_FL401_ApplicantDashboard.GetCase)                                 // Not needed in this journey as once linked you are redirected to the dashboard (Use for script deb and debugging)
         .exec(Citizen_PRL_FL401_ApplicantDashboard.ConfirmEditContactDetails)               // New for R6.0
         .exec(Citizen_PRL_FL401_ApplicantDashboard.ContactPreferences)
