@@ -48,7 +48,8 @@ Click Access Code &  Enter Case ID & Pin, Continue
 		.formParam("caseCode", "#{caseId}")
 		.formParam("accessCode", "#{accessCode}")
 		.formParam("onlyContinue", "true")
-		.check(CsrfCheck.save))
+		.check(CsrfCheck.save)
+		.check(substring("Case added to your account")))
 	}
 
 	.pause(MinThinkTime, MaxThinkTime)
@@ -60,8 +61,7 @@ Click Access Code &  Enter Case ID & Pin, Continue
 		.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 		.formParam("_csrf", "#{csrf}")
 		.formParam("onlyContinue", "true")
-		.check(CsrfCheck.save)
-		.check(substring("Case added to your account")))
+		.check(substring("Case number")))
 	}
 
     .pause(MinThinkTime, MaxThinkTime)
