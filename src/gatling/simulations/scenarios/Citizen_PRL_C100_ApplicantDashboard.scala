@@ -54,6 +54,10 @@ Click Access Code &  Enter Case ID & Pin, Continue
 
 	.pause(MinThinkTime, MaxThinkTime)
 
+	//======================================================================================
+	//Click Continue
+	//======================================================================================
+
 	.group("PRL_C100ApplicantDashboard_040_CaseActivated") {
 		exec(http("PRL_C100ApplicantDashboard_040_005_CaseActivated")
 		.post(prlURL + "/pin-activation/case-activated")

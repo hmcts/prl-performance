@@ -235,21 +235,22 @@ class PRL_Simulation extends Simulation {
         feed(c100RespondentData)
         .exec(Citizen_PRL_C100_Respondent.RetrieveCase)
         .exec(Citizen_PRL_C100_Respondent.GetCase)
-        .exec(Citizen_PRL_C100_Respondent.ConfirmEditContactDetails) // New for R6.0
+        .exec(Citizen_PRL_C100_Respondent.ConfirmEditContactDetails)              // New for R6.0
         .exec(Citizen_PRL_C100_Respondent.ContactPreferences)
         .exec(Citizen_PRL_C100_Respondent.KeepDetailsPrivate)
         .exec(Citizen_PRL_C100_Respondent.SupportYouNeed)
         //.exec(Citizen_PRL_C100_Respondent.RespondToApplication)
         .exec(Citizen_PRL_C100_Respondent.CheckApplication)
-        .exec(Citizen_PRL_C100_Respondent.CheckHarmViolenceAllegations) //New for R6.0
-        .exec(Citizen_PRL_C100_Respondent.MakeRequestToCourtAboutCase) //New for R6.0/7.0
-        .exec(Citizen_PRL_C100_Respondent.UploadDocumentsApplicationsStatements) //New for R6.0
-        .exec(Citizen_PRL_C100_Respondent.ViewAllDocuments) //New for R6.0
-        .exec(Citizen_PRL_C100_Respondent.ViewServedAppPack) //New for R6.0
-        .exec(Citizen_PRL_C100_Respondent.ViewAllDocuments) //New for R6.0
-        .exec(Citizen_PRL_C100_Respondent.ViewRespondentsDocuments) //New for R6.0
-        .exec(Citizen_PRL_C100_Respondent.ViewAllDocuments) //New for R6.0
-        .exec(Citizen_PRL_C100_Respondent.ViewCourtHearings) //New for R6.0
+        .exec(Citizen_PRL_C100_Respondent.CheckHarmViolenceAllegations)           //New for R6.0
+        .exec(Citizen_PRL_C100_Respondent.MakeRequestToCourtAboutCase)            //New for R6.0/7.0
+        .exec(Citizen_PRL_C100_Respondent.UploadDocumentsApplicationsStatements)  //New for R6.0
+        .exec(Citizen_PRL_C100_Respondent.ViewAllDocuments)                       //New for R6.0
+        .exec(Citizen_PRL_C100_Respondent.ViewServedAppPack)                      //New for R6.0
+        .exec(Citizen_PRL_C100_Respondent.ViewAllDocuments)                       //New for R6.0
+        .exec(Citizen_PRL_C100_Respondent.ViewRespondentsDocuments)               //New for R6.0
+        .exec(Citizen_PRL_C100_Respondent.ViewAllDocuments)                       //New for R6.0
+        .exec(Citizen_PRL_C100_Respondent.ViewCourtHearings)                      //New for R6.0
+        .exec(Citizen_PRL_C100_Respondent.WriteDataToFile) 
         .exec(Logout.CUILogout)
       }
     }
@@ -282,7 +283,8 @@ class PRL_Simulation extends Simulation {
         .exec(Citizen_PRL_C100_ApplicantDashboard.ViewAllDocuments)                       //New for R6.0
         .exec(Citizen_PRL_C100_ApplicantDashboard.ViewOrdersFromTheCourt)                 //New for R6.0
         .exec(Citizen_PRL_C100_ApplicantDashboard.ViewAllDocuments)                       //New for R6.0
-        .exec(Citizen_PRL_C100_ApplicantDashboard.ViewCourtHearings)                      // New for R6.0
+        .exec(Citizen_PRL_C100_ApplicantDashboard.ViewCourtHearings)                      //New for R6.0
+        .exec(Citizen_PRL_C100_ApplicantDashboard.WriteDataToFile)
         .exec(Logout.CUILogout)
       }
     }
@@ -351,6 +353,7 @@ class PRL_Simulation extends Simulation {
         .exec(Citizen_PRL_FL401_Respondent.ViewApplicantsDocuments)               //New for R6.0
         .exec(Citizen_PRL_FL401_Respondent.ViewAllDocuments)                      //New for R6.0
         .exec(Citizen_PRL_FL401_Respondent.ViewCourtHearings)                     //New for R6.0
+        .exec(Citizen_PRL_FL401_Respondent.WriteDataToFile)
         .exec(Logout.CUILogout)
 
       }
@@ -384,6 +387,7 @@ class PRL_Simulation extends Simulation {
         .exec(Citizen_PRL_FL401_ApplicantDashboard.ViewAllDocuments)                        //New for R6.0
         .exec(Citizen_PRL_FL401_ApplicantDashboard.ViewApplicantsDocuments)                 //New for R6.0
         .exec(Citizen_PRL_FL401_ApplicantDashboard.ViewCourtHearings)                       //New for R6.0
+        .exec(Citizen_PRL_FL401_ApplicantDashboard.WriteDataToFile)
         .exec(Logout.CUILogout)
         //.exec(Citizen_PRL_FL401_ApplicantDashboard.RespondToApplication)
         //.exec(Citizen_PRL_FL401_ApplicantDashboard.CheckHarmViolenceAllegations) //New for R6.0

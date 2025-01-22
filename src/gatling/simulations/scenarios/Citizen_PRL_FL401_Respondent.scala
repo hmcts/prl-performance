@@ -672,13 +672,18 @@ object Citizen_PRL_FL401_Respondent {
 
     .pause(MinThinkTime, MaxThinkTime)
 
-// write cases for use in Add RA script
-	.exec { session =>
+	/*======================================================================================
+	* write cases for use in Add RA script
+	======================================================================================*/
+
+  val WriteDataToFile =
+
+	exec { session =>
 	val fw = new BufferedWriter(new FileWriter("AddRAData.csv", true))
 	try {
 		fw.write(session("user").as[String] + "," + session("password").as[String] + "," + session("caseId").as[String] + "," + "FL401" + "\r\n")
 	} finally fw.close()
 	session
-	} 
+	}
   
 }
