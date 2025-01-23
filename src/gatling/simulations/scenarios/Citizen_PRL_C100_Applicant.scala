@@ -375,7 +375,6 @@ object Citizen_PRL_C100_Applicant {
       exec(http("PRL_CitizenC100_180_005_MIAMUpload")
         .post(prlURL+ "/c100-rebuild/miam/upload?_csrf=#{staticCsrf}")
         .headers(Headers.uploadHeader)
-        .header("content-type", "application/x-www-form-urlencoded")
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8")
         .formParam("_csrf", "#{csrf}")
         .bodyPart(RawFileBodyPart("documents", "3MB.pdf")
