@@ -20,8 +20,8 @@ object Citizen_PRL_C100_Applicant {
   val postcodeFeeder = csv("postcodes.csv").circular
 
   // Variables for user flow control
-  val hwfScreens = 0; // Controls whether or not to select help with fees (internal no redirect to gov.uk)
-  val pcqScreens = 0; // Controls whether or not to go to PCQ questions
+  val hwfScreens = 1; // Controls whether or not to select help with fees (internal no redirect to gov.uk)
+  val pcqScreens = 1; // Controls whether or not to go to PCQ questions
 
   val MinThinkTime = Environment.minThinkTime
   val MaxThinkTime = Environment.maxThinkTime
@@ -108,6 +108,7 @@ object Citizen_PRL_C100_Applicant {
       exec(http("PRL_CitizenC100_040_005_WhatYouWillNeed")
         .post(prlURL + "/c100-rebuild/start")
         .headers(Headers.navigationHeader)
+        .header("content-type", "application/x-www-form-urlencoded")
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
         .formParam("_csrf", "#{csrf}")
         .formParam("onlyContinue", "true")
@@ -374,6 +375,7 @@ object Citizen_PRL_C100_Applicant {
       exec(http("PRL_CitizenC100_180_005_MIAMUpload")
         .post(prlURL+ "/c100-rebuild/miam/upload?_csrf=#{staticCsrf}")
         .headers(Headers.uploadHeader)
+        .header("content-type", "application/x-www-form-urlencoded")
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8")
         .formParam("_csrf", "#{csrf}")
         .bodyPart(RawFileBodyPart("documents", "3MB.pdf")
