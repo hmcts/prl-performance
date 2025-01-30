@@ -26,13 +26,28 @@ object Citizen_PRL_C100_Applicant {
   val MinThinkTime = Environment.minThinkTime
   val MaxThinkTime = Environment.maxThinkTime
 
+  //========================================
+  //Set VuserID to session Variable
+  //=========================================
+  //  exec(session => {
+  //     val userId = session.userId // Get the VUser ID
+  //     println(s"Assigned VUser ID: $userId") // Print to debug
+  //     session.set("userId", userId)
+  //   })
+
   val C100Case =
+
+     exec(session => {
+      val userId = session.userId // Get the VUser ID
+      println(s"Assigned VUser ID: $userId") // Print to debug
+      session.set("userId", userId)
+    })
 
     /*======================================================================================
     * Citizen Home
     ======================================================================================*/
 
-    exec(_.setAll(
+    .exec(_.setAll(
       "PRLRandomString" -> (Common.randomString(7)),
       "PRLRandomPhone" -> (Common.randomNumber(8)),
       "PRLAppDobDay" -> Common.getDay(),
@@ -157,9 +172,6 @@ object Citizen_PRL_C100_Applicant {
     }
 
     .pause(MinThinkTime, MaxThinkTime)
-
-    
- // Select court order
 
     /*======================================================================================
     * Before you go to court --> Continue
@@ -1147,11 +1159,278 @@ object Citizen_PRL_C100_Applicant {
     .pause(MinThinkTime, MaxThinkTime)
 
     /*======================================================================================
+    // Do only for every 3rd user (Volume for these parts of the journey is lower)
+     ======================================================================================*/
+    .doIfOrElse(session => session("userId").as[Long] % 3 == 0) {
+   
+    /*======================================================================================
+    ** Added steps for the new Other C8 Functionality & Docmosis changes **
+
+    * Is there anyone else who should know about your application? --> Yes
+    ======================================================================================*/
+
+      group("PRL_CitizenC100_520_AnyoneElseYes") {
+        exec(http("PRL_CitizenC100_520_005_AnyoneElseYes")
+          .post(prlURL + "/c100-rebuild/other-person-details/other-person-check")
+          .headers(Headers.commonHeader)
+          .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+          .header("content-type", "application/x-www-form-urlencoded")
+          .formParam("_csrf", "#{csrf}")
+          .formParam("oprs_otherPersonCheck", "Yes")
+          .formParam("saveAndContinue", "true")
+          .check(CsrfCheck.save)
+          .check(substring("Enter the other person&#39;s name")))
+      }
+
+      .pause(MinThinkTime, MaxThinkTime)
+
+    /*======================================================================================
+    ** Enter the other person's name
+    ======================================================================================*/
+
+     .group("PRL_CitizenC100_521_AddOtherPersons") {
+        exec(http("PRL_CitizenC100_521_005_AddOtherPersons")
+          .post(prlURL + "/c100-rebuild/other-person-details/add-other-persons")
+          .disableFollowRedirect
+          .headers(Headers.commonHeader)
+          .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+          .header("content-type", "application/x-www-form-urlencoded")
+          .formParam("_csrf", "#{csrf}")
+          .formParam("c100TempFirstName", "#{PRLRandomString}" + "Other")
+          .formParam("c100TempLastName", "#{PRLRandomString}" + "Last")
+          .formParam("_ctx", "op")
+          .formParam("onlycontinue", "true")
+          .check(headerRegex("location", """/c100-rebuild\/other-person-details\/(.{8}-.{4}-.{4}-.{4}-.{12})\/personal-details""").ofType[(String)].saveAs("otherPersonId"))
+          .check(status.is(302)))
+
+        .exec(http("PRL_CitizenC100_521_010_AddOtherPersons")
+          .get(prlURL + "/c100-rebuild/other-person-details/#{otherPersonId}/personal-details")
+          .headers(Headers.commonHeader)
+          .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+          .check(CsrfCheck.save)
+          .check(substring("Provide details for")))
+    
+      }
+
+      .pause(MinThinkTime, MaxThinkTime)
+
+    /*======================================================================================
+    ** Provide details for
+    ======================================================================================*/
+
+    .exec(_.setAll(
+      "PRLOtherDobDay" -> Common.getDay(),
+      "PRLOtherDobMonth" -> Common.getMonth()))
+
+    .group("PRL_CitizenC100_522_PersonalDetails") {
+        exec(http("PRL_CitizenC100_522_005_PersonalDetails")
+          .post(prlURL + "/c100-rebuild/other-person-details/#{otherPersonId}/personal-details")
+          .disableFollowRedirect
+          .headers(Headers.commonHeader)
+          .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+          .header("content-type", "application/x-www-form-urlencoded")
+          .formParam("_csrf", "#{csrf}")
+          .formParam("previousFullName", "")
+          .formParam("hasNameChanged", "no")
+          .formParam("gender", "Female")
+          .formParam("dateOfBirth-day", "#{PRLOtherDobDay}")
+          .formParam("dateOfBirth-month", "#{PRLOtherDobMonth}")
+          .formParam("dateOfBirth-year", "1989")
+          .formParam("isDateOfBirthUnknown", "")
+          .formParam("approxDateOfBirth-day", "")
+          .formParam("approxDateOfBirth-month", "")
+          .formParam("approxDateOfBirth-year", "")
+          .formParam("onlycontinue", "true")
+          .check(headerRegex("location", """/c100-rebuild\/other-person-details\/#{otherPersonId}\/relationship-to-child/(.{8}-.{4}-.{4}-.{4}-.{12})""").ofType[(String)].saveAs("childId"))
+          .check(status.is(302)))
+
+        .exec(http("PRL_CitizenC100_522_010_PersonalDetails")
+          .get(prlURL + "/c100-rebuild/other-person-details/#{otherPersonId}/relationship-to-child/#{childId}")
+          .headers(Headers.commonHeader)
+          .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+          .check(CsrfCheck.save)
+          .check(substring("Someone who represents the rights of a child")))
+      }
+
+      .pause(MinThinkTime, MaxThinkTime)
+
+    /*======================================================================================
+    ** Other person relatonship to child --> Guardian
+    ======================================================================================*/
+
+    .group("PRL_CitizenC100_523_RelationshipToChild") {
+        exec(http("PRL_CitizenC100_523_005_RelationshipToChild")
+          .post(prlURL + "/c100-rebuild/other-person-details/#{otherPersonId}/relationship-to-child/#{childId}")
+          .headers(Headers.commonHeader)
+          .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+          .header("content-type", "application/x-www-form-urlencoded")
+          .formParam("_csrf", "#{csrf}")
+          .formParam("relationshipType", "Guardian")
+          .formParam("otherRelationshipTypeDetails", "")
+          .formParam("onlycontinue", "true")
+          .check(CsrfCheck.save)
+          .check(substring("Staying in a refuge")))
+      }
+
+      .pause(MinThinkTime, MaxThinkTime)
+    
+    /*======================================================================================
+    ** Staying in a refuge --> No --> Continue
+    ======================================================================================*/
+
+    .group("PRL_CitizenC100_524_StayingInARefuge") {
+        exec(http("PRL_CitizenC100_524_005_StayingInARefuge")
+          .post(prlURL + "/c100-rebuild/refuge/staying-in-refuge/#{otherPersonId}")
+          .headers(Headers.commonHeader)
+          .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+          .header("content-type", "application/x-www-form-urlencoded")
+          .formParam("_csrf", "#{csrf}")
+          .formParam("isCitizenLivingInRefuge", "No")
+          .formParam("onlyContinue", "true")
+          .check(CsrfCheck.save)
+          .check(substring("Address of")))
+      }
+
+      .pause(MinThinkTime, MaxThinkTime)
+
+    /*======================================================================================
+    ** Address of Other Person --> Enter postcode --> Continue
+    ======================================================================================*/
+
+    .group("PRL_CitizenC100_525_AddressLookup") {
+        exec(http("PRL_CitizenC100_525_005_AddressLookup")
+          .post(prlURL + "/c100-rebuild/other-person-details/#{otherPersonId}/address/lookup")
+          .headers(Headers.commonHeader)
+          .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+          .header("content-type", "application/x-www-form-urlencoded")
+          .formParam("_csrf", "#{csrf}")
+          .formParam("PostCode", "KT11AN")
+          .formParam("_ctx", "opAddressLookup")
+          .formParam("onlycontinue", "true")
+          .check(CsrfCheck.save)
+          .check(regex("""<option value="([0-62]+)">""").findRandom.saveAs("addressIndex"))
+          .check(substring("Select Address of")))
+      }
+
+      .pause(MinThinkTime, MaxThinkTime)
+
+    /*======================================================================================
+    ** Select Address of Other Person --> Continue
+    ======================================================================================*/
+
+    .group("PRL_CitizenC100_526_AddressSelect") {
+        exec(http("PRL_CitizenC100_526_005_AddressSelect")
+          .post(prlURL + "/c100-rebuild/other-person-details/#{otherPersonId}/address/select")
+          .headers(Headers.commonHeader)
+          .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+          .header("content-type", "application/x-www-form-urlencoded")
+          .formParam("_csrf", "#{csrf}")
+          .formParam("selectAddress", "#{addressIndex}")
+          .formParam("onlycontinue", "true")
+          .check(CsrfCheck.save)
+          .check(regex("""name="AddressLine1" type="text" value="(.+)" aria-describedby""").saveAs("address"))
+          .check(regex("""name="PostTown" type="text" value="(.+)">""").saveAs("town"))
+          .check(substring("Building and street")))
+      }
+
+      .pause(MinThinkTime, MaxThinkTime)
+
+    /*======================================================================================
+    * Applicant address input for Respondent
+    ======================================================================================*/
+
+    .group("PRL_CitizenC100_527_AddressManualContinue") {
+      exec(http("PRL_CitizenC100_527_005_AddressManualContinue")
+        .post(prlURL + "/c100-rebuild/other-person-details/#{otherPersonId}/address/manual")
+        .headers(Headers.commonHeader)
+        .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+        .header("content-type", "application/x-www-form-urlencoded")
+        .formParam("_csrf", "#{csrf}")
+        .formParam("AddressLine1", "#{address}")
+        .formParam("AddressLine2", "")
+        .formParam("PostTown", "#{town}")
+        .formParam("County", "#{PRLRandomString}" + "County")
+        .formParam("PostCode", "KT1 1AN")
+        .formParam("Country", "United Kingdom")
+        .formParam("addressUnknown", "")
+        .formParam("_ctx", "opAddressManual")
+        .formParam("onlycontinue", "true")
+        .check(CsrfCheck.save)
+        .check(substring("Select the person that the child lives with most of the time")))
+    }
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+    /*======================================================================================
+    * Who does child mainly live with ? --> Other Person --> Continue
+    ======================================================================================*/
+
+    .group("PRL_CitizenC100_528_MainlyLiveWith") {
+      exec(http("PRL_CitizenC100_528_005_MainlyLiveWith")
+        .post(prlURL + "/c100-rebuild/child-details/#{childId}/live-with/mainly-live-with")
+        .headers(Headers.commonHeader)
+        .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+        .header("content-type", "application/x-www-form-urlencoded")
+        .formParam("_csrf", "#{csrf}")
+        .formParam("mainlyLiveWith", "#{otherPersonId}")
+        .formParam("onlycontinue", "true")
+        .check(CsrfCheck.save)
+        .check(substring("living arrangements")))
+    }
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+    /*======================================================================================
+    * Living arrangements ? --> Other Person --> Continue
+    ======================================================================================*/
+
+    .group("PRL_CitizenC100_529_LivingArrangements") {
+      exec(http("PRL_CitizenC100_529_005_LivingArrangements")
+        .post(prlURL + "/c100-rebuild/child-details/#{childId}/live-with/living-arrangements")
+        .headers(Headers.commonHeader)
+        .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+        .header("content-type", "application/x-www-form-urlencoded")
+        .formParam("_csrf", "#{csrf}")
+        .formParam("liveWith", "")
+        .formParam("liveWith", "")
+        .formParam("liveWith", "")
+        .formParam("liveWith", "#{otherPersonId}")
+        .formParam("onlycontinue", "true")
+        .check(CsrfCheck.save)
+        .check(substring("identity private")))
+    }
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+    /*======================================================================================
+    * Keeping Identity Private  --> Yes --> Continue
+    ======================================================================================*/
+
+    .group("PRL_CitizenC100_530_Confidentiality") {
+      exec(http("PRL_CitizenC100_530_005_Confidentiality")
+        .post(prlURL + "/c100-rebuild/other-person-details/#{otherPersonId}/confidentiality")
+        .headers(Headers.commonHeader)
+        .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+        .header("content-type", "application/x-www-form-urlencoded")
+        .formParam("_csrf", "#{csrf}")
+        .formParam("confidentiality", "Yes")
+        .formParam("onlycontinue", "true")
+        .check(CsrfCheck.save)
+        .check(substring("Have you or the children ever been involved in court")))
+    }
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+        //=============================================================================== 
+    } { // end of doif, start of else  // ** Usual journey for the rest of the vusers **
+        //===============================================================================
+
+    /*======================================================================================
     * Is there anyone else who should know about your application? --> No
     ======================================================================================*/
 
-    .group("PRL_CitizenC100_520_AnyoneElse") {
-      exec(http("PRL_CitizenC100_520_005_AnyoneElse")
+    group("PRL_CitizenC100_520_AnyoneElseNo") {
+      exec(http("PRL_CitizenC100_520_005_AnyoneElseNo")
         .post(prlURL + "/c100-rebuild/other-person-details/other-person-check")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -1204,6 +1483,8 @@ object Citizen_PRL_C100_Applicant {
     }
 
     .pause(MinThinkTime, MaxThinkTime)
+  
+    } //** End of else - Return to normal journey all vusers **
 
     /*======================================================================================
     * Have you or the children ever been involved in court proceedings? - Yes
@@ -1689,20 +1970,14 @@ object Citizen_PRL_C100_Applicant {
 
     .pause(MinThinkTime, MaxThinkTime)
 
-    //=====================
-    // Flag for HWF
-    //=====================
-    // Save the flag for HWF screens into session
-    .exec { session =>
-    session.set("hwfScreens", hwfScreens)
-    }  
 
-    .doIf(session => session("hwfScreens").as[Int] == 1) {
+    /*======================================================================================
+    // Do only for every 3rd user (Volume for these parts of the journey is lower)
+     ======================================================================================*/
+    .doIfOrElse(session => session("userId").as[Long] % 3 == 0) {
 
     /*======================================================================================
     * Do you need help with paying the fee for this application? - Yes & No 
-
-    Add Logic. 
     ======================================================================================*/
    
     group("PRL_CitizenC100_750_HelpWithPayingYes") {
@@ -1759,9 +2034,7 @@ object Citizen_PRL_C100_Applicant {
 
     .pause(MinThinkTime, MaxThinkTime)
 
-    } // End of HWF screens
-
-    .doIf(session => session("hwfScreens").as[Int] != 1) {
+    } { // End of HWF screens
 
     /*======================================================================================
     * Do you need help with paying the fee for this application? - No
@@ -1806,15 +2079,10 @@ object Citizen_PRL_C100_Applicant {
 
     .pause(MinThinkTime, MaxThinkTime)
 
-    //=====================
-    // Flag for PCQ
-    //=====================
-    // Save the flag for PCQ screens into session
-    .exec { session =>
-    session.set("pcqScreens", pcqScreens)
-    }
-
-  .doIf(session => session("pcqScreens").as[Int] != 1) {
+  /*======================================================================================
+  // Do only for every 3rd user (Volume for these parts of the journey is lower)
+    ======================================================================================*/
+  .doIfOrElse(session => session("userId").as[Long] % 3 == 0) {
     /*======================================================================================
     * Equality and diversity questions - I don't want to answer these questions 
     ======================================================================================*/
@@ -1836,9 +2104,9 @@ object Citizen_PRL_C100_Applicant {
 
      .pause(MinThinkTime, MaxThinkTime)
 
-    } 
+    } { // End of doIf, start Else
     
-  .doIf(session => session("pcqScreens").as[Int] == 1) { // PCQ Steps if flag is set to 1
+  //.doIf(session => session("pcqScreens").as[Int] == 1) { // PCQ Steps if flag is set to 1
     /*======================================================================================
     * Equality and diversity questions - Continue to questions
     ======================================================================================*/
@@ -2042,8 +2310,9 @@ object Citizen_PRL_C100_Applicant {
 
     } // End of PCQ steps
 
+  .doIf(session => session("userId").as[Long] % 3 != 0) {
   // Only enter card details if HWF's was not selected.
-  .doIf(session => session("hwfScreens").as[Int] != 1) {
+  //.doIf(session => session("hwfScreens").as[Int] != 1) {
     /*======================================================================================
     * Enter card details
     ======================================================================================*/

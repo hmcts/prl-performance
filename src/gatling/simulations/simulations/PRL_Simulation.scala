@@ -93,7 +93,6 @@ class PRL_Simulation extends Simulation {
     println(s"Debug Mode: ${debugMode}")
   }
 
-
 /*===============================================================================================
 * API CAFCASS - UploadDocument
 ===============================================================================================*/
@@ -103,6 +102,18 @@ class PRL_Simulation extends Simulation {
         exec(_.set("env", s"${env}"))
           .feed(cafcassCaseFeeder)
           .exec(API_CAFCASS.UploadDocument)
+      }
+
+/*===============================================================================================
+* Citizen Application Guidance Screens
+===============================================================================================*/
+
+  val PRLCitizenApplicationGuidance = scenario("***** PRL Citizen Application Guidance *****")
+      .exitBlockOnFail {
+        exec(_.set("env", s"${env}"))
+        .repeat(1) {
+          exec(Citizen_PRL_ApplicationGuidance.CompleteApplicationGuidance)
+        }
       }
 
 /*===============================================================================================
@@ -374,7 +385,7 @@ class PRL_Simulation extends Simulation {
       .repeat(1) {
         feed(fl401ApplicantDashData)
         .exec(Citizen_PRL_FL401_ApplicantDashboard.RetrieveCase)
-       // .exec(Citizen_PRL_FL401_ApplicantDashboard.GetCase)                                 // Not needed in this journey as once linked you are redirected to the dashboard (Use for script deb and debugging)
+       // .exec(Citizen_PRL_FL401_ApplicantDashboard.GetCase)                                // Not needed in this journey as once linked you are redirected to the dashboard (Use for script deb and debugging)
         .exec(Citizen_PRL_FL401_ApplicantDashboard.ConfirmEditContactDetails)               // New for R6.0
         .exec(Citizen_PRL_FL401_ApplicantDashboard.ContactPreferences)
         .exec(Citizen_PRL_FL401_ApplicantDashboard.KeepDetailsPrivate)
@@ -442,13 +453,14 @@ class PRL_Simulation extends Simulation {
   //=================================================
   //C100 & CUIRA Release Scenarios
   //=================================================
-  PRLC100CitizenScenario.inject(simulationProfile(testType, c100AppTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-  PRLC100RespondentScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-  PRLFL401RespondentScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-  PRLReasonableAdjustmentsAdd.inject(simulationProfile(testType, reasonableAdjustmentTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-  PRLReasonableAdjustmentsModify.inject(simulationProfile(testType, reasonableAdjustmentTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-  PRLC100ApplicantDashboardScenario.inject(simulationProfile(testType, c100AppTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-  PRLFL401ApplicantDashboardScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+  // PRLC100CitizenScenario.inject(simulationProfile(testType, c100AppTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+  // PRLC100RespondentScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+  // PRLFL401RespondentScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+  // PRLReasonableAdjustmentsAdd.inject(simulationProfile(testType, reasonableAdjustmentTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+  // PRLReasonableAdjustmentsModify.inject(simulationProfile(testType, reasonableAdjustmentTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+  // PRLC100ApplicantDashboardScenario.inject(simulationProfile(testType, c100AppTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+  // PRLFL401ApplicantDashboardScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+  // PRLCitizenApplicationGuidance.inject(simulationProfile(testType, c100AppTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
 
     //=================================================
   //C100 & CUIRA Release Scenarios - SMOKE TEST
@@ -474,6 +486,7 @@ class PRL_Simulation extends Simulation {
   //Closed workload model scenarios for DataPrep:
   //=================================================
   //PrlDataPrep.inject(constantConcurrentUsers(1).during(10)),
+  //PRLCitizenApplicationGuidance.inject(constantConcurrentUsers(3).during(10)),
   //PRLFL401CaseworkerScenario.inject(constantConcurrentUsers(1).during(20)),
   //PRLFL401CaseManagerScenario.inject(constantConcurrentUsers(7).during(20)),
   //PrlFL401Create.inject(constantConcurrentUsers(15).during(20)),
@@ -481,7 +494,7 @@ class PRL_Simulation extends Simulation {
     //PRLC100ApplicantDashboardScenario.inject(constantConcurrentUsers(1).during(10)),
     //PRLFL401RespondentScenario.inject(constantConcurrentUsers(1).during(10)),
     //PRLFL401ApplicantDashboardScenario.inject(constantConcurrentUsers(1).during(10)),
-    //PRLC100CitizenScenario.inject(constantConcurrentUsers(1).during(10)),
+    PRLC100CitizenScenario.inject(constantConcurrentUsers(3).during(10)),
    //PRLC100CaseworkerScenario.inject(constantConcurrentUsers(8).during(60)),
     //PRLReasonableAdjustmentsAdd.inject(constantConcurrentUsers(1).during(10)),
     //PRLReasonableAdjustmentsModify.inject(constantConcurrentUsers(1).during(10)),
