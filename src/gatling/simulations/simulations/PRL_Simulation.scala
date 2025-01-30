@@ -83,7 +83,7 @@ class PRL_Simulation extends Simulation {
   
   val httpProtocol = http
     .baseUrl(Environment.baseURL.replace("${env}", s"${env}"))
-    //.inferHtmlResources()
+    .inferHtmlResources()
     .silentResources
     .header("experimental", "true") //used to send through client id, s2s and bearer tokens. Might be temporary
   
@@ -486,18 +486,18 @@ class PRL_Simulation extends Simulation {
   //Closed workload model scenarios for DataPrep:
   //=================================================
   //PrlDataPrep.inject(constantConcurrentUsers(1).during(10)),
-  //PRLCitizenApplicationGuidance.inject(constantConcurrentUsers(3).during(10)),
-  //PRLFL401CaseworkerScenario.inject(constantConcurrentUsers(1).during(20)),
+    //PRLFL401CaseworkerScenario.inject(constantConcurrentUsers(1).during(20)),
   //PRLFL401CaseManagerScenario.inject(constantConcurrentUsers(7).during(20)),
   //PrlFL401Create.inject(constantConcurrentUsers(15).during(20)),
-    //PRLC100RespondentScenario.inject(constantConcurrentUsers(1).during(10)),
-    //PRLC100ApplicantDashboardScenario.inject(constantConcurrentUsers(1).during(10)),
-    //PRLFL401RespondentScenario.inject(constantConcurrentUsers(1).during(10)),
-    //PRLFL401ApplicantDashboardScenario.inject(constantConcurrentUsers(1).during(10)),
-    PRLC100CitizenScenario.inject(constantConcurrentUsers(3).during(10)),
+    PRLCitizenApplicationGuidance.inject(constantConcurrentUsers(1).during(10)),
+    PRLC100RespondentScenario.inject(constantConcurrentUsers(1).during(10)),
+    PRLC100ApplicantDashboardScenario.inject(constantConcurrentUsers(1).during(10)),
+    PRLFL401RespondentScenario.inject(constantConcurrentUsers(1).during(10)),
+    PRLFL401ApplicantDashboardScenario.inject(constantConcurrentUsers(1).during(10)),
+    PRLC100CitizenScenario.inject(constantConcurrentUsers(1).during(10)),
    //PRLC100CaseworkerScenario.inject(constantConcurrentUsers(8).during(60)),
-    //PRLReasonableAdjustmentsAdd.inject(constantConcurrentUsers(1).during(10)),
-    //PRLReasonableAdjustmentsModify.inject(constantConcurrentUsers(1).during(10)),
+    PRLReasonableAdjustmentsAdd.inject(constantConcurrentUsers(1).during(10)),
+    PRLReasonableAdjustmentsModify.inject(constantConcurrentUsers(1).during(10)),
 
    //=========================================================
    // At Once Users - For API Tests
