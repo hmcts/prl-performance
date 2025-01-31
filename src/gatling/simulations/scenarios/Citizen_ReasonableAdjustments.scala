@@ -27,7 +27,7 @@ object Citizen_ReasonableAdjustments {
 	.get(prlURL + "/case/#{caseId}")
 	.headers(Headers.navigationHeader)
     .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-    .check(substring("Check the application (PDF)")))
+    .check(substring("#{caseId}</p>")))
 	}
 
 	.pause(MinThinkTime, MaxThinkTime)

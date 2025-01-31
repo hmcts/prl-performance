@@ -331,7 +331,7 @@ Click Access Code &  Enter Case ID & Pin, Continue
 		.formParam("ra_languageReqAndSpecialArrangements", "")
 		.formParam("onlyContinue", "true")
 		.check(CsrfCheck.save)
-		.check(substring("Do you have a physical, mental or learning disability")))
+		.check(substring("Reasonable adjustment for")))
 	}
 
 	.pause(MinThinkTime, MaxThinkTime)

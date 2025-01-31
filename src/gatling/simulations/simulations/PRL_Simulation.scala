@@ -83,9 +83,9 @@ class PRL_Simulation extends Simulation {
   
   val httpProtocol = http
     .baseUrl(Environment.baseURL.replace("${env}", s"${env}"))
-    .inferHtmlResources()
+    //.inferHtmlResources()
     .silentResources
-    .header("experimental", "true") //used to send through client id, s2s and bearer tokens. Might be temporary
+    //.header("experimental", "true") //used to send through client id, s2s and bearer tokens. Might be temporary
   
   before {
     println(s"Test Type: ${testType}")
@@ -142,7 +142,7 @@ class PRL_Simulation extends Simulation {
       .feed(UserCourtAdminPRL)
       .exec(Homepage.XUIHomePage)
       .exec(Login.XUILogin)
-      .repeat(1) { 
+      .repeat(10) { 
         feed(c100CaseFeeder)
         .exec(Caseworker_PRL_C100_ProgressCase.CourtAdminCheckApplication)
         .exec(Caseworker_PRL_C100_ProgressCase.CourtAdminSendToGateKeeper)
@@ -244,7 +244,7 @@ class PRL_Simulation extends Simulation {
       .exec(Login.PrlLogin)
       .repeat(1) {
         feed(c100RespondentData)
-        .exec(Citizen_PRL_C100_Respondent.RetrieveCase)
+        //.exec(Citizen_PRL_C100_Respondent.RetrieveCase)
         .exec(Citizen_PRL_C100_Respondent.GetCase)
         .exec(Citizen_PRL_C100_Respondent.ConfirmEditContactDetails)              // New for R6.0
         .exec(Citizen_PRL_C100_Respondent.ContactPreferences)
@@ -280,8 +280,8 @@ class PRL_Simulation extends Simulation {
       .exec(Login.PrlLogin)
       .repeat(1) {
         feed(c100ApplicantDashData)
-        .exec(Citizen_PRL_C100_ApplicantDashboard.RetrieveCase)
-        //.exec(Citizen_PRL_C100_ApplicantDashboard.GetCase)                                // Not needed in this journey as once linked you are redirected to the dashboard (Use for script deb and debugging)
+        //.exec(Citizen_PRL_C100_ApplicantDashboard.RetrieveCase)
+        .exec(Citizen_PRL_C100_ApplicantDashboard.GetCase)                                // Not needed in this journey as once linked you are redirected to the dashboard (Use for script deb and debugging)
         .exec(Citizen_PRL_C100_ApplicantDashboard.YourApplication)
         .exec(Citizen_PRL_C100_ApplicantDashboard.CheckHarmViolenceAllegations)           //New for R6.0
         .exec(Citizen_PRL_C100_ApplicantDashboard.MakeRequestToCourtAboutCase)            //New for R6.0/7.0
@@ -350,7 +350,7 @@ class PRL_Simulation extends Simulation {
       .exec(Login.PrlLogin)
       .repeat(1) {
         feed(fl401RespondentData)
-        .exec(Citizen_PRL_FL401_Respondent.RetrieveCase)
+        //.exec(Citizen_PRL_FL401_Respondent.RetrieveCase)
         .exec(Citizen_PRL_FL401_Respondent.GetCase)
         .exec(Citizen_PRL_FL401_Respondent.ConfirmEditContactDetails)             // New for R6.0
         .exec(Citizen_PRL_FL401_Respondent.ContactPreferences)                    // New for R6.0
@@ -384,8 +384,8 @@ class PRL_Simulation extends Simulation {
       .exec(Login.PrlLogin)
       .repeat(1) {
         feed(fl401ApplicantDashData)
-        .exec(Citizen_PRL_FL401_ApplicantDashboard.RetrieveCase)
-       // .exec(Citizen_PRL_FL401_ApplicantDashboard.GetCase)                                // Not needed in this journey as once linked you are redirected to the dashboard (Use for script deb and debugging)
+        //.exec(Citizen_PRL_FL401_ApplicantDashboard.RetrieveCase)
+        .exec(Citizen_PRL_FL401_ApplicantDashboard.GetCase)                                // Not needed in this journey as once linked you are redirected to the dashboard (Use for script deb and debugging)
         .exec(Citizen_PRL_FL401_ApplicantDashboard.ConfirmEditContactDetails)               // New for R6.0
         .exec(Citizen_PRL_FL401_ApplicantDashboard.ContactPreferences)
         .exec(Citizen_PRL_FL401_ApplicantDashboard.KeepDetailsPrivate)
@@ -452,7 +452,7 @@ class PRL_Simulation extends Simulation {
   setUp(
   //=================================================
   //C100 & CUIRA Release Scenarios
-  //=================================================
+  // //=================================================
   // PRLC100CitizenScenario.inject(simulationProfile(testType, c100AppTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
   // PRLC100RespondentScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
   // PRLFL401RespondentScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
@@ -489,15 +489,15 @@ class PRL_Simulation extends Simulation {
     //PRLFL401CaseworkerScenario.inject(constantConcurrentUsers(1).during(20)),
   //PRLFL401CaseManagerScenario.inject(constantConcurrentUsers(7).during(20)),
   //PrlFL401Create.inject(constantConcurrentUsers(15).during(20)),
-    PRLCitizenApplicationGuidance.inject(constantConcurrentUsers(1).during(10)),
-    PRLC100RespondentScenario.inject(constantConcurrentUsers(1).during(10)),
-    PRLC100ApplicantDashboardScenario.inject(constantConcurrentUsers(1).during(10)),
-    PRLFL401RespondentScenario.inject(constantConcurrentUsers(1).during(10)),
-    PRLFL401ApplicantDashboardScenario.inject(constantConcurrentUsers(1).during(10)),
-    PRLC100CitizenScenario.inject(constantConcurrentUsers(1).during(10)),
-   //PRLC100CaseworkerScenario.inject(constantConcurrentUsers(8).during(60)),
-    PRLReasonableAdjustmentsAdd.inject(constantConcurrentUsers(1).during(10)),
-    PRLReasonableAdjustmentsModify.inject(constantConcurrentUsers(1).during(10)),
+    //PRLCitizenApplicationGuidance.inject(constantConcurrentUsers(2).during(10)),
+    PRLC100RespondentScenario.inject(constantConcurrentUsers(2).during(10)),
+    //PRLC100ApplicantDashboardScenario.inject(constantConcurrentUsers(1).during(10)),
+    //PRLFL401RespondentScenario.inject(constantConcurrentUsers(2).during(10)),
+    //PRLFL401ApplicantDashboardScenario.inject(constantConcurrentUsers(2).during(10)),
+    //PRLC100CitizenScenario.inject(constantConcurrentUsers(2).during(10)),
+   //PRLC100CaseworkerScenario.inject(constantConcurrentUsers(6).during(60)),
+    //PRLReasonableAdjustmentsAdd.inject(constantConcurrentUsers(2).during(10)),
+    //PRLReasonableAdjustmentsModify.inject(constantConcurrentUsers(2).during(10)),
 
    //=========================================================
    // At Once Users - For API Tests

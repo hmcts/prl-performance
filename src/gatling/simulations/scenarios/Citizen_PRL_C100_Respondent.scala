@@ -87,7 +87,7 @@ Click Access Code &  Enter Case ID & Pin
 		.get(prlURL + "/case/#{caseId}")
 		.headers(Headers.navigationHeader)
 		.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-		.check(substring("Case number")))
+		.check(substring("The application")))
 	}
 
      .pause(MinThinkTime, MaxThinkTime)
@@ -225,7 +225,7 @@ Click Access Code &  Enter Case ID & Pin
     	exec(http("PRL_C100Respondent_060_005_ConfirmEditContactDtails")
 		.get(prlURL + "/respondent/confirm-contact-details/checkanswers/#{caseId}")
 		.headers(Headers.navigationHeader)
-      	.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+      	//.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
       	.check(CsrfCheck.save)
       	.check(substring("Check your details")))
 	}
