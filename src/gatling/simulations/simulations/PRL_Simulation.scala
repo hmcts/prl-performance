@@ -64,9 +64,9 @@ class PRL_Simulation extends Simulation {
   //This determines the percentage split of PRL journeys, by C100 or FL401
   val prlC100Percentage = 100 //Percentage of C100s (the rest will be FL401s) - should be 66 for the 2:1 ratio
   
-  val rampUpDurationMins = 1   // 10
-  val rampDownDurationMins = 1  // 5
-  val testDurationMins = 10     // 60
+  val rampUpDurationMins = 10   
+  val rampDownDurationMins = 5  
+  val testDurationMins = 60     
   
   val numberOfPipelineUsers = 5
   val pipelinePausesMillis: Long = 3000 //3 seconds
@@ -452,26 +452,26 @@ class PRL_Simulation extends Simulation {
   setUp(
   //=================================================
   //C100 & CUIRA Release Scenarios
-  // //=================================================
-  // PRLC100CitizenScenario.inject(simulationProfile(testType, c100AppTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-  // PRLC100RespondentScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-  // PRLFL401RespondentScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-  // PRLReasonableAdjustmentsAdd.inject(simulationProfile(testType, reasonableAdjustmentTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-  // PRLReasonableAdjustmentsModify.inject(simulationProfile(testType, reasonableAdjustmentTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-  // PRLC100ApplicantDashboardScenario.inject(simulationProfile(testType, c100AppTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-  // PRLFL401ApplicantDashboardScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-  // PRLCitizenApplicationGuidance.inject(simulationProfile(testType, c100AppTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+  //=================================================
+  PRLC100CitizenScenario.inject(simulationProfile(testType, c100AppTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+  PRLC100RespondentScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+  PRLFL401RespondentScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+  PRLReasonableAdjustmentsAdd.inject(simulationProfile(testType, reasonableAdjustmentTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+  PRLReasonableAdjustmentsModify.inject(simulationProfile(testType, reasonableAdjustmentTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+  PRLC100ApplicantDashboardScenario.inject(simulationProfile(testType, c100AppTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+  PRLFL401ApplicantDashboardScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+  PRLCitizenApplicationGuidance.inject(simulationProfile(testType, c100AppTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
 
     //=================================================
   //C100 & CUIRA Release Scenarios - SMOKE TEST
   //=================================================
-  PRLC100CitizenScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
-  PRLC100RespondentScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
-  PRLFL401RespondentScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
-  PRLReasonableAdjustmentsAdd.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
-  PRLReasonableAdjustmentsModify.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
-  PRLC100ApplicantDashboardScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
-  PRLFL401ApplicantDashboardScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
+  // PRLC100CitizenScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
+  // PRLC100RespondentScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
+  // PRLFL401RespondentScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
+  // PRLReasonableAdjustmentsAdd.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
+  // PRLReasonableAdjustmentsModify.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
+  // PRLC100ApplicantDashboardScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
+  // PRLFL401ApplicantDashboardScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
 
   //=================================================
   //Case creation/progression Scenarios:
