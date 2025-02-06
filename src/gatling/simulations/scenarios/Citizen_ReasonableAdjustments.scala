@@ -379,7 +379,7 @@ object Citizen_ReasonableAdjustments {
     .pause(MinThinkTime, MaxThinkTime)
 
 	.group("PRL_RA-Modify_100_RemoveRA") {
-		exec(http("PRL_RA-Modify_070_005_RemoveRA")
+		exec(http("PRL_RA-Modify_100_005_RemoveRA")
 		.get(cuiRaURL + "/review/set-inactive?id=#{reasonableAdjustmentToRemove}")
 		.headers(Headers.navigationHeader)
      	.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")

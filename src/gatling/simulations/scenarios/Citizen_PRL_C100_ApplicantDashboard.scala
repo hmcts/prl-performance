@@ -1342,7 +1342,7 @@ Click Access Code &  Enter Case ID & Pin, Continue
 	======================================================================================*/
 
 	.group("PRL_C100ApplicantDashboard_680_ReturnToCaseOverview") {
-       exec(http("PRL_C100ApplicantDashboard_680_005_UploadDocumentContinue")
+       exec(http("PRL_C100ApplicantDashboard_680_005_ReturnToCaseOverview")
       .post(prlURL + "/applicant/documents/upload/your-position-statements/upload-documents-success?_csrf=#{csrf}")
       .headers(Headers.navigationHeader)
 	  .header("content-type", "application/x-www-form-urlencoded")

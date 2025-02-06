@@ -383,7 +383,7 @@ Click Access Code &  Enter Case ID & Pin
 
   val RespondToApplication =
 
-    exec(http("PRL_C100Respondent_200_TaskListPage")
+    exec(http("PRL_C100Respondent_280_TaskListPage")
 		.get(prlURL + "/tasklistresponse/start")
 		.headers(Headers.navigationHeader)
 		.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -392,7 +392,7 @@ Click Access Code &  Enter Case ID & Pin
 
 	.pause(MinThinkTime, MaxThinkTime)
 
-    .exec(http("PRL_C100Respondent_210_LegalRepresentation")
+    .exec(http("PRL_C100Respondent_290_LegalRepresentation")
 		.get(prlURL + "/tasklistresponse/legalrepresentation/start")
 		.headers(Headers.navigationHeader)
 		.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -401,8 +401,8 @@ Click Access Code &  Enter Case ID & Pin
 
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.group("PRL_C100Respondent_220_NoLegalRepresentation") {
-		exec(http("PRL_C100Respondent_220_005_NoLegalRepresentation")
+	.group("PRL_C100Respondent_300_NoLegalRepresentation") {
+		exec(http("PRL_C100Respondent_300_005_NoLegalRepresentation")
 		.post(prlURL + "/tasklistresponse/legalrepresentation/start")
 		.headers(Headers.navigationHeader)
 		.header("content-type", "application/x-www-form-urlencoded")
@@ -416,8 +416,8 @@ Click Access Code &  Enter Case ID & Pin
 
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.group("PRL_C100Respondent_230_ConfirmNoLegalRepresentation") {
-		exec(http("PRL_C100Respondent_230_005_ConfirmNoLegalRepresentation")
+	.group("PRL_C100Respondent_310_ConfirmNoLegalRepresentation") {
+		exec(http("PRL_C100Respondent_310_005_ConfirmNoLegalRepresentation")
 		.post(prlURL + "/tasklistresponse/legalrepresentation/solicitornotdirect")
 		.headers(Headers.navigationHeader)
 		.header("content-type", "application/x-www-form-urlencoded")
@@ -430,8 +430,8 @@ Click Access Code &  Enter Case ID & Pin
 
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.group("PRL_C100Respondent_240_DoYouConsentToApplication") {
-		exec(http("PRL_C100Respondent_240_005_DoYouConsentToApplication")
+	.group("PRL_C100Respondent_320_DoYouConsentToApplication") {
+		exec(http("PRL_C100Respondent_320_005_DoYouConsentToApplication")
 		.get(prlURL + "/tasklistresponse/consent-to-application/consent/#{caseId}")
 		.headers(Headers.navigationHeader)
 		.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -441,8 +441,8 @@ Click Access Code &  Enter Case ID & Pin
 
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.group("PRL_C100Respondent_250_CheckYourConsent") {
-		exec(http("PRL_C100Respondent_250_005_CheckYourConsent")
+	.group("PRL_C100Respondent_330_CheckYourConsent") {
+		exec(http("PRL_C100Respondent_330_005_CheckYourConsent")
 		.post(prlURL + "/tasklistresponse/consent-to-application/consent")
 		.headers(Headers.navigationHeader)
 		.header("content-type", "application/x-www-form-urlencoded")
@@ -462,8 +462,8 @@ Click Access Code &  Enter Case ID & Pin
 
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.group("PRL_C100Respondent_260_ConfirmYourConsent") {
-		exec(http("PRL_C100Respondent_260_005_ConfirmYourConsent")
+	.group("PRL_C100Respondent_340_ConfirmYourConsent") {
+		exec(http("PRL_C100Respondent_340_005_ConfirmYourConsent")
 		.post(prlURL + "/tasklistresponse/consent-to-application/summary")
 		.headers(Headers.navigationHeader)
 		.header("content-type", "application/x-www-form-urlencoded")
@@ -476,8 +476,8 @@ Click Access Code &  Enter Case ID & Pin
 
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.group("PRL_C100Respondent_270_HaveYouAttendedMIAM") {
-		exec(http("PRL_C100Respondent_270_005_HaveYouAttendedMIAM")
+	.group("PRL_C100Respondent_350_HaveYouAttendedMIAM") {
+		exec(http("PRL_C100Respondent_350_005_HaveYouAttendedMIAM")
 		.get(prlURL + "/tasklistresponse/miam/miam-start/#{caseId}")
 		.headers(Headers.navigationHeader)
 		.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -487,8 +487,8 @@ Click Access Code &  Enter Case ID & Pin
 
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.group("PRL_C100Respondent_280_WillingToAttendMIAM") {
-		exec(http("PRL_C100Respondent_280_005_WillingToAttendMIAM")
+	.group("PRL_C100Respondent_360_WillingToAttendMIAM") {
+		exec(http("PRL_C100Respondent_360_005_WillingToAttendMIAM")
 		.post(prlURL + "/tasklistresponse/miam/miam-start")
 		.headers(Headers.navigationHeader)
 		.header("content-type", "application/x-www-form-urlencoded")
@@ -502,8 +502,8 @@ Click Access Code &  Enter Case ID & Pin
 
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.group("PRL_C100Respondent_290_MIAMCheckYourAnswers") {
-		exec(http("PRL_C100Respondent_290_005_MIAMCheckYourAnswers")
+	.group("PRL_C100Respondent_370_MIAMCheckYourAnswers") {
+		exec(http("PRL_C100Respondent_370_005_MIAMCheckYourAnswers")
 		.post(prlURL + "/tasklistresponse/miam/willingness-to-attend-miam")
 		.headers(Headers.navigationHeader)
 		.header("content-type", "application/x-www-form-urlencoded")
@@ -518,8 +518,8 @@ Click Access Code &  Enter Case ID & Pin
 
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.group("PRL_C100Respondent_300_MIAMConfirmAnswers") {
-		exec(http("PRL_C100Respondent_300_005_MIAMConfirmAnswers")
+	.group("PRL_C100Respondent_380_MIAMConfirmAnswers") {
+		exec(http("PRL_C100Respondent_380_005_MIAMConfirmAnswers")
 		.post(prlURL + "/tasklistresponse/miam/summary")
 		.headers(Headers.navigationHeader)
 		.header("content-type", "application/x-www-form-urlencoded")
@@ -532,8 +532,8 @@ Click Access Code &  Enter Case ID & Pin
 
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.group("PRL_C100Respondent_310_EverBeenInvolvedInProceedings") {
-		exec(http("PRL_C100Respondent_310_005_EverBeenInvolvedInProceedings")
+	.group("PRL_C100Respondent_390_EverBeenInvolvedInProceedings") {
+		exec(http("PRL_C100Respondent_390_005_EverBeenInvolvedInProceedings")
 		.get(prlURL + "/tasklistresponse/proceedings/start/#{caseId}")
 		.headers(Headers.navigationHeader)
 		.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -543,8 +543,8 @@ Click Access Code &  Enter Case ID & Pin
 
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.group("PRL_C100Respondent_320_PreviousProceedingsCheckYourAnswers") {
-		exec(http("PRL_C100Respondent_320_005_PreviousProceedingsCheckYourAnswers")
+	.group("PRL_C100Respondent_400_PreviousProceedingsCheckYourAnswers") {
+		exec(http("PRL_C100Respondent_400_005_PreviousProceedingsCheckYourAnswers")
 		.post(prlURL + "/tasklistresponse/proceedings/start")
 		.headers(Headers.navigationHeader)
 		.header("content-type", "application/x-www-form-urlencoded")
@@ -559,8 +559,8 @@ Click Access Code &  Enter Case ID & Pin
 
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.group("PRL_C100Respondent_330_PreviousProceedingsConfirmAnswers") {
-		exec(http("PRL_C100Respondent_330_005_PreviousProceedingsConfirmAnswers")
+	.group("PRL_C100Respondent_410_PreviousProceedingsConfirmAnswers") {
+		exec(http("PRL_C100Respondent_410_005_PreviousProceedingsConfirmAnswers")
 		.post(prlURL + "/tasklistresponse/proceedings/summary")
 		.headers(Headers.navigationHeader)
 		.header("content-type", "application/x-www-form-urlencoded")
@@ -573,8 +573,8 @@ Click Access Code &  Enter Case ID & Pin
 
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.group("PRL_C100Respondent_340_SafetyConcerns") {
-		exec(http("PRL_C100Respondent_340_005_SafetyConcerns")
+	.group("PRL_C100Respondent_410_SafetyConcerns") {
+		exec(http("PRL_C100Respondent_420_005_SafetyConcerns")
 		.post(prlURL + "/respondent/safety-concerns/concern-guidance")
 		.headers(Headers.navigationHeader)
 		.header("content-type", "application/x-www-form-urlencoded")
@@ -587,8 +587,8 @@ Click Access Code &  Enter Case ID & Pin
 
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.group("PRL_C100Respondent_350_AnySafetyConcerns") {
-		exec(http("PRL_C100Respondent_350_005_AnySafetyConcerns")
+	.group("PRL_C100Respondent_430_AnySafetyConcerns") {
+		exec(http("PRL_C100Respondent_430_005_AnySafetyConcerns")
 		.post(prlURL + "/respondent/safety-concerns/concerns-for-safety")
 		.headers(Headers.navigationHeader)
 		.header("content-type", "application/x-www-form-urlencoded")
@@ -602,8 +602,8 @@ Click Access Code &  Enter Case ID & Pin
 
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.group("PRL_C100Respondent_360_SafetyConcernsConfirmAnswers") {
-		exec(http("PRL_C100Respondent_360_005_SafetyConcernsConfirmAnswers")
+	.group("PRL_C100Respondent_440_SafetyConcernsConfirmAnswers") {
+		exec(http("PRL_C100Respondent_440_005_SafetyConcernsConfirmAnswers")
 		.post(prlURL + "/respondent/safety-concerns/review")
 		.headers(Headers.navigationHeader)
 		.header("content-type", "application/x-www-form-urlencoded")
@@ -616,7 +616,7 @@ Click Access Code &  Enter Case ID & Pin
 
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.exec(http("PRL_C100Respondent_370_RespondToAllegations")
+	.exec(http("PRL_C100Respondent_450_RespondToAllegations")
 		.get(prlURL + "/respondent/tasklistresponse/respond-to-allegations-of-harm/willing-to-respond")
 		.headers(Headers.navigationHeader)
 		.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -625,8 +625,8 @@ Click Access Code &  Enter Case ID & Pin
 
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.group("PRL_C100Respondent_380_RespondToAllegationsCheckYourAnswers") {
-		exec(http("PRL_C100Respondent_380_005_RespondToAllegationsCheckYourAnswers")
+	.group("PRL_C100Respondent_460_RespondToAllegationsCheckYourAnswers") {
+		exec(http("PRL_C100Respondent_460_005_RespondToAllegationsCheckYourAnswers")
 		.post(prlURL + "/respondent/tasklistresponse/respond-to-allegations-of-harm/willing-to-respond")
 		.headers(Headers.navigationHeader)
 		.header("content-type", "application/x-www-form-urlencoded")
@@ -640,8 +640,8 @@ Click Access Code &  Enter Case ID & Pin
 
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.group("PRL_C100Respondent_390_RespondToAllegationsConfirmAnswers") {
-		exec(http("PRL_C100Respondent_390_005_RespondToAllegationsConfirmAnswers")
+	.group("PRL_C100Respondent_470_RespondToAllegationsConfirmAnswers") {
+		exec(http("PRL_C100Respondent_470_005_RespondToAllegationsConfirmAnswers")
 		.post(prlURL + "/respondent/tasklistresponse/respond-to-allegations-of-harm/review")
 		.headers(Headers.navigationHeader)
 		.header("content-type", "application/x-www-form-urlencoded")
@@ -654,8 +654,8 @@ Click Access Code &  Enter Case ID & Pin
 
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.group("PRL_C100Respondent_400_StartInternationalFactors") {
-		exec(http("PRL_C100Respondent_400_005_StartInternationalFactors")
+	.group("PRL_C100Respondent_480_StartInternationalFactors") {
+		exec(http("PRL_C100Respondent_480_005_StartInternationalFactors")
 		.get(prlURL + "/tasklistresponse/international-factors/start/#{caseId}")
 		.headers(Headers.navigationHeader)
 		.check(CsrfCheck.save)
@@ -664,8 +664,8 @@ Click Access Code &  Enter Case ID & Pin
 
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.group("PRL_C100Respondent_410_ChildrensLivesBasedOutsideUK") {
-		exec(http("PRL_C100Respondent_410_005_ChildrensLivesBasedOutsideUK")
+	.group("PRL_C100Respondent_490_ChildrensLivesBasedOutsideUK") {
+		exec(http("PRL_C100Respondent_490_005_ChildrensLivesBasedOutsideUK")
 		.post(prlURL + "/tasklistresponse/international-factors/start")
 		.headers(Headers.navigationHeader)
 		.header("content-type", "application/x-www-form-urlencoded")
@@ -680,8 +680,8 @@ Click Access Code &  Enter Case ID & Pin
 
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.group("PRL_C100Respondent_420_ChildrensParentsBasedOutsideUK") {
-		exec(http("PRL_C100Respondent_420_005_ChildrensParentsBasedOutsideUK")
+	.group("PRL_C100Respondent_500_ChildrensParentsBasedOutsideUK") {
+		exec(http("PRL_C100Respondent_500_005_ChildrensParentsBasedOutsideUK")
 		.post(prlURL + "/tasklistresponse/international-factors/parents")
 		.headers(Headers.navigationHeader)
 		.header("content-type", "application/x-www-form-urlencoded")
@@ -696,8 +696,8 @@ Click Access Code &  Enter Case ID & Pin
 
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.group("PRL_C100Respondent_430_OtherPersonOutsideUK") {
-		exec(http("PRL_C100Respondent_430_005_OtherPersonOutsideUK")
+	.group("PRL_C100Respondent_510_OtherPersonOutsideUK") {
+		exec(http("PRL_C100Respondent_510_005_OtherPersonOutsideUK")
 		.post(prlURL + "/tasklistresponse/international-factors/jurisdiction")
 		.headers(Headers.navigationHeader)
 		.header("content-type", "application/x-www-form-urlencoded")
@@ -712,8 +712,8 @@ Click Access Code &  Enter Case ID & Pin
 
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.group("PRL_C100Respondent_440_OtherCountryAskedForInfo") {
-		exec(http("PRL_C100Respondent_440_005_OtherCountryAskedForInfo")
+	.group("PRL_C100Respondent_520_OtherCountryAskedForInfo") {
+		exec(http("PRL_C100Respondent_520_005_OtherCountryAskedForInfo")
 		.post(prlURL + "/tasklistresponse/international-factors/request")
 		.headers(Headers.navigationHeader)
 		.header("content-type", "application/x-www-form-urlencoded")
@@ -728,8 +728,8 @@ Click Access Code &  Enter Case ID & Pin
 
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.group("PRL_C100Respondent_450_InternationalFactorsConfirmAnswers") {
-		exec(http("PRL_C100Respondent_450_005_InternationalFactorsConfirmAnswers")
+	.group("PRL_C100Respondent_530_InternationalFactorsConfirmAnswers") {
+		exec(http("PRL_C100Respondent_530_005_InternationalFactorsConfirmAnswers")
 		.post(prlURL + "/tasklistresponse/international-factors/summary")
 		.headers(Headers.navigationHeader)
 		.header("content-type", "application/x-www-form-urlencoded")
@@ -742,8 +742,8 @@ Click Access Code &  Enter Case ID & Pin
 
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.group("PRL_C100Respondent_460_ReviewAndSubmit") {
-		exec(http("PRL_C100Respondent_460_005_ReviewAndSubmit")
+	.group("PRL_C100Respondent_540_ReviewAndSubmit") {
+		exec(http("PRL_C100Respondent_540_005_ReviewAndSubmit")
 		.post(prlURL + "/tasklistresponse/start")
 		.headers(Headers.navigationHeader)
 		.header("content-type", "application/x-www-form-urlencoded")
@@ -756,8 +756,8 @@ Click Access Code &  Enter Case ID & Pin
 
 	.pause(MinThinkTime, MaxThinkTime)
 
-	.group("PRL_C100Respondent_470_CheckYourAnswers") {
-		exec(http("PRL_C100Respondent_470_005_CheckYourAnswers")
+	.group("PRL_C100Respondent_550_CheckYourAnswers") {
+		exec(http("PRL_C100Respondent_550_005_CheckYourAnswers")
 		.post(prlURL + "/tasklistresponse/summary")
 		.headers(Headers.navigationHeader)
 		.header("content-type", "application/x-www-form-urlencoded")
@@ -790,8 +790,8 @@ Click Access Code &  Enter Case ID & Pin
     * Equality and diversity questions - I don't want to answer these questions
     ======================================================================================*/
 
-    group("PRL_C100Respondent_471_PCQStartNo") {
-      exec(http("PRL_C100Respondent_571_005_PCQStartNo")
+    group("PRL_C100Respondent_561_PCQStartNo") {
+      exec(http("PRL_C100Respondent_561_005_PCQStartNo")
         .post(pcqURL + "/opt-out")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
@@ -810,8 +810,8 @@ Click Access Code &  Enter Case ID & Pin
     * Equality and diversity questions - Continue to questions
     ======================================================================================*/
 
-    group("PRL_C100Respondent_471_PCQStartYes") {
-      exec(http("PRL_C100Respondent_471_005_PCQStartYes")
+    group("PRL_C100Respondent_561_PCQStartYes") {
+      exec(http("PRL_C100Respondent_561_005_PCQStartYes")
         .post(pcqURL + "/start-page")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
@@ -827,8 +827,8 @@ Click Access Code &  Enter Case ID & Pin
     * Equality and diversity questions - What is your Language? - English
     ======================================================================================*/
 
-    .group("PRL_C100Respondent_472_SelectLanguage") {
-      exec(http("PRL_C100Respondent_472_005_SelectLanguage")
+    .group("PRL_C100Respondent_562_SelectLanguage") {
+      exec(http("PRL_C100Respondent_562_005_SelectLanguage")
         .post(pcqURL + "/language")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
@@ -846,8 +846,8 @@ Click Access Code &  Enter Case ID & Pin
     * Equality and diversity questions - What is your Sex? - Prefer not to say
     ======================================================================================*/
 
-    .group("PRL_C100Respondent_473_SelectSex") {
-      exec(http("PRL_C100Respondent_473_005_SelectSex")
+    .group("PRL_C100Respondent_563_SelectSex") {
+      exec(http("PRL_C100Respondent_563_005_SelectSex")
         .post(pcqURL + "/sex")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
@@ -864,8 +864,8 @@ Click Access Code &  Enter Case ID & Pin
     * Equality and diversity questions - Which of the following best describes how you think of yourself? - Hetero or straight
     ======================================================================================*/
 
-    .group("PRL_C100Respondent_474_SelectSexualOrientation") {
-      exec(http("PRL_C100Respondent_474_005_SelectSexualOrientation")
+    .group("PRL_C100Respondent_564_SelectSexualOrientation") {
+      exec(http("PRL_C100Respondent_564_005_SelectSexualOrientation")
         .post(pcqURL + "/sexual-orientation")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
@@ -883,8 +883,8 @@ Click Access Code &  Enter Case ID & Pin
     * Equality and diversity questions - Are you married or in a legally registered civil partnership? - Yes
     ======================================================================================*/
 
-    .group("PRL_C100Respondent_475_SelectMaritialStatus") {
-      exec(http("PRL_C100Respondent_475_005_SelectMaritialStatus")
+    .group("PRL_C100Respondent_565_SelectMaritialStatus") {
+      exec(http("PRL_C100Respondent_565_005_SelectMaritialStatus")
         .post(pcqURL + "/marital-status")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
@@ -901,8 +901,8 @@ Click Access Code &  Enter Case ID & Pin
     * Equality and diversity questions - What is your ethnic group? - Prefer not to say
     ======================================================================================*/
 
-    .group("PRL_C100Respondent_476_SelectEthnicGroup") {
-      exec(http("PRL_C100Respondent_476_005_SelectEthnicGroup")
+    .group("PRL_C100Respondent_566_SelectEthnicGroup") {
+      exec(http("PRL_C100Respondent_566_005_SelectEthnicGroup")
         .post(pcqURL + "/ethnic-group")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
@@ -919,8 +919,8 @@ Click Access Code &  Enter Case ID & Pin
     * Equality and diversity questions - What is your religion? - Prefer not to say
     ======================================================================================*/
 
-    .group("PRL_C100Respondent_477_SelectReligion") {
-      exec(http("PRL_C100Respondent_477_005_SelectReligion")
+    .group("PRL_C100Respondent_567_SelectReligion") {
+      exec(http("PRL_C100Respondent_567_005_SelectReligion")
         .post(pcqURL + "/religion")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
@@ -938,8 +938,8 @@ Click Access Code &  Enter Case ID & Pin
     * Equality and diversity questions - Do you have any physical or mental health conditions? - No
     ======================================================================================*/
 
-    .group("PRL_C100Respondent_478_HealthConditions") {
-      exec(http("PRL_C100Respondent_478_005_HealthConditions")
+    .group("PRL_C100Respondent_568_HealthConditions") {
+      exec(http("PRL_C100Respondent_568_005_HealthConditions")
         .post(pcqURL + "/disability")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
@@ -956,8 +956,8 @@ Click Access Code &  Enter Case ID & Pin
     * Equality and diversity questions - Are you pregnant or have you been pregnant in the last year? - No
     ======================================================================================*/
 
-    .group("PRL_C100Respondent_479_SelectPregnancy") {
-      exec(http("PRL_C100Respondent_479_005_SelectPregnancy")
+    .group("PRL_C100Respondent_569_SelectPregnancy") {
+      exec(http("PRL_C100Respondent_569_005_SelectPregnancy")
         .post(pcqURL + "/pregnant")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
@@ -973,8 +973,8 @@ Click Access Code &  Enter Case ID & Pin
     * Equality and diversity questions - You have answered the equality questions - Continue to next steps
     ======================================================================================*/
 
-    .group("PRL_C100Respondent_4791_PCQReturnToService") {
-      exec(http("PRL_C100Respondent_4791_005_PCQReturnToService")
+    .group("PRL_C100Respondent_5691_PCQReturnToService") {
+      exec(http("PRL_C100Respondent_5691_005_PCQReturnToService")
         .get(pcqURL + "/return-to-service")
         .headers(Headers.navigationHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
