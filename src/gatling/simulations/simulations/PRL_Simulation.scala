@@ -59,7 +59,7 @@ class PRL_Simulation extends Simulation {
   val reasonableAdjustmentTargetPerHour = 12 //12
   val defaultTargetPerHour: Double = 12 //12
   // Smoke Configuration
-  val smokeTarget: Double = 10
+  val smokeTarget: Double = 5
  
   //This determines the percentage split of PRL journeys, by C100 or FL401
   val prlC100Percentage = 100 //Percentage of C100s (the rest will be FL401s) - should be 66 for the 2:1 ratio
@@ -465,13 +465,13 @@ class PRL_Simulation extends Simulation {
     //=================================================
   //C100 & CUIRA Release Scenarios - SMOKE TEST
   //=================================================
-  // PRLC100CitizenScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
-  // PRLC100RespondentScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
-  // PRLFL401RespondentScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
-  // PRLReasonableAdjustmentsAdd.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
-  // PRLReasonableAdjustmentsModify.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
-  // PRLC100ApplicantDashboardScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
-  // PRLFL401ApplicantDashboardScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
+  PRLC100CitizenScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
+  PRLC100RespondentScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
+  PRLFL401RespondentScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
+  PRLReasonableAdjustmentsAdd.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
+  PRLReasonableAdjustmentsModify.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
+  PRLC100ApplicantDashboardScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
+  PRLFL401ApplicantDashboardScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
 
   //=================================================
   //Case creation/progression Scenarios:
@@ -487,7 +487,7 @@ class PRL_Simulation extends Simulation {
   //=================================================
   //PrlDataPrep.inject(constantConcurrentUsers(1).during(10)),
   //PRLFL401CaseworkerScenario.inject(constantConcurrentUsers(4).during(20)),
-  PRLFL401CaseManagerScenario.inject(constantConcurrentUsers(8).during(20)),
+  //PRLFL401CaseManagerScenario.inject(constantConcurrentUsers(8).during(20)),
   //PrlFL401Create.inject(constantConcurrentUsers(8).during(20)),
     //PRLCitizenApplicationGuidance.inject(constantConcurrentUsers(2).during(10)),
     //PRLC100RespondentScenario.inject(constantConcurrentUsers(1).during(10)),
