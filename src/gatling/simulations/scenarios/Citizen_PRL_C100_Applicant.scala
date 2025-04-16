@@ -1330,7 +1330,7 @@ object Citizen_PRL_C100_Applicant {
           .check(CsrfCheck.save)
           .check(regex("""name="AddressLine1" type="text" value="(.+)" aria-describedby""").saveAs("address"))
           .check(regex("""name="PostTown" type="text" value="(.+)">""").saveAs("town"))
-          .check(substring("Building and street")))
+          .check(substring("Address details of")))
       }
 
       .pause(MinThinkTime, MaxThinkTime)

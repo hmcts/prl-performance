@@ -245,7 +245,7 @@ class PRL_Simulation extends Simulation {
       .repeat(1) {
         feed(c100RespondentData)
         .exec(Citizen_PRL_C100_Respondent.RetrieveCase)
-        .exec(Citizen_PRL_C100_Respondent.GetCase)
+        //.exec(Citizen_PRL_C100_Respondent.GetCase)                              // Not needed as case retrieve opens the linked case, use for debugging
         .exec(Citizen_PRL_C100_Respondent.ConfirmEditContactDetails)              // New for R6.0
         .exec(Citizen_PRL_C100_Respondent.ContactPreferences)
         .exec(Citizen_PRL_C100_Respondent.KeepDetailsPrivate)
@@ -351,7 +351,7 @@ class PRL_Simulation extends Simulation {
       .repeat(1) {
         feed(fl401RespondentData)
         .exec(Citizen_PRL_FL401_Respondent.RetrieveCase)
-        .exec(Citizen_PRL_FL401_Respondent.GetCase)
+        //.exec(Citizen_PRL_FL401_Respondent.GetCase)                             // Not needed as case link takes you through to open the case
         .exec(Citizen_PRL_FL401_Respondent.ConfirmEditContactDetails)             // New for R6.0
         .exec(Citizen_PRL_FL401_Respondent.ContactPreferences)                    // New for R6.0
         .exec(Citizen_PRL_FL401_Respondent.KeepDetailsPrivate)
@@ -465,13 +465,13 @@ class PRL_Simulation extends Simulation {
     //=================================================
   //C100 & CUIRA Release Scenarios - SMOKE TEST
   //=================================================
-  PRLC100CitizenScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
-  PRLC100RespondentScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
-  PRLFL401RespondentScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
-  PRLReasonableAdjustmentsAdd.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
-  PRLReasonableAdjustmentsModify.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
-  PRLC100ApplicantDashboardScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
-  PRLFL401ApplicantDashboardScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
+  // PRLC100CitizenScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
+  // PRLC100RespondentScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
+  // PRLFL401RespondentScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
+  // PRLReasonableAdjustmentsAdd.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
+  // PRLReasonableAdjustmentsModify.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
+  // PRLC100ApplicantDashboardScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
+  // PRLFL401ApplicantDashboardScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
 
   //=================================================
   //Case creation/progression Scenarios:
@@ -485,19 +485,19 @@ class PRL_Simulation extends Simulation {
   //=================================================
   //Closed workload model scenarios for DataPrep:
   //=================================================
-  //PrlDataPrep.inject(constantConcurrentUsers(1).during(10)),
-  //PRLFL401CaseworkerScenario.inject(constantConcurrentUsers(4).during(20)),
-  //PRLFL401CaseManagerScenario.inject(constantConcurrentUsers(8).during(20)),
-  //PrlFL401Create.inject(constantConcurrentUsers(8).during(20)),
-    //PRLCitizenApplicationGuidance.inject(constantConcurrentUsers(2).during(10)),
-    //PRLC100RespondentScenario.inject(constantConcurrentUsers(1).during(10)),
- //PRLC100ApplicantDashboardScenario.inject(constantConcurrentUsers(1).during(10)),
-    //PRLFL401RespondentScenario.inject(constantConcurrentUsers(1).during(10)),
-    //PRLFL401ApplicantDashboardScenario.inject(constantConcurrentUsers(1).during(10)),
-    //PRLC100CitizenScenario.inject(constantConcurrentUsers(2).during(10)),
-   //PRLC100CaseworkerScenario.inject(constantConcurrentUsers(1).during(60)),
-    //PRLReasonableAdjustmentsAdd.inject(constantConcurrentUsers(1).during(10)),
-    //PRLReasonableAdjustmentsModify.inject(constantConcurrentUsers(1).during(5)),
+  //PrlDataPrep.inject(atOnceUsers(1)),
+  //PRLFL401CaseworkerScenario.inject(atOnceUsers(4)),
+  //PRLFL401CaseManagerScenario.inject(atOnceUsers(8)),
+  //PrlFL401Create.inject(atOnceUsers(8)),
+    PRLCitizenApplicationGuidance.inject(atOnceUsers(3)),
+    PRLC100RespondentScenario.inject(atOnceUsers(3)),
+    PRLC100ApplicantDashboardScenario.inject(atOnceUsers(3)),
+    PRLFL401RespondentScenario.inject(atOnceUsers(3)),
+    PRLFL401ApplicantDashboardScenario.inject(atOnceUsers(3)),
+    PRLC100CitizenScenario.inject(atOnceUsers(3)),
+    //PRLC100CaseworkerScenario.inject(atOnceUsers(1)),
+    PRLReasonableAdjustmentsAdd.inject(atOnceUsers(3)),
+    PRLReasonableAdjustmentsModify.inject(atOnceUsers(3)),
 
    //=========================================================
    // At Once Users - For API Tests
