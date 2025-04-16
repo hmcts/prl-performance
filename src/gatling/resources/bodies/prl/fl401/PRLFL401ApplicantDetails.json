@@ -37,6 +37,7 @@
         "currentRespondent": null,
         "contactPreferences": null,
         "isRemoveLegalRepresentativeRequested": null,
+        "liveInRefuge": "No",
         "address": {
            "AddressLine1": "Flat 1",
            "AddressLine2": "Bramber House",

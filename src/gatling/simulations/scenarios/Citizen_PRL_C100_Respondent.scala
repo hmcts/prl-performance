@@ -258,7 +258,7 @@ Click Access Code &  Enter Case ID & Pin
 		.formParam("_csrf", "#{csrf}")
 		.formParam("isCitizenLivingInRefuge", "No")
 		.formParam("onlyContinue", "true")
-		.check(substring("Your address")))
+		.check(substring("Review the address")))
 	}
 
 	.pause(MinThinkTime, MaxThinkTime)

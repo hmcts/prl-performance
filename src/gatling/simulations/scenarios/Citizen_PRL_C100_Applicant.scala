@@ -914,7 +914,7 @@ object Citizen_PRL_C100_Applicant {
         .check(CsrfCheck.save)
         .check(regex("""name="address1" type="text" value="(.+)""").saveAs("address"))
         .check(regex("""name="addressTown" type="text" value="(.+)"""").saveAs("town"))
-        .check(substring("Building and street")))
+        .check(substring("Address details of")))
     }
 
     .pause(MinThinkTime, MaxThinkTime)
@@ -1104,7 +1104,7 @@ object Citizen_PRL_C100_Applicant {
         .check(CsrfCheck.save)
         .check(regex("""name="AddressLine1" type="text" value="(.+)" aria-describedby""").saveAs("address"))
         .check(regex("""name="PostTown" type="text" value="(.+)">""").saveAs("town"))
-        .check(substring("Building and street")))
+        .check(substring("Address details of")))
     }
 
     .pause(MinThinkTime, MaxThinkTime)
@@ -1501,7 +1501,7 @@ object Citizen_PRL_C100_Applicant {
         .formParam("op_courtOrderProtection", "Yes")
         .formParam("onlycontinue", "true")
         .check(CsrfCheck.save)
-        .check(substring("Provide details of court cases you or the children have been involved in")))
+        .check(substring("Which type of order")))
     }
 
     .pause(MinThinkTime, MaxThinkTime)
@@ -1536,7 +1536,7 @@ object Citizen_PRL_C100_Applicant {
         .formParam("op_courtProceedingsOrders", "childArrangementOrder")
         .formParam("onlycontinue", "true")
         .check(CsrfCheck.save)
-        .check(substring("Provide details of court cases you or the children have been involved in")))
+        .check(substring("Provide details of the order that you")))
     }
 
     .pause(MinThinkTime, MaxThinkTime)
@@ -2029,7 +2029,7 @@ object Citizen_PRL_C100_Applicant {
         .formParam("helpWithFeesReferenceNumber", "HWF-A2B-12C")
         .formParam("saveAndContinue", "true")
         .check(CsrfCheck.save)
-        .check(substring("Check your Answers")))
+        .check(substring("Check your answers")))
     }
 
     .pause(MinThinkTime, MaxThinkTime)
@@ -2051,7 +2051,7 @@ object Citizen_PRL_C100_Applicant {
         .formParam("saveAndContinue", "true")
         //.formParam("saveAndComeLater", "true")
         .check(CsrfCheck.save)
-        .check(substring("Check your Answers")))
+        .check(substring("Check your answers")))
     }
 
     .pause(MinThinkTime, MaxThinkTime)

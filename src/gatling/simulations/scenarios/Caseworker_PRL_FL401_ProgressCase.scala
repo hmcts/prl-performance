@@ -15,7 +15,9 @@ object Caseworker_PRL_FL401_ProgressCase {
   val MinThinkTime = Environment.minThinkTime
   val MaxThinkTime = Environment.maxThinkTime
 
-    //set session variables
+  val CourtAdminCheckApplication =
+
+   //set session variables
     exec(_.setAll(
       "PRLRandomString" -> (Common.randomString(7)),
       "JudgeFirstName" -> (Common.randomString(4) + "judgefirst"),
@@ -25,9 +27,7 @@ object Caseworker_PRL_FL401_ProgressCase {
       "todayDate" -> Common.getDate(),
       "LegalAdviserName" -> (Common.randomString(4) + " " + Common.randomString(4) + "legAdv")))
 
-  val CourtAdminCheckApplication =
-
-    exec(http("XUI_PRL_XXX_290_SelectCase")
+    .exec(http("XUI_PRL_XXX_290_SelectCase")
       .get(BaseURL + "/data/internal/cases/#{caseId}")
       .headers(Headers.xuiHeader)
       .check(jsonPath("$.tabs[6].fields[3].value.firstName").saveAs("ApplicantFirstName"))
@@ -55,7 +55,7 @@ object Caseworker_PRL_FL401_ProgressCase {
       .get(BaseURL + "/workallocation/case/tasks/#{caseId}/event/issueAndSendToLocalCourtCallback/caseType/PRLAPPS/jurisdiction/PRIVATELAW")
       .headers(Headers.navigationHeader)
       .header("accept", "application/json")
-      .check(jsonPath("$.task_required_for_event").is("true")))
+      .check(jsonPath("$.task_required_for_event").is("false")))
 
     .exec(Common.activity)
     .exec(Common.profile)
@@ -227,7 +227,7 @@ object Caseworker_PRL_FL401_ProgressCase {
     .pause(MinThinkTime, MaxThinkTime)
 
     /*======================================================================================
-    * Select Order - Blank Order
+    * Select Order - 
     ======================================================================================*/
 
     .group("XUI_PRL_XXX_540_SelectOrder") {
@@ -277,7 +277,7 @@ object Caseworker_PRL_FL401_ProgressCase {
     .pause(MinThinkTime, MaxThinkTime)
 
     /*======================================================================================
-    * Hearing Type
+    * Hearing Type -- Continue
     ======================================================================================*/
 
     .group("XUI_PRL_XXX_570_HearingType") {

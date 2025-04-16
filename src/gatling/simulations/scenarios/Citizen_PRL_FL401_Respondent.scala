@@ -274,7 +274,7 @@ object Citizen_PRL_FL401_Respondent {
 		.formParam("_csrf", "#{csrf}")
 		.formParam("isCitizenLivingInRefuge", "No")
 		.formParam("onlyContinue", "true")
-		.check(substring("Your address")))
+		.check(substring("Review the address")))
 	}
       
 	.pause(MinThinkTime, MaxThinkTime)
