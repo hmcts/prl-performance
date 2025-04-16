@@ -253,9 +253,9 @@ class PRL_Simulation extends Simulation {
         .exec(Citizen_PRL_C100_Respondent.CheckApplication)
         .exec(Citizen_PRL_C100_Respondent.CheckHarmViolenceAllegations)           //New for R6.0
         .exec(Citizen_PRL_C100_Respondent.MakeRequestToCourtAboutCase)            //New for R6.0/7.0
-        .exec(Citizen_PRL_C100_Respondent.RespondToApplication)         // Why was this commented out???
+        .exec(Citizen_PRL_C100_Respondent.RespondToApplication)         
         .exec(Citizen_PRL_C100_Respondent.UploadDocumentsApplicationsStatements)  //New for R6.0
-        .exec(Citizen_PRL_C100_Respondent.ViewAllDocuments)                       //New for R6.0
+        .exec(Citizen_PRL_C100_Respondent.ViewAllDocuments)                       
         .exec(Citizen_PRL_C100_Respondent.ViewServedAppPack)                      //New for R6.0
         .exec(Citizen_PRL_C100_Respondent.ViewAllDocuments)                       //New for R6.0
         .exec(Citizen_PRL_C100_Respondent.ViewRespondentsDocuments)               //New for R6.0
