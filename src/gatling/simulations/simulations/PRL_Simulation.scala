@@ -55,7 +55,7 @@ class PRL_Simulation extends Simulation {
   /* PERFORMANCE TEST CONFIGURATION */
   val prlTargetPerHour: Double = 32 //30
   val caseworkerTargetPerHour: Double = 30 //30
-  val c100AppTargetPerHour: Double = 32 //62
+  val c100AppTargetPerHour: Double = 65 //62
   val reasonableAdjustmentTargetPerHour = 12 //12
   val defaultTargetPerHour: Double = 12 //12
   // Smoke Configuration
@@ -488,16 +488,16 @@ class PRL_Simulation extends Simulation {
   //PrlDataPrep.inject(atOnceUsers(1)),
   //PRLFL401CaseworkerScenario.inject(atOnceUsers(4)),
   //PRLFL401CaseManagerScenario.inject(atOnceUsers(8)),
-  //PrlFL401Create.inject(atOnceUsers(8)),
-    PRLCitizenApplicationGuidance.inject(atOnceUsers(3)),
-    PRLC100RespondentScenario.inject(atOnceUsers(3)),
-    PRLC100ApplicantDashboardScenario.inject(atOnceUsers(3)),
-    PRLFL401RespondentScenario.inject(atOnceUsers(3)),
-    PRLFL401ApplicantDashboardScenario.inject(atOnceUsers(3)),
-    PRLC100CitizenScenario.inject(atOnceUsers(3)),
-    //PRLC100CaseworkerScenario.inject(atOnceUsers(1)),
-    PRLReasonableAdjustmentsAdd.inject(atOnceUsers(3)),
-    PRLReasonableAdjustmentsModify.inject(atOnceUsers(3)),
+  PrlFL401Create.inject(atOnceUsers(2)),
+  //PRLC100CaseworkerScenario.inject(atOnceUsers(1)),
+    // PRLCitizenApplicationGuidance.inject(atOnceUsers(3)),
+    // PRLC100RespondentScenario.inject(atOnceUsers(3)),
+    // PRLC100ApplicantDashboardScenario.inject(atOnceUsers(3)),
+    // PRLFL401RespondentScenario.inject(atOnceUsers(3)),
+    // PRLFL401ApplicantDashboardScenario.inject(atOnceUsers(3)),
+    //PRLC100CitizenScenario.inject(atOnceUsers(3)),
+    // PRLReasonableAdjustmentsAdd.inject(atOnceUsers(3)),
+    // PRLReasonableAdjustmentsModify.inject(atOnceUsers(3)),
 
    //=========================================================
    // At Once Users - For API Tests

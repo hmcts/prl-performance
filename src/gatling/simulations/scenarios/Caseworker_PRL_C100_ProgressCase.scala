@@ -70,8 +70,10 @@ object Caseworker_PRL_C100_ProgressCase {
       }
     })
 
-    // Loop until the task type matches "checkApplicationC100" *For Cases which selected HWF different steps are required here
-    .asLongAs(session => session("taskType").as[String] != "checkApplicationC100") {
+    // Loop until the task type matches "checkApplicationC100" or "checkHwfApplicationC100"
+    .asLongAs(session => session("taskType").as[String] != "checkApplicationC100" ||
+                         session("taskType").as[String] != "checkHwfApplicationC100")
+    {
       exec(http("XUI_PRL_XXX_310_SelectCaseTaskRepeat")
         .get(BaseURL + "/workallocation/case/task/#{caseId}")
         .headers(Headers.xuiHeader)
@@ -87,7 +89,7 @@ object Caseworker_PRL_C100_ProgressCase {
     //     println(s"Current Task Type: ${session("taskType").as[String]}")
     //     session
     // })
-  }
+    } // end asLongAs
 
   /*=====================================================================================
   * Claim the task
@@ -102,6 +104,58 @@ object Caseworker_PRL_C100_ProgressCase {
       .check(status.in(200, 204)))
 
   .pause(MinThinkTime, MaxThinkTime)
+
+  // if help with fee's task, additional steps required 
+  .doIf(session => session("userId").as[String] == "checkHwfApplicationC100") {
+
+    /*====================================================================================
+    * Complete the task
+    ======================================================================================*/
+
+      exec(http("XUI_PRL_XXX_321_SelectHelpWithFees")
+        .post(BaseURL + "/workallocation/task/#{taskId}/complete")
+        .headers(Headers.xuiHeader)
+        .header("Accept", "application/json, text/plain, */*")
+        .header("x-xsrf-token", "#{XSRFToken}")
+        .body(StringBody("""{}"""))
+        .check(status.in(200, 204)))
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+      /*=====================================================================================
+      * Refresh tasks until the next task is available
+      ======================================================================================*/
+
+    // Loop until the task type matches "checkApplicationC100"
+      .asLongAs(session => session("taskType").as[String] != "checkApplicationC100")
+      {
+        exec(http("XUI_PRL_XXX_322_SelectCaseTaskRepeat")
+          .get(BaseURL + "/workallocation/case/task/#{caseId}")
+          .headers(Headers.xuiHeader)
+          .header("Accept", "application/json, text/plain, */*")
+          .header("x-xsrf-token", "#{XSRFToken}")
+          .check(jsonPath("$[0].id").optional.saveAs("taskId"))
+          .check(jsonPath("$[0].type").optional.saveAs("taskType")))
+
+        .pause(5, 10) // Wait between retries
+
+        /*=====================================================================================
+        * Claim the task
+        ======================================================================================*/
+
+        .exec(http("XUI_PRL_XXX_323_ClaimTask")
+          .post(BaseURL + "/workallocation/task/#{taskId}/claim")
+          .headers(Headers.xuiHeader)
+          .header("Accept", "application/json, text/plain, */*")
+          .header("x-xsrf-token", "#{XSRFToken}")
+          .body(StringBody("""{}"""))
+          .check(status.in(200, 204)))
+
+        .pause(MinThinkTime, MaxThinkTime)
+
+    } //End asLongAs
+
+  } //End of HWF's if
 
   /*=====================================================================================
   * Select Issue and send to local Court
@@ -223,14 +277,10 @@ object Caseworker_PRL_C100_ProgressCase {
         .check(jsonPath("$[0].type").optional.saveAs("taskType")))
 
       .pause(5, 10) // Wait between retries
+    
+    } // end asLongAs
 
-    //   // Log task Type
-    //   .exec (session => {
-    //     println(s"Current respTaskType: ${session("respTaskType").as[String]}")
-    //     println(s"Current respTaskId: ${session("respTaskId").as[String]}")
-    //     session
-    // })
-  }
+
 
   .pause(MinThinkTime, MaxThinkTime)
 
