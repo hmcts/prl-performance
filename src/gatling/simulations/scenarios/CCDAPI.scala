@@ -3,7 +3,7 @@ package scenarios
 import com.typesafe.config.ConfigFactory
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
-import utils.Environment
+import utils._
 
 object CCDAPI {
 
