@@ -16,14 +16,18 @@ object CCDAPI {
 
   val clientSecret = ConfigFactory.load.getString("auth.clientSecret")
 
-  //userType must be "Caseworker", "Legal" or "Citizen"
+  //userType must be "Caseworker", "Legal", "Citizen" or "Solicitor"
   def Auth(userType: String) =
 
+
+//******* SET THESE PROPERLY *******  What is actually used/needed
     exec(session => userType match {
       case "Caseworker" => session.set("emailAddressCCD", "ccdloadtest-cw@gmail.com").set("passwordCCD", "Password12").set("microservice", "ccd_data")
       case "Legal" => session.set("emailAddressCCD", "ccdloadtest-la@gmail.com").set("passwordCCD", "Password12").set("microservice", "ccd_data")
-      case "Solicitor" => session.set("emailAddressCCD", session("user").as[String]).set("passwordCCD", session("password").as[String]).set("microservice", "prl_cos_api")
+      case "Solicitor" => session.set("emailAddressCCD", session("user").as[String]).set("passwordCCD", session("password").as[String]).set("microservice", "ccd_data")
+      case "CourtAdmin" => session.set("emailAddressCCD", session("user").as[String]).set("passwordCCD", session("password").as[String]).set("microservice", "ccd_data")
     })
+
 
     .exec(http("XUI_000_Auth")
       .post(RpeAPIURL + "/testing-support/lease")
@@ -80,7 +84,7 @@ object CCDAPI {
       .header("Authorization", "Bearer #{bearerToken}")
       .header("ServiceAuthorization", "#{authToken}")
       .header("Content-Type", "application/json")
-      .check(jsonPath("$.token").saveAs("eventToken")))
+      .check(jsonPath("$.token").saveAs("event_token")))
 
     .pause(1)
 
@@ -93,5 +97,50 @@ object CCDAPI {
       .check(jsonPath("$.id")))
 
     .pause(1)
+
+
+// allows the event to be used where the userType = "Caseworker" or "Legal"
+  def CreateCaseFL401(userType: String, jurisdiction: String, caseType: String, eventName: String, payloadPath: String) =
+
+    exec(_.set("eventName", eventName)
+          .set("jurisdiction", jurisdiction)
+          .set("caseType", caseType))
+
+    .exec(Auth(userType))
+
+    .exec(http("XUI_000_GetCCDEventToken")
+      .get(CcdAPIURL + "/caseworkers/#{idamId}/jurisdictions/#{jurisdiction}/case-types/#{caseType}/cases/#{caseId}/event-triggers/#{eventName}/token")
+      .header("Authorization", "Bearer #{bearerToken}")
+      .header("ServiceAuthorization", "#{authToken}")
+      .header("Content-Type", "application/json")
+      .check(jsonPath("$.token").saveAs("event_token")))
+
+    .pause(1)
+
+    .exec(http("XUI_000_CCDEvent-#{eventName}")
+      .post(CcdAPIURL + "/caseworkers/#{idamId}/jurisdictions/#{jurisdiction}/case-types/#{caseType}/cases/#{caseId}/events")
+      .header("Authorization", "Bearer #{bearerToken}")
+      .header("ServiceAuthorization", "#{authToken}")
+      .header("Content-Type", "application/json")
+      .body(ElFileBody(payloadPath))
+      .check(jsonPath("$.id")))
+
+    .pause(1)
+
+  val GetCaseDetails =
+
+    exec(Auth("Caseworker"))
+
+    .exec(http("PRL_000_GetCaseDetails")
+      .get(CcdAPIURL + "/caseworkers/#{idamId}/jurisdictions/PRIVATELAW/case-types/PRLAPPS/cases/#{caseId}")
+      .header("Authorization", "Bearer #{bearerToken}")
+      .header("ServiceAuthorization", "#{authToken}")
+      .header("Content-Type", "application/json")
+      .check(jsonPath("$.case_data.marriageDate").saveAs("marriageDate"))
+      .check(jsonPath("$.case_data.marriageApplicant1Name").saveAs("marriageApplicant1Name"))
+      .check(jsonPath("$.case_data.marriageApplicant2Name").saveAs("marriageApplicant2Name")))
+
+    .pause(1)
+
 
 }

@@ -408,6 +408,112 @@ class PRL_Simulation extends Simulation {
       }
     }
 
+
+  /*==================================================================================================================================================
+  * PRL FL401 Create Case (Solicitor), Progress Case (CourtAdmin, CaseManager), FL401 Respondent, FL401 Applicant (Split 50/50 by VuserID modulo 2) 
+  ===================================================================================================================================================*/
+  
+  val PRLFL401CreateProgressRespondent = scenario("***** PRL FL401 Create, Process and respond to cases *****")
+    .exitBlockOnFail {
+        feed(UserFeederPRL)
+        .exec(_.set("env", s"${env}")
+        .set("caseType", "PRLAPPS"))
+        // Solicitor XUI FL401 Create 
+        .exec(
+          Homepage.XUIHomePage,
+          Login.XUILogin,
+          .repeat(1) {
+            Solicitor_PRL_FL401_CaseCreate.CreatePrivateLawCase,
+            Solicitor_PRL_FL401_CaseCreate.TypeOfApplication,
+            Solicitor_PRL_FL401_CaseCreate.WithoutNoticeOrder,
+            Solicitor_PRL_FL401_CaseCreate.ApplicantDetails,
+            Solicitor_PRL_FL401_CaseCreate.RespondentDetails,
+            Solicitor_PRL_FL401_CaseCreate.ApplicantsFamily,
+            Solicitor_PRL_FL401_CaseCreate.Relationship,
+            Solicitor_PRL_FL401_CaseCreate.Behaviour,
+            Solicitor_PRL_FL401_CaseCreate.TheHome,
+            Solicitor_PRL_FL401_CaseCreate.UploadDocuments,
+            Solicitor_PRL_FL401_CaseCreate.ViewPDF,
+            Solicitor_PRL_FL401_CaseCreate.StatementOfTruth,
+          }
+          Logout.XUILogout)
+        // CourtAdmin - Progress Case - Issue & Send to Local Court
+        .exec(
+          CCDAPI.CreateEvent("CourtAdmin", "PRIVATELAW", "PRLAPPS", "issueAndSendToLocalCourtCallback" "bodies/prl/courtAdmin/PRLLocalCourtSubmit.json"))
+        // CourtAdmin - Progress Case - Send to GateKeeper
+        .exec(
+          CCDAPI.CreateEvent("CourtAdmin", "PRIVATELAW", "PRLAPPS", "sendToGateKeeper" "bodies/prl/courtAdmin/PRLAddGateKeeperSubmit.json"))
+        // CourtAdmin - Progress Case - Submit Order
+        .exec(
+          _.setAll( // Set session Vars for use in JSON Payload
+            "PRLRandomString" -> (Common.randomString(7)),
+            "JudgeFirstName" -> (Common.randomString(4) + "judgefirst"),
+            "JudgeLastName" -> (Common.randomString(4) + "judgeLast"),
+            "PRLAppDobDay" -> Common.getDay(),
+            "PRLAppDobMonth" -> Common.getMonth(),
+            "todayDate" -> Common.getDate(),
+            "LegalAdviserName" -> (Common.randomString(4) + " " + Common.randomString(4) + "legAdv")),
+          CCDAPI.GetCaseDetails,
+          CCDAPI.CreateEvent("CourtAdmin", "PRIVATELAW", "PRLAPPS", "manageOrders" "bodies/prl/courtAdmin/PRLOrderSubmitFL401.json"))
+        // CourtAdmin = Progress Case - 
+        .exec(
+          CCDAPI.CreateEvent("CourtAdmin", "PRIVATELAW", "PRLAPPS", "sendToGateKeeper" "bodies/prl/courtAdmin/PRLAddGateKeeperSubmit.json"))
+
+
+              "applicantName": "#{ApplicantFirstName} #{ApplicantLastName}",
+              "applicantSolicitor": "Solfirst,Sollast",
+              "respondentName": "#{RespondentFirstName} #{RespondentLastName}",
+
+         //set session variables
+
+
+    .exec(http("XUI_PRL_XXX_290_SelectCase")
+      .get(BaseURL + "/data/internal/cases/#{caseId}")
+      .headers(Headers.xuiHeader)
+      .check(jsonPath("$.tabs[6].fields[3].value.firstName").saveAs("ApplicantFirstName"))
+      .check(jsonPath("$.tabs[6].fields[3].value.lastName").saveAs("ApplicantLastName"))
+      .check(jsonPath("$.tabs[6].fields[8].value.firstName").saveAs("RespondentFirstName"))
+      .check(jsonPath("$.tabs[6].fields[8].value.lastName").saveAs("RespondentLastName"))
+      .check(jsonPath("$.case_id").is("#{caseId}")))
+
+
+
+      exec(_.set("env", s"${env}")
+      .set("caseType", "PRLAPPS"))
+      .feed(UserCourtAdminPRL)
+      //Create FL401 Case with CCD Events
+      .exec(
+      CCDAPI.CreateEvent("Solicitor", "PRIVATELAW", "PRLAPPS", "solicitorCreate", "bodies/prl/fl401/PRLFL401TypeOfApplicationCheckYourAnswers.json"),
+      CCDAPI.CreateEvent("Solicitor", "PRIVATELAW", "PRLAPPS", "fl401TypeOfApplication", "bodies/prl/fl401/PRLFL401TypeOfApplicationCheckYourAnswers.json"))
+      }
+
+  /*===============================================================================================
+  * PRL Citizen C100 Create & Progress by Caseworker
+  ===============================================================================================*/
+
+   val PRLC100CitizenCreateAndProgressCase = scenario("***** PRL Citizen Journey & Case Progression *****")
+    .exitBlockOnFail {
+      exec(_.set("env", s"${env}")
+      .set("caseType", "PRLAPPS"))
+      .feed(UserCitizenPRL)
+      .repeat(1) {
+        // Citizen CUI Create Steps
+        exec(Citizen_PRL_C100_Applicant.C100Case)
+        .exec(Citizen_PRL_C100_Applicant.C100Case2)
+        .exec(Logout.CUILogout)
+      .feed(UserCourtAdminPRL)
+      // CaseWorker Progression XUI Steps
+      .exec(Homepage.XUIHomePage)
+      .exec(Login.XUILogin)
+        .feed(c100CaseFeeder) //** This needs to be removed so the caseid is passed through from the Citizen CUI flow
+        .exec(Caseworker_PRL_C100_ProgressCase.CourtAdminCheckApplication)
+        .exec(Caseworker_PRL_C100_ProgressCase.CourtAdminSendToGateKeeper)
+        .exec(Caseworker_PRL_C100_ProgressCase.CourtAdminManageOrders)
+        .exec(Caseworker_PRL_C100_ProgressCase.CourtAdminServiceApplication)
+      }
+    }
+  
+
   /*===============================================================================================
   * Simulation Configuration
    ===============================================================================================*/
@@ -488,14 +594,16 @@ class PRL_Simulation extends Simulation {
   //PrlDataPrep.inject(atOnceUsers(1)),
   //PRLFL401CaseworkerScenario.inject(atOnceUsers(4)),
   //PRLFL401CaseManagerScenario.inject(atOnceUsers(8)),
-  PrlFL401Create.inject(atOnceUsers(2)),
+  PRLC100CitizenCreateAndProgressCase.inject(atOnceUsers(1)),
+  //PRLCreateAndProcessCases.inject(atOnceUsers(1)),
+  //PrlFL401Create.inject(atOnceUsers(2)),
   //PRLC100CaseworkerScenario.inject(atOnceUsers(1)),
     // PRLCitizenApplicationGuidance.inject(atOnceUsers(3)),
     // PRLC100RespondentScenario.inject(atOnceUsers(3)),
     // PRLC100ApplicantDashboardScenario.inject(atOnceUsers(3)),
     // PRLFL401RespondentScenario.inject(atOnceUsers(3)),
     // PRLFL401ApplicantDashboardScenario.inject(atOnceUsers(3)),
-    //PRLC100CitizenScenario.inject(atOnceUsers(3)),
+    //PRLC100CitizenScenario.inject(atOnceUsers(1)),
     // PRLReasonableAdjustmentsAdd.inject(atOnceUsers(3)),
     // PRLReasonableAdjustmentsModify.inject(atOnceUsers(3)),
 
