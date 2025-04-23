@@ -136,9 +136,10 @@ object CCDAPI {
       .header("Authorization", "Bearer #{bearerToken}")
       .header("ServiceAuthorization", "#{authToken}")
       .header("Content-Type", "application/json")
-      .check(jsonPath("$.case_data.marriageDate").saveAs("marriageDate"))
-      .check(jsonPath("$.case_data.marriageApplicant1Name").saveAs("marriageApplicant1Name"))
-      .check(jsonPath("$.case_data.marriageApplicant2Name").saveAs("marriageApplicant2Name")))
+      .check(jsonPath("$.case_data.daApplicant.firstName").saveAs("ApplicantFirstName"))
+      .check(jsonPath("$.case_data.daApplicant.lastName").saveAs("ApplicantLastName"))
+      .check(jsonPath("$.case_data.daRespondent.firstName").saveAs("RespondentFirstName"))
+      .check(jsonPath("$.case_data.daRespondent.lastName").saveAs("RespondentLastName")))
 
     .pause(1)
 
