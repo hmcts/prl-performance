@@ -10,6 +10,7 @@ object CCDAPI {
   val RpeAPIURL = Environment.rpeAPIURL
   val IdamAPIURL = Environment.idamAPIURL
   val CcdAPIURL = Environment.ccdAPIURL
+  val CaseDocAPI = Environment.caseDocAPI
 
   val MinThinkTime = Environment.minThinkTime
   val MaxThinkTime = Environment.maxThinkTime
@@ -152,7 +153,7 @@ object CCDAPI {
           .set("eventName", eventName))
 
     .exec(http("API_FPL_GetEventToken")
-        .get(ccdAPIURL + "/caseworkers/#{idamId}/jurisdictions/#{jurisdiction}/case-types/#{caseType}/cases/#{caseId}/event-triggers/#{eventName}/token")
+        .get(CcdAPIURL + "/caseworkers/#{idamId}/jurisdictions/#{jurisdiction}/case-types/#{caseType}/cases/#{caseId}/event-triggers/#{eventName}/token")
         .header("Authorization", "Bearer #{bearerToken}")
         .header("ServiceAuthorization", "#{authToken}")
         .header("Content-Type","application/json")
@@ -181,7 +182,7 @@ object CCDAPI {
 
         
       .exec(http("API_FPL_DocUpload")
-        .post(ccdAPIURL + "/caseworkers/#{idamId}/jurisdictions/#{Jurisdiction}/case-types/#{CaseType}/cases/#{caseId}/events")
+        .post(CcdAPIURL + "/caseworkers/#{idamId}/jurisdictions/#{Jurisdiction}/case-types/#{CaseType}/cases/#{caseId}/events")
         .header("ServiceAuthorization", "Bearer #{bearerToken}")
         .header("Authorization", "Bearer #{authToken}")
         .header("Content-Type","application/json")      
