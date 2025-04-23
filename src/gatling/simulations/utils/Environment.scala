@@ -15,6 +15,7 @@ object Environment {
  val cuiRaURL = "https://cui-ra.#{env}.platform.hmcts.net"
  val apiMgmtURL = "https://cft-api-mgmt.#{env}.platform.hmcts.net/"
  val pcqURL = "https://pcq.#{env}.platform.hmcts.net"
+ val caseDocAPI = "http://ccd-case-document-am-api-#{env}.service.core-compute-#{env}.internal"
 
  val minThinkTime = 2
  val maxThinkTime = 4
