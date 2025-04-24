@@ -190,5 +190,23 @@ object CCDAPI {
 
           .pause(1)
 
+  def ValidateAndExtract(jurisdiction: String, caseType: String, pageId: String, payloadPath: String) =
 
+    exec(_.set("pageId", pageId)
+      .set("jurisdiction", jurisdiction)
+      .set("caseType", caseType))
+
+    .exec(http("XUI_000_CCDValidate-#{pageId}")
+      .post(CcdAPIURL + "/caseworkers/#{idamId}/jurisdictions/#{jurisdiction}/case-types/#{caseType}/cases/#{caseId}/events")
+      .header("Authorization", "Bearer #{bearerToken}")
+      .header("ServiceAuthorization", "#{authToken}")
+      .header("Content-Type", "application/json")
+      .body(ElFileBody(payloadPath))
+      .check(jsonPath("$.data.previewOrderDoc.document_url").optional.saveAs("document_url"))
+      .check(jsonPath("$.data.previewOrderDoc.document_filename").optional.saveAs("document_filename"))
+      .check(jsonPath("$.data.previewOrderDoc.document_hash").optional.saveAs("document_hash"))
+      .check(jsonPath("$.data.ordersHearingDetails[0].id").optional.saveAs("hearingId"))
+      .check(jsonPath("$.data.serveOrderDynamicList.value[0].code").optional.saveAs("orderCode"))
+      .check(jsonPath("$.data.serveOrderDynamicList.value[0].label").optional.saveAs("orderLabel"))
+      .check(jsonPath("$.id")))
 }

@@ -116,7 +116,7 @@ object Caseworker_PRL_FL401_ProgressCase {
     //.exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).saveAs("XSRFToken")))
     .exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).withSecure(true).saveAs("XSRFToken")))
       
-    .exec(Common.activity)
+    //.exec(Common.activity)
     .exec(Common.configUI)
     .exec(Common.configJson)
     .exec(Common.userDetails)

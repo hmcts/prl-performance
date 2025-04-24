@@ -31,7 +31,6 @@ object Caseworker_PRL_C100_ProgressCase {
       .get(BaseURL + "/data/internal/cases/#{caseId}")
       .headers(Headers.xuiHeader)
       .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-case-view.v2+json")
-
       .check(jsonPath("$.case_id").is("#{caseId}")))
 
     .exec(Common.waJurisdictions)
@@ -71,7 +70,7 @@ object Caseworker_PRL_C100_ProgressCase {
     })
 
     // Loop until the task type matches "checkApplicationC100" or "checkHwfApplicationC100"
-    .asLongAs(session => session("taskType").as[String] != "checkApplicationC100" ||
+    .asLongAs(session => session("taskType").as[String] != "checkApplicationC100" &&
                          session("taskType").as[String] != "checkHwfApplicationC100")
     {
       exec(http("XUI_PRL_XXX_310_SelectCaseTaskRepeat")
@@ -106,7 +105,7 @@ object Caseworker_PRL_C100_ProgressCase {
   .pause(MinThinkTime, MaxThinkTime)
 
   // if help with fee's task, additional steps required 
-  .doIf(session => session("userId").as[String] == "checkHwfApplicationC100") {
+  .doIf(session => session("taskType").as[String] == "checkHwfApplicationC100") {
 
     /*====================================================================================
     * Complete the task
@@ -122,38 +121,40 @@ object Caseworker_PRL_C100_ProgressCase {
 
     .pause(MinThinkTime, MaxThinkTime)
 
-      /*=====================================================================================
-      * Refresh tasks until the next task is available
-      ======================================================================================*/
+    //Add Process Urgent help with Fees event
 
-    // Loop until the task type matches "checkApplicationC100"
-      .asLongAs(session => session("taskType").as[String] != "checkApplicationC100")
-      {
-        exec(http("XUI_PRL_XXX_322_SelectCaseTaskRepeat")
-          .get(BaseURL + "/workallocation/case/task/#{caseId}")
-          .headers(Headers.xuiHeader)
-          .header("Accept", "application/json, text/plain, */*")
-          .header("x-xsrf-token", "#{XSRFToken}")
-          .check(jsonPath("$[0].id").optional.saveAs("taskId"))
-          .check(jsonPath("$[0].type").optional.saveAs("taskType")))
+    //   /*=====================================================================================
+    //   * Refresh tasks until the next task is available
+    //   ======================================================================================*/
 
-        .pause(5, 10) // Wait between retries
+    // // Loop until the task type matches "checkApplicationC100"
+    //   .asLongAs(session => session("taskType").as[String] != "checkApplicationC100")
+    //   {
+    //     exec(http("XUI_PRL_XXX_322_SelectCaseTaskRepeat")
+    //       .get(BaseURL + "/workallocation/case/task/#{caseId}")
+    //       .headers(Headers.xuiHeader)
+    //       .header("Accept", "application/json, text/plain, */*")
+    //       .header("x-xsrf-token", "#{XSRFToken}")
+    //       .check(jsonPath("$[0].id").optional.saveAs("taskId"))
+    //       .check(jsonPath("$[0].type").optional.saveAs("taskType")))
 
-        /*=====================================================================================
-        * Claim the task
-        ======================================================================================*/
+    //     .pause(5, 10) // Wait between retries
 
-        .exec(http("XUI_PRL_XXX_323_ClaimTask")
-          .post(BaseURL + "/workallocation/task/#{taskId}/claim")
-          .headers(Headers.xuiHeader)
-          .header("Accept", "application/json, text/plain, */*")
-          .header("x-xsrf-token", "#{XSRFToken}")
-          .body(StringBody("""{}"""))
-          .check(status.in(200, 204)))
+    //     /*=====================================================================================
+    //     * Claim the task
+    //     ======================================================================================*/
 
-        .pause(MinThinkTime, MaxThinkTime)
+    //     .exec(http("XUI_PRL_XXX_323_ClaimTask")
+    //       .post(BaseURL + "/workallocation/task/#{taskId}/claim")
+    //       .headers(Headers.xuiHeader)
+    //       .header("Accept", "application/json, text/plain, */*")
+    //       .header("x-xsrf-token", "#{XSRFToken}")
+    //       .body(StringBody("""{}"""))
+    //       .check(status.in(200, 204)))
 
-    } //End asLongAs
+    //     .pause(MinThinkTime, MaxThinkTime)
+
+    // } //End asLongAs
 
   } //End of HWF's if
 
@@ -161,70 +162,70 @@ object Caseworker_PRL_C100_ProgressCase {
   * Select Issue and send to local Court
   ======================================================================================*/
 
-    .exec(http("XUI_PRL_XXX_360_IssueAndSendToLocalCourt")
-      .get(BaseURL + "/workallocation/case/tasks/#{caseId}/event/issueAndSendToLocalCourtCallback/caseType/PRLAPPS/jurisdiction/PRIVATELAW")
-      .headers(Headers.navigationHeader)
-      .header("accept", "application/json")
-      .check(jsonPath("$.task_required_for_event").is("false")))
+  .exec(http("XUI_PRL_XXX_360_IssueAndSendToLocalCourt")
+    .get(BaseURL + "/workallocation/case/tasks/#{caseId}/event/issueAndSendToLocalCourtCallback/caseType/PRLAPPS/jurisdiction/PRIVATELAW")
+    .headers(Headers.navigationHeader)
+    .header("accept", "application/json")
+    .check(jsonPath("$.task_required_for_event").is("true")))
 
-    .exec(Common.activity)
-    .exec(Common.profile)
+  .exec(Common.activity)
+  .exec(Common.profile)
 
-    .exec(http("XUI_PRL_XXX_370_IssueAndSendToLocalCourtEventTrigger")  //*** SAVE THE Courtlist response here for use in later post requests **
-      .get(BaseURL + "/data/internal/cases/#{caseId}/event-triggers/issueAndSendToLocalCourtCallback?ignore-warning=false")
-      .headers(Headers.xuiHeader)
-      .header("Accept", "application/json, text/plain, */*")
-      .check(jsonPath("$.event_token").saveAs("event_token"))
-      .check(jsonPath("$.id").is("issueAndSendToLocalCourtCallback"))
-      .check(status.in(200, 403)))
+  .exec(http("XUI_PRL_XXX_370_IssueAndSendToLocalCourtEventTrigger")  //*** SAVE THE Courtlist response here for use in later post requests **
+    .get(BaseURL + "/data/internal/cases/#{caseId}/event-triggers/issueAndSendToLocalCourtCallback?ignore-warning=false")
+    .headers(Headers.xuiHeader)
+    .header("Accept", "application/json, text/plain, */*")
+    .check(jsonPath("$.event_token").saveAs("event_token"))
+    .check(jsonPath("$.id").is("issueAndSendToLocalCourtCallback"))
+    .check(status.in(200, 403)))
 
-    .exec(http("XUI_PRL_XXX_380_IssueAndSendToLocalCourtEvent")
-      .get(BaseURL + "/workallocation/case/tasks/#{caseId}/event/issueAndSendToLocalCourtCallback/caseType/PRLAPPS/jurisdiction/PRIVATELAW")
-      .headers(Headers.navigationHeader)
-      .header("accept", "application/json"))
-      //.check(substring("PRIVATELAW")))
-    
-    // .exec(Common.caseActivityPost)
-    .exec(Common.userDetails)
-    .exec(Common.caseActivityOnlyGet)
+  .exec(http("XUI_PRL_XXX_380_IssueAndSendToLocalCourtEvent")
+    .get(BaseURL + "/workallocation/case/tasks/#{caseId}/event/issueAndSendToLocalCourtCallback/caseType/PRLAPPS/jurisdiction/PRIVATELAW")
+    .headers(Headers.navigationHeader)
+    .header("accept", "application/json"))
+    //.check(substring("PRIVATELAW")))
+  
+  // .exec(Common.caseActivityPost)
+  .exec(Common.userDetails)
+  .exec(Common.caseActivityOnlyGet)
 
-    .pause(MinThinkTime, MaxThinkTime)
+  .pause(MinThinkTime, MaxThinkTime)
 
-  /*=====================================================================================
-   * Select Court from dropdown and submit
-   ======================================================================================*/
+/*=====================================================================================
+  * Select Court from dropdown and submit
+  ======================================================================================*/
 
-    .exec(http("XUI_PRL_XXX_390_SelectCourt")
-      .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=issueAndSendToLocalCourtCallback1")
-      .headers(Headers.xuiHeader)
-      .header("Accept", "application/json, text/plain, */*")
-      .header("x-xsrf-token", "#{XSRFToken}")
-      .body(ElFileBody("bodies/prl/courtAdmin/PRLLocalCourt.json"))
-      .check(jsonPath("$.data.courtList.value.code").is("234946:")))  //Value does not change for now. 
+  .exec(http("XUI_PRL_XXX_390_SelectCourt")
+    .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=issueAndSendToLocalCourtCallback1")
+    .headers(Headers.xuiHeader)
+    .header("Accept", "application/json, text/plain, */*")
+    .header("x-xsrf-token", "#{XSRFToken}")
+    .body(ElFileBody("bodies/prl/courtAdmin/PRLLocalCourt.json"))
+    .check(jsonPath("$.data.courtList.value.code").is("234946:")))  //Value does not change for now. 
 
-    .pause(MinThinkTime, MaxThinkTime)
+  .pause(MinThinkTime, MaxThinkTime)
 
-    .exec(Common.activity)
-    .exec(Common.userDetails)
-    .exec(Common.activity)
+  .exec(Common.activity)
+  .exec(Common.userDetails)
+  .exec(Common.activity)
 
-    .exec(http("XUI_PRL_XXX_410_SubmitToLocalCourtEvent")
-      .post(BaseURL + "/data/cases/#{caseId}/events")
-      .headers(Headers.xuiHeader)
-      .header("Accept", "application/json, text/plain, */*")
-      .header("x-xsrf-token", "#{XSRFToken}")
-      .body(ElFileBody("bodies/prl/courtAdmin/PRLLocalCourtSubmit.json"))
-      .check(jsonPath("$.data.courtList.value.code").is("234946:")))  //Value does not change for now. 
+  .exec(http("XUI_PRL_XXX_410_SubmitToLocalCourtEvent")
+    .post(BaseURL + "/data/cases/#{caseId}/events")
+    .headers(Headers.xuiHeader)
+    .header("Accept", "application/json, text/plain, */*")
+    .header("x-xsrf-token", "#{XSRFToken}")
+    .body(ElFileBody("bodies/prl/courtAdmin/PRLLocalCourtSubmit.json"))
+    .check(jsonPath("$.data.courtList.value.code").is("234946:")))  //Value does not change for now. 
 
-    .exec(http("XUI_PRL_XXX_420_SubmitToLocalCourtCompleteTask")
-      .post(BaseURL + "/workallocation/task/#{taskId}/complete")
-      .headers(Headers.navigationHeader)
-      .header("Content-Type", "application/json")
-      .header("x-xsrf-token", "#{XSRFToken}")
-      .header("accept", "application/json") //No check available for this request
-      .body(StringBody("""{"actionByEvent":true,"eventName":"Issue and send to local court"}""")))
+  .exec(http("XUI_PRL_XXX_420_SubmitToLocalCourtCompleteTask")
+    .post(BaseURL + "/workallocation/task/#{taskId}/complete")
+    .headers(Headers.navigationHeader)
+    .header("Content-Type", "application/json")
+    .header("x-xsrf-token", "#{XSRFToken}")
+    .header("accept", "application/json") //No check available for this request
+    .body(StringBody("""{"actionByEvent":true,"eventName":"Issue and send to local court"}""")))
 
-    .pause(MinThinkTime, MaxThinkTime)
+  .pause(MinThinkTime, MaxThinkTime)
 
   val CourtAdminSendToGateKeeper = 
 
