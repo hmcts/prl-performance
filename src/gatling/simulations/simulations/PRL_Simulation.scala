@@ -524,11 +524,26 @@ class PRL_Simulation extends Simulation {
     simulationType match {
       case "perftest" | "pipeline" => //currently using the same assertions for a performance test and the pipeline
         if (debugMode == "off") {
-          Seq(global.successfulRequests.percent.gte(95))
-           // details("PRL_CitizenC100_770_010_FinalSubmit").successfulRequests.percent.gte(80)
+          Seq(global.successfulRequests.percent.gte(95),
+              details("PRL_Citizen_050_CompleteApplicationLegalRepContinue").successfulRequests.percent.gte(80),
+              details("PRL_FL401Respondent_470_ViewCourtHearings").successfulRequests.percent.gte(80),
+              details("PRL_C100Respondent_480_ViewCourtHearings").successfulRequests.percent.gte(80),
+              details("PRL_C100ApplicantDashboard_460_ViewCourtHearings").successfulRequests.percent.gte(80),
+              details("PRL_FL401ApplicantDashboard_470_ViewCourtHearings").successfulRequests.percent.gte(80),
+              details("PRL_CitizenC100_790_Logout").successfulRequests.percent.gte(80),
+              details("PRL_RA-Add_180_SubmitReasonableAdjustments").successfulRequests.percent.gte(80),
+              details("PRL_RA-Modify_110_ConfirmRAModify").successfulRequests.percent.gte(80))
         }
         else {
-          Seq(global.successfulRequests.percent.is(100))
+          Seq(global.successfulRequests.percent.is(100),
+              details("PRL_Citizen_050_CompleteApplicationLegalRepContinue").successfulRequests.percent.gte(80),
+              details("PRL_FL401Respondent_470_ViewCourtHearings").successfulRequests.percent.gte(80),
+              details("PRL_C100Respondent_480_ViewCourtHearings").successfulRequests.percent.gte(80),
+              details("PRL_C100ApplicantDashboard_460_ViewCourtHearings").successfulRequests.percent.gte(80),
+              details("PRL_FL401ApplicantDashboard_470_ViewCourtHearings").successfulRequests.percent.gte(80),
+              details("PRL_CitizenC100_790_Logout").successfulRequests.percent.gte(80),
+              details("PRL_RA-Add_180_SubmitReasonableAdjustments").successfulRequests.percent.gte(80),
+              details("PRL_RA-Modify_110_ConfirmRAModify").successfulRequests.percent.gte(80))
         }
       case _ =>
         Seq()
@@ -573,20 +588,20 @@ class PRL_Simulation extends Simulation {
   //=================================================
   //PrlDataPrep.inject(atOnceUsers(1)),
   //PRLFL401CaseworkerScenario.inject(atOnceUsers(4)),
-  PRLFL401CaseManagerScenario.inject(atOnceUsers(7)),
+  //PRLFL401CaseManagerScenario.inject(atOnceUsers(7)),
   //PRLC100CitizenCreateAndProgressCase.inject(atOnceUsers(1)),
   //PRLCreateAndProcessCases.inject(atOnceUsers(1)),
   //PrlFL401Create.inject(atOnceUsers(6)),
   //PRLFL401CreateProgressRespondent.inject(atOnceUsers(1)),
   //PRLC100CaseworkerScenario.inject(atOnceUsers(11)),
-    //  PRLCitizenApplicationGuidance.inject(atOnceUsers(2)),
-    //  PRLC100RespondentScenario.inject(atOnceUsers(2)),
-    //  PRLC100ApplicantDashboardScenario.inject(atOnceUsers(2)),
-    //  PRLFL401RespondentScenario.inject(atOnceUsers(2)),
-    //  PRLFL401ApplicantDashboardScenario.inject(atOnceUsers(2)),
-    //  PRLC100CitizenScenario.inject(atOnceUsers(2)),
-    //  PRLReasonableAdjustmentsAdd.inject(atOnceUsers(2)),
-    //  PRLReasonableAdjustmentsModify.inject(atOnceUsers(2)),
+     PRLCitizenApplicationGuidance.inject(atOnceUsers(3)),
+    //  PRLC100RespondentScenario.inject(atOnceUsers(3)),
+    //  PRLC100ApplicantDashboardScenario.inject(atOnceUsers(3)),
+    //  PRLFL401RespondentScenario.inject(atOnceUsers(3)),
+    //  PRLFL401ApplicantDashboardScenario.inject(atOnceUsers(3)),
+    //  PRLC100CitizenScenario.inject(atOnceUsers(3)),
+    //  PRLReasonableAdjustmentsAdd.inject(atOnceUsers(3)),
+    //  PRLReasonableAdjustmentsModify.inject(atOnceUsers(3)),
 
    //=========================================================
    // At Once Users - For API Tests
