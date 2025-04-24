@@ -13,7 +13,7 @@ import scala.language.postfixOps
 import scala.util.Random
 
 class PRL_Simulation extends Simulation {
-  
+
   val UserFeederPRL = csv("UserDataPRL.csv").circular
   val UserCitizenPRL = csv("UserDataPRLCitizen.csv").circular
   val UserCourtAdminPRL = csv("UserDataCourtAdmin.csv").circular
@@ -30,14 +30,14 @@ class PRL_Simulation extends Simulation {
   val cafcassCaseFeeder = csv("CasesForDocUpload.csv").queue
 
   val WaitTime = Environment.waitTime
-  
+
   val randomFeeder = Iterator.continually(Map("prl-percentage" -> Random.nextInt(100)))
-  
+
   /* TEST TYPE DEFINITION */
   /* pipeline = nightly pipeline against the AAT environment (see the Jenkins_nightly file) */
   /* perftest (default) = performance test against the perftest environment */
   val testType = scala.util.Properties.envOrElse("TEST_TYPE", "perftest")
-  
+
   //set the environment based on the test type
   val environment = testType match {
     case "perftest" => "perftest"
@@ -45,13 +45,13 @@ class PRL_Simulation extends Simulation {
     case "pipeline" => "perftest"
     case _ => "**INVALID**"
   }
-  
+
   /* ******************************** */
   /* ADDITIONAL COMMAND LINE ARGUMENT OPTIONS */
   val debugMode = System.getProperty("debug", "off") //runs a single user e.g. ./gradle gatlingRun -Ddebug=on (default: off)
   val env = System.getProperty("env", environment) //manually override the environment aat|perftest e.g. ./gradle gatlingRun -Denv=aat
   /* ******************************** */
-  
+
   /* PERFORMANCE TEST CONFIGURATION */
   val prlTargetPerHour: Double = 32 //30
   val caseworkerTargetPerHour: Double = 30 //30
@@ -60,17 +60,17 @@ class PRL_Simulation extends Simulation {
   val defaultTargetPerHour: Double = 12 //12
   // Smoke Configuration
   val smokeTarget: Double = 5
- 
+
   //This determines the percentage split of PRL journeys, by C100 or FL401
   val prlC100Percentage = 100 //Percentage of C100s (the rest will be FL401s) - should be 66 for the 2:1 ratio
-  
-  val rampUpDurationMins = 10   
-  val rampDownDurationMins = 5  
-  val testDurationMins = 60     
-  
+
+  val rampUpDurationMins = 10
+  val rampDownDurationMins = 5
+  val testDurationMins = 60
+
   val numberOfPipelineUsers = 5
   val pipelinePausesMillis: Long = 3000 //3 seconds
-  
+
   //Determine the pause pattern to use:
   //Performance test = use the pauses defined in the scripts
   //Pipeline = override pauses in the script with a fixed value (pipelinePauseMillis)
@@ -80,13 +80,13 @@ class PRL_Simulation extends Simulation {
     case "off" if testType == "pipeline" => customPauses(pipelinePausesMillis)
     case _ => customPauses(pipelinePausesMillis) //disabledPauses
   }
-  
+
   val httpProtocol = http
     .baseUrl(Environment.baseURL.replace("${env}", s"${env}"))
     .inferHtmlResources()
     .silentResources
     .header("experimental", "true") //used to send through client id, s2s and bearer tokens. Might be temporary
-  
+
   before {
     println(s"Test Type: ${testType}")
     println(s"Test Environment: ${env}")
@@ -142,7 +142,7 @@ class PRL_Simulation extends Simulation {
       .feed(UserCourtAdminPRL)
       .exec(Homepage.XUIHomePage)
       .exec(Login.XUILogin)
-      .repeat(1) { 
+      .repeat(1) {
         feed(c100CaseFeeder)
         .exec(Caseworker_PRL_C100_ProgressCase.CourtAdminCheckApplication)
         .exec(Caseworker_PRL_C100_ProgressCase.CourtAdminSendToGateKeeper)
@@ -232,9 +232,9 @@ class PRL_Simulation extends Simulation {
       }
 
   /*===============================================================================================
-  * PRL Citizen C100 Respondent Journey 
+  * PRL Citizen C100 Respondent Journey
   ===============================================================================================*/
-  
+
   val PRLC100RespondentScenario = scenario("***** PRL Citizen C100 Respondent Journey *****")
     .exitBlockOnFail {
       exec(_.set("env", s"${env}")
@@ -253,24 +253,24 @@ class PRL_Simulation extends Simulation {
         .exec(Citizen_PRL_C100_Respondent.CheckApplication)
         .exec(Citizen_PRL_C100_Respondent.CheckHarmViolenceAllegations)           //New for R6.0
         .exec(Citizen_PRL_C100_Respondent.MakeRequestToCourtAboutCase)            //New for R6.0/7.0
-        .exec(Citizen_PRL_C100_Respondent.RespondToApplication)         
+        .exec(Citizen_PRL_C100_Respondent.RespondToApplication)
         .exec(Citizen_PRL_C100_Respondent.UploadDocumentsApplicationsStatements)  //New for R6.0
-        .exec(Citizen_PRL_C100_Respondent.ViewAllDocuments)                       
+        .exec(Citizen_PRL_C100_Respondent.ViewAllDocuments)
         .exec(Citizen_PRL_C100_Respondent.ViewServedAppPack)                      //New for R6.0
         .exec(Citizen_PRL_C100_Respondent.ViewAllDocuments)                       //New for R6.0
         .exec(Citizen_PRL_C100_Respondent.ViewRespondentsDocuments)               //New for R6.0
         .exec(Citizen_PRL_C100_Respondent.ViewAllDocuments)                       //New for R6.0
         .exec(Citizen_PRL_C100_Respondent.ViewCourtHearings)                      //New for R6.0
-        .exec(Citizen_PRL_C100_Respondent.WriteDataToFile) 
+        .exec(Citizen_PRL_C100_Respondent.WriteDataToFile)
         .exec(Logout.CUILogout)
       }
     }
 
 
   /*===============================================================================================
-  * PRL Citizen C100 ApplicantDashboard Journey 
+  * PRL Citizen C100 ApplicantDashboard Journey
   ===============================================================================================*/
-  
+
   val PRLC100ApplicantDashboardScenario = scenario("***** PRL Citizen C100 Applicant Dashboard Journey *****")
     .exitBlockOnFail {
       exec(_.set("env", s"${env}")
@@ -301,9 +301,9 @@ class PRL_Simulation extends Simulation {
     }
 
   /*===============================================================================================
-  * PRL Citizen Reasonable Adjustments Journey - Add 
+  * PRL Citizen Reasonable Adjustments Journey - Add
   ===============================================================================================*/
-  
+
   val PRLReasonableAdjustmentsAdd = scenario("***** PRL Citizen Reasonable Adjustments Journey - Add *****")
     .exitBlockOnFail {
      repeat(1) {
@@ -319,9 +319,9 @@ class PRL_Simulation extends Simulation {
     }
 
   /*===============================================================================================
-  * PRL Citizen Reasonable Adjustments Journey - Modify 
+  * PRL Citizen Reasonable Adjustments Journey - Modify
   ===============================================================================================*/
-  
+
   val PRLReasonableAdjustmentsModify = scenario("***** PRL Citizen Reasonable Adjustments Journey - Modify *****")
     .exitBlockOnFail {
      repeat(1) {
@@ -337,9 +337,9 @@ class PRL_Simulation extends Simulation {
     }
 
   /*===============================================================================================
-  * PRL Citizen FL401 Respondent Journey 
+  * PRL Citizen FL401 Respondent Journey
   ===============================================================================================*/
-  
+
   val PRLFL401RespondentScenario = scenario("***** PRL Citizen FL401 Respondent Journey *****")
     .exitBlockOnFail {
       repeat(1) {
@@ -355,7 +355,7 @@ class PRL_Simulation extends Simulation {
         .exec(Citizen_PRL_FL401_Respondent.ConfirmEditContactDetails)             // New for R6.0
         .exec(Citizen_PRL_FL401_Respondent.ContactPreferences)                    // New for R6.0
         .exec(Citizen_PRL_FL401_Respondent.KeepDetailsPrivate)
-        //.exec(Citizen_PRL_FL401_Respondent.ContactDetails)                      // No longer visible 
+        //.exec(Citizen_PRL_FL401_Respondent.ContactDetails)                      // No longer visible
         .exec(Citizen_PRL_FL401_Respondent.SupportYouNeed)
         .exec(Citizen_PRL_FL401_Respondent.CheckApplication)
         .exec(Citizen_PRL_FL401_Respondent.MakeRequestToCourtAboutCase)           //New for R6.0/7.0
@@ -372,9 +372,9 @@ class PRL_Simulation extends Simulation {
   }
 
  /*===============================================================================================
-  * PRL Citizen FL401 ApplicantDashboard Journey 
+  * PRL Citizen FL401 ApplicantDashboard Journey
   ===============================================================================================*/
-  
+
   val PRLFL401ApplicantDashboardScenario = scenario("***** PRL Citizen FL401 Applicant Dashboard Journey *****")
     .exitBlockOnFail {
       exec(_.set("env", s"${env}")
@@ -410,15 +410,15 @@ class PRL_Simulation extends Simulation {
 
 
   /*==================================================================================================================================================
-  * PRL FL401 Create Case (Solicitor), Progress Case (CourtAdmin, CaseManager), FL401 Respondent, FL401 Applicant (Split 50/50 by VuserID modulo 2) 
+  * PRL FL401 Create Case (Solicitor), Progress Case (CourtAdmin, CaseManager), FL401 Respondent, FL401 Applicant (Split 50/50 by VuserID modulo 2)
   ===================================================================================================================================================*/
-  
+
   val PRLFL401CreateProgressRespondent = scenario("***** PRL FL401 Create, Process and respond to cases *****")
     .exitBlockOnFail {
         feed(UserFeederPRL)
         .exec(_.set("env", s"${env}")
         .set("caseType", "PRLAPPS"))
-        // Solicitor XUI FL401 Create 
+        // Solicitor XUI FL401 Create
         .exec(
           Homepage.XUIHomePage,
           Login.XUILogin,
@@ -492,12 +492,12 @@ class PRL_Simulation extends Simulation {
         .exec(Caseworker_PRL_C100_ProgressCase.CourtAdminServiceApplication)
       }
     }
-  
+
 
   /*===============================================================================================
   * Simulation Configuration
    ===============================================================================================*/
-  
+
   def simulationProfile (simulationType: String, userPerHourRate: Double, numberOfPipelineUsers: Double): Seq[OpenInjectionStep] = {
     val userPerSecRate = userPerHourRate / 3600 //Remember to change back to 3600
     simulationType match {
@@ -518,7 +518,7 @@ class PRL_Simulation extends Simulation {
         Seq(nothingFor(0))
     }
   }
-  
+
   //defines the test assertions, based on the test type
   def assertions (simulationType: String): Seq[Assertion] = {
     simulationType match {
@@ -534,7 +534,7 @@ class PRL_Simulation extends Simulation {
         Seq()
     }
   }
-  
+
   setUp(
   //=================================================
   //C100 & CUIRA Release Scenarios
@@ -573,20 +573,20 @@ class PRL_Simulation extends Simulation {
   //=================================================
   //PrlDataPrep.inject(atOnceUsers(1)),
   //PRLFL401CaseworkerScenario.inject(atOnceUsers(4)),
-  //PRLFL401CaseManagerScenario.inject(atOnceUsers(8)),
+  PRLFL401CaseManagerScenario.inject(atOnceUsers(7)),
   //PRLC100CitizenCreateAndProgressCase.inject(atOnceUsers(1)),
   //PRLCreateAndProcessCases.inject(atOnceUsers(1)),
   //PrlFL401Create.inject(atOnceUsers(6)),
   //PRLFL401CreateProgressRespondent.inject(atOnceUsers(1)),
   //PRLC100CaseworkerScenario.inject(atOnceUsers(11)),
-     PRLCitizenApplicationGuidance.inject(atOnceUsers(2)),
-     PRLC100RespondentScenario.inject(atOnceUsers(2)),
-     PRLC100ApplicantDashboardScenario.inject(atOnceUsers(2)),
-     PRLFL401RespondentScenario.inject(atOnceUsers(2)),
-     PRLFL401ApplicantDashboardScenario.inject(atOnceUsers(2)),
-     PRLC100CitizenScenario.inject(atOnceUsers(2)),
-     PRLReasonableAdjustmentsAdd.inject(atOnceUsers(2)),
-     PRLReasonableAdjustmentsModify.inject(atOnceUsers(2)),
+    //  PRLCitizenApplicationGuidance.inject(atOnceUsers(2)),
+    //  PRLC100RespondentScenario.inject(atOnceUsers(2)),
+    //  PRLC100ApplicantDashboardScenario.inject(atOnceUsers(2)),
+    //  PRLFL401RespondentScenario.inject(atOnceUsers(2)),
+    //  PRLFL401ApplicantDashboardScenario.inject(atOnceUsers(2)),
+    //  PRLC100CitizenScenario.inject(atOnceUsers(2)),
+    //  PRLReasonableAdjustmentsAdd.inject(atOnceUsers(2)),
+    //  PRLReasonableAdjustmentsModify.inject(atOnceUsers(2)),
 
    //=========================================================
    // At Once Users - For API Tests
@@ -596,5 +596,5 @@ class PRL_Simulation extends Simulation {
   ).protocols(httpProtocol)
     .assertions(assertions(testType))
     .maxDuration(75 minutes) //75
-  
+
 }
