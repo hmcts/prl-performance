@@ -413,38 +413,42 @@ class PRL_Simulation extends Simulation {
   * PRL FL401 Create Case (Solicitor), Progress Case (CourtAdmin, CaseManager), FL401 Respondent, FL401 Applicant (Split 50/50 by VuserID modulo 2)
   ===================================================================================================================================================*/
 
-  val PRLFL401CreateProgressRespondent = scenario("***** PRL FL401 Create, Process and respond to cases *****")
-    .exitBlockOnFail {
-        feed(UserFeederPRL)
-        .exec(_.set("env", s"${env}")
-        .set("caseType", "PRLAPPS"))
-        // Solicitor XUI FL401 Create
-        .exec(
-          Homepage.XUIHomePage,
-          Login.XUILogin,
-            Solicitor_PRL_FL401_CaseCreate.CreatePrivateLawCase,
-            Solicitor_PRL_FL401_CaseCreate.TypeOfApplication,
-            Solicitor_PRL_FL401_CaseCreate.WithoutNoticeOrder,
-            Solicitor_PRL_FL401_CaseCreate.ApplicantDetails,
-            Solicitor_PRL_FL401_CaseCreate.RespondentDetails,
-            Solicitor_PRL_FL401_CaseCreate.ApplicantsFamily,
-            Solicitor_PRL_FL401_CaseCreate.Relationship,
-            Solicitor_PRL_FL401_CaseCreate.Behaviour,
-            Solicitor_PRL_FL401_CaseCreate.TheHome,
-            Solicitor_PRL_FL401_CaseCreate.UploadDocuments,
-            Solicitor_PRL_FL401_CaseCreate.ViewPDF,
-            Solicitor_PRL_FL401_CaseCreate.StatementOfTruth,
-          Logout.XUILogout)
-        // CourtAdmin - Progress Case - Issue & Send to Local Court
-        .feed(UserCourtAdminPRL)
-        .exec(
-          CCDAPI.CreateEvent("CourtAdmin", "PRIVATELAW", "PRLAPPS", "issueAndSendToLocalCourtCallback", "bodies/prl/courtAdmin/PRLLocalCourtSubmit.json"))
-        // CourtAdmin - Progress Case - Send to GateKeeper
-        .exec(
-          Homepage.XUIHomePage,
-          Login.XUILogin,
-            Caseworker_PRL_FL401_ProgressCase.CourtAdminSendToGateKeeper,
-          Logout.XUILogout)
+  // val PRLFL401CreateProgressRespondent = scenario("***** PRL FL401 Create, Process and respond to cases *****")
+  //   .exitBlockOnFail {
+  //       feed(UserFeederPRL)
+  //       .exec(_.set("env", s"${env}")
+  //       .set("caseType", "PRLAPPS"))
+  //       // Solicitor XUI FL401 Create
+  //       .exec(
+  //         Homepage.XUIHomePage,
+  //         Login.XUILogin,
+  //           Solicitor_PRL_FL401_CaseCreate.CreatePrivateLawCase,
+  //           Solicitor_PRL_FL401_CaseCreate.TypeOfApplication,
+  //           Solicitor_PRL_FL401_CaseCreate.WithoutNoticeOrder,
+  //           Solicitor_PRL_FL401_CaseCreate.ApplicantDetails,
+  //           Solicitor_PRL_FL401_CaseCreate.RespondentDetails,
+  //           Solicitor_PRL_FL401_CaseCreate.ApplicantsFamily,
+  //           Solicitor_PRL_FL401_CaseCreate.Relationship,
+  //           Solicitor_PRL_FL401_CaseCreate.Behaviour,
+  //           Solicitor_PRL_FL401_CaseCreate.TheHome,
+  //           Solicitor_PRL_FL401_CaseCreate.UploadDocuments,
+  //           Solicitor_PRL_FL401_CaseCreate.ViewPDF,
+  //           Solicitor_PRL_FL401_CaseCreate.StatementOfTruth,
+  //         Logout.XUILogout)
+  //       // CourtAdmin - Progress Case - Issue & Send to Local Court
+  //       .feed(UserCourtAdminPRL)
+  //       .exec(
+  //         CCDAPI.CreateEvent("CourtAdmin", "PRIVATELAW", "PRLAPPS", "issueAndSendToLocalCourtCallback", "bodies/prl/courtAdmin/PRLLocalCourtSubmit.json"))
+  //       // CourtAdmin - Progress Case - Send to GateKeeper
+  //       .exec(
+  //         Homepage.XUIHomePage,
+  //         Login.XUILogin,
+  //           Caseworker_PRL_FL401_ProgressCase.CourtAdminSendToGateKeeper,
+  //         Logout.XUILogout)
+
+
+
+
         //====================================================================================================================================
         // // CourtAdmin - Progress Case - Send to GateKeeper   (NOT WORKING SO LEAVING COMMENTED OUT FOR NOW)
         // .exec(
