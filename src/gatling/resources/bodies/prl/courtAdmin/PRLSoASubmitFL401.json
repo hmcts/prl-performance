@@ -1,0 +1,47 @@
+{
+  "data": {
+     "isConfidential": "Yes",
+     "serviceOfApplicationHeader": null,
+     "sentDocumentPlaceHolder": "<details class='govuk-details'>\n\n<summary class='govuk-details__summary'>\n\n<h3 class='govuk-details__summary-text'>\n\nDocuments served in the pack\n\n<\/h3>\n\n<\/summary>\n\n<div class='govuk-details__text'>\n\nCertain documents will be automatically included in the pack that is sent out on parties (the people in the case).\n\nThis includes:\n\n<ul><li>an application form (FL401)<\/li><li>witness statement<\/li><li>privacy notice<\/li><li>cover letter (if not represented)<\/li><\/ul>\n\nYou do not need to upload these documents yourself.\n\n<\/div>\n\n<\/details>",
+     "serviceOfApplicationScreen1": {
+        "value": [
+           {
+              "code": "#{serviceOfApplicationScreenCode}",
+              "label": "#{serviceOfApplicationScreenLabel}"
+           }
+        ],
+        "list_items": [
+           {
+              "code": "#{serviceOfApplicationScreenCode}",
+              "label": "#{serviceOfApplicationScreenLabel}"
+           }
+        ]
+     },
+     "noticeOfSafetySupportLetter": {
+        "document_url": "#{DocumentURLSoN}",
+        "document_binary_url": "#{DocumentURLSoN}/binary",
+        "document_filename": "120KB.pdf",
+        "document_hash": "#{documentHashSoN}"
+        
+     },
+     "additionalDocumentsList": [],
+     "caseTypeOfApplication": "FL401",
+     "soaIsOrderListEmpty": "No",
+     "missingAddressWarningText": "",
+     "displayLegalRepOption": "Yes",
+     "isC8CheckNeeded": null,
+     "responsibleForService": null,
+     "isOccupationOrderSelected": null,
+     "isApplicantRepresented": null,
+     "productHearingBundleOn": null,
+     "soaServeToRespondentOptions": "Yes",
+     "soaServingRespondentsOptions": "courtAdmin"
+  },
+  "event": {
+     "id": "serviceOfApplication",
+     "summary": "",
+     "description": ""
+  },
+  "event_token": "#{event_token}",
+  "ignore_warning": false
+}

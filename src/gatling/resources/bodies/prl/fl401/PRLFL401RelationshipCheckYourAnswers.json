@@ -1,0 +1,22 @@
+{
+  "data": {
+    "respondentRelationObject": {
+      "applicantRelationship": "marriedOrCivil"
+    },
+    "respondentRelationOptions": null,
+    "respondentRelationDateInfoObject": {
+      "applicantRelationshipDate": "2015-01-01",
+      "relationStartAndEndComplexType": {
+        "relationshipDateComplexStartDate": "2010-01-01",
+        "relationshipDateComplexEndDate": "2020-01-01"
+      }
+    }
+  },
+  "event": {
+    "id": "respondentRelationship",
+    "summary": "",
+    "description": ""
+  },
+  "event_token": "#{event_token}",
+  "ignore_warning": false
+}

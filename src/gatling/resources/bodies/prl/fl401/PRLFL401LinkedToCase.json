@@ -1,0 +1,28 @@
+{
+  "data": {
+     "typeOfApplicationLinkToCA": {
+        "linkToCaApplication": "Yes",
+        "caApplicationNumber": null
+     }
+  },
+  "event": {
+     "id": "fl401TypeOfApplication",
+     "summary": "",
+     "description": ""
+  },
+  "event_data": {
+     "typeOfApplicationOrders": {
+        "orderType": [
+           "occupationOrder",
+           "nonMolestationOrder"
+        ]
+     },
+     "typeOfApplicationLinkToCA": {
+        "linkToCaApplication": "No",
+        "caApplicationNumber": null
+     }
+  },
+  "event_token": "#{event_token}",
+  "ignore_warning": false,
+  "case_reference": "#{caseId}"
+}

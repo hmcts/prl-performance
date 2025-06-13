@@ -26,4 +26,19 @@ object Logout {
 
     .pause(MinThinkTime , MaxThinkTime)
 
+  /*======================================================================================
+  * CUI Logout
+  ======================================================================================*/
+
+  val CUILogout = 
+
+    group("PRL_CUI_Logout") {
+      exec(http("PRL_CUI_Logout")
+        .get(Environment.prlURL + "/logout")
+        .headers(Headers.navigationHeader)
+        .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+        .check(substring("Sign in or create an account")))
+    }
+
+
 }
