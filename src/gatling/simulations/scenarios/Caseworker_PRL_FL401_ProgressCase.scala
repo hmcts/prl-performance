@@ -119,7 +119,7 @@ object Caseworker_PRL_FL401_ProgressCase {
     //.exec(Common.activity)
     .exec(Common.configUI)
     .exec(Common.configJson)
-    .exec(Common.userDetails)
+    //.exec(Common.userDetails)
 
     .pause(MinThinkTime, MaxThinkTime)
 

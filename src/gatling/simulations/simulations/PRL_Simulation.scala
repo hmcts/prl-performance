@@ -413,40 +413,39 @@ class PRL_Simulation extends Simulation {
   * PRL FL401 Create Case (Solicitor), Progress Case (CourtAdmin, CaseManager), FL401 Respondent, FL401 Applicant (Split 50/50 by VuserID modulo 2)
   ===================================================================================================================================================*/
 
-  // val PRLFL401CreateProgressRespondent = scenario("***** PRL FL401 Create, Process and respond to cases *****")
-  //   .exitBlockOnFail {
-  //       feed(UserFeederPRL)
-  //       .exec(_.set("env", s"${env}")
-  //       .set("caseType", "PRLAPPS"))
-  //       // Solicitor XUI FL401 Create
-  //       .exec(
-  //         Homepage.XUIHomePage,
-  //         Login.XUILogin,
-  //           Solicitor_PRL_FL401_CaseCreate.CreatePrivateLawCase,
-  //           Solicitor_PRL_FL401_CaseCreate.TypeOfApplication,
-  //           Solicitor_PRL_FL401_CaseCreate.WithoutNoticeOrder,
-  //           Solicitor_PRL_FL401_CaseCreate.ApplicantDetails,
-  //           Solicitor_PRL_FL401_CaseCreate.RespondentDetails,
-  //           Solicitor_PRL_FL401_CaseCreate.ApplicantsFamily,
-  //           Solicitor_PRL_FL401_CaseCreate.Relationship,
-  //           Solicitor_PRL_FL401_CaseCreate.Behaviour,
-  //           Solicitor_PRL_FL401_CaseCreate.TheHome,
-  //           Solicitor_PRL_FL401_CaseCreate.UploadDocuments,
-  //           Solicitor_PRL_FL401_CaseCreate.ViewPDF,
-  //           Solicitor_PRL_FL401_CaseCreate.StatementOfTruth,
-  //         Logout.XUILogout)
-  //       // CourtAdmin - Progress Case - Issue & Send to Local Court
-  //       .feed(UserCourtAdminPRL)
-  //       .exec(
-  //         CCDAPI.CreateEvent("CourtAdmin", "PRIVATELAW", "PRLAPPS", "issueAndSendToLocalCourtCallback", "bodies/prl/courtAdmin/PRLLocalCourtSubmit.json"))
-  //       // CourtAdmin - Progress Case - Send to GateKeeper
-  //       .exec(
-  //         Homepage.XUIHomePage,
-  //         Login.XUILogin,
-  //           Caseworker_PRL_FL401_ProgressCase.CourtAdminSendToGateKeeper,
-  //         Logout.XUILogout)
-
-
+  val PRLFL401CreateProgressRespondent = scenario("***** PRL FL401 Create, process and respond to cases *****")
+    .exitBlockOnFail {
+        feed(UserFeederPRL)
+        .exec(_.set("env", s"${env}")
+        .set("caseType", "PRLAPPS"))
+        // Solicitor XUI FL401 Create
+        .exec(
+          Homepage.XUIHomePage,
+          Login.XUILogin,
+            Solicitor_PRL_FL401_CaseCreate.CreatePrivateLawCase,
+            Solicitor_PRL_FL401_CaseCreate.TypeOfApplication,
+            Solicitor_PRL_FL401_CaseCreate.WithoutNoticeOrder,
+            Solicitor_PRL_FL401_CaseCreate.ApplicantDetails,
+            Solicitor_PRL_FL401_CaseCreate.RespondentDetails,
+            Solicitor_PRL_FL401_CaseCreate.ApplicantsFamily,
+            Solicitor_PRL_FL401_CaseCreate.Relationship,
+            Solicitor_PRL_FL401_CaseCreate.Behaviour,
+            Solicitor_PRL_FL401_CaseCreate.TheHome,
+            Solicitor_PRL_FL401_CaseCreate.UploadDocuments,
+            Solicitor_PRL_FL401_CaseCreate.ViewPDF,
+            Solicitor_PRL_FL401_CaseCreate.StatementOfTruth,
+          Logout.XUILogout)
+        // CourtAdmin - Progress Case - Issue & Send to Local Court
+        .feed(UserCourtAdminPRL)
+        .exec(
+          CCDAPI.CreateEvent("CourtAdmin", "PRIVATELAW", "PRLAPPS", "issueAndSendToLocalCourtCallback", "bodies/prl/courtAdmin/PRLLocalCourtSubmit.json"))
+        // CourtAdmin - Progress Case - Send to GateKeeper
+        .exec(
+          Homepage.XUIHomePage,
+          Login.XUILogin,
+            Caseworker_PRL_FL401_ProgressCase.CourtAdminSendToGateKeeper,
+          Logout.XUILogout)
+     }
 
 
         //====================================================================================================================================
@@ -558,14 +557,14 @@ class PRL_Simulation extends Simulation {
   //=================================================
   //C100 & CUIRA Release Scenarios
   //=================================================
-  PRLC100CitizenScenario.inject(simulationProfile(testType, c100AppTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-  PRLC100RespondentScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-  PRLFL401RespondentScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-  PRLReasonableAdjustmentsAdd.inject(simulationProfile(testType, reasonableAdjustmentTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-  PRLReasonableAdjustmentsModify.inject(simulationProfile(testType, reasonableAdjustmentTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-  PRLC100ApplicantDashboardScenario.inject(simulationProfile(testType, c100AppTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-  PRLFL401ApplicantDashboardScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-  PRLCitizenApplicationGuidance.inject(simulationProfile(testType, c100AppTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+  // PRLC100CitizenScenario.inject(simulationProfile(testType, c100AppTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+  // PRLC100RespondentScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+  // PRLFL401RespondentScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+  // PRLReasonableAdjustmentsAdd.inject(simulationProfile(testType, reasonableAdjustmentTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+  // PRLReasonableAdjustmentsModify.inject(simulationProfile(testType, reasonableAdjustmentTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+  // PRLC100ApplicantDashboardScenario.inject(simulationProfile(testType, c100AppTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+  // PRLFL401ApplicantDashboardScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+  // PRLCitizenApplicationGuidance.inject(simulationProfile(testType, c100AppTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
 
     //=================================================
   //C100 & CUIRA Release Scenarios - SMOKE TEST
@@ -594,7 +593,7 @@ class PRL_Simulation extends Simulation {
   //PRLFL401CaseworkerScenario.inject(atOnceUsers(4)),
   //PRLFL401CaseManagerScenario.inject(atOnceUsers(7)),
   //PRLC100CitizenCreateAndProgressCase.inject(atOnceUsers(1)),
-  //PRLCreateAndProcessCases.inject(atOnceUsers(1)),
+  PRLCreateAndProcessCases.inject(atOnceUsers(1)),
   //PrlFL401Create.inject(atOnceUsers(6)),
   //PRLFL401CreateProgressRespondent.inject(atOnceUsers(1)),
   //PRLC100CaseworkerScenario.inject(atOnceUsers(9)),
