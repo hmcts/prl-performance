@@ -499,7 +499,8 @@ class PRL_Simulation extends Simulation {
       .exec(CCDAPI.CreateEvent("Solicitor", "PRIVATELAW", "PRLAPPS", "respondentRelationship", "bodies/prl/fl401/PRLFL401RelationshipCheckYourAnswers.json"))
       .exec(CCDAPI.CreateEvent("Solicitor", "PRIVATELAW", "PRLAPPS", "respondentBehaviour", "bodies/prl/fl401/PRLFL401BehaviourCheckYourAnswers.json"))
       .exec(CCDAPI.CreateEvent("Solicitor", "PRIVATELAW", "PRLAPPS", "fl401Home", "bodies/prl/fl401/PRLFL401TheHomeCheckYourAnswers.json"))
-      .exec(CCDAPI.EventAndUploadDocument("CourtAdmin", "PRIVATELAW", "PRLAPPS", "fl401UploadDocuments", "3MB.pdf", "bodies/prl/fl401/PRLFL401SubmitDocuments.json"))
+      .exec(CCDAPI.UploadDocument("CourtAdmin", "PRIVATELAW", "PRLAPPS", "3MB.pdf"))
+      .exec(CCDAPI.CreateEvent("Solicitor", "PRIVATELAW", "PRLAPPS", "fl401UploadDocuments", "bodies/prl/fl401/PRLFL401SubmitDocuments.json"))
     }
 
   /*===============================================================================================
