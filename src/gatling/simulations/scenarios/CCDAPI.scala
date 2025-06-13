@@ -26,7 +26,7 @@ object CCDAPI {
       case "Caseworker" => session.set("emailAddressCCD", "ccdloadtest-cw@gmail.com").set("passwordCCD", "Password12").set("microservice", "ccd_data")
       case "Legal" => session.set("emailAddressCCD", "ccdloadtest-la@gmail.com").set("passwordCCD", "Password12").set("microservice", "ccd_data")
       case "Solicitor" => session.set("emailAddressCCD", session("user").as[String]).set("passwordCCD", session("password").as[String]).set("microservice", "ccd_data")
-      case "CourtAdmin" => session.set("emailAddressCCD", session("user").as[String]).set("passwordCCD", session("password").as[String]).set("microservice", "ccd_data")
+      case "CourtAdmin" => session.set("emailAddressCCD", "prl_pt_ca_swansea@justice.gov.uk").set("passwordCCD", session("password").as[String]).set("microservice", "prl_cos_api")
       case "CourtAdminDocUpload" => session.set("emailAddressCCD", session("user").as[String]).set("passwordCCD", session("password").as[String]).set("microservice", "xui_webapp")
     })
 
@@ -111,7 +111,7 @@ object CCDAPI {
     .exec(Auth(userType))
 
     .exec(http("XUI_000_GetCCDEventToken")
-      .get(CcdAPIURL + "/caseworkers/#{idamId}/jurisdictions/#{jurisdiction}/case-types/#{caseType}/cases/#{caseId}/event-triggers/#{eventName}/token")
+      .get(CcdAPIURL + "/caseworkers/#{idamId}/jurisdictions/#{jurisdiction}/case-types/#{caseType}/event-triggers/#{eventName}/token")
       .header("Authorization", "Bearer #{bearerToken}")
       .header("ServiceAuthorization", "#{authToken}")
       .header("Content-Type", "application/json")
@@ -120,12 +120,12 @@ object CCDAPI {
     .pause(1)
 
     .exec(http("XUI_000_CCDEvent-#{eventName}")
-      .post(CcdAPIURL + "/caseworkers/#{idamId}/jurisdictions/#{jurisdiction}/case-types/#{caseType}/cases/#{caseId}/events")
+      .post(CcdAPIURL + "/caseworkers/#{idamId}/jurisdictions/#{jurisdiction}/case-types/#{caseType}/cases/")
       .header("Authorization", "Bearer #{bearerToken}")
       .header("ServiceAuthorization", "#{authToken}")
       .header("Content-Type", "application/json")
       .body(ElFileBody(payloadPath))
-      .check(jsonPath("$.id")))
+      .check(jsonPath("$.id").saveAs("caseId")))
 
     .pause(1)
 
@@ -145,14 +145,43 @@ object CCDAPI {
 
     .pause(1)
 
+  def UploadDocument(userType: String, jurisdiction: String, caseType: String, docName: String) =
+
+    exec(_.set("userType", userType)
+      .set("jurisdiction", jurisdiction)
+      .set("caseType", caseType)
+      .set("docName", docName))
+
+    .exec(Auth(userType))
+
+    .exec(http("XUI_000_UploadDocument")
+      .post(CaseDocAPI + "/cases/documents")
+      .header("Authorization", "Bearer #{bearerToken}")
+      .header("ServiceAuthorization", "#{authToken}")
+      .header("accept", "application/json")
+      .header("Content-Type", "multipart/form-data")
+      .formParam("classification", "PUBLIC")
+      .formParam("caseTypeId", "#{caseType}")
+      .formParam("jurisdictionId", "#{jurisdiction}")
+      .bodyPart(RawFileBodyPart("files", "#{docName}")
+        .fileName("#{docName}")
+        .transferEncoding("binary"))
+      .check(regex("""documents/([0-9a-z-]+?)/binary""").saveAs("Document_ID"))
+      .check(jsonPath("$.documents[0].hashToken").saveAs("hashToken")))
+
+    .pause(1)
+
   def EventAndUploadDocument(userType: String, jurisdiction: String, caseType: String, eventName: String, docName: String, payloadPath: String) =
 
     exec(_.set("userType", userType)
           .set("jurisdiction", jurisdiction)
           .set("caseType", caseType)
-          .set("eventName", eventName))
+          .set("eventName", eventName)
+          .set("docName", docName))
 
-    .exec(http("API_FPL_GetEventToken")
+    .exec(Auth(userType))
+
+    .exec(http("XUI_000_GetCCDEventToken")
         .get(CcdAPIURL + "/caseworkers/#{idamId}/jurisdictions/#{jurisdiction}/case-types/#{caseType}/cases/#{caseId}/event-triggers/#{eventName}/token")
         .header("Authorization", "Bearer #{bearerToken}")
         .header("ServiceAuthorization", "#{authToken}")
@@ -163,32 +192,33 @@ object CCDAPI {
      //   session.set("FileName1", "1MB.pdf")
      // })
 
-      .exec(Auth("CourtAdminUploadDoc"))
+//      .exec(Auth(userType))
 
-      .exec(http("API_FPL_DocUploadProcess")
+      .exec(http("XUI_000_UploadDocument")
         .post(CaseDocAPI + "/cases/documents")
         .header("Authorization", "Bearer #{bearerToken}")
         .header("ServiceAuthorization", "#{authToken}")
         .header("accept", "application/json")
         .header("Content-Type", "multipart/form-data")
         .formParam("classification", "PUBLIC")
-        .formParam("caseTypeId", "#{CaseType}")
-        .formParam("jurisdictionId", "#{Jurisdiction}")
+        .formParam("caseTypeId", "#{caseType}")
+        .formParam("jurisdictionId", "#{jurisdiction}")
         .bodyPart(RawFileBodyPart("files", "#{docName}")
-          .fileName("#{FileName1}")
+          .fileName("#{docName}")
           .transferEncoding("binary"))
         .check(regex("""documents/([0-9a-z-]+?)/binary""").saveAs("Document_ID"))
         .check(jsonPath("$.documents[0].hashToken").saveAs("hashToken")))
 
         
-      .exec(http("API_FPL_DocUpload")
-        .post(CcdAPIURL + "/caseworkers/#{idamId}/jurisdictions/#{Jurisdiction}/case-types/#{CaseType}/cases/#{caseId}/events")
+      .exec(http("XUI_000_CCDEvent-#{eventName}")
+        .post(CcdAPIURL + "/caseworkers/#{idamId}/jurisdictions/#{jurisdiction}/case-types/#{caseType}/cases/#{caseId}/events")
         .header("ServiceAuthorization", "Bearer #{bearerToken}")
         .header("Authorization", "Bearer #{authToken}")
-        .header("Content-Type","application/json")      
-        .body(ElFileBody("bodies/fpl/CCD_FPL_UploadDocuments.json")))
+        .header("Content-Type","application/json")
+        .body(ElFileBody(payloadPath))
+        .check(jsonPath("$.id")))
 
-          .pause(1)
+      .pause(1)
 
   def ValidateAndExtract(jurisdiction: String, caseType: String, pageId: String, payloadPath: String) =
 

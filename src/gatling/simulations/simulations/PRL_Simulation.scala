@@ -470,6 +470,38 @@ class PRL_Simulation extends Simulation {
         //   CCDAPI.EventAndUploadDocument("CourtAdmin", "PRIVATELAW", "PRLAPPS", "serviceOfApplication", "TestFile.pdf", "bodies/prl/courtAdmin/PRLSoASubmitFL401.json"))
    // }
 
+  //===============================================================================================
+  // Solicitor Create & Progress Case via CCD API Calls
+  //===============================================================================================
+  val PRLFL401CreateProgressCase = scenario("***** PRL FL401 Create Case *****")
+    .exitBlockOnFail {
+      feed(UserFeederPRL)
+      .exec(_.set("env", s"${env}")
+      .set("caseType", "PRLAPPS"))
+      .exec(
+         _.setAll( // Set session Vars for use in JSON Payload
+           "PRLRandomString" -> (Common.randomString(7)),
+           "ApplicantFirstName" -> (Common.randomString(4) + "AppFirst"),
+           "ApplicantLastName" -> (Common.randomString(4) + "AppLast"),
+           "RespondentFirstName" -> (Common.randomString(5) + "respfirst"),
+           "RespondentLastName" -> (Common.randomString(5) + "resplast"),
+           "PRLAppDobDay" -> Common.getDay(),
+           "PRLAppDobMonth" -> Common.getMonth(),
+           "todayDate" -> Common.getDate(),
+           "LegalAdviserName" -> (Common.randomString(4) + " " + Common.randomString(4) + "legAdv")))
+      .exec(CCDAPI.CreateCaseFL401("Solicitor", "PRIVATELAW", "PRLAPPS", "solicitorCreate", "bodies/prl/fl401/PRLFL401CreateNewCase.json"))
+      .exec(CCDAPI.CreateEvent("Solicitor", "PRIVATELAW", "PRLAPPS", "fl401TypeOfApplication", "bodies/prl/fl401/PRLFL401TypeOfApplicationCheckYourAnswers.json"))
+      .exec(CCDAPI.CreateEvent("Solicitor", "PRIVATELAW", "PRLAPPS", "withoutNoticeOrderDetails", "bodies/prl/fl401/PRLFL401WithoutNoticeCheckYourAnswers.json"))
+      .exec(CCDAPI.CreateEvent("Solicitor", "PRIVATELAW", "PRLAPPS", "applicantsDetails", "bodies/prl/fl401/PRLFL401ApplicantDetails.json"))
+      .exec(CCDAPI.CreateEvent("Solicitor", "PRIVATELAW", "PRLAPPS", "respondentsDetails", "bodies/prl/fl401/PRLFL401RespondentDetailsCheckYourAnswers.json"))
+      .exec(CCDAPI.CreateEvent("Solicitor", "PRIVATELAW", "PRLAPPS", "fl401ApplicantFamilyDetails", "bodies/prl/fl401/PRLFL401ApplicantsFamilyDetailsCheckYourAnswers.json"))
+      .exec(CCDAPI.CreateEvent("Solicitor", "PRIVATELAW", "PRLAPPS", "respondentRelationship", "bodies/prl/fl401/PRLFL401RelationshipCheckYourAnswers.json"))
+      .exec(CCDAPI.CreateEvent("Solicitor", "PRIVATELAW", "PRLAPPS", "respondentBehaviour", "bodies/prl/fl401/PRLFL401BehaviourCheckYourAnswers.json"))
+      .exec(CCDAPI.CreateEvent("Solicitor", "PRIVATELAW", "PRLAPPS", "fl401Home", "bodies/prl/fl401/PRLFL401TheHomeCheckYourAnswers.json"))
+      .exec(CCDAPI.UploadDocument("CourtAdmin", "PRIVATELAW", "PRLAPPS", "3MB.pdf"))
+      .exec(CCDAPI.CreateEvent("Solicitor", "PRIVATELAW", "PRLAPPS", "fl401UploadDocuments", "bodies/prl/fl401/PRLFL401SubmitDocuments.json"))
+    }
+
   /*===============================================================================================
   * PRL Citizen C100 Create & Progress by Caseworker
   ===============================================================================================*/
@@ -557,14 +589,14 @@ class PRL_Simulation extends Simulation {
   //=================================================
   //C100 & CUIRA Release Scenarios
   //=================================================
-  // PRLC100CitizenScenario.inject(simulationProfile(testType, c100AppTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-  // PRLC100RespondentScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-  // PRLFL401RespondentScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-  // PRLReasonableAdjustmentsAdd.inject(simulationProfile(testType, reasonableAdjustmentTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-  // PRLReasonableAdjustmentsModify.inject(simulationProfile(testType, reasonableAdjustmentTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-  // PRLC100ApplicantDashboardScenario.inject(simulationProfile(testType, c100AppTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-  // PRLFL401ApplicantDashboardScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-  // PRLCitizenApplicationGuidance.inject(simulationProfile(testType, c100AppTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+//  PRLC100CitizenScenario.inject(simulationProfile(testType, c100AppTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+//  PRLC100RespondentScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+//  PRLFL401RespondentScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+//  PRLReasonableAdjustmentsAdd.inject(simulationProfile(testType, reasonableAdjustmentTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+//  PRLReasonableAdjustmentsModify.inject(simulationProfile(testType, reasonableAdjustmentTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+//  PRLC100ApplicantDashboardScenario.inject(simulationProfile(testType, c100AppTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+//  PRLFL401ApplicantDashboardScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+//  PRLCitizenApplicationGuidance.inject(simulationProfile(testType, c100AppTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
 
     //=================================================
   //C100 & CUIRA Release Scenarios - SMOKE TEST
@@ -610,6 +642,7 @@ class PRL_Simulation extends Simulation {
    // At Once Users - For API Tests
    //=========================================================
    //PRLAPICAFCASSGetDocument.inject(atOnceUsers(100)),
+    PRLFL401CreateProgressCase.inject(atOnceUsers(1))
 
   ).protocols(httpProtocol)
     .assertions(assertions(testType))
