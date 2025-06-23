@@ -479,7 +479,7 @@ class PRL_Simulation extends Simulation {
       feed(UserFeederPRL)
       .exec(_.set("env", s"${env}")
       .set("caseType", "PRLAPPS")
-//      .set("caseId", "1750320857897591") //comment out when running e2e
+//      .set("caseId", "1750685427091572") //comment out when running e2e
       )
       .exec(
          _.setAll( // Set session Vars for use in JSON Payload
@@ -507,12 +507,12 @@ class PRL_Simulation extends Simulation {
       .exec(CCDAPI.CreateEvent("Solicitor", "PRIVATELAW", "PRLAPPS", "fl401UploadDocuments", "bodies/prl/fl401/PRLFL401SubmitDocuments.json"))
       .exec(CCDAPI.CreateEvent("Solicitor", "PRIVATELAW", "PRLAPPS", "fl401StatementOfTruthAndSubmit", "bodies/prl/fl401/PRLFL401SOTSubmit.json"))
       .exec(CCDAPI.CreateEvent("CourtAdmin", "PRIVATELAW", "PRLAPPS", "issueAndSendToLocalCourtCallback", "bodies/prl/courtAdmin/PRLLocalCourtSubmit.json"))
-//      .feed(UserCourtAdminPRL)
-//      .exec(Homepage.XUIHomePage)
-//      .exec(Login.XUILogin)
-//      .exec(Caseworker_PRL_FL401_ProgressCase.CourtAdminManageOrders)
-//      .exec(Logout.XUILogout)
-//      .exec(CCDAPI.CreateEvent("CourtAdmin", "PRIVATELAW", "PRLAPPS", "manageOrders", "bodies/prl/courtAdmin/PRLOrderSubmitFL401.json"))
+      .feed(UserCourtAdminPRL)
+      .exec(Homepage.XUIHomePage)
+      .exec(Login.XUILogin)
+      .exec(Caseworker_PRL_FL401_ProgressCase.CourtAdminManageOrders)
+      .exec(Logout.XUILogout)
+
     }
 
   /*===============================================================================================

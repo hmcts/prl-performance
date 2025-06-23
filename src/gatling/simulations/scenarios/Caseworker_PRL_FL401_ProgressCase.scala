@@ -2,7 +2,8 @@ package scenarios
 
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
-import utils.{Common, CsrfCheck, Environment, Headers}
+import utils.{Common, Environment, Headers}
+
 import java.io.{BufferedWriter, FileWriter}
 
 /*===============================================================================================================
@@ -389,7 +390,7 @@ object Caseworker_PRL_FL401_ProgressCase {
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.create-event.v2+json;charset=UTF-8")
         .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("bodies/prl/courtAdmin/PRLOrderSubmitFL401.json"))
-        .check(substring("JUDICIAL_REVIEW")))
+        .check(substring("manageOrderHeader1")))
     }
 
     .pause(MinThinkTime, MaxThinkTime)
