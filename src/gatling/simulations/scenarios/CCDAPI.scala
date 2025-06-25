@@ -166,8 +166,8 @@ object CCDAPI {
       .bodyPart(RawFileBodyPart("files", "#{docName}")
         .fileName("#{docName}")
         .transferEncoding("binary"))
-      .check(regex("""documents/([0-9a-z-]+?)/binary""").saveAs("Document_ID"))
-      .check(jsonPath("$.documents[0].hashToken").saveAs("hashToken")))
+      .check(jsonPath("$.documents[0]._links.self.href").saveAs("DocumentURL"))
+      .check(jsonPath("$.documents[0].hashToken").saveAs("documentHash")))
 
     .pause(1)
 

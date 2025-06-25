@@ -477,7 +477,9 @@ class PRL_Simulation extends Simulation {
     .exitBlockOnFail {
       feed(UserFeederPRL)
       .exec(_.set("env", s"${env}")
-      .set("caseType", "PRLAPPS"))
+      .set("caseType", "PRLAPPS")
+//      .set("caseId", "1750685427091572") //comment out when running e2e
+      )
       .exec(
          _.setAll( // Set session Vars for use in JSON Payload
            "PRLRandomString" -> (Common.randomString(7)),
@@ -488,7 +490,9 @@ class PRL_Simulation extends Simulation {
            "PRLAppDobDay" -> Common.getDay(),
            "PRLAppDobMonth" -> Common.getMonth(),
            "todayDate" -> Common.getDate(),
-           "LegalAdviserName" -> (Common.randomString(4) + " " + Common.randomString(4) + "legAdv")))
+           "LegalAdviserName" -> (Common.randomString(4) + " " + Common.randomString(4) + "legAdv"),
+           "JudgeFirstName" -> (Common.randomString(4) + "judgefirst"),
+           "JudgeLastName" -> (Common.randomString(4) + "judgeLast")))
       .exec(CCDAPI.CreateCaseFL401("Solicitor", "PRIVATELAW", "PRLAPPS", "solicitorCreate", "bodies/prl/fl401/PRLFL401CreateNewCase.json"))
       .exec(CCDAPI.CreateEvent("Solicitor", "PRIVATELAW", "PRLAPPS", "fl401TypeOfApplication", "bodies/prl/fl401/PRLFL401TypeOfApplicationCheckYourAnswers.json"))
       .exec(CCDAPI.CreateEvent("Solicitor", "PRIVATELAW", "PRLAPPS", "withoutNoticeOrderDetails", "bodies/prl/fl401/PRLFL401WithoutNoticeCheckYourAnswers.json"))
@@ -500,6 +504,14 @@ class PRL_Simulation extends Simulation {
       .exec(CCDAPI.CreateEvent("Solicitor", "PRIVATELAW", "PRLAPPS", "fl401Home", "bodies/prl/fl401/PRLFL401TheHomeCheckYourAnswers.json"))
       .exec(CCDAPI.UploadDocument("CourtAdmin", "PRIVATELAW", "PRLAPPS", "3MB.pdf"))
       .exec(CCDAPI.CreateEvent("Solicitor", "PRIVATELAW", "PRLAPPS", "fl401UploadDocuments", "bodies/prl/fl401/PRLFL401SubmitDocuments.json"))
+      .exec(CCDAPI.CreateEvent("Solicitor", "PRIVATELAW", "PRLAPPS", "fl401StatementOfTruthAndSubmit", "bodies/prl/fl401/PRLFL401SOTSubmit.json"))
+      .exec(CCDAPI.CreateEvent("CourtAdmin", "PRIVATELAW", "PRLAPPS", "issueAndSendToLocalCourtCallback", "bodies/prl/courtAdmin/PRLLocalCourtSubmit.json"))
+      .feed(UserCourtAdminPRL)
+      .exec(Homepage.XUIHomePage)
+      .exec(Login.XUILogin)
+      .exec(Caseworker_PRL_FL401_ProgressCase.CourtAdminManageOrders)
+      .exec(Logout.XUILogout)
+
     }
 
   /*===============================================================================================
