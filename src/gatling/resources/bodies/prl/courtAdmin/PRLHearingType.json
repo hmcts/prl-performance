@@ -431,5 +431,5 @@
    },
    "event_token": "#{event_token}",
    "ignore_warning": false,
-   "case_reference": "1744711542068144"
+   "case_reference": "#{caseId}"
 }

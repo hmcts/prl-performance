@@ -20,12 +20,13 @@ object CaseManager_PRL_FL401_ProgressCase {
    /*=====================================================================================
   * Select Case  (Case Manager)
   ======================================================================================*/
-
+  
     exec(Common.isAuthenticated)
 
     .exec(http("XUI_PRL_XXX_685_SelectCase")
       .get(BaseURL + "/data/internal/cases/#{caseId}")
       .headers(Headers.xuiHeader)
+      .header("x-xsrf-token", "#{XSRFToken}")
       .check(jsonPath("$.tabs[7].fields[3].value.firstName").saveAs("ApplicantFirstName"))
       .check(jsonPath("$.tabs[7].fields[3].value.lastName").saveAs("ApplicantLastName"))
       .check(jsonPath("$.tabs[8].fields[11].value.firstName").saveAs("RespondentFirstName"))
@@ -33,8 +34,6 @@ object CaseManager_PRL_FL401_ProgressCase {
       .check(jsonPath("$.case_id").is("#{caseId}")))
 
     //.exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).saveAs("XSRFToken")))
-      .exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).withSecure(true).saveAs("XSRFToken")))
-
     .exec(Common.waJurisdictions)
     .exec(Common.activity)
     .exec(Common.userDetails)

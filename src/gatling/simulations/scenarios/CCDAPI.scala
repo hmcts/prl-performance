@@ -27,6 +27,7 @@ object CCDAPI {
       case "Legal" => session.set("emailAddressCCD", "ccdloadtest-la@gmail.com").set("passwordCCD", "Password12").set("microservice", "ccd_data")
       case "Solicitor" => session.set("emailAddressCCD", session("user").as[String]).set("passwordCCD", session("password").as[String]).set("microservice", "ccd_data")
       case "CourtAdmin" => session.set("emailAddressCCD", "prl_pt_ca_swansea@justice.gov.uk").set("passwordCCD", session("password").as[String]).set("microservice", "prl_cos_api")
+      case "CourtManager" => session.set("emailAddressCCD", "prl_pt_am_test_hctl@justice.gov.uk").set("passwordCCD", session("password").as[String]).set("microservice", "prl_cos_api")
       case "CourtAdminDocUpload" => session.set("emailAddressCCD", session("user").as[String]).set("passwordCCD", session("password").as[String]).set("microservice", "xui_webapp")
     })
 
@@ -167,7 +168,9 @@ object CCDAPI {
         .fileName("#{docName}")
         .transferEncoding("binary"))
       .check(jsonPath("$.documents[0]._links.self.href").saveAs("DocumentURL"))
-      .check(jsonPath("$.documents[0].hashToken").saveAs("documentHash")))
+      .check(jsonPath("$.documents[0].hashToken").saveAs("documentHash"))
+      .check(jsonPath("$.documents[0].hashToken").saveAs("documentHashSoN"))
+      .check(jsonPath("$.documents[0]._links.self.href").saveAs("DocumentURLSoN")))
 
     .pause(1)
 

@@ -41,6 +41,8 @@ object Login {
 
     .pause(MinThinkTime , MaxThinkTime)
 
+    .exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).withSecure(true).saveAs("XSRFToken")))
+
   val XUILoginCa =
 
     group("XUI_020_LoginCa") {

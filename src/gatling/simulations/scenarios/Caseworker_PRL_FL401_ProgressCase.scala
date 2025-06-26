@@ -507,4 +507,21 @@ val CourtAdminServiceApplication =
       session
     }
 
+val CourtAdminServiceApplicationExtract =
+
+  /*======================================================================================
+  * Click on 'Service of Application'
+  ======================================================================================*/
+
+    group("XUI_PRL_XXX_640_ServiceOfApplication") {
+      exec(http("XUI_PRL_XXX_640_005_ServiceOfApplication")
+        .get(BaseURL + "/data/internal/cases/#{caseId}/event-triggers/serviceOfApplication?ignore-warning=false")
+        .headers(Headers.navigationHeader)
+        .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-start-event-trigger.v2+json;charset=UTF-8")
+        .check(jsonPath("$.event_token").saveAs("event_token"))
+        .check(jsonPath("$.case_fields[8].value.list_items[0].code")saveAs("serviceOfApplicationScreenCode"))
+        .check(jsonPath("$.case_fields[8].value.list_items[0].label")saveAs("serviceOfApplicationScreenLabel"))
+        .check(jsonPath("$.id").is("serviceOfApplication")))
+    }
+
 }
