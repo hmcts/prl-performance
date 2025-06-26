@@ -10,4 +10,9 @@ build/**
 out/**
 src/gatling/resources/application.conf
 bin/*
+.settings/*
 .vscode/*
+.classpath
+build/
+.gradle/
+.idea/

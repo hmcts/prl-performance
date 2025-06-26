@@ -1,0 +1,20 @@
+{
+  "data": {
+     "applicantOrRespondentCaseName": "#{ApplicantFirstName} #{ApplicantLastName} FL401"
+  },
+  "event": {
+     "id": "solicitorCreate",
+     "summary": "",
+     "description": ""
+  },
+  "event_data": {
+     "caseTypeOfApplication": "FL401",
+     "caseFromCourtNav": "No",
+     "confidentialityStatementDisclaimer": [
+        "confidentialityStatementUnderstood"
+     ],
+     "applicantOrRespondentCaseName": "#{ApplicantFirstName} #{ApplicantLastName} FL401"
+  },
+  "event_token": "#{event_token}",
+  "ignore_warning": false
+}

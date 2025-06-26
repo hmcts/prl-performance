@@ -1,0 +1,72 @@
+{
+  "data": {
+     "serviceOfApplicationHeader": null,
+     "isConfidential": "No",
+     "sentDocumentPlaceHolder": "<details class='govuk-details'>\n\n<summary class='govuk-details__summary'>\n\n<h3 class='govuk-details__summary-text'>\n\nDocuments served in the pack\n\n<\/h3>\n\n<\/summary>\n\n<div class='govuk-details__text'>\n\nCertain documents will be automatically included in the pack this is served on parties(the people in the case)\n\nThis includes\n\n<ul><li>C100<\/li><li>C1A<\/li><li>C7<\/li><li>C1A (if applicable)<\/li><li>C8 (Cafcass/Cafcass Cymru, if applicable)<\/li>\n\n<li>Any orders and hearing notices created at the initial gatekeeping stage<\/li><\/ul>\n\nYou do not need to upload these documents yourself\n\n<\/div>\n\n<\/details>",
+     "serviceOfApplicationScreen1": {
+        "value": [
+           {
+              "code": "#{serviceOfApplicationScreenCode}",
+              "label": "#{serviceOfApplicationScreenLabel}"
+           }
+        ],
+        "list_items": [
+           {
+              "code": "#{serviceOfApplicationScreenCode}",
+              "label": "#{serviceOfApplicationScreenLabel}"
+           }
+        ]
+     },
+     "pd36qLetter": {
+        "document_url": "#{DocumentURLPD36Q}",
+        "document_binary_url": "#{DocumentURLPD36Q}/binary",
+        "document_filename": "120KB.pdf"
+     },
+     "specialArrangementsLetter": {
+        "document_url": "#{DocumentURLSpecial}",
+        "document_binary_url": "#{DocumentURLSpecial}/binary",
+        "document_filename": "TestFile.pdf"
+     },
+     "additionalDocumentsList": [],
+     "caseTypeOfApplication": "C100",
+     "soaIsOrderListEmpty": "No",
+     "missingAddressWarningText": "",
+     "caseCreatedBy": "CITIZEN",
+     "isC8CheckNeeded": null,
+     "responsibleForService": null,
+     "isOccupationOrderSelected": null,
+     "soaServeToRespondentOptions": "No",
+     "soaRecipientsOptions": {
+         "value": [
+            {
+               "code": "#{serviceOfApplicationApplicantCode}",
+               "label": "#{serviceOfApplicationApplicantName}"
+            },
+            {
+               "code": "#{serviceOfApplicationRespondentCode}",
+               "label": "#{serviceOfApplicationRespondentName}"
+            }
+         ],
+         "list_items": [
+            {
+               "code": "#{serviceOfApplicationApplicantCode}",
+               "label": "#{serviceOfApplicationApplicantName}"
+            },
+            {
+               "code": "#{serviceOfApplicationRespondentCode}",
+               "label": "#{serviceOfApplicationRespondentName}"
+            }
+         ]
+      },
+     "soaCafcassCymruServedOptions": "Yes",
+     "soaCafcassCymruEmail": "test@testcafcass.com",
+     "soaServeLocalAuthorityYesOrNo": "No"
+  },
+  "event": {
+     "id": "serviceOfApplication",
+     "summary": "",
+     "description": ""
+  },
+  "event_token": "#{event_token}",
+  "ignore_warning": false
+}

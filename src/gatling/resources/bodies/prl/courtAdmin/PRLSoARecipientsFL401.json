@@ -1,0 +1,43 @@
+{
+  "data": {
+     "soaServeToRespondentOptions": "Yes",
+     "soaServingRespondentsOptionsDA": "courtAdmin"
+  },
+  "event": {
+     "id": "serviceOfApplication",
+     "summary": "",
+     "description": ""
+  },
+  "event_data": {
+     "isConfidential": "Yes",
+     "serviceOfApplicationHeader": null,
+     "serviceOfApplicationScreen1": {
+        "value": [
+           {
+              "code": "#{serviceOfApplicationScreenCode}",
+              "label": "#{serviceOfApplicationScreenLabel}"
+           }
+        ],
+        "list_items": [
+           {
+              "code": "#{serviceOfApplicationScreenCode}",
+              "label": "#{serviceOfApplicationScreenLabel}"
+           }
+        ]
+     },
+     "noticeOfSafetySupportLetter": {
+        "document_url": "#{DocumentURLSoN}",
+        "document_binary_url": "#{DocumentURLSoN}/binary",
+        "document_filename": "120KB.pdf",
+        "document_hash": "#{documentHashSoN}"
+     },
+     "additionalDocumentsList": [],
+     "soaIsOrderListEmpty": "No",
+     "missingAddressWarningText": "",
+     "soaServeToRespondentOptions": "Yes",
+     "soaServingRespondentsOptions": "courtAdmin"
+  },
+  "event_token": "#{event_token}",
+  "ignore_warning": false,
+  "case_reference": "#{caseId}"
+}

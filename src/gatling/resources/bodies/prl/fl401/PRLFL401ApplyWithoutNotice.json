@@ -1,0 +1,20 @@
+{
+  "data": {
+     "orderWithoutGivingNoticeToRespondent": {
+        "orderWithoutGivingNotice": "Yes"
+     }
+  },
+  "event": {
+     "id": "withoutNoticeOrderDetails",
+     "summary": "",
+     "description": ""
+  },
+  "event_data": {
+     "orderWithoutGivingNoticeToRespondent": {
+        "orderWithoutGivingNotice": "Yes"
+     }
+  },
+  "event_token": "#{event_token}",
+  "ignore_warning": false,
+  "case_reference": "#{caseId}"
+}
