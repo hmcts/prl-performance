@@ -17,16 +17,47 @@ object CaseManager_PRL_FL401_ProgressCase {
 
   val CaseManagerConfidentialityCheck =
 
+
+      exec(http("XUI_PRL_683_TEST_SelectCase")
+      .get(BaseURL + "/cases/case-details/#{caseId}/task")
+      .headers(Headers.xuiHeader)
+      .check(substring("HMCTS Manage cases")))
+
+    //.exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).saveAs("XSRFToken")))
+   // .exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).withSecure(true).saveAs("XSRFToken")))
+
    /*=====================================================================================
   * Select Case  (Case Manager)
   ======================================================================================*/
+    //exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).saveAs("XSRFToken")))
 
-    exec(Common.isAuthenticated)
+   // .exec(getCookieValue(CookieKey("xui-webapp").withDomain(BaseURL.replace("https://", "")).saveAs("xuiWebAppCookie")))
+
+    .exec { session =>
+      println("****Captured XSRFToken Second Login: " + session("XSRFToken").asOption[String].getOrElse("NOT FOUND"))
+      println("****Captured WebAppToken Second Login: " + session("xuiWebAppCookie").asOption[String].getOrElse("NOT FOUND"))
+      session
+    }
+    .exec(
+      addCookie(
+        Cookie("xui-webapp", "${xuiWebAppCookie}")
+          .withDomain("manage-case.perftest.platform.hmcts.net")
+          .withPath("/")
+      )
+    )
+     .exec(addCookie(
+       Cookie("XSRF-TOKEN", "${XSRFToken}")
+       .withDomain("manage-case.perftest.platform.hmcts.net") 
+       .withPath("/")
+       )
+     )
+
+    .exec(Common.isAuthenticated)
 
     .exec(http("XUI_PRL_XXX_685_SelectCase")
       .get(BaseURL + "/data/internal/cases/#{caseId}")
       .headers(Headers.xuiHeader)
-      //.header("x-xsrf-token", "#{XSRFToken}")
+      .header("x-xsrf-token", "#{XSRFToken}")
       .check(jsonPath("$.tabs[7].fields[3].value.firstName").saveAs("ApplicantFirstName"))
       .check(jsonPath("$.tabs[7].fields[3].value.lastName").saveAs("ApplicantLastName"))
       .check(jsonPath("$.tabs[8].fields[11].value.firstName").saveAs("RespondentFirstName"))

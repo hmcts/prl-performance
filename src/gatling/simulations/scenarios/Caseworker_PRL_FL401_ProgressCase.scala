@@ -519,8 +519,8 @@ val CourtAdminServiceApplicationExtract =
         .headers(Headers.navigationHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-start-event-trigger.v2+json;charset=UTF-8")
         .check(jsonPath("$.event_token").saveAs("event_token"))
-        .check(jsonPath("$.case_fields[8].value.list_items[0].code")saveAs("serviceOfApplicationScreenCode"))
-        .check(jsonPath("$.case_fields[8].value.list_items[0].label")saveAs("serviceOfApplicationScreenLabel"))
+        .check(jsonPath("$.case_fields[7].value.list_items[0].code")saveAs("serviceOfApplicationScreenCode"))
+        .check(jsonPath("$.case_fields[7].value.list_items[0].label")saveAs("serviceOfApplicationScreenLabel"))
         .check(jsonPath("$.id").is("serviceOfApplication")))
     }
 

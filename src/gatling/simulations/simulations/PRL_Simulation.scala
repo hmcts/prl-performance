@@ -471,14 +471,14 @@ class PRL_Simulation extends Simulation {
    // }
 
   //===============================================================================================
-  // Solicitor Create & Progress Case via CCD API Calls (where applicable/possible)
+  // Solicitor Create & Progress FL401 Case via CCD API Calls (where applicable/possible)
   //===============================================================================================
   val PRLFL401CreateProgressCase = scenario("***** PRL FL401 Create Case (API) *****")
     .exitBlockOnFail {
       feed(UserFeederPRL)
       .exec(_.set("env", s"${env}")
       .set("caseType", "PRLAPPS")
-      //.set("caseId", "1750928499550780") //comment out when running e2e
+      .set("caseId", "1750952108549355") //comment out when running e2e
       )
       .exec(
          _.setAll( // Set session Vars for use in JSON Payload
@@ -520,32 +520,16 @@ class PRL_Simulation extends Simulation {
       CCDAPI.UploadDocument("CourtAdmin", "PRIVATELAW", "PRLAPPS", "TestFile.pdf"),
       CCDAPI.CreateEvent("CourtAdmin", "PRIVATELAW", "PRLAPPS", "serviceOfApplication", "bodies/prl/courtAdmin/PRLSoASubmitFL401.json"))
       // Court Manager Progression
+      .exec(flushHttpCache)
+      .exec(flushCookieJar)
       .feed(UserCaseManagerPRL)
       .exec(
         Homepage.XUIHomePage,
+        //Homepage.XUIHomePage,
         Login.XUILogin,
           CaseManager_PRL_FL401_ProgressCase.CaseManagerConfidentialityCheck,
         Logout.XUILogout)
-
-      //.exec(CCDAPI.CreateEvent("CourtManager", "PRIVATELAW", "PRLAPPS", "confidentialityCheck", "bodies/prl/courtAdmin/PRLConfidentialityCheckEvent.json"))
-
-      //confidentialityCheck
-      //.feed(UserCaseManagerPRL)
-
-
-//.exec(Homepage.XUIHomePage)
-//.exec(Login.XUILogin)
-
     }
-
-    //.exec(Caseworker_PRL_FL401_ProgressCase.CourtAdminCheckApplication)
-    //.exec(Caseworker_PRL_FL401_ProgressCase.CourtAdminSendToGateKeeper)
-    //.exec(Caseworker_PRL_FL401_ProgressCase.CourtAdminManageOrders)
-    //.exec(Caseworker_PRL_FL401_ProgressCase.CourtAdminServiceApplication)
-    //issueAndSendToLocalCourtCallback
-
-
-
 
 //  val PRLFL401CreateProgressCase = scenario("***** PRL FL401 Create Case (API) *****")
 //     .exitBlockOnFail {
@@ -756,6 +740,7 @@ class PRL_Simulation extends Simulation {
    //=========================================================
    //PRLAPICAFCASSGetDocument.inject(atOnceUsers(100)),
     PRLFL401CreateProgressCase.inject(atOnceUsers(1))
+    //PRLFL401CreateProgressRespondent.inject(atOnceUsers(1))
 
   ).protocols(httpProtocol)
     .assertions(assertions(testType))
