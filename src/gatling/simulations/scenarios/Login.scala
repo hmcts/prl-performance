@@ -51,10 +51,8 @@ object Login {
       .exec(Common.TsAndCs)
 
       .exec(Common.configUI)
-
-//      .exec(addCookie(Cookie("xui-webapp", "#{xuiWebAppCookie}").withMaxAge(28800).withSecure(true)))
-
-//      .exec(Common.userDetails)
+        
+      .exec(Common.userDetails)
 
       .exec(Common.isAuthenticated)
 
