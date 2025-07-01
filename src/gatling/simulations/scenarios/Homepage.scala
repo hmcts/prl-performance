@@ -20,29 +20,48 @@ object Homepage {
 
     exec(flushHttpCache)
     .exec(flushCookieJar)
+    .exec(flushSessionCookies)
 
     .group("XUI_010_Homepage") {
       exec(http("XUI_010_005_Homepage")
-        .get(BaseURL)
+        .get(BaseURL + "/")
         .headers(Headers.navigationHeader)
         .header("sec-fetch-site", "none"))
 
-      .exec(Common.configurationui)
-      .exec(Common.configJson)
-      .exec(Common.TsAndCs)
-      .exec(Common.configUI)
-      //.exec(Common.userDetails)
-      .exec(Common.isAuthenticated)
+        .exec(Common.configurationui)
 
-      .exec(http("XUI_010_010_AuthLogin")
-        .get(BaseURL + "/auth/login")
-        .headers(Headers.navigationHeader)
-        .check(CsrfCheck.save)
-        .check(regex("/oauth2/callback&amp;state=(.*)&amp;nonce=").saveAs("state"))
-        .check(regex("nonce=(.*)&amp;response_type").saveAs("nonce")))
-    }
-  
-  .pause(MinThinkTime, MaxThinkTime)
+        .exec(Common.configJson)
+
+        .exec(Common.TsAndCs)
+
+        .exec(Common.configUI)
+
+        // .exec(Common.userDetails)
+        .exec(http("XUI_Common_000_UserDetails")
+          .get(BaseURL + "/api/user/details?refreshRoleAssignments=undefined")
+          .headers(Headers.commonHeader)
+          .header("accept", "application/json, text/plain, */*")
+          .check(status.in(200, 304, 401)))
+
+        .exec(Common.isAuthenticated)
+
+        .exec(http("XUI_010_010_AuthLogin")
+          .get(BaseURL + "/auth/login")
+          .headers(Headers.navigationHeader)
+          .check(CsrfCheck.save)
+          .check(regex("/oauth2/callback&amp;state=(.*)&amp;nonce=").saveAs("state"))
+          .check(regex("nonce=(.*)&amp;response_type").saveAs("nonce")))
+      }
+
+//      .exec(getCookieValue(CookieKey("xui-webapp").withDomain(BaseURL.replace("https://", "")).saveAs("xuiWebAppCookie")))
+
+//      .exec(session => {
+//        val response = session("xuiWebAppCookie").as[String]
+//        println(s"XUI Webapp Cookie: \n$response")
+//        session
+//      })
+
+    .pause(MinThinkTime, MaxThinkTime)
 
   /*====================================================================================
   *PRL Citizen Homepage
