@@ -158,11 +158,12 @@ object Caseworker_PRL_C100_ProgressCase {
 
   } //End of HWF's if
 
+  val IssueAndSendToLocalCourt = 
   /*=====================================================================================
   * Select Issue and send to local Court
   ======================================================================================*/
 
-  .exec(http("XUI_PRL_XXX_360_IssueAndSendToLocalCourt")
+  exec(http("XUI_PRL_XXX_360_IssueAndSendToLocalCourt")
     .get(BaseURL + "/workallocation/case/tasks/#{caseId}/event/issueAndSendToLocalCourtCallback/caseType/PRLAPPS/jurisdiction/PRIVATELAW")
     .headers(Headers.navigationHeader)
     .header("accept", "application/json")
@@ -247,7 +248,7 @@ object Caseworker_PRL_C100_ProgressCase {
       .headers(Headers.xuiHeader)
       .header("Accept", "application/json, text/plain, */*")
       .header("x-xsrf-token", "#{XSRFToken}")
-      .check(jsonPath("$[0].id").optional.saveAs("taskId"))
+      .check(jsonPath("$..[?(@.type=='sendToGateKeeperC100')].id").optional.saveAs("taskId"))
       .check(jsonPath("$[0].type").optional.saveAs("taskType"))
       )
 
@@ -258,24 +259,23 @@ object Caseworker_PRL_C100_ProgressCase {
       //   session
       // })
 
-    //Save taskType from response
+    //Save taskId from response
     .exec(session => {
       // Initialise task type in session if it's not already present, ensure the variable exists before entering Loop
-      session("taskType").asOption[String] match {
-        case Some(taskType) => session
-        case None => session.set("taskType", "")
+      session("taskId").asOption[String] match {
+        case Some(taskId) => session
+        case None => session.set("taskId", "")
       }
     })
 
     // Loop until the task type matches "sendToGateKeeperC100"
-    .asLongAs(session => session("taskType").as[String] != "sendToGateKeeperC100") {
+    .asLongAs(session => session("taskId").asOption[String].forall(_.isEmpty)) {
       exec(http("XUI_PRL_XXX_445_SelectCaseTaskRepeat")
         .get(BaseURL + "/workallocation/case/task/#{caseId}")
         .headers(Headers.xuiHeader)
         .header("Accept", "application/json, text/plain, */*")
         .header("x-xsrf-token", "#{XSRFToken}")
-        .check(jsonPath("$[0].id").optional.saveAs("taskId"))
-        .check(jsonPath("$[0].type").optional.saveAs("taskType")))
+        .check(jsonPath("$..[?(@.type=='sendToGateKeeperC100')].id").optional.saveAs("taskId")))
 
       .pause(5, 10) // Wait between retries
     
@@ -696,4 +696,27 @@ object Caseworker_PRL_C100_ProgressCase {
       } finally fw.close()
       session
     }
+
+
+ val CourtAdminServiceApplicationExtract =
+   /*======================================================================================
+   * Click on 'Service of Application'
+   ======================================================================================*/
+   group("XUI_PRL_XXX_590_ServiceOfApplication") {
+     exec(http("XUI_PRL_XXX_590_005_ServiceOfApplication")
+       .get(BaseURL + "/data/internal/cases/#{caseId}/event-triggers/serviceOfApplication?ignore-warning=false")
+       .headers(Headers.navigationHeader)
+       .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-start-event-trigger.v2+json;charset=UTF-8")
+       .check(jsonPath("$.event_token").saveAs("event_token"))
+       .check(jsonPath("$.case_fields[7].value.list_items[0].code")saveAs("serviceOfApplicationScreenCode"))
+       .check(jsonPath("$.case_fields[7].value.list_items[0].label")saveAs("serviceOfApplicationScreenLabel"))
+       .check(jsonPath("$.case_fields[30].value.list_items[0].code")saveAs("serviceOfApplicationApplicantCode"))
+       .check(jsonPath("$.case_fields[30].value.list_items[0].label")saveAs("serviceOfApplicationApplicantName"))
+       .check(jsonPath("$.case_fields[30].value.list_items[1].code")saveAs("serviceOfApplicationRespondentCode"))
+       .check(jsonPath("$.case_fields[30].value.list_items[1].label")saveAs("serviceOfApplicationRespondentName"))
+       .check(jsonPath("$.id").is("serviceOfApplication")))
+
+  .pause(MinThinkTime, MaxThinkTime)
+
+  }
 }

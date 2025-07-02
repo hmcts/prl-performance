@@ -23,6 +23,7 @@ object Logout {
         .headers(Headers.navigationHeader)
         )
     }
+    //.exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).saveAs("XSRFToken")))
 
     .pause(MinThinkTime , MaxThinkTime)
 

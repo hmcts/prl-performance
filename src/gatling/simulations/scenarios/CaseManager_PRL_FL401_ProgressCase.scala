@@ -17,54 +17,25 @@ object CaseManager_PRL_FL401_ProgressCase {
 
   val CaseManagerConfidentialityCheck =
 
+    exec(Common.isAuthenticated)
 
-      exec(http("XUI_PRL_683_TEST_SelectCase")
-      .get(BaseURL + "/cases/case-details/#{caseId}/task")
-      .headers(Headers.xuiHeader)
-      .check(substring("HMCTS Manage cases")))
-
-    //.exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).saveAs("XSRFToken")))
-   // .exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).withSecure(true).saveAs("XSRFToken")))
-
-   /*=====================================================================================
-  * Select Case  (Case Manager)
-  ======================================================================================*/
-    //exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).saveAs("XSRFToken")))
-
-   // .exec(getCookieValue(CookieKey("xui-webapp").withDomain(BaseURL.replace("https://", "")).saveAs("xuiWebAppCookie")))
-
-    .exec { session =>
-      println("****Captured XSRFToken Second Login: " + session("XSRFToken").asOption[String].getOrElse("NOT FOUND"))
-      println("****Captured WebAppToken Second Login: " + session("xuiWebAppCookie").asOption[String].getOrElse("NOT FOUND"))
-      session
-    }
-    .exec(
-      addCookie(
-        Cookie("xui-webapp", "${xuiWebAppCookie}")
-          .withDomain("manage-case.perftest.platform.hmcts.net")
-          .withPath("/")
-      )
-    )
-     .exec(addCookie(
-       Cookie("XSRF-TOKEN", "${XSRFToken}")
-       .withDomain("manage-case.perftest.platform.hmcts.net") 
-       .withPath("/")
-       )
-     )
-
-    .exec(Common.isAuthenticated)
+    //see xui-webapp cookie capture in the Homepage scenario for details of why this is being used
+    .exec(addCookie(Cookie("xui-webapp", "#{xuiWebAppCookie}")
+      .withMaxAge(28800)
+      .withSecure(true)))
 
     .exec(http("XUI_PRL_XXX_685_SelectCase")
       .get(BaseURL + "/data/internal/cases/#{caseId}")
       .headers(Headers.xuiHeader)
-      .header("x-xsrf-token", "#{XSRFToken}")
+      .header("Accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-case-view.v2+json")
       .check(jsonPath("$.tabs[7].fields[3].value.firstName").saveAs("ApplicantFirstName"))
       .check(jsonPath("$.tabs[7].fields[3].value.lastName").saveAs("ApplicantLastName"))
       .check(jsonPath("$.tabs[8].fields[11].value.firstName").saveAs("RespondentFirstName"))
       .check(jsonPath("$.tabs[8].fields[11].value.lastName").saveAs("RespondentLastName"))
       .check(jsonPath("$.case_id").is("#{caseId}")))
 
-    //.exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).saveAs("XSRFToken")))
+      .exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).withSecure(true).saveAs("XSRFToken")))
+
     .exec(Common.waJurisdictions)
     .exec(Common.activity)
     .exec(Common.userDetails)
@@ -82,52 +53,76 @@ object CaseManager_PRL_FL401_ProgressCase {
       .headers(Headers.xuiHeader)
       .check(substring("HMCTS Manage cases")))
 
+      // Add cookie to jar manually from session
+    .exec(
+      addCookie(
+        Cookie("xui-webapp", "${xuiWebAppCookie}")
+          .withDomain("manage-case.perftest.platform.hmcts.net") // match exactly
+          .withPath("/") // match what the cookie requires
+      )
+    )
+
     .exec(http("XUI_PRL_XXX_687_SelectCaseTask")
       .get(BaseURL + "/workallocation/case/task/#{caseId}")
       .headers(Headers.xuiHeader)
       .header("Accept", "application/json, text/plain, */*")
       .header("x-xsrf-token", "#{XSRFToken}")
       .check(jsonPath("$[*].id").findAll.saveAs("taskIds"))
-      .check(jsonPath("$[*].type").findAll.saveAs("taskTypes")))
+      .check(jsonPath("$[*].type").findAll.saveAs("taskTypes"))
+      .check(jsonPath("$..[?(@.type=='confidentialCheckSOA')].id").optional.saveAs("taskId")))
 
       .pause(MinThinkTime, MaxThinkTime)
 
-    //==========================================
-    // Select correct task type and ID logic 
-    //==========================================
-    // Get the index of the task type we are looking for, then capture the task ID from the same index
-    .exec { session =>
-      val ids = session("taskIds").as[Seq[String]]
-      val types = session("taskTypes").as[Seq[String]]
-      val targetType = "confidentialCheckSOA" // Task type we are looking for
-      val matchedIndex = types.indexOf(targetType)
+    // Loop until the taskId is captured
+    .asLongAs(session => session("taskId").asOption[String].forall(_.isEmpty)) {
+      exec(http("XUI_PRL_XXX_687_SelectCaseTask")
+        .get(BaseURL + "/workallocation/case/task/#{caseId}")
+        .headers(Headers.xuiHeader)
+        .header("Accept", "application/json, text/plain, */*")
+        .header("x-xsrf-token", "#{XSRFToken}")
+        .check(jsonPath("$[*].id").findAll.saveAs("taskIds"))
+        .check(jsonPath("$[*].type").findAll.saveAs("taskTypes"))
+        .check(jsonPath("$..[?(@.type=='confidentialCheckSOA')].id").optional.saveAs("taskId")))
 
-    if (matchedIndex == -1) {
-      throw new RuntimeException(s"ID $targetType not found")
+        .pause(5, 10) // Wait between retries
     }
 
-    // Get the corresponding ID and Type using the matched index
-    val matchedId = ids(matchedIndex)
-    val matchedType = types(matchedIndex)
+    // //==========================================
+    // // Select correct task type and ID logic 
+    // //==========================================
+    // // Get the index of the task type we are looking for, then capture the task ID from the same index
+    // .exec { session =>
+    //   val ids = session("taskIds").as[Seq[String]]
+    //   val types = session("taskTypes").as[Seq[String]]
+    //   val targetType = "confidentialCheckSOA" // Task type we are looking for
+    //   val matchedIndex = types.indexOf(targetType)
 
-    // Logger Debuggo
-    println(s"Matched Index: $matchedIndex")
-    println(s"Matched ID: $matchedId")
-    println(s"Matched Type: $matchedType")
+    // if (matchedIndex == -1) {
+    //   throw new RuntimeException(s"ID $targetType not found")
+    // }
 
-    // Set the matched values as session variables
-    session
-      .set("matchedIndex", matchedIndex)
-      .set("matchedTaskId", matchedId)
-      .set("matchedTaskType", matchedType)
-    }
+    // // Get the corresponding ID and Type using the matched index
+    // val matchedId = ids(matchedIndex)
+    // val matchedType = types(matchedIndex)
+
+    // // Logger Debuggo
+    // println(s"Matched Index: $matchedIndex")
+    // println(s"Matched ID: $matchedId")
+    // println(s"Matched Type: $matchedType")
+
+    // // Set the matched values as session variables
+    // session
+    //   .set("matchedIndex", matchedIndex)
+    //   .set("matchedTaskId", matchedId)
+    //   .set("matchedTaskType", matchedType)
+    // }
 
   /*=====================================================================================
   * Claim the task
   ======================================================================================*/
 
   .exec(http("XUI_PRL_XXX_689_ClaimTask")
-      .post(BaseURL + "/workallocation/task/#{matchedTaskId}/claim")
+      .post(BaseURL + "/workallocation/task/#{taskId}/claim")
       .headers(Headers.xuiHeader)
       .header("Accept", "application/json, text/plain, */*")
       .header("x-xsrf-token", "#{XSRFToken}")

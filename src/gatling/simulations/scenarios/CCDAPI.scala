@@ -4,6 +4,7 @@ import com.typesafe.config.ConfigFactory
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import utils._
+import io.gatling.http.check.HttpCheck
 
 object CCDAPI {
 
@@ -74,7 +75,7 @@ object CCDAPI {
     .pause(1)
 
   // allows the event to be used where the userType = "Caseworker" or "Legal"
-  def CreateEvent(userType: String, jurisdiction: String, caseType: String, eventName: String, payloadPath: String) =
+  def CreateEvent(userType: String, jurisdiction: String, caseType: String, eventName: String, payloadPath: String, checksEvent: Seq[HttpCheck] = Seq.empty) =
 
     exec(_.set("eventName", eventName)
           .set("jurisdiction", jurisdiction)
@@ -97,7 +98,8 @@ object CCDAPI {
       .header("ServiceAuthorization", "#{authToken}")
       .header("Content-Type", "application/json")
       .body(ElFileBody(payloadPath))
-      .check(jsonPath("$.id")))
+      .check(jsonPath("$.id"))
+      .check(checksEvent: _*)) // Expand the checks if any
 
     .pause(1)
 
@@ -146,7 +148,7 @@ object CCDAPI {
 
     .pause(1)
 
-  def UploadDocument(userType: String, jurisdiction: String, caseType: String, docName: String) =
+  def UploadDocument(userType: String, jurisdiction: String, caseType: String, docName: String, checksUpload: Seq[HttpCheck] = Seq.empty) =
 
     exec(_.set("userType", userType)
       .set("jurisdiction", jurisdiction)
@@ -170,7 +172,8 @@ object CCDAPI {
       .check(jsonPath("$.documents[0]._links.self.href").saveAs("DocumentURL"))
       .check(jsonPath("$.documents[0].hashToken").saveAs("documentHash"))
       .check(jsonPath("$.documents[0].hashToken").saveAs("documentHashSoN"))
-      .check(jsonPath("$.documents[0]._links.self.href").saveAs("DocumentURLSoN")))
+      .check(jsonPath("$.documents[0]._links.self.href").saveAs("DocumentURLSoN"))
+      .check(checksUpload: _*)) // Expand the checks if any
 
     .pause(1)
 

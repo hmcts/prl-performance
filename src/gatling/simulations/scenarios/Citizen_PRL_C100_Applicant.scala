@@ -745,12 +745,33 @@ object Citizen_PRL_C100_Applicant {
         .formParam("applicantLastName", "#{PRLRandomString}" + "Name")
         .formParam("saveAndContinue", "true")
         //.check(CsrfCheck.save)
-        .check(headerRegex("location", """c100-rebuild\/applicant\/(.{8}-.{4}-.{4}-.{4}-.{12})\/confidentiality\/details-know""").ofType[(String)].saveAs("applicantId"))
+        //.check(headerRegex("location", """c100-rebuild\/applicant\/(.{8}-.{4}-.{4}-.{4}-.{12})\/confidentiality\/details-know""").ofType[(String)].saveAs("applicantId"))
+        .check(headerRegex("Location", """/c100-rebuild/refuge/staying-in-refuge/([0-9a-fA-F\-]{36})""").ofType[String].saveAs("applicantId"))
+        //.check(headerRegex("Location", """\/c100-rebuild\/refuge/staying-in-refuge/\/(.{8}-.{4}-.{4}-.{4}-.{12})?""").ofType[(String)].saveAs("applicantId"))
         .check(status.is(302))
         )
     }
 
     .pause(MinThinkTime, MaxThinkTime)
+
+   /*======================================================================================
+    * Staying in a refuge
+    ======================================================================================*/
+
+    .group("PRL_CitizenC100_341_StayingInARefuge") {
+      exec(http("PRL_CitizenC100_341_005_StayingInARefuge")
+        .post(prlURL + "/c100-rebuild/refuge/staying-in-refuge/#{applicantId}")
+        .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+        .header("content-type", "application/x-www-form-urlencoded")
+        .formParam("_csrf", "#{csrf}")
+        .formParam("isCitizenLivingInRefuge", "No")
+        .formParam("onlyContinue", "true")
+        .check(CsrfCheck.save)
+        .check(status.in(302, 403, 200))
+        .check(substring("Do the other people named")))
+    }
+
+     .pause(MinThinkTime, MaxThinkTime)
 
     /*======================================================================================
     * Do the other people named in this application (the respondents) know any of your contact details? - No
@@ -855,7 +876,7 @@ object Citizen_PRL_C100_Applicant {
         .formParam("onlycontinue", "true")
         .check(CsrfCheck.save)
         //.check(css("input[name='_csrf']", "value").findAll.saveAs("csrfTokens")) // Capture all tokens here to select corect one later
-        .check(substring("A refuge is a secure place for people")))
+        .check(substring("Current postcode")))
     }
 
     .pause(MinThinkTime, MaxThinkTime)
@@ -864,20 +885,20 @@ object Citizen_PRL_C100_Applicant {
     * Staying in a refuge
     ======================================================================================*/
 
-    .group("PRL_CitizenC100_400_StayingInARefuge") {
-      exec(http("PRL_CitizenC100_400_005_StayingInARefuge")
-        .post(prlURL + "/c100-rebuild/refuge/staying-in-refuge/#{applicantId}")
-        .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-        .header("content-type", "application/x-www-form-urlencoded")
-        .formParam("_csrf", "#{csrf}")
-        .formParam("isCitizenLivingInRefuge", "No")
-        .formParam("onlyContinue", "true")
-        .check(CsrfCheck.save)
-        .check(status.in(302, 403, 200))
-        .check(substring("Current postcode")))
-    }
+    // .group("PRL_CitizenC100_400_StayingInARefuge") {
+    //   exec(http("PRL_CitizenC100_400_005_StayingInARefuge")
+    //     .post(prlURL + "/c100-rebuild/refuge/staying-in-refuge/#{applicantId}")
+    //     .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+    //     .header("content-type", "application/x-www-form-urlencoded")
+    //     .formParam("_csrf", "#{csrf}")
+    //     .formParam("isCitizenLivingInRefuge", "No")
+    //     .formParam("onlyContinue", "true")
+    //     .check(CsrfCheck.save)
+    //     .check(status.in(302, 403, 200))
+    //     .check(substring("Current postcode")))
+    // }
 
-     .pause(MinThinkTime, MaxThinkTime)
+    //  .pause(MinThinkTime, MaxThinkTime)
 
     /*======================================================================================
     * Applicant Postcode
@@ -2096,7 +2117,7 @@ object Citizen_PRL_C100_Applicant {
         .formParam("_csrf", "#{csrf}")
         .formParam("opt-out-button", "")
         .check(regex("""card-details" name="cardDetails" method="POST" action="/card_details/(.*)"""").optional.saveAs("chargeId"))
-        .check(regex("""<strong>(.{16})<\/strong>""").optional.saveAs("caseNumber"))
+        .check(regex("""<strong>(.{16})<\/strong>""").optional.saveAs("caseId"))
         .check(regex("""csrf" name="csrfToken" type="hidden" value="(.*)"""").optional.saveAs("csrf"))
         .check(regex("""csrf2" name="csrfToken" type="hidden" value="(.*)"""").optional.saveAs("csrf2"))
         .check(status.in(302, 200)))
@@ -2302,7 +2323,7 @@ object Citizen_PRL_C100_Applicant {
         .check(regex("""card-details" name="cardDetails" method="POST" action="/card_details/(.*)"""").optional.saveAs("chargeId"))
         .check(regex("""csrf" name="csrfToken" type="hidden" value="(.*)"""").optional.saveAs("csrf"))
         .check(regex("""csrf2" name="csrfToken" type="hidden" value="(.*)"""").optional.saveAs("csrf2"))
-        .check(regex("""<strong>(.{16})<\/strong>""").optional.saveAs("caseNumber"))
+        .check(regex("""<strong>(.{16})<\/strong>""").optional.saveAs("caseId"))
         .check(status.in(302, 200)))
     } 
 
@@ -2354,7 +2375,7 @@ object Citizen_PRL_C100_Applicant {
         .header("content-type", "application/x-www-form-urlencoded")
         .formParam("csrfToken", "#{csrf}")
         .formParam("chargeId", "#{chargeId}")
-        .check(regex("""<strong>(.{16})<\/strong>""").saveAs("caseNumber"))
+        .check(regex("""<strong>(.{16})<\/strong>""").saveAs("caseId"))
         .check(status.is(200)))
     }
 
@@ -2366,7 +2387,7 @@ object Citizen_PRL_C100_Applicant {
     .exec { session =>
       val fw = new BufferedWriter(new FileWriter("C100Cases.csv", true))
       try {
-        fw.write(session("caseNumber").as[String] + "\r\n")
+        fw.write(session("caseId").as[String] + "\r\n")
       } finally fw.close()
       session
     }
