@@ -67,8 +67,6 @@ object CaseManager_PRL_FL401_ProgressCase {
       .headers(Headers.xuiHeader)
       .header("Accept", "application/json, text/plain, */*")
       .header("x-xsrf-token", "#{XSRFToken}")
-      .check(jsonPath("$[*].id").findAll.saveAs("taskIds"))
-      .check(jsonPath("$[*].type").findAll.saveAs("taskTypes"))
       .check(jsonPath("$..[?(@.type=='confidentialCheckSOA')].id").optional.saveAs("taskId")))
 
       .pause(MinThinkTime, MaxThinkTime)
@@ -80,8 +78,6 @@ object CaseManager_PRL_FL401_ProgressCase {
         .headers(Headers.xuiHeader)
         .header("Accept", "application/json, text/plain, */*")
         .header("x-xsrf-token", "#{XSRFToken}")
-        .check(jsonPath("$[*].id").findAll.saveAs("taskIds"))
-        .check(jsonPath("$[*].type").findAll.saveAs("taskTypes"))
         .check(jsonPath("$..[?(@.type=='confidentialCheckSOA')].id").optional.saveAs("taskId")))
 
         .pause(5, 10) // Wait between retries

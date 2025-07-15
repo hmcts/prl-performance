@@ -1,0 +1,156 @@
+{
+  "hearingDetails": {
+     "duration": 180,
+     "hearingType": "ABA5-APL",
+     "hearingLocations": [
+        {
+           "locationType": "court",
+           "locationId": "#{locationId}"
+        }
+     ],
+     "hearingIsLinkedFlag": false,
+     "hearingWindow": null,
+     "privateHearingRequiredFlag": false,
+     "panelRequirements": {
+        "roleType": [
+           "45"
+        ],
+        "panelPreferences": []
+     },
+     "autolistFlag": false,
+     "hearingPriorityType": "Standard",
+     "numberOfPhysicalAttendees": 3,
+     "hearingInWelshFlag": false,
+     "facilitiesRequired": [],
+     "listingComments": "Extra details add here, some details about the hearing for performance test purposes.",
+     "hearingRequester": "",
+     "leadJudgeContractType": "",
+     "amendReasonCodes": null,
+     "hearingChannels": [
+        "INTER"
+     ],
+     "listingAutoChangeReasonCode": "user-added-comments",
+     "isPaperHearing": false
+  },
+  "caseDetails": {
+     "hmctsServiceCode": "ABA5",
+     "caseRef": "#{caseId}",
+     "requestTimeStamp": null,
+     "hearingID": null,
+     "caseDeepLink": "https://manage-case.perftest.platform.hmcts.net/cases/case-details/#{caseId}#Case File View",
+     "hmctsInternalCaseName": "#{caseName}",
+     "publicCaseName": "#{applicantLastName} and #{respondentLastName}",
+     "caseAdditionalSecurityFlag": false,
+     "caseInterpreterRequiredFlag": false,
+     "caseCategories": [
+        {
+           "categoryType": "caseType",
+           "categoryValue": "ABA5-PRL",
+           "categoryParent": null
+        },
+        {
+           "categoryType": "caseSubType",
+           "categoryValue": "ABA5-PRL",
+           "categoryParent": "ABA5-PRL"
+        }
+     ],
+     "caseManagementLocationCode": "#{locationId}",
+     "caserestrictedFlag": false,
+     "caseSLAStartDate": "#{todayDate}",
+     "externalCaseReference": ""
+  },
+  "partyDetails": [
+     {
+        "partyID": "#{applicantId}",
+        "partyType": "IND",
+        "partyRole": "APPL",
+        "partyName": "#{applicantFirstName} #{applicantLastName}",
+        "individualDetails": {
+           "firstName": "#{applicantFirstName}",
+           "lastName": "#{applicantLastName}",
+           "preferredHearingChannel": "INTER",
+           "interpreterLanguage": "",
+           "reasonableAdjustments": [],
+           "relatedParties": [],
+           "title": null,
+           "vulnerableFlag": false,
+           "vulnerabilityDetails": "",
+           "hearingChannelEmail": [
+              "applicant@perftest12345.com"
+           ],
+           "hearingChannelPhone": [
+              "07000000000"
+           ],
+           "custodyStatus": null,
+           "otherReasonableAdjustmentDetails": null
+        },
+        "unavailabilityDOW": null,
+        "unavailabilityRanges": null
+     },
+     {
+        "partyID": "#{solicitorPartyId}",
+        "partyType": "IND",
+        "partyRole": "LGRP",
+        "partyName": "#{solicitorFirstName} #{solicitorLastName}",
+        "individualDetails": {
+           "firstName": "#{solicitorFirstName}",
+           "lastName": "#{solicitorLastName}",
+           "preferredHearingChannel": "INTER",
+           "interpreterLanguage": "",
+           "reasonableAdjustments": [],
+           "relatedParties": [],
+           "title": null,
+           "vulnerableFlag": false,
+           "vulnerabilityDetails": "",
+           "hearingChannelEmail": [
+              "sol@perftest12345.com"
+           ],
+           "hearingChannelPhone": [
+              "07000000000"
+           ],
+           "custodyStatus": null,
+           "otherReasonableAdjustmentDetails": null
+        },
+        "unavailabilityDOW": null,
+        "unavailabilityRanges": null
+     },
+     {
+        "partyID": "#{respondentId}",
+        "partyType": "IND",
+        "partyRole": "RESP",
+        "partyName": "#{respondentFirstName} #{respondentLastName}",
+        "individualDetails": {
+           "firstName": "#{respondentFirstName}",
+           "lastName": "#{respondentLastName}",
+           "preferredHearingChannel": "INTER",
+           "interpreterLanguage": "",
+           "reasonableAdjustments": [],
+           "relatedParties": [],
+           "title": null,
+           "vulnerableFlag": false,
+           "vulnerabilityDetails": "",
+           "hearingChannelEmail": [
+              "respondent@perftest12345.com"
+           ],
+           "hearingChannelPhone": [
+              "07000000000"
+           ],
+           "custodyStatus": null,
+           "otherReasonableAdjustmentDetails": null
+        },
+        "unavailabilityDOW": null,
+        "unavailabilityRanges": null
+     },
+     {
+        "partyID": "#{solicitorOrgUuid}",
+        "partyType": "ORG",
+        "partyName": "perf-prl-aALof",
+        "partyRole": "LGRP",
+        "organisationDetails": {
+           "name": "perf-prl-aALof",
+           "organisationType": "ORG",
+           "cftOrganisationID": "U1NS7EH"
+        }
+     }
+  ]
+}

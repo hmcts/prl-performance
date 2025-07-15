@@ -14,6 +14,9 @@ object Environment {
  val apiMgmtURL = "https://cft-api-mgmt.#{env}.platform.hmcts.net/"
  val pcqURL = "https://pcq.#{env}.platform.hmcts.net"
  val caseDocAPI = "http://ccd-case-document-am-api-#{env}.service.core-compute-#{env}.internal"
+ val hmcAPIURL = "http://hmc-cft-hearing-service-#{env}.service.core-compute-#{env}.internal"
+ val hmcHmiInboundURL = "http://hmc-hmi-inbound-adapter-#{env}.service.core-compute-#{env}.internal"
+ val postCodeLookupURL = "https://api.os.uk"
 
  val minThinkTime = 2
  val maxThinkTime = 4

@@ -6,11 +6,11 @@ import utils.{Common, CsrfCheck, Environment, Headers}
 import java.io.{BufferedWriter, FileWriter}
 
 /*===============================================================================================================
-* Court Admin C100 case progression. Send to local court --> Sent to Gatekeeper --> Add an order --> Serve 
+* Court Admin C100 case progression. Send to local court --> Sent to Gatekeeper --> Add an order --> Serve
 ================================================================================================================*/
 
 object Caseworker_PRL_C100_ProgressCase {
-  
+
   val BaseURL = Environment.baseURL
   val MinThinkTime = Environment.minThinkTime
   val MaxThinkTime = Environment.maxThinkTime
@@ -28,7 +28,7 @@ object Caseworker_PRL_C100_ProgressCase {
   val CourtAdminCheckApplication =
 
     exec(http("XUI_PRL_XXX_290_SelectCase")
-      .get(BaseURL + "/data/internal/cases/#{caseId}")
+      .get(BaseURL + "/data/internal/cases/#{caseId}") 
       .headers(Headers.xuiHeader)
       .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-case-view.v2+json")
       .check(jsonPath("$.case_id").is("#{caseId}")))
@@ -44,7 +44,7 @@ object Caseworker_PRL_C100_ProgressCase {
     .pause(MinThinkTime, MaxThinkTime)
 
    /*=====================================================================================
-   * Select task tab 
+   * Select task tab
    ======================================================================================*/
 
     .exec(http("XUI_PRL_XXX_300_SelectCase")
@@ -104,7 +104,7 @@ object Caseworker_PRL_C100_ProgressCase {
 
   .pause(MinThinkTime, MaxThinkTime)
 
-  // if help with fee's task, additional steps required 
+  // if help with fee's task, additional steps required
   .doIf(session => session("taskType").as[String] == "checkHwfApplicationC100") {
 
     /*====================================================================================
@@ -158,7 +158,7 @@ object Caseworker_PRL_C100_ProgressCase {
 
   } //End of HWF's if
 
-  val IssueAndSendToLocalCourt = 
+  val IssueAndSendToLocalCourt =
   /*=====================================================================================
   * Select Issue and send to local Court
   ======================================================================================*/
@@ -185,7 +185,7 @@ object Caseworker_PRL_C100_ProgressCase {
     .headers(Headers.navigationHeader)
     .header("accept", "application/json"))
     //.check(substring("PRIVATELAW")))
-  
+
   // .exec(Common.caseActivityPost)
   .exec(Common.userDetails)
   .exec(Common.caseActivityOnlyGet)
@@ -202,7 +202,7 @@ object Caseworker_PRL_C100_ProgressCase {
     .header("Accept", "application/json, text/plain, */*")
     .header("x-xsrf-token", "#{XSRFToken}")
     .body(ElFileBody("bodies/prl/courtAdmin/PRLLocalCourt.json"))
-    .check(jsonPath("$.data.courtList.value.code").is("234946:")))  //Value does not change for now. 
+    .check(jsonPath("$.data.courtList.value.code").is("234946:")))  //Value does not change for now.
 
   .pause(MinThinkTime, MaxThinkTime)
 
@@ -216,7 +216,7 @@ object Caseworker_PRL_C100_ProgressCase {
     .header("Accept", "application/json, text/plain, */*")
     .header("x-xsrf-token", "#{XSRFToken}")
     .body(ElFileBody("bodies/prl/courtAdmin/PRLLocalCourtSubmit.json"))
-    .check(jsonPath("$.data.courtList.value.code").is("234946:")))  //Value does not change for now. 
+    .check(jsonPath("$.data.courtList.value.code").is("234946:")))  //Value does not change for now.
 
   .exec(http("XUI_PRL_XXX_420_SubmitToLocalCourtCompleteTask")
     .post(BaseURL + "/workallocation/task/#{taskId}/complete")
@@ -228,7 +228,7 @@ object Caseworker_PRL_C100_ProgressCase {
 
   .pause(MinThinkTime, MaxThinkTime)
 
-  val CourtAdminSendToGateKeeper = 
+  val CourtAdminSendToGateKeeper =
 
     exec(http("XUI_PRL_XXX_430_SelectCase")
       .get(BaseURL + "/cases/case-details/#{caseId}/task")
@@ -278,10 +278,8 @@ object Caseworker_PRL_C100_ProgressCase {
         .check(jsonPath("$..[?(@.type=='sendToGateKeeperC100')].id").optional.saveAs("taskId")))
 
       .pause(5, 10) // Wait between retries
-    
+
     } // end asLongAs
-
-
 
   .pause(MinThinkTime, MaxThinkTime)
 
@@ -341,11 +339,11 @@ object Caseworker_PRL_C100_ProgressCase {
         .get(BaseURL + "/data/internal/cases/#{caseId}")
         .headers(Headers.xuiHeader)
         .check(jsonPath("$.case_type.name").is("C100 & FL401 Applications")))
-    } 
+    }
 
     .pause(MinThinkTime, MaxThinkTime)
 
-  val CourtAdminManageOrders = 
+  val CourtAdminManageOrders =
 
   exec(_.setAll(
       "PRLRandomString" -> (Common.randomString(7)),
@@ -605,7 +603,7 @@ object Caseworker_PRL_C100_ProgressCase {
   session
   })
 
-    
+
 
   /*======================================================================================
   * Special arrangements letter  Upload
@@ -679,9 +677,12 @@ object Caseworker_PRL_C100_ProgressCase {
         .check(jsonPath("$.data.caseInvites[1].value.accessCode").saveAs("prlAccessCodeRespondent")))
     }
 
-
-//Write applicant access code to file
-    .exec { session =>
+  //===========================================================================================================
+  // Write access codes to File
+  //============================================================================================================
+  val WriteAccessCodesToFile =
+  //Write applicant access code to file
+    exec { session =>
       val fw = new BufferedWriter(new FileWriter("C100caseNumberAndCodeApplicant.csv", true))
       try {
         fw.write(session("caseId").as[String] + "," + session("prlAccessCodeApplicant").as[String] + "\r\n")
@@ -719,4 +720,278 @@ object Caseworker_PRL_C100_ProgressCase {
   .pause(MinThinkTime, MaxThinkTime)
 
   }
+
+
+val ListHearing =
+
+/*======================================================================================
+* SearchCase
+======================================================================================*/
+    exec(http("XUI_PRL_C100Progress_365_SearchCase")
+      .get(BaseURL + "/data/internal/cases/#{caseId}")
+      .headers(Headers.commonHeader)
+      .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-case-view.v2+json")
+      .check(jsonPath("$.tabs[0].fields[0].value").saveAs("caseName"))
+      .check(jsonPath("$.case_id").is("#{caseId}"))
+      //Applicant
+      .check(jsonPath("$.case_data.applicantTable[0].id").saveAs("applicantId"))
+      .check(jsonPath("$.case_data.applicantTable[0].value.lastName").saveAs("applicantLastName"))
+      .check(jsonPath("$.case_data.applicantTable[0].value.firstName").saveAs("applicantFirstName"))
+      .check(jsonPath("$.case_data.applicantTable[0].value.email").saveAs("applicantEmail"))
+      .check(jsonPath("$.case_data.applicants[0].value.phoneNumber").saveAs("applicantPhoneNo"))
+      //App Solicitor
+      .check(jsonPath("$.case_data.applicants[0].value.solicitorPartyId").saveAs("solicitorPartyId"))
+      //.check(jsonPath("$.case_data.applicants[0].value.solicitorOrg.OrganisationID").findAll.saveAs("solicitorOrgId"))
+      //.check(jsonPath("$.case_data.applicants[0].value.solicitorOrg.OrganisationName").findAll.saveAs("solicitorOrgName"
+      .check(jsonPath("$.case_data.applicants[0].value.solicitorOrgUuid").saveAs("solicitorOrgUuid"))
+      .check(jsonPath("$.case_data.applicants[0].value.representativeLastName").saveAs("solicitorLastName"))
+      .check(jsonPath("$.case_data.applicants[0].value.representativeFirstName").saveAs("solicitorFirstName"))
+      .check(jsonPath("$.case_data.applicants[0].value.solicitorEmail").saveAs("solicitorEmail"))
+      //Respondents
+      .check(jsonPath("$.case_data.respondentTable[0].id").saveAs("respondentId"))
+      .check(jsonPath("$.case_data.respondentTable[0].value.firstName").saveAs("respondentFirstName"))
+      .check(jsonPath("$.case_data.respondentTable[0].value.lastName").saveAs("respondentLastName"))
+      .check(jsonPath("$.case_data.respondentTable[0].value.email").saveAs("respondentEmail"))
+      .check(jsonPath("$.case_data.respondentTable[0].value.phoneNumber").saveAs("respondentPhoneNo")))
+
+
+
+      //x.case_data.applicantName
+
+
+/*======================================================================================
+* Click the Hearing Tab
+======================================================================================*/
+
+    .group("XUI_PRL_C100Progress_370_HearingsTab") {
+      exec(http("XUI_PRL_C100Progress_370_005_HearingsTab")
+        .get(BaseURL + "/api/hearings/getHearings?caseId=#{caseId}")
+        .headers(Headers.commonHeader)
+        .header("Accept", "application/json, text/plain, */*")
+        .check(status.is(200)))
+
+      .exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).withSecure(true).saveAs("XSRFToken")))
+
+      .exec(http("XUI_PRL_C100Progress_370_010_GetHearingsJurisdiction")
+        .post(BaseURL + "/api/hearings/loadServiceHearingValues?jurisdictionId=PRIVATELAW")
+        .headers(Headers.commonHeader)
+        .header("Content-Type", "application/json; charset=utf-8")
+        .header("Accept", "application/json, text/plain, */*")
+        .header("x-xsrf-token", "#{XSRFToken}")
+        .body(StringBody("""{"caseReference":"#{caseId}"}"""))
+        .check(substring("hearing-facilities")))
+
+      .exec(http("XUI_PRL_C100Progress_370_015_GetHearingTypes")
+        .get(BaseURL + "/api/prd/lov/getLovRefData?categoryId=HearingType&serviceId=ABA5&isChildRequired=N")
+        .headers(Headers.commonHeader)
+        .header("Accept", "application/json, text/plain, */*")
+        .check(substring("HearingType")))
+
+      //.exec(Common.caseActivityPost)
+    }
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+/*======================================================================================
+* Select Request a Hearing
+=======================================================================================*/
+
+    .group("XUI_PRL_C100Progress_380_RequestHearing") {
+
+      //exec(Common.caseActivityPost)
+      exec(Common.isAuthenticated)
+
+      .exec(http("XUI_Common_000_UserDetails")
+        .get(BaseURL +"/api/user/details?refreshRoleAssignments=undefined")
+        .headers(Headers.commonHeader)
+        .header("Cache-Control", "no-cache")
+        .header("Pragma", "no-cache")
+        .header("accept", "application/json, text/plain, */*")
+        .check(jsonPath("$.roleAssignmentInfo[0].primaryLocation")saveAs("locationId"))
+        .check(status.in(200)))
+
+      .exec(http("XUI_PRL_C100Progress_380_005_GetCaseFlag")
+        .get(BaseURL + "/api/prd/caseFlag/getCaseFlagRefData?serviceId=ABA5")
+        .headers(Headers.commonHeader)
+        .header("Accept", "application/json, text/plain, */*")
+        .check(status.in(200, 304)))
+
+      .exec(http("XUI_PRL_C100Progress_380_010_LocationById")
+        .get(BaseURL + "/api/prd/location/getLocationById?epimms_id=#{locationId}&serviceCode=null")
+        .headers(Headers.commonHeader)
+        .header("Accept", "application/json, text/plain, */*")
+        .check(status.in(200, 304)))
+
+    }
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+/*======================================================================================
+* Navigate through hearing screens and submit hearing request
+=======================================================================================*/
+
+      .exec(http("XUI_PRL_C100Progress_390_GetCaseFlag")
+        .get(BaseURL + "/api/prd/caseFlag/getCaseFlagRefData?serviceId=ABA5")
+        .headers(Headers.commonHeader)
+        .header("Accept", "application/json, text/plain, */*")
+        .check(status.in(200, 304)))
+
+      .pause(MinThinkTime, MaxThinkTime)
+
+      .exec(http("XUI_PRL_C100Progress_400_GetHearingChannel")
+        .get(BaseURL + "/api/prd/lov/getLovRefData?categoryId=HearingChannel&serviceId=ABA5&isChildRequired=N")
+        .headers(Headers.commonHeader)
+        .header("Accept", "application/json, text/plain, */*")
+        .check(substring("HearingChannel")))
+
+      .pause(MinThinkTime, MaxThinkTime)
+
+      .exec(http("XUI_PRL_C100Progress_410_LocationByIdServiceCode")
+        .get(BaseURL + "/api/prd/location/getLocationById?epimms_id=#{locationId}&serviceCode=ABA5")
+        .headers(Headers.commonHeader)
+        .header("Accept", "application/json, text/plain, */*")
+        .check(status.in(200, 304)))
+
+      .pause(MinThinkTime, MaxThinkTime)
+
+      .exec(http("XUI_PRL_C100Progress_420_GetHearingChannel")
+        .get(BaseURL + "/api/prd/lov/getLovRefData?categoryId=JudgeType&serviceId=ABA5&isChildRequired=N")
+        .headers(Headers.commonHeader)
+        .header("Accept", "application/json, text/plain, */*")
+        .check(substring("JudgeType")))
+
+      .pause(MinThinkTime, MaxThinkTime)
+
+      .exec(http("XUI_PRL_C100Progress_430_GetHearingChannel")
+        .get(BaseURL + "/api/prd/lov/getLovRefData?categoryId=HearingPriority&serviceId=ABA5&isChildRequired=N")
+        .headers(Headers.commonHeader)
+        .header("Accept", "application/json, text/plain, */*")
+        .check(substring("HearingPriority")))
+
+    .group("XUI_PRL_C100Progress_440_ListHearing") {
+       exec(http("XUI_PRL_C100Progress_440_005_LoadServiceLinkedCases")
+        .post(BaseURL + "/api/hearings/loadServiceLinkedCases?jurisdictionId=PRIVATELAW")
+        .headers(Headers.commonHeader)
+        .header("Content-Type", "application/json; charset=utf-8")
+        .header("Accept", "application/json, text/plain, */*")
+        .body(StringBody("""{"caseReference":"#{caseId}","hearingId": ""}"""))
+        .check(status.is(200)))
+
+       .exec(http("XUI_PRL_C100Progress_440_010_CaseLinkingReasonCode")
+        .get(BaseURL + "/api/prd/lov/getLovRefData?categoryId=HearingPriority&serviceId=ABA5&isChildRequired=N")
+        .headers(Headers.commonHeader)
+        .header("Accept", "application/json, text/plain, */*")
+        .check(substring("HearingPriority")))
+     }
+
+      .pause(MinThinkTime, MaxThinkTime)
+
+    .group("XUI_PRL_C100Progress_450_ListHearing") {
+      exec(http("XUI_PRL_C100Progress_390_005_GetCaseFlag")
+        .get(BaseURL + "/api/prd/caseFlag/getCaseFlagRefData?serviceId=ABA5")
+        .headers(Headers.commonHeader)
+        .header("Accept", "application/json, text/plain, */*")
+        .check(status.in(200, 304)))
+
+
+      .exec(http("XUI_PRL_C100Progress_450_010_GetHearingChannel")
+        .get(BaseURL + "/api/prd/lov/getLovRefData?categoryId=HearingChannel&serviceId=ABA5&isChildRequired=N")
+        .headers(Headers.commonHeader)
+        .header("Accept", "application/json, text/plain, */*")
+        .check(substring("HearingChannel")))
+
+      .exec(http("XUI_PRL_C100Progress_450_015_GetHearingSubChannel")
+        .get(BaseURL + "/api/prd/lov/getLovRefData?categoryId=HearingSubChannel&serviceId=ABA5&isChildRequired=N")
+        .headers(Headers.commonHeader)
+        .header("Accept", "application/json, text/plain, */*")
+        .check(substring("HearingSubChannel")))
+
+      .exec(http("XUI_PRL_C100Progress_450_020_LocationByIdServiceCode")
+        .get(BaseURL + "/api/prd/location/getLocationById?epimms_id=#{locationId}&serviceCode=ABA5")
+        .headers(Headers.commonHeader)
+        .header("Accept", "application/json, text/plain, */*")
+        .check(status.in(200, 304)))
+
+    }
+
+      .pause(MinThinkTime, MaxThinkTime)
+
+/*======================================================================================
+* Submit hearing request
+=======================================================================================*/
+
+      .exec(http("XUI_PRL_C100Progress_460_SubmitHearingRequest")
+        .post(BaseURL + "/api/hearings/submitHearingRequest")
+        .headers(Headers.commonHeader)
+        .header("Content-Type", "application/json; charset=utf-8")
+        .header("Accept", "application/json, text/plain, */*")
+        .header("x-xsrf-token", "#{XSRFToken}")
+        .body(ElFileBody("bodies/prl/courtAdmin/PRLC100SubmitHearing.json"))  //src\gatling\resources\bodies\prl\courtAdmin\PRLC100SubmitHearing.json
+        .check(jsonPath("$.hearingRequestID").saveAs("hearingRequestId"))
+        .check(status.is(201)))
+
+  //.exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).saveAs("XSRFToken")))
+  //.exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).withSecure(true).saveAs("XSRFToken")))
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+val CourtAdminHearingsTab =
+
+    /*======================================================================================
+    * Click on the Hearings tab to view any Hearings
+    ======================================================================================*/
+
+    group("XUI_PRL_C100Progress_470_HearingsTab") {
+      exec(http("XUI_PRL_C100_470_005_HearingsTab")
+        .get(BaseURL + "/cases/case-details/#{caseId}/hearings")
+        .headers(Headers.commonHeader)
+        .check(status.is(200)))
+
+      .exec(Common.configUI)
+      .exec(Common.userDetails)
+      .exec(Common.isAuthenticated)
+
+      .exec(http("XUI_PRL_C100Progress_470_010_HearingsTabGetCaseData")
+        .get("/data/internal/cases/#{caseId}")
+        .headers(Headers.commonHeader)
+        .header("Accept", "application/json, text/plain, */*")
+        .check(status.is(200)))
+
+      .exec(Common.monitoringTools)
+      .exec(Common.manageLabellingRoleAssignment)
+      .exec(Common.waJurisdictions)
+
+      .exec(http("XUI_PRL_C100Progress_470_015_HearingsTabCaseWorkerJurisdictions")
+        .get("/aggregated/caseworkers/:uid/jurisdictions?access=read")
+        .headers(Headers.commonHeader)
+        .header("Accept", "application/json, text/plain, */*")
+        .check(status.is(200)))
+
+      //.exec(Common.activity)
+
+      .exec(http("XUI_PRL_C100Progress_470_020_HearingsTabGetHearings")
+        .get("/api/hearings/getHearings?caseId=#{caseId}")
+        .headers(Headers.commonHeader)
+        .header("Accept", "application/json, text/plain, */*")
+        .check(substring("LISTED"))
+        .check(status.is(200)))
+
+      .exec(http("XUI_PRL_C100Progress_470_025_HearingsTabLoadHearingValues")
+        .post("/api/hearings/loadServiceHearingValues?jurisdictionId=PRIVATELAW")
+        .headers(Headers.commonHeader)
+        .header("Content-Type", "application/json; charset=utf-8")
+        .header("Accept", "application/json, text/plain, */*")
+        .header("x-xsrf-token", "#{XSRFToken}")
+        .body(StringBody("""{"caseReference":"#{caseId}"}"""))
+        .check(substring("hearing-facilities")))
+
+      .exec(http("XUI_PRL_C100Progress_470_030_GetHearingTypes")
+        .get("/api/prd/lov/getLovRefData?categoryId=HearingType&serviceId=ABA5&isChildRequired=N")
+        .headers(Headers.commonHeader)
+        .header("Accept", "application/json, text/plain, */*")
+        .check(substring("HearingType")))
+
+      .exec(Common.caseActivityPost)
+    }
+    .pause(MinThinkTime, MaxThinkTime)
 }

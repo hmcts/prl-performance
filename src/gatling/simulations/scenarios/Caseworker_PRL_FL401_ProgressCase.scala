@@ -117,10 +117,49 @@ object Caseworker_PRL_FL401_ProgressCase {
     //.exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).saveAs("XSRFToken")))
     .exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).withSecure(true).saveAs("XSRFToken")))
       
-    //.exec(Common.activity)
+    .exec(Common.activity)
     .exec(Common.configUI)
     .exec(Common.configJson)
-    //.exec(Common.userDetails)
+    .exec(Common.userDetails)
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+    //==============================================================
+    // Wait for correct task if it hasn't yet appeared
+    //==============================================================
+
+    .exec(http("XUI_PRL_XXX_441_SelectCaseTask")
+        .get(BaseURL + "/workallocation/case/task/#{caseId}")
+        .headers(Headers.xuiHeader)
+        .header("Accept", "application/json, text/plain, */*")
+        .header("x-xsrf-token", "#{XSRFToken}")
+        .check(jsonPath("$..[?(@.type=='sendToGateKeeperFL401')].id").optional.saveAs("taskId")))
+
+        .pause(MinThinkTime, MaxThinkTime)
+
+      // Loop until the taskId is captured
+      .asLongAs(session => session("taskId").asOption[String].forall(_.isEmpty)) {
+        exec(http("XUI_PRL_XXX_442_SelectCaseTask")
+          .get(BaseURL + "/workallocation/case/task/#{caseId}")
+          .headers(Headers.xuiHeader)
+          .header("Accept", "application/json, text/plain, */*")
+          .header("x-xsrf-token", "#{XSRFToken}")
+          .check(jsonPath("$..[?(@.type=='sendToGateKeeperFL401')].id").optional.saveAs("taskId")))
+
+          .pause(5, 10) // Wait between retries
+      }
+
+    /*=====================================================================================
+    * Claim the task
+    ======================================================================================*/
+
+    .exec(http("XUI_PRL_XXX_443_ClaimTask")
+        .post(BaseURL + "/workallocation/task/#{taskId}/claim")
+        .headers(Headers.xuiHeader)
+        .header("Accept", "application/json, text/plain, */*")
+        .header("x-xsrf-token", "#{XSRFToken}")
+        .body(StringBody("""{}"""))
+        .check(status.in(200, 204)))
 
     .pause(MinThinkTime, MaxThinkTime)
 
@@ -129,11 +168,11 @@ object Caseworker_PRL_FL401_ProgressCase {
   ======================================================================================*/
 
     .exec(http("XUI_PRL_XXX_490_SendToGateKeeper")
-      .get(BaseURL + "/data/internal/cases/#{caseId}/event-triggers/sendToGateKeeper?ignore-warning=false")
+      .get(BaseURL + "/data/internal/cases/#{caseId}/event-triggers/fl401SendToGateKeeper?ignore-warning=false")
       .headers(Headers.navigationHeader)
       .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-start-event-trigger.v2+json;charset=UTF-8")
       .check(jsonPath("$.event_token").saveAs("event_token"))
-      .check(jsonPath("$.id").is("sendToGateKeeper")))
+      .check(jsonPath("$.id").is("fl401SendToGateKeeper")))
 
       .exec(Common.userDetails)
       //.exec(getCookieValue(CookieKey("XSRF-TOKEN").withDomain(BaseURL.replace("https://", "")).saveAs("XSRFToken")))
@@ -146,7 +185,7 @@ object Caseworker_PRL_FL401_ProgressCase {
   ======================================================================================*/
 
     .exec(http("XUI_PRL_XXX_500_AddGateKeeper")
-      .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=sendToGateKeeper1")
+      .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=fl401SendToGateKeeper1")
       .headers(Headers.xuiHeader)
       .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
       .header("x-xsrf-token", "#{XSRFToken}")

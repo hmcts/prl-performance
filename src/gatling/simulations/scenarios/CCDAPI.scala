@@ -17,7 +17,7 @@ object CCDAPI {
   val MaxThinkTime = Environment.maxThinkTime
 
   val clientSecret = ConfigFactory.load.getString("auth.clientSecret")
-
+          
   //userType must be "Caseworker", "Legal", "Citizen" or "Solicitor"
   def Auth(userType: String) =
 
@@ -75,11 +75,16 @@ object CCDAPI {
     .pause(1)
 
   // allows the event to be used where the userType = "Caseworker" or "Legal"
-  def CreateEvent(userType: String, jurisdiction: String, caseType: String, eventName: String, payloadPath: String, checksEvent: Seq[HttpCheck] = Seq.empty) =
+  def CreateEvent(userType: String, jurisdiction: String, caseType: String, eventName: String, payloadPath: String, checksEvent: Seq[HttpCheck] = Seq.empty, checksTrigger: Seq[HttpCheck] = Seq.empty) =
 
     exec(_.set("eventName", eventName)
           .set("jurisdiction", jurisdiction)
           .set("caseType", caseType))
+
+    .exec { session =>
+    println("****CASEID: " + session("caseId").asOption[String].getOrElse("NOT FOUND"))
+    session
+  }
 
     .exec(Auth(userType))
 
@@ -88,7 +93,8 @@ object CCDAPI {
       .header("Authorization", "Bearer #{bearerToken}")
       .header("ServiceAuthorization", "#{authToken}")
       .header("Content-Type", "application/json")
-      .check(jsonPath("$.token").saveAs("event_token")))
+      .check(jsonPath("$.token").saveAs("event_token"))
+      .check(checksTrigger: _*)) // Expand the checks if any
 
     .pause(1)
 

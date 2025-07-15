@@ -27,6 +27,7 @@ object Common {
   val patternReference = DateTimeFormatter.ofPattern("d MMM yyyy")
   val yearMonthDay = DateTimeFormatter.ofPattern("yyyy-MM-dd")
   val BaseURL = Environment.baseURL
+  val PostCodeLookupURL = Environment.postCodeLookupURL
 
   def randomString(length: Int) = {
     rnd.alphanumeric.filter(_.isLetter).take(length).mkString
@@ -85,6 +86,10 @@ object Common {
   def getCurrentDay(): String = {
     now.format(patternDay)
   }
+    // //Date +2 Months
+  def getFutureDate(): String = {
+    now.plusMonths(2).format(yearMonthDay)
+  }
 
   def getCurrentTime(): String = {
     timeNow.format(patternTime)
@@ -114,6 +119,16 @@ object Common {
         .check(jsonPath("$.header.totalresults").ofType[Int].gt(0))
         .check(regex(""""(?:BUILDING|ORGANISATION)_.+" : "(.+?)",(?s).*?"(?:DEPENDENT_LOCALITY|THOROUGHFARE_NAME)" : "(.+?)",.*?"POST_TOWN" : "(.+?)",.*?"POSTCODE" : "(.+?)"""")
           .ofType[(String, String, String, String)].findRandom.saveAs("addressLines")))
+
+  val postcodeLookupDirect =
+  feed(postcodeFeeder)
+    .exec(http("XUI_Common_000_PostcodeLookupDirect")
+      .get(PostCodeLookupURL + "/search/places/v1/postcode?postcode=#{postcode}&key=NDXNuOmAmh3EzzFXcd2wkNuO2OcGdBGv")
+      .headers(Headers.commonHeader)
+      .header("accept", "application/json")
+      .check(jsonPath("$.header.totalresults").ofType[Int].gt(0))
+      .check(regex(""""(?:BUILDING|ORGANISATION)_.+" : "(.+?)",(?s).*?"(?:DEPENDENT_LOCALITY|THOROUGHFARE_NAME)" : "(.+?)",.*?"POST_TOWN" : "(.+?)",.*?"POSTCODE" : "(.+?)"""")
+        .ofType[(String, String, String, String)].findRandom.saveAs("addressLines")))
 
   def healthcheck(path: String) =
     exec(http("XUI_Common_000_Healthcheck")

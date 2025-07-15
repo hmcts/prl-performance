@@ -16,7 +16,7 @@ object Citizen_PRL_C100_Applicant {
   val prlURL = Environment.prlURL
   val pcqURL = Environment.pcqURL
   val IdamUrl = Environment.idamURL
-  val PRLCitizens = csv("UserDataPRLCitizen.csv").circular
+  //val PRLCitizens = csv("UserDataPRLCitizen.csv").circular
   val postcodeFeeder = csv("postcodes.csv").circular
 
   // Variables for user flow control
