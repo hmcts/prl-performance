@@ -160,7 +160,7 @@ def ListHearing(caseType: String) =
       .header("Accept","*/*")
       .header("Accept-Encoding","gzip, deflate, br")
       .body(ElFileBody("#{listHearingBody}"))
-      .check(status.is(200)))
+      .check(status.is(202)))
 
   .pause(3) 
 
