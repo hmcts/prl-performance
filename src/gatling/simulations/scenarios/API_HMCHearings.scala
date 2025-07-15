@@ -28,10 +28,6 @@ object API_HMCHearings {
       case "ccdUser" => session.set("emailAddressCCD", "prl_pt_am_test_hctl@justice.gov.uk").set("passwordCCD", "Nagoya0102").set("microservice", "ccd_data").set("clientId", "ccd_gateway").set("clientSecret", clientSecret)
       case "hmcHearingRequest" => session.set("emailAddressCCD", "prl_pt_ca_swansea@justice.gov.uk").set("passwordCCD", "Nagoya0102").set("microservice", "hmc_hmi_inbound_adapter").set("clientId", "hmc_hmi_inbound_adapter").set("clientSecret", clientSecretHMC)
       case "hmcHearingList" => session.set("emailAddressCCD", "prl_pt_ca_swansea@justice.gov.uk").set("passwordCCD", "Nagoya0102").set("microservice", "api_gw").set("clientId", "hmc_hmi_inbound_adapter").set("clientSecret", clientSecretHMC)
-      //case "Solicitor" => session.set("emailAddressCCD", session("user").as[String]).set("passwordCCD", session("password").as[String]).set("microservice", "ccd_data")
-      //case "CourtAdmin" => session.set("emailAddressCCD", "prl_pt_ca_swansea@justice.gov.uk").set("passwordCCD", session("password").as[String]).set("microservice", "prl_cos_api")
-      //case "CourtManager" => session.set("emailAddressCCD", "prl_pt_am_test_hctl@justice.gov.uk").set("passwordCCD", session("password").as[String]).set("microservice", "prl_cos_api")
-      //case "CourtAdminDocUpload" => session.set("emailAddressCCD", session("user").as[String]).set("passwordCCD", session("password").as[String]).set("microservice", "xui_webapp")
     })
 
     .exec(http("XUI_000_Auth")
@@ -116,16 +112,17 @@ val RequestHearingC100 =
       .header("Authorization", "Bearer #{bearerToken}")
       .header("ServiceAuthorization", "#{authToken}")
       .header("Content-Type", "application/json")
-      .body(ElFileBody("bodies/prl/hmc/hmc_requestHearingC100.Json"))
+      .body(ElFileBody("bodies/prl/hmc/RequestHearingC100.Json"))
       .check(jsonPath("$.hearingRequestID").saveAs("hearingRequestId"))
       .check(status.saveAs("statusvalue")))
 
     .pause(90)
+
 // hearing request for case types "C100" or "FL401"
 def RequestHearing(caseType: String) = 
 
     exec(session => caseType match {
-      case "C100" => session.set("requestHearingBody", "bodies/prl/hmc/hmc_requestHearingC100.Json")
+      case "C100" => session.set("requestHearingBody", "bodies/prl/hmc/RequestHearingC100.Json")
       //case "FL401" => session.set("emailAddressCCD", "prl_pt_ca_swansea@justice.gov.uk").set("passwordCCD")
     })
 
@@ -166,7 +163,6 @@ def ListHearing(caseType: String) =
       .check(status.is(200)))
 
   .pause(3) 
-
 
 val ListHearingC100 =
 
