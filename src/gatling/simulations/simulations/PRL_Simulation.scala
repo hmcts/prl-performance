@@ -539,7 +539,7 @@ class PRL_Simulation extends Simulation {
       feed(UserFeederPRL)
       .exec(_.set("env", s"${env}")
       .set("caseType", "PRLAPPS")
-      //.set("caseId", "1752052380385244") //comment out when running e2e
+      //.set("caseId", "1752586714982192") //comment out when running e2e
       )
       .exec(_.setAll(
         "C100ApplicantFirstName1" -> ("App" + Common.randomString(5)),
@@ -642,18 +642,16 @@ class PRL_Simulation extends Simulation {
       //================================
       //Request and List Hearings x 2
       //================================
-      .exec(
-        API_HMCHearings.Auth("ccdUser"),
-        API_HMCHearings.GetCaseDetails,
-        repeat(2) {
-          exec(
-            API_HMCHearings.Auth("hmcHearingRequest"),
-            API_HMCHearings.RequestHearingC100,
-            //List the hearing (Mimic request back from List Assist)
-            API_HMCHearings.ListHearingC100
-          )
-          }
-      )
+      .repeat(2) {
+       exec(
+          API_HMCHearings.Auth("ccdUser"),
+          API_HMCHearings.GetCaseDetails,
+          API_HMCHearings.Auth("hmcHearingRequest"),
+          API_HMCHearings.RequestHearing("C100"),
+          //List the hearing (Mimic request back from List Assist)
+          API_HMCHearings.Auth("hmcHearingList"),
+          API_HMCHearings.ListHearing("C100"))
+      }
     }
 
 
@@ -842,8 +840,8 @@ class PRL_Simulation extends Simulation {
    // At Once Users - For API Tests
    //=========================================================
    //PRLAPICAFCASSGetDocument.inject(atOnceUsers(100)),
-    //PRLC100CreateProgressCase.inject(atOnceUsers(1))
-    testHearings.inject(atOnceUsers(1))
+    PRLC100CreateProgressCase.inject(atOnceUsers(1))
+    //testHearings.inject(atOnceUsers(1))
     //PRLC100CaseworkerScenario.inject(atOnceUsers(1))
     //PRLFL401CreateProgressRespondent.inject(atOnceUsers(1))
 
