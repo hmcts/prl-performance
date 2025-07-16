@@ -17,19 +17,22 @@ To make other configuration changes to the file, first run `git update-index --n
 
 
 Data Preparation for Citizen/Respondent UI Journeys
-----------------------------------------------------
-To generate data for CUI as a respondent cases need to be created and progressed to a specific state. The process for this has been broken down into different scenarios:
-1. PrlFL401Create - Creates FL401 cases as a Solicitor within Manage Case XUI --> Writes to output file: FL401Cases.csv
-2. PRLC100CitizenScenario - Creates C100 cases as a Citizen within PRL CUI --> Writes to output file: C100Cases.csv
-3. PrlDataPrep - Creates C100 cases as a Solicitor within Manage Case XUI --> Write to output file: cases.csv *16/10/24 - requires rework*
+---------------------------------------------------
+** Before running any datagen scenarios, ensure the following code has been uncommented from within the protocol defintion:
+.inferHtmlResources(AllowList(), DenyList()) *** ONLY TO BE USED FOR DATA PREP ****
 
------ Once the cases are generated they they need to be progressed by case worker and case admins within XUI ---------- 
-FL401
-4. PRLFL401CaseworkerScenario - Progress created FL401 cases as a caseworker within Manage Case XUI --> Reads from FL401CourtAdminData.csv --> Writes to output file(s): FL401caseNumberAndCodeApplicant.csv & FL401caseNumberAndCodeApplicant.csv 
-5. PRLFL401CaseManagerScenario - Progress the FL401 cases (which have been run through PRLFL401CaseworkerScenario) to the desired state by a case manager within Manage Case XUI --> Reads from FL401CourtAdminData.csv --> Writes to output file: FL401caseNumberProgressed
+To generate data for CUI as a respondent/applicant cases need to be created and progressed to a specific state. The process for this has been broken down into two different scenarios:
+1. PRLFL401CreateProgressCase - Creates FL401 cases as a Solicitor within Manage Case XUI, Progresses this case as a caseworker and a court admin, requests and lists 2 x hearings --> Writes to output files: FL401caseNumberAndCodeApplicant.csv, FL401caseNumberAndCodeRespondent.csv
+2. PRLC100CreateProgressCase - Creates C100 cases cases as a Solicitor within Manage Case XUI, Progresses this case as a caseworker and a court admin, requests and lists 2 x hearings --> Writes to output files: C100caseNumberAndCodeApplicant.csv, C100caseNumberAndCodeRespondent.csv
 
-C100
-6. PRLC100CaseworkerScenario - Progress created C100 cases as a caseworker within Manage Case XUI --> Reads from C100CourtAdminData.csv --> Writes to output file: C100caseNumberAndCode.csv
+The datagen scripts progress the cases to service of application and then lists hearings to ensure maximum coverage within the citizen user interface. These scenarios have been setup to create enough data for three peak load performance tests and will take 1.5-2.5 hours to run. 
+
+The generated case data can then be copied into the correct CSV files to be fed into the relevant scripts:
+
+FL401caseNumberAndCodeApplicant --> FL401ApplicantDashData.csv For the FL401ApplicantDashboard script/scenario
+FL401caseNumberAndCodeRespondent --> FL401RespondentData.csv For the FL401Respondent script/scenario
+C100caseNumberAndCodeApplicant --> C100ApplicantDashData.csv For the C100ApplicantDashboard script/scenario
+C100caseNumberAndCodeRespondent --> C100RespondentData.csv For the FL401Respondent script/scenario
 
 
 Data Preparation for CUIRA Journeys
@@ -39,3 +42,7 @@ AddRAData.csv
 
 To generate data for the modifyRA journey the data needs to be run through the PRLReasonableAdjustmentsAdd scenario. This writes data to:
 ModifyRAData.csv
+
+Test User Cleanup
+----------------------------------------------------
+Before or after any performance test scenario, run the userCleaner scenario to clear all created test users from previous tests 

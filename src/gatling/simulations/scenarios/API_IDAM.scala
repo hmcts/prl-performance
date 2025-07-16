@@ -8,7 +8,7 @@ import scala.concurrent.duration._
 
 object API_IDAM {
 
-  val userFeeder = csv("UserFeeder.csv").circular
+  val userFeeder = csv("UserFeeder.csv").shuffle
 
   val headers_1 = Map( //ServiceAuthorization token can be called from http://rpe-service-auth-provider-perftest.service.core-compute-perftest.internal/testing-support/lease
     "Content-Type" -> "application/json",
