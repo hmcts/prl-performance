@@ -221,8 +221,8 @@ Click Access Code &  Enter Case ID & Pin
 
   val ConfirmEditContactDetails =
 
-	group("PRL_C100Respondent_060_ConfirmEditContactDtails") {
-    	exec(http("PRL_C100Respondent_060_005_ConfirmEditContactDtails")
+	group("PRL_C100Respondent_060_ConfirmEditContactDetails") {
+    	exec(http("PRL_C100Respondent_060_005_ConfirmEditContactDetails")
 		.get(prlURL + "/respondent/confirm-contact-details/checkanswers/#{caseId}")
 		.headers(Headers.navigationHeader)
       	//.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")

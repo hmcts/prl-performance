@@ -37,23 +37,14 @@ object Login {
         .withSecure(true)))
 
       .exec(Common.configurationui)
-
       .exec(Common.configJson)
-
       .exec(Common.TsAndCs)
-
       .exec(Common.configUI)
 
     //see xui-webapp cookie capture in the Homepage scenario for details of why this is being used
     .exec(addCookie(Cookie("xui-webapp", "#{xuiWebAppCookie}")
       .withMaxAge(28800)
       .withSecure(true)))
-
-    .exec { session =>
-      println("****Captured XSRFToken Pre User Details: " + session("XSRFToken").asOption[String].getOrElse("NOT FOUND"))
-      println("****Captured WebAppToken Pre User Details: " + session("xuiWebAppCookie").asOption[String].getOrElse("NOT FOUND"))
-      session
-    }
 
     // Add cookie to jar manually
     .exec(
@@ -63,21 +54,12 @@ object Login {
           .withPath("/") 
       )
     )
-
       .exec(Common.userDetails)
-
       .exec(Common.isAuthenticated)
-
       .exec(Common.monitoringTools)
     }
 
     .pause(MinThinkTime , MaxThinkTime)
-
-    .exec { session =>
-      println("****Captured XSRFToken After Login: " + session("XSRFToken").asOption[String].getOrElse("NOT FOUND"))
-      println("****Captured WebAppToken After Login: " + session("xuiWebAppCookie").asOption[String].getOrElse("NOT FOUND"))
-      session
-    }
 
   val XUILoginCa =
 

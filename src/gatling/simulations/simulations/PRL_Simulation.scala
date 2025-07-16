@@ -125,8 +125,9 @@ class PRL_Simulation extends Simulation {
     .exitBlockOnFail {
       exec(_.set("env", s"${env}")
       .set("caseType", "PRLAPPS"))
-      //.feed(UserCitizenPRL)
+      //=======================
       // Create Citizen User
+      //=======================
       .exec(API_IDAM.CreateUserInIdam("App"))
       .repeat(1) {
         exec(Citizen_PRL_C100_Applicant.C100Case)
@@ -136,7 +137,7 @@ class PRL_Simulation extends Simulation {
     }
 
 /*===============================================================================================
-* PRL Caseworker Journey - Progress C100 Case for Respondent
+* PRL Caseworker Journey - Progress C100 Case for Respondent                    ** CAN DELETE **
 ===============================================================================================*/
 
   val PRLC100CaseworkerScenario = scenario("***** PRL C100 Caseworker Journey *****")
@@ -158,7 +159,7 @@ class PRL_Simulation extends Simulation {
     }
 
 /*===============================================================================================
-* PRL Caseworker Journey - Progress FL401 Case
+* PRL Caseworker Journey - Progress FL401 Case                                  ** CAN DELETE **
 ===============================================================================================*/
 
   val PRLFL401CaseworkerScenario = scenario("***** PRL FL401 Caseworker Journey *****")
@@ -178,7 +179,7 @@ class PRL_Simulation extends Simulation {
     }
 
 /*===============================================================================================
-* PRL CaseManager Journey - Progress FL401 Case
+* PRL CaseManager Journey - Progress FL401 Case                                 ** CAN DELETE **
 ===============================================================================================*/
 
   val PRLFL401CaseManagerScenario = scenario("***** PRL FL401 CaseManager Journey *****")
@@ -195,7 +196,7 @@ class PRL_Simulation extends Simulation {
     }
 
 /*===============================================================================================
-* PRL Citizen Journey
+* PRL Citizen Journey                                                           ** CAN DELETE **
 ===============================================================================================*/
 
   val PrlDataPrep = scenario("***** PRL Case DataPrep Journey *****")
@@ -245,7 +246,11 @@ class PRL_Simulation extends Simulation {
     .exitBlockOnFail {
       exec(_.set("env", s"${env}")
       .set("caseType", "PRLAPPS"))
-      .feed(UserFeederPRLRespondent)
+      //=======================
+      // Create Citizen User
+      //=======================
+      .exec(API_IDAM.CreateUserInIdam("Resp"))
+      //.feed(UserFeederPRLRespondent)
       .exec(Homepage.PRLHomePage)
       .exec(Login.PrlLogin)
       .repeat(1) {
@@ -270,6 +275,7 @@ class PRL_Simulation extends Simulation {
         .exec(Citizen_PRL_C100_Respondent.WriteDataToFile)
         .exec(Logout.CUILogout)
       }
+    .exec(API_IDAM.DeleteUserInIdam)
     }
 
 
@@ -281,15 +287,16 @@ class PRL_Simulation extends Simulation {
     .exitBlockOnFail {
       exec(_.set("env", s"${env}")
       .set("caseType", "PRLAPPS"))
-      //.feed(UserCitizenPRL)
+      //========================
       // Create Citizen User
+      //========================
       .exec(API_IDAM.CreateUserInIdam("App"))
       .exec(Homepage.PRLHomePage)
       .exec(Login.PrlLogin)
       .repeat(1) {
         feed(c100ApplicantDashData)
         .exec(Citizen_PRL_C100_ApplicantDashboard.RetrieveCase)
-        //.exec(Citizen_PRL_C100_ApplicantDashboard.GetCase)                                // Not needed in this journey as once linked you are redirected to the dashboard (Use for script dev and debugging)
+        //.exec(Citizen_PRL_C100_ApplicantDashboard.GetCase)                              // Not needed in this journey as once linked you are redirected to the dashboard (Use for script dev and debugging)
         .exec(Citizen_PRL_C100_ApplicantDashboard.YourApplication)
         .exec(Citizen_PRL_C100_ApplicantDashboard.CheckHarmViolenceAllegations)           //New for R6.0
         .exec(Citizen_PRL_C100_ApplicantDashboard.MakeRequestToCourtAboutCase)            //New for R6.0/7.0
@@ -305,12 +312,12 @@ class PRL_Simulation extends Simulation {
         .exec(Citizen_PRL_C100_ApplicantDashboard.ViewCourtHearings)                      //New for R6.0
         .exec(Citizen_PRL_C100_ApplicantDashboard.WriteDataToFile)
         .exec(Logout.CUILogout)
-        .exec(API_IDAM.DeleteUserInIdam)
       }
+    .exec(API_IDAM.DeleteUserInIdam)
     }
 
   /*===============================================================================================
-  * PRL Citizen Reasonable Adjustments Journey - Add
+  * PRL Citizen Reasonable Adjustments Journey - Add                           
   ===============================================================================================*/
 
   val PRLReasonableAdjustmentsAdd = scenario("***** PRL Citizen Reasonable Adjustments Journey - Add *****")
@@ -374,7 +381,11 @@ class PRL_Simulation extends Simulation {
       repeat(1) {
        exec(_.set("env", s"${env}")
       .set("caseType", "PRLAPPS"))
-      .feed(UserFeederPRLRespondent)
+      //=======================
+      // Create Citizen User
+      //=======================
+      .exec(API_IDAM.CreateUserInIdam("Resp"))
+      //.feed(UserFeederPRLRespondent)
       .exec(Homepage.PRLHomePage)
       .exec(Login.PrlLogin)
       .repeat(1) {
@@ -395,8 +406,8 @@ class PRL_Simulation extends Simulation {
         .exec(Citizen_PRL_FL401_Respondent.ViewCourtHearings)                     //New for R6.0
         .exec(Citizen_PRL_FL401_Respondent.WriteDataToFile)
         .exec(Logout.CUILogout)
-
       }
+    .exec(API_IDAM.DeleteUserInIdam)
     }
   }
 
@@ -408,7 +419,11 @@ class PRL_Simulation extends Simulation {
     .exitBlockOnFail {
       exec(_.set("env", s"${env}")
       .set("caseType", "PRLAPPS"))
-      .feed(UserCitizenPRL)
+      //=======================
+      // Create Citizen User
+      //=======================
+      .exec(API_IDAM.CreateUserInIdam("App"))
+      //.feed(UserCitizenPRL)
       .exec(Homepage.PRLHomePage)
       .exec(Login.PrlLogin)
       .repeat(1) {
@@ -435,11 +450,12 @@ class PRL_Simulation extends Simulation {
         //.exec(Citizen_PRL_FL401_ApplicantDashboard.ViewServedAppPack) //Not needed in this journey
         //.exec(Citizen_PRL_FL401_ApplicantDashboard.ViewRespondentsDocuments) //Not needed in this journey
       }
+    .exec(API_IDAM.DeleteUserInIdam)
     }
 
 
   /*==================================================================================================================================================
-  * PRL FL401 Create Case (Solicitor), Progress Case (CourtAdmin, CaseManager), FL401 Respondent, FL401 Applicant (Split 50/50 by VuserID modulo 2)
+  * PRL FL401 Create Case (Solicitor), Progress Case (CourtAdmin, CaseManager), FL401 Respondent, FL401 Applicant (Split 50/50 by VuserID modulo 2)  ** CAN DELETE **
   ===================================================================================================================================================*/
 
   val PRLFL401CreateProgressRespondent = scenario("***** PRL FL401 Create, process and respond to cases *****")
@@ -486,7 +502,8 @@ class PRL_Simulation extends Simulation {
       .set("caseType", "PRLAPPS")
       //.set("caseId", "1750952108549355") //comment out when running e2e
       )
-      .exec(
+      .repeat(5) {
+       exec(
          _.setAll( // Set session Vars for use in JSON Payload
            "PRLRandomString" -> (Common.randomString(7)),
            "ApplicantFirstName" -> (Common.randomString(4) + "AppFirst"),
@@ -558,7 +575,8 @@ class PRL_Simulation extends Simulation {
     }
     //Write codes to file for Citizen UI Flows
    .exec(Caseworker_PRL_FL401_ProgressCase.WriteAccessCodesToFile)
-  }
+  } //end of repeat 
+  } 
 
   //===============================================================================================
   // Solicitor Create & Progress C100 Case via CCD API Calls (where applicable/possible)
@@ -570,7 +588,8 @@ class PRL_Simulation extends Simulation {
       .set("caseType", "PRLAPPS")
       //.set("caseId", "1752586714982192") //comment out when running e2e
       )
-      .exec(_.setAll(
+      .repeat(5) {
+       exec(_.setAll(
         "C100ApplicantFirstName1" -> ("App" + Common.randomString(5)),
         "C100ApplicantLastName1" -> ("Test" + Common.randomString(5)),
         "C100ApplicantFirstName2" -> ("App" + Common.randomString(5)),
@@ -683,8 +702,8 @@ class PRL_Simulation extends Simulation {
       }
       //Write codes to file for Citizen UI Flows
     .exec(Caseworker_PRL_C100_ProgressCase.WriteAccessCodesToFile)
-    }
-
+    } // end of repeat
+    } 
 
   /*===============================================================================================
   * PRL Citizen C100 Create & Progress by Caseworker  ** OLD DELETE SOON **
@@ -768,8 +787,6 @@ class PRL_Simulation extends Simulation {
         .exec(API_IDAM.DeleteUserInIdam)
       }
 
-  
-    
   /*===============================================================================================
   * Simulation Configuration
    ===============================================================================================*/
@@ -842,49 +859,28 @@ class PRL_Simulation extends Simulation {
     //=================================================
   //C100 & CUIRA Release Scenarios - SMOKE TEST
   //=================================================
-  // PRLC100CitizenScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
-  // PRLC100RespondentScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
-  // PRLFL401RespondentScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
-  // PRLReasonableAdjustmentsAdd.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
-  // PRLReasonableAdjustmentsModify.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
-  // PRLC100ApplicantDashboardScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
-  // PRLFL401ApplicantDashboardScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
+   //PRLC100CitizenScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
+   //PRLC100RespondentScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
+   //PRLFL401RespondentScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
+   //PRLReasonableAdjustmentsAdd.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
+   //PRLReasonableAdjustmentsModify.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
+   //PRLC100ApplicantDashboardScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
+   //PRLFL401ApplicantDashboardScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
 
-  //=================================================
-  //Case creation/progression Scenarios:
-  //=================================================
-  //CafcasDownloadByDocScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
-  //PRLC100CaseworkerScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-  //PRLFL401CaseworkerScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-  //PRLFL401CaseManagerScenario.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-  //PrlFL401Create.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
 
   //=================================================
   //Data Prep Scenario (3 x test's data)
   //=================================================
-  //PrlDataPrep.inject(atOnceUsers(1)),
-  //PRLFL401CaseworkerScenario.inject(atOnceUsers(4)),
-  //PRLFL401CaseManagerScenario.inject(atOnceUsers(7)),
-  //PRLC100CitizenCreateAndProgressCase.inject(atOnceUsers(1)),
-  //PRLFL401CreateProgressCase.inject(atOnceUsers(1)),
-  //PRLCreateAndProcessCases.inject(atOnceUsers(1)),
-  //PrlFL401Create.inject(atOnceUsers(6)),
-  //PRLFL401CreateProgressRespondent.inject(atOnceUsers(1)),
-  //PRLC100CaseworkerScenario.inject(atOnceUsers(9)),
-    //  PRLCitizenApplicationGuidance.inject(atOnceUsers(3)),
-    //  PRLC100RespondentScenario.inject(atOnceUsers(3)),
-    //  PRLC100ApplicantDashboardScenario.inject(atOnceUsers(3)),
-    //  PRLFL401RespondentScenario.inject(atOnceUsers(3)),
-    //  PRLFL401ApplicantDashboardScenario.inject(atOnceUsers(3)),
-    //  PRLC100CitizenScenario.inject(atOnceUsers(3)),
-    //  PRLReasonableAdjustmentsAdd.inject(atOnceUsers(3)),
-    //  PRLReasonableAdjustmentsModify.inject(atOnceUsers(3)),
+  PRLC100CreateProgressCase.inject(rampUsers(5).during(5)),
+  PRLFL401CreateProgressCase.inject(rampUsers(5).during(5))
+
 
    //=========================================================
    // At Once Users - For API Tests
    //=========================================================
    //PRLAPICAFCASSGetDocument.inject(atOnceUsers(100)),
-    userCleaner.inject(atOnceUsers(1))
+    //PRLFL401CreateProgressCase.inject(atOnceUsers(10))
+    //userCleaner.inject(atOnceUsers(5))
     //testHearings.inject(atOnceUsers(1))
     //PRLC100CaseworkerScenario.inject(atOnceUsers(1))
     //PRLFL401CreateProgressRespondent.inject(atOnceUsers(1))

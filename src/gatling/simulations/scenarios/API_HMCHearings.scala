@@ -23,7 +23,6 @@ object API_HMCHearings {
   //userType must be "Caseworker", "Legal", "Citizen" or "Solicitor"
   def Auth(userType: String) =
 
-//******* SET THESE PROPERLY *******  What is actually used/needed
     exec(session => userType match {
       case "ccdUser" => session.set("emailAddressCCD", "prl_pt_am_test_hctl@justice.gov.uk").set("passwordCCD", "Nagoya0102").set("microservice", "ccd_data").set("clientId", "ccd_gateway").set("clientSecret", clientSecret)
       case "hmcHearingRequest" => session.set("emailAddressCCD", "prl_pt_ca_swansea@justice.gov.uk").set("passwordCCD", "Nagoya0102").set("microservice", "hmc_hmi_inbound_adapter").set("clientId", "hmc_hmi_inbound_adapter").set("clientSecret", clientSecretHMC)

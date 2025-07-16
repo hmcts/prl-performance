@@ -56,11 +56,12 @@ object Homepage {
 
   .pause(MinThinkTime, MaxThinkTime)
 
-  .exec { session =>
-      println("****Captured XSRFToken After HomePage: " + session("XSRFToken").asOption[String].getOrElse("NOT FOUND"))
-      println("****Captured WebAppToken After HomePage: " + session("xuiWebAppCookie").asOption[String].getOrElse("NOT FOUND"))
-      session
-    }
+  // Kept for debugging purposes
+  // .exec { session =>
+  //     println("****Captured XSRFToken After HomePage: " + session("XSRFToken").asOption[String].getOrElse("NOT FOUND"))
+  //     println("****Captured WebAppToken After HomePage: " + session("xuiWebAppCookie").asOption[String].getOrElse("NOT FOUND"))
+  //     session
+  //   }
 
   /*====================================================================================
   *PRL Citizen Homepage

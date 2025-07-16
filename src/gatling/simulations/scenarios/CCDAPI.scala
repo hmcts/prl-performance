@@ -21,8 +21,6 @@ object CCDAPI {
   //userType must be "Caseworker", "Legal", "Citizen" or "Solicitor"
   def Auth(userType: String) =
 
-
-//******* SET THESE PROPERLY *******  What is actually used/needed
     exec(session => userType match {
       case "Caseworker" => session.set("emailAddressCCD", "ccdloadtest-cw@gmail.com").set("passwordCCD", "Password12").set("microservice", "ccd_data")
       case "Legal" => session.set("emailAddressCCD", "ccdloadtest-la@gmail.com").set("passwordCCD", "Password12").set("microservice", "ccd_data")
