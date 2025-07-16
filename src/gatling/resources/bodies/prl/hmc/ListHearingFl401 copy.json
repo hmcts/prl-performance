@@ -106,6 +106,33 @@
                  "code":"INTER",
                  "description":" In Person"
               }
+           },
+           {
+              "entityIdCaseHQ":"4511#{LARandomNumber}",
+              "entityId":"#{solicitorPartyId}",
+              "entityType":"IND",
+              "entityClass":"PERSON",
+              "entityName":"SolFirst SolLast",
+              "entityYouth":false,
+              "entityRole":{
+                 "code":"LGRP",
+                 "description":"Legal Representative"
+              },
+              "hearingChannel":{
+                 "code":"INTER",
+                 "description":" In Person"
+              }
+           },
+           {
+              "entityIdCaseHQ":"4511#{LARandomNumber}",
+              "entityId":"#{solicitorOrgUuid}",
+              "entityType":"ORG",
+              "entityClass":"ORG",
+              "entityName":"perf-prl-aALof",
+              "entityRole":{
+                 "code":"LGRP",
+                 "description":"Legal Representative"
+              }
            }
         ]
      }

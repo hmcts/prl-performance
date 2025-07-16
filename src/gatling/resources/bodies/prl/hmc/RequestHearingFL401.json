@@ -1,0 +1,120 @@
+{
+  "requestDetails": {
+    "versionNumber": 1
+  },
+    "hearingDetails": {
+        "hearingType": "ABA5-DIR", 
+        "hearingWindow": {
+            "dateRangeStart": "#{dateNow}",
+            "dateRangeEnd": "#{futureDate}"
+    },
+        "duration": 60,
+        "numberOfPhysicalAttendees": 5,
+        "hearingInWelshFlag": false,
+        "hearingPriorityType": "Standard",
+        "hearingLocations": [
+            {
+                "locationType": "court",
+                "locationId": "29656"
+            }
+        ],
+        "facilitiesRequired": [
+            "27"
+        ],
+        "listingComments": "test",
+        "privateHearingRequiredFlag": true,
+        "panelRequirements": {
+            "roleType": [
+                "24"
+            ],
+            "authorisationTypes": [],
+            "authorisationSubType": [],
+            "panelPreferences": [],
+            "panelSpecialisms": []
+        },
+        "hearingIsLinkedFlag": false,
+        "hearingChannels": [
+            "INTER"
+        ],
+        "autolistFlag": true
+    },
+  "caseDetails": {
+    "hmctsServiceCode": "ABA5",
+    "caseRef": "#{caseId}",
+    "requestTimeStamp": "#{dateNow}T12:00:00.000Z",
+    "caseDeepLink": "https://manage-case.perftest.platform.hmcts.net/cases/case-details/#{caseId}#Case File View",
+    "hmctsInternalCaseName": "#{caseName}",
+    "publicCaseName": "Re-Minor",
+    "caseAdditionalSecurityFlag": false,
+    "caseInterpreterRequiredFlag": false,
+    "caseCategories": [
+            {
+                "categoryType": "caseSubType",
+                "categoryValue": "ABA5-PRL",
+                "categoryParent": "ABA5-PRL"
+            },
+            {
+                "categoryType": "caseType",
+                "categoryValue": "ABA5-PRL"
+            }
+        ],
+        "caseManagementLocationCode": "29656", 
+        "caserestrictedFlag": false,
+        "caseSLAStartDate": "#{dateNow}"
+    },
+  "partyDetails": [
+      {
+         "partyID": "#{applicantPartyId}",
+         "partyType": "IND",
+         "partyRole": "APPL",
+         "partyName": "#{applicantFirstName} #{applicantLastName}",
+         "individualDetails": {
+            "firstName": "#{applicantFirstName}",
+            "lastName": "#{applicantLastName}",
+            "preferredHearingChannel": "INTER",
+            "interpreterLanguage": "",
+            "reasonableAdjustments": [],
+            "relatedParties": [],
+            "title": null,
+            "vulnerableFlag": false,
+            "vulnerabilityDetails": "",
+            "hearingChannelEmail": [
+               "hearingEmail@email.com"
+            ],
+            "hearingChannelPhone": [
+               "#{applicantPhoneNo}"
+            ],
+            "custodyStatus": null,
+            "otherReasonableAdjustmentDetails": null
+         },
+         "unavailabilityDOW": null,
+         "unavailabilityRanges": null
+      },
+      {
+         "partyID": "#{respondentPartyId}",
+         "partyType": "IND",
+         "partyRole": "RESP",
+         "partyName": "#{respondentFirstName} #{respondentLastName}",
+         "individualDetails": {
+            "firstName": "#{respondentFirstName}",
+            "lastName": "#{respondentLastName}",
+            "preferredHearingChannel": "INTER",
+            "interpreterLanguage": "",
+            "reasonableAdjustments": [],
+            "relatedParties": [],
+            "title": null,
+            "vulnerableFlag": false,
+            "vulnerabilityDetails": "",
+            "hearingChannelEmail": [
+               "#{respondentEmail}"
+            ],
+            "hearingChannelPhone": [],
+            "custodyStatus": null,
+            "otherReasonableAdjustmentDetails": null
+         },
+         "unavailabilityDOW": null,
+         "unavailabilityRanges": null
+      }
+      
+   ]
+}

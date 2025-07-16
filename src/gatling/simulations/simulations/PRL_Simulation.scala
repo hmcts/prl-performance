@@ -471,7 +471,10 @@ class PRL_Simulation extends Simulation {
            "todayDate" -> Common.getDate(),
            "LegalAdviserName" -> (Common.randomString(4) + " " + Common.randomString(4) + "legAdv"),
            "JudgeFirstName" -> (Common.randomString(4) + "judgefirst"),
-           "JudgeLastName" -> (Common.randomString(4) + "judgeLast")))
+           "JudgeLastName" -> (Common.randomString(4) + "judgeLast"),
+           "LARandomString" -> Common.randomString(5),
+          "LARandomNumber" -> Common.randomNumber(4),
+          "futureDate" -> Common.getFutureDate()))
       .exec(
         CCDAPI.CreateCaseFL401("Solicitor", "PRIVATELAW", "PRLAPPS", "solicitorCreate", "bodies/prl/fl401/PRLFL401CreateNewCase.json"),
         CCDAPI.CreateEvent("Solicitor", "PRIVATELAW", "PRLAPPS", "fl401TypeOfApplication", "bodies/prl/fl401/PRLFL401TypeOfApplicationCheckYourAnswers.json"),
@@ -516,20 +519,19 @@ class PRL_Simulation extends Simulation {
       //================================
       //Request and List Hearings x 2
       //================================
-      .exec(
+    .repeat(2) {
+     exec(
         API_HMCHearings.Auth("ccdUser"),
         API_HMCHearings.GetCaseDetailsFL401,
-        repeat(2) {
-          exec(
-            API_HMCHearings.Auth("hmcHearingRequest"),
-            API_HMCHearings.RequestHearingC100,
-            //List the hearing (Mimic request back from List Assist)
-            API_HMCHearings.ListHearingC100
-          )
-          }
-      )
-      }
-
+        API_HMCHearings.Auth("hmcHearingRequest"),
+        API_HMCHearings.RequestHearing("FL401"),
+        //List the hearing (Mimic request back from List Assist)
+        API_HMCHearings.Auth("hmcHearingList"),
+        API_HMCHearings.ListHearing("FL401"))
+    }
+    //Write codes to file for Citizen UI Flows
+   .exec(Caseworker_PRL_FL401_ProgressCase.WriteAccessCodesToFile)
+  }
 
   //===============================================================================================
   // Solicitor Create & Progress C100 Case via CCD API Calls (where applicable/possible)
@@ -842,8 +844,8 @@ class PRL_Simulation extends Simulation {
    // At Once Users - For API Tests
    //=========================================================
    //PRLAPICAFCASSGetDocument.inject(atOnceUsers(100)),
-    //PRLFL401CreateProgressCase.inject(atOnceUsers(1))
-    testHearings.inject(atOnceUsers(1))
+    PRLFL401CreateProgressCase.inject(atOnceUsers(1))
+    //testHearings.inject(atOnceUsers(1))
     //PRLC100CaseworkerScenario.inject(atOnceUsers(1))
     //PRLFL401CreateProgressRespondent.inject(atOnceUsers(1))
 

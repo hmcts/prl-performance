@@ -110,11 +110,11 @@ val GetCaseDetailsFL401 =
       //.check(jsonPath("$.case_data.applicantOrRespondentCaseName").saveAs("caseName"))
       .check(jsonPath("$.case_data.caseNameHmctsInternal").saveAs("caseName"))
       //Applicant
-        .check(jsonPath("$.case_data.applicantsFL401.partyId").saveAs("applicantId"))
+        .check(jsonPath("$.case_data.applicantsFL401.partyId").saveAs("applicantPartyId"))
         .check(jsonPath("$.case_data.applicantsFL401.lastName").saveAs("applicantLastName"))
         .check(jsonPath("$.case_data.applicantsFL401.firstName").saveAs("applicantFirstName"))
         .check(jsonPath("$.case_data.applicantsFL401.email").saveAs("applicantEmail"))
-        .check(jsonPath("$.case_data.applicantsFL401.phoneNumber").findAll.saveAs("applicantPhoneNo"))
+        .check(jsonPath("$.case_data.applicantsFL401.phoneNumber").saveAs("applicantPhoneNo"))
       //App Solicitor
         .check(jsonPath("$.case_data.applicantsFL401.solicitorPartyId").findAll.saveAs("solicitorPartyId"))
         //.check(jsonPath("$.case_data.applicants[0].value.solicitorOrg.OrganisationID").findAll.saveAs("solicitorOrgId"))
@@ -124,11 +124,11 @@ val GetCaseDetailsFL401 =
         .check(jsonPath("$.case_data.applicantsFL401.representativeFirstName").findAll.saveAs("solicitorFirstName"))
         .check(jsonPath("$.case_data.applicantsFL401.solicitorEmail").findAll.saveAs("solicitorEmail"))
       //Respondents
-        .check(jsonPath("$case_data.respondentsFL401.partyId").findAll.saveAs("respondentId"))
-        .check(jsonPath("$case_data.respondentsFL401.lastName").findAll.saveAs("respondentFirstName"))
-        .check(jsonPath("$.case_data.respondentsFL401.firstName").findAll.saveAs("respondentLastName"))
-        .check(jsonPath("$.case_data.respondentsFL401.email").findAll.saveAs("respondentEmail"))
-        .check(jsonPath("$.case_data.respondentsFL401.phoneNumber").findAll.saveAs("respondentPhoneNo"))
+        .check(jsonPath("$.case_data.respondentsFL401.partyId").saveAs("respondentPartyId"))
+        .check(jsonPath("$.case_data.respondentsFL401.lastName").saveAs("respondentFirstName"))
+        .check(jsonPath("$.case_data.respondentsFL401.firstName").saveAs("respondentLastName"))
+        .check(jsonPath("$.case_data.respondentsFL401.email").saveAs("respondentEmail"))
+        .check(jsonPath("$.case_data.respondentsFL401.phoneNumber").saveAs("respondentPhoneNo"))
         //Resp Solicitor
          .check(jsonPath("$.case_data.respondentsFL401.solicitorPartyId").findAll.saveAs("respSolicitorPartyId"))
         //.check(jsonPath("$.case_data.applicants[0].value.solicitorOrg.OrganisationID").findAll.saveAs("solicitorOrgId"))
@@ -165,7 +165,7 @@ def RequestHearing(caseType: String) =
 
     exec(session => caseType match {
       case "C100" => session.set("requestHearingBody", "bodies/prl/hmc/RequestHearingC100.Json")
-      case "FL401" => session.set("requestHearingBody", "bodies/prl/hmc/RequestHearingC100.Json")
+      case "FL401" => session.set("requestHearingBody", "bodies/prl/hmc/RequestHearingFL401.Json")
     })
 
     .exec(_.setAll(
@@ -191,7 +191,7 @@ def ListHearing(caseType: String) =
 
     exec(session => caseType match {
         case "C100" => session.set("listHearingBody", "bodies/prl/hmc/ListHearingC100.json")
-        case "FL401" => session.set("listHearingBody", "bodies/prl/hmc/ListHearingC100.json")
+        case "FL401" => session.set("listHearingBody", "bodies/prl/hmc/ListHearingFL401.json")
       })
 
     .exec(http("ListHearing#{caseType}")
