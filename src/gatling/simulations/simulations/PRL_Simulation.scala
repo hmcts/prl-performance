@@ -28,6 +28,7 @@ class PRL_Simulation extends Simulation {
   val RAData_Add = csv("ReasonableAdjustments_Add.csv")
   val RAData_Modify = csv("ReasonableAdjustments_Modify.csv") //.circular
   val cafcassCaseFeeder = csv("CasesForDocUpload.csv").queue
+  val cleanUserFeeder = csv("UserFeederCleaner.csv")
 
   val WaitTime = Environment.waitTime
 
@@ -124,11 +125,14 @@ class PRL_Simulation extends Simulation {
     .exitBlockOnFail {
       exec(_.set("env", s"${env}")
       .set("caseType", "PRLAPPS"))
-      .feed(UserCitizenPRL)
+      //.feed(UserCitizenPRL)
+      // Create Citizen User
+      .exec(API_IDAM.CreateUserInIdam("App"))
       .repeat(1) {
         exec(Citizen_PRL_C100_Applicant.C100Case)
         .exec(Citizen_PRL_C100_Applicant.C100Case2)
       }
+      .exec(API_IDAM.DeleteUserInIdam)
     }
 
 /*===============================================================================================
@@ -277,7 +281,9 @@ class PRL_Simulation extends Simulation {
     .exitBlockOnFail {
       exec(_.set("env", s"${env}")
       .set("caseType", "PRLAPPS"))
-      .feed(UserCitizenPRL)
+      //.feed(UserCitizenPRL)
+      // Create Citizen User
+      .exec(API_IDAM.CreateUserInIdam("App"))
       .exec(Homepage.PRLHomePage)
       .exec(Login.PrlLogin)
       .repeat(1) {
@@ -299,6 +305,7 @@ class PRL_Simulation extends Simulation {
         .exec(Citizen_PRL_C100_ApplicantDashboard.ViewCourtHearings)                      //New for R6.0
         .exec(Citizen_PRL_C100_ApplicantDashboard.WriteDataToFile)
         .exec(Logout.CUILogout)
+        .exec(API_IDAM.DeleteUserInIdam)
       }
     }
 
@@ -337,6 +344,26 @@ class PRL_Simulation extends Simulation {
       }
       .exec(Logout.CUILogout)
     }
+
+  /*===============================================================================================
+  * PRL Citizen Reasonable Adjustments Journey - Add & Modify
+  ===============================================================================================*/
+
+  val PRLReasonableAdjustmentsAddModify = scenario("***** PRL Citizen Reasonable Adjustments Journey - Add *****")
+    .exitBlockOnFail {
+     repeat(1) {
+      exec(_.set("env", s"${env}")
+      .set("caseType", "PRLAPPS"))
+      .feed(RAData_Add)
+      .exec(Homepage.PRLHomePage)
+      .exec(Login.PrlLogin)
+        .exec(Citizen_ReasonableAdjustments.GetCase)
+        .exec(Citizen_ReasonableAdjustments.ReasonableAdjustmentsAdd)
+        .exec(Citizen_ReasonableAdjustments.ReasonableAdjustmentsModify)
+      .exec(Logout.CUILogout)
+      }
+    }
+
 
   /*===============================================================================================
   * PRL Citizen FL401 Respondent Journey
@@ -729,6 +756,19 @@ class PRL_Simulation extends Simulation {
         //View hearings tab once listed 
         //CourtAdmin_PRL_C100.CourtAdminHearingsTab
       }
+
+  // ===========================
+  // TEST HEARINGS
+  // ===========================
+    
+    val userCleaner = scenario("***** User Cleaner *****")
+      .exec(_.set("env", s"${env}")) 
+      .repeat (200) {
+        feed(cleanUserFeeder)
+        .exec(API_IDAM.DeleteUserInIdam)
+      }
+
+  
     
   /*===============================================================================================
   * Simulation Configuration
@@ -820,7 +860,7 @@ class PRL_Simulation extends Simulation {
   //PrlFL401Create.inject(simulationProfile(testType, prlTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
 
   //=================================================
-  //Closed workload model scenarios for DataPrep:
+  //Data Prep Scenario (3 x test's data)
   //=================================================
   //PrlDataPrep.inject(atOnceUsers(1)),
   //PRLFL401CaseworkerScenario.inject(atOnceUsers(4)),
@@ -844,7 +884,7 @@ class PRL_Simulation extends Simulation {
    // At Once Users - For API Tests
    //=========================================================
    //PRLAPICAFCASSGetDocument.inject(atOnceUsers(100)),
-    PRLFL401CreateProgressCase.inject(atOnceUsers(1))
+    userCleaner.inject(atOnceUsers(1))
     //testHearings.inject(atOnceUsers(1))
     //PRLC100CaseworkerScenario.inject(atOnceUsers(1))
     //PRLFL401CreateProgressRespondent.inject(atOnceUsers(1))

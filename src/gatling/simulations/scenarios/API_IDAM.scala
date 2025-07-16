@@ -66,9 +66,7 @@ object API_IDAM {
 
   val DeleteUserInIdam =
 
-    feed(userFeeder)
-
-    .exec(http("DeleteUser")
+    exec(http("DeleteUser:#{email}")
       .delete(Environment.idamAPIURL + "/testing-support/accounts/#{email}")
       .header("Content-Type", "application/json")
       .header("Accept", "application/json"))
