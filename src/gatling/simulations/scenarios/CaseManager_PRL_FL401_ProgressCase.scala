@@ -6,11 +6,11 @@ import utils.{Common, CsrfCheck, Environment, Headers}
 import java.io.{BufferedWriter, FileWriter}
 
 /*===============================================================================================================
-* Court Manager FL401 case progression. C8 Confidentiality Check and Serve 
+* Court Manager FL401 case progression. C8 Confidentiality Check and Serve
 ================================================================================================================*/
 
 object CaseManager_PRL_FL401_ProgressCase {
-  
+
   val BaseURL = Environment.baseURL
   val MinThinkTime = Environment.minThinkTime
   val MaxThinkTime = Environment.maxThinkTime
@@ -45,7 +45,7 @@ object CaseManager_PRL_FL401_ProgressCase {
     .pause(MinThinkTime, MaxThinkTime)
 
   /*=====================================================================================
-   * Select task tab 
+   * Select task tab
    ======================================================================================*/
 
     .exec(http("XUI_PRL_XXX_686_SelectCase")
@@ -62,14 +62,24 @@ object CaseManager_PRL_FL401_ProgressCase {
       )
     )
 
-    .exec(http("XUI_PRL_XXX_687_SelectCaseTask")
-      .get(BaseURL + "/workallocation/case/task/#{caseId}")
-      .headers(Headers.xuiHeader)
-      .header("Accept", "application/json, text/plain, */*")
-      .header("x-xsrf-token", "#{XSRFToken}")
-      .check(jsonPath("$..[?(@.type=='confidentialCheckSOA')].id").optional.saveAs("taskId")))
+    .exec(_.set("taskId", "")) // Reset the sessionId so that its empty ahead of the check
 
-      .pause(MinThinkTime, MaxThinkTime)
+    // .exec(http("XUI_PRL_XXX_687_SelectCaseTask")
+      // .get(BaseURL + "/workallocation/case/task/#{caseId}")
+      // .headers(Headers.xuiHeader)
+      // .header("Accept", "application/json, text/plain, */*")
+      // .header("x-xsrf-token", "#{XSRFToken}")
+      // .check(jsonPath("$[*].id").findAll.saveAs("taskIds"))
+      // .check(jsonPath("$[*].type").findAll.saveAs("taskTypes"))
+      // .check(jsonPath("$..[?(@.type=='confidentialCheckSOA')].id").optional.saveAs("taskId")))
+
+    .pause(20) //Wait for task to appear
+
+    //.exec { session =>
+    //val ids = session("taskIds").as[Seq[String]]
+    //val types = session("taskTypes").as[Seq[String]]
+    //val targetType = "confidentialCheckSOA" // Task type we are looking for
+    //val matchedIndex = types.indexOf(targetType)
 
     // Loop until the taskId is captured
     .asLongAs(session => session("taskId").asOption[String].forall(_.isEmpty)) {
@@ -78,14 +88,16 @@ object CaseManager_PRL_FL401_ProgressCase {
         .headers(Headers.xuiHeader)
         .header("Accept", "application/json, text/plain, */*")
         .header("x-xsrf-token", "#{XSRFToken}")
+        //.check(jsonPath("$[*].id").findAll.saveAs("taskIds"))
+        //.check(jsonPath("$[*].type").findAll.saveAs("taskTypes]"))
         .check(jsonPath("$..[?(@.type=='confidentialCheckSOA')].id").optional.saveAs("taskId")))
 
         .pause(5, 10) // Wait between retries
     }
 
-    // //==========================================
-    // // Select correct task type and ID logic 
-    // //==========================================
+    //==========================================
+    // Select correct task type and ID logic
+    //==========================================
     // // Get the index of the task type we are looking for, then capture the task ID from the same index
     // .exec { session =>
     //   val ids = session("taskIds").as[Seq[String]]
@@ -97,16 +109,16 @@ object CaseManager_PRL_FL401_ProgressCase {
     //   throw new RuntimeException(s"ID $targetType not found")
     // }
 
-    // // Get the corresponding ID and Type using the matched index
+    // Get the corresponding ID and Type using the matched index
     // val matchedId = ids(matchedIndex)
     // val matchedType = types(matchedIndex)
 
-    // // Logger Debuggo
+    // Logger Debuggo
     // println(s"Matched Index: $matchedIndex")
     // println(s"Matched ID: $matchedId")
     // println(s"Matched Type: $matchedType")
 
-    // // Set the matched values as session variables
+    // Set the matched values as session variables
     // session
     //   .set("matchedIndex", matchedIndex)
     //   .set("matchedTaskId", matchedId)
@@ -140,7 +152,7 @@ object CaseManager_PRL_FL401_ProgressCase {
     .exec(http("XUI_PRL_XXX_700_AmmendRespondentsDetailsEventTrigger")
       .get(BaseURL + "/data/internal/cases/#{caseId}/event-triggers/confidentialityCheck?ignore-warning=false")
       .headers(Headers.xuiHeader)
-      .header("Accept", "application/json, text/plain, */*") 
+      .header("Accept", "application/json, text/plain, */*")
       .check(jsonPath("$.event_token").saveAs("event_token"))
       .check(jsonPath("$.case_fields[1].value.partyIds[0].id").saveAs("applicantPartyID"))
       .check(jsonPath("$.case_fields[1].value.partyIds[0].value").saveAs("applicantPartyIDValue"))
@@ -185,7 +197,7 @@ object CaseManager_PRL_FL401_ProgressCase {
       .get(BaseURL + "/workallocation/case/tasks/#{caseId}/event/confidentialityCheck/caseType/PRLAPPS/jurisdiction/PRIVATELAW")
       .headers(Headers.navigationHeader)
       .header("accept", "application/json"))
-     
+
 
     .pause(MinThinkTime, MaxThinkTime)
 

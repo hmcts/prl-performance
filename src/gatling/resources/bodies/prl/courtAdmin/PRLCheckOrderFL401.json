@@ -25,6 +25,7 @@
      "sdoOtherTempList": null,
      "sdoHearingsAndNextStepsTempList": null,
      "listElementsSetToDefaultValue": null,
+     "isInvokedFromTask": "No",
      "createSelectOrderOptions": "blank",
      "selectedOrder": "<span class='heading-h3'>Blank order (FL404B)\n\n<\/span>",
      "daOrderForCaCase": "No",

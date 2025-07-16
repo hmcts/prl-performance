@@ -99,6 +99,48 @@ val GetCaseDetails =
 
     .pause(3)
 
+val GetCaseDetailsFL401 =
+
+    exec(http("PRL_000_GetCaseDetails")
+      .get(CcdAPIURL + "/caseworkers/#{idamId}/jurisdictions/PRIVATELAW/case-types/PRLAPPS/cases/#{caseId}") //#{caseId}
+      .header("Authorization", "Bearer #{bearerToken}")
+      .header("ServiceAuthorization", "#{authToken}")
+      .header("Content-Type", "application/json")
+      //Case
+      //.check(jsonPath("$.case_data.applicantOrRespondentCaseName").saveAs("caseName"))
+      .check(jsonPath("$.case_data.caseNameHmctsInternal").saveAs("caseName"))
+      //Applicant
+        .check(jsonPath("$.case_data.applicantsFL401.partyId").saveAs("applicantId"))
+        .check(jsonPath("$.case_data.applicantsFL401.lastName").saveAs("applicantLastName"))
+        .check(jsonPath("$.case_data.applicantsFL401.firstName").saveAs("applicantFirstName"))
+        .check(jsonPath("$.case_data.applicantsFL401.email").saveAs("applicantEmail"))
+        .check(jsonPath("$.case_data.applicantsFL401.phoneNumber").findAll.saveAs("applicantPhoneNo"))
+      //App Solicitor
+        .check(jsonPath("$.case_data.applicantsFL401.solicitorPartyId").findAll.saveAs("solicitorPartyId"))
+        //.check(jsonPath("$.case_data.applicants[0].value.solicitorOrg.OrganisationID").findAll.saveAs("solicitorOrgId"))
+        //.check(jsonPath("$.case_data.applicants[0].value.solicitorOrg.OrganisationName").findAll.saveAs("solicitorOrgName"))
+        .check(jsonPath("$.case_data.applicantsFL401.solicitorOrgUuid").findAll.saveAs("solicitorOrgUuid"))
+        .check(jsonPath("$.case_data.applicantsFL401.representativeLastName").findAll.saveAs("solicitorLastName"))
+        .check(jsonPath("$.case_data.applicantsFL401.representativeFirstName").findAll.saveAs("solicitorFirstName"))
+        .check(jsonPath("$.case_data.applicantsFL401.solicitorEmail").findAll.saveAs("solicitorEmail"))
+      //Respondents
+        .check(jsonPath("$case_data.respondentsFL401.partyId").findAll.saveAs("respondentId"))
+        .check(jsonPath("$case_data.respondentsFL401.lastName").findAll.saveAs("respondentFirstName"))
+        .check(jsonPath("$.case_data.respondentsFL401.firstName").findAll.saveAs("respondentLastName"))
+        .check(jsonPath("$.case_data.respondentsFL401.email").findAll.saveAs("respondentEmail"))
+        .check(jsonPath("$.case_data.respondentsFL401.phoneNumber").findAll.saveAs("respondentPhoneNo"))
+        //Resp Solicitor
+         .check(jsonPath("$.case_data.respondentsFL401.solicitorPartyId").findAll.saveAs("respSolicitorPartyId"))
+        //.check(jsonPath("$.case_data.applicants[0].value.solicitorOrg.OrganisationID").findAll.saveAs("solicitorOrgId"))
+        //.check(jsonPath("$.case_data.applicants[0].value.solicitorOrg.OrganisationName").findAll.saveAs("solicitorOrgName"))
+        .check(jsonPath("$.case_data.respondentsFL401.solicitorOrgUuid").findAll.saveAs("respSolicitorOrgUuid"))
+        .check(jsonPath("$.case_data.respondentsFL401.representativeLastName").findAll.saveAs("respSolicitorLastName"))
+        .check(jsonPath("$.case_data.respondentsFL401.representativeFirstName").findAll.saveAs("respSolicitorFirstName"))
+        .check(jsonPath("$.case_data.respondentsFL401.solicitorEmail").findAll.saveAs("respSolicitorEmail"))
+        .check(status.is(200)))
+
+    .pause(3)
+
 val RequestHearingC100 = 
 
     exec(_.setAll(
@@ -123,7 +165,7 @@ def RequestHearing(caseType: String) =
 
     exec(session => caseType match {
       case "C100" => session.set("requestHearingBody", "bodies/prl/hmc/RequestHearingC100.Json")
-      //case "FL401" => session.set("emailAddressCCD", "prl_pt_ca_swansea@justice.gov.uk").set("passwordCCD")
+      case "FL401" => session.set("requestHearingBody", "bodies/prl/hmc/RequestHearingC100.Json")
     })
 
     .exec(_.setAll(
@@ -149,7 +191,7 @@ def ListHearing(caseType: String) =
 
     exec(session => caseType match {
         case "C100" => session.set("listHearingBody", "bodies/prl/hmc/ListHearingC100.json")
-        //case "FL401" => session.set("emailAddressCCD", "prl_pt_ca_swansea@justice.gov.uk").set("passwordCCD")
+        case "FL401" => session.set("listHearingBody", "bodies/prl/hmc/ListHearingC100.json")
       })
 
     .exec(http("ListHearing#{caseType}")

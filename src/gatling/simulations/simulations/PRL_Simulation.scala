@@ -518,7 +518,7 @@ class PRL_Simulation extends Simulation {
       //================================
       .exec(
         API_HMCHearings.Auth("ccdUser"),
-        API_HMCHearings.GetCaseDetails,
+        API_HMCHearings.GetCaseDetailsFL401,
         repeat(2) {
           exec(
             API_HMCHearings.Auth("hmcHearingRequest"),
@@ -652,6 +652,8 @@ class PRL_Simulation extends Simulation {
           API_HMCHearings.Auth("hmcHearingList"),
           API_HMCHearings.ListHearing("C100"))
       }
+      //Write codes to file for Citizen UI Flows
+    .exec(Caseworker_PRL_C100_ProgressCase.WriteAccessCodesToFile)
     }
 
 
@@ -706,7 +708,7 @@ class PRL_Simulation extends Simulation {
     val testHearings = scenario("***** TEST HEARINGS *****")
      .exitBlockOnFail {
       exec(_.set("env", s"${env}")
-      .set("caseId", "1751635472443599") //comment out when running e2e
+      .set("caseId", "1752609822768756") //comment out when running e2e
       .set("caseType", "PRLAPPS"))
         //set session variables
       .exec(_.setAll(
@@ -716,12 +718,12 @@ class PRL_Simulation extends Simulation {
       "todayDate" -> Common.getDate()))
       .exec(
         API_HMCHearings.Auth("ccdUser"),
-        API_HMCHearings.GetCaseDetails,
+        API_HMCHearings.GetCaseDetailsFL401,
         API_HMCHearings.Auth("hmcHearingRequest"),
-        API_HMCHearings.RequestHearing("C100"),
+        API_HMCHearings.RequestHearing("FL401"), 
           //List the hearing (Mimic request back from List Assist)
           API_HMCHearings.Auth("hmcHearingList"),
-          API_HMCHearings.ListHearing("C100"))
+          API_HMCHearings.ListHearing("FL401"))
         //View hearings tab once listed 
         //CourtAdmin_PRL_C100.CourtAdminHearingsTab
       }
@@ -840,8 +842,8 @@ class PRL_Simulation extends Simulation {
    // At Once Users - For API Tests
    //=========================================================
    //PRLAPICAFCASSGetDocument.inject(atOnceUsers(100)),
-    PRLC100CreateProgressCase.inject(atOnceUsers(1))
-    //testHearings.inject(atOnceUsers(1))
+    //PRLFL401CreateProgressCase.inject(atOnceUsers(1))
+    testHearings.inject(atOnceUsers(1))
     //PRLC100CaseworkerScenario.inject(atOnceUsers(1))
     //PRLFL401CreateProgressRespondent.inject(atOnceUsers(1))
 

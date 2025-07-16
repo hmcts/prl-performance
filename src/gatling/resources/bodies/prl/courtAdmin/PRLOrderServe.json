@@ -22,6 +22,7 @@
      "sdoOtherTempList": null,
      "sdoHearingsAndNextStepsTempList": null,
      "listElementsSetToDefaultValue": null,
+     "isInvokedFromTask": "No",
      "createSelectOrderOptions": "specialGuardianShip",
      "selectedOrder": "<span class='heading-h3'>Special guardianship order (C43A)\n\n<\/span>",
      "daOrderForCaCase": "No",
