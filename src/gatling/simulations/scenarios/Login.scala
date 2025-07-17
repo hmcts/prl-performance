@@ -18,18 +18,33 @@ object Login {
 
   val XUILogin =
 
-    group("XUI_020_Login") {
+    exec(getCookieValue(CookieKey("xui-webapp").withDomain(BaseURL.replace("https://", "")).saveAs("xuiWebAppCookie")))
+
+    .group("XUI_020_Login") {
       exec(http("XUI_020_005_Login")
         .post(IdamUrl + "/login?client_id=xuiwebapp&redirect_uri=" + BaseURL + "/oauth2/callback&state=#{state}&nonce=#{nonce}&response_type=code&scope=profile%20openid%20roles%20manage-user%20create-user%20search-user&prompt=")
         .formParam("username", "#{user}")
         .formParam("password", "#{password}")
         .formParam("azureLoginEnabled", "true")
         .formParam("mojLoginEnabled", "true")
+        .formParam("azureLoginEnabled", "true")
+        .formParam("mojLoginEnabled", "true")
         .formParam("selfRegistrationEnabled", "false")
         .formParam("_csrf", "#{csrf}")
         .headers(Headers.navigationHeader)
-        .headers(Headers.postHeader)
+//        .headers(Headers.postHeader)
         .check(regex("Manage cases")))
+
+      //see xui-webapp cookie capture in the Homepage scenario for details of why this is being used
+      .exec(addCookie(Cookie("xui-webapp", "#{xuiWebAppCookie}").withMaxAge(28800)))
+
+      .exec(session => {
+        val response = session("xuiWebAppCookie").as[String]
+        println(s"Added the XUI Webapp Cookie: \n$response")
+        session
+      })
+
+
 
       //see xui-webapp cookie capture in the Homepage scenario for details of why this is being used
       .exec(addCookie(Cookie("xui-webapp", "#{xuiWebAppCookie}")

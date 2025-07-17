@@ -20,10 +20,11 @@ object Homepage {
 
     exec(flushHttpCache)
     .exec(flushCookieJar)
+    .exec(flushSessionCookies)
 
     .group("XUI_010_Homepage") {
       exec(http("XUI_010_005_Homepage")
-        .get(BaseURL)
+        .get(BaseURL + "/")
         .headers(Headers.navigationHeader)
         .header("sec-fetch-site", "none"))
 

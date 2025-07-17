@@ -75,7 +75,7 @@ class PRL_Simulation extends Simulation {
   val pauseOption: PauseType = debugMode match {
     case "off" if testType == "perftest" => constantPauses
     case "off" if testType == "pipeline" => customPauses(pipelinePausesMillis)
-    case _ => customPauses(pipelinePausesMillis) //disabledPauses
+    case _ => constantPauses //disabledPauses
   }
 
   val httpProtocol = http
