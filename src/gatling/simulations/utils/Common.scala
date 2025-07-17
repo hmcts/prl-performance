@@ -25,7 +25,9 @@ object Common {
   val patternYear = DateTimeFormatter.ofPattern("yyyy")
   val patternTime = DateTimeFormatter.ofPattern("HH:MM:SS.SSS")
   val patternReference = DateTimeFormatter.ofPattern("d MMM yyyy")
+  val yearMonthDay = DateTimeFormatter.ofPattern("yyyy-MM-dd")
   val BaseURL = Environment.baseURL
+  val PostCodeLookupURL = Environment.postCodeLookupURL
 
   def randomString(length: Int) = {
     rnd.alphanumeric.filter(_.isLetter).take(length).mkString
@@ -41,6 +43,11 @@ object Common {
 
   def getMonth(): String = {
     (1 + rnd.nextInt(12)).toString.format(patternMonth).reverse.padTo(2, '0').reverse //pads single-digit dates with a leading zero
+  }
+
+  //CurrentDate
+  def getDate(): String = {
+    now.format(yearMonthDay)
   }
 
   //Date of Marriage >= 30 years
@@ -79,12 +86,15 @@ object Common {
   def getCurrentDay(): String = {
     now.format(patternDay)
   }
+    // //Date +2 Months
+  def getFutureDate(): String = {
+    now.plusMonths(2).format(yearMonthDay)
+  }
 
   def getCurrentTime(): String = {
     timeNow.format(patternTime)
   }
-
-
+  
   def getCurrentDateTime (): String = {
     ZonedDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"))
   }
@@ -110,6 +120,16 @@ object Common {
         .check(regex(""""(?:BUILDING|ORGANISATION)_.+" : "(.+?)",(?s).*?"(?:DEPENDENT_LOCALITY|THOROUGHFARE_NAME)" : "(.+?)",.*?"POST_TOWN" : "(.+?)",.*?"POSTCODE" : "(.+?)"""")
           .ofType[(String, String, String, String)].findRandom.saveAs("addressLines")))
 
+  val postcodeLookupDirect =
+  feed(postcodeFeeder)
+    .exec(http("XUI_Common_000_PostcodeLookupDirect")
+      .get(PostCodeLookupURL + "/search/places/v1/postcode?postcode=#{postcode}&key=NDXNuOmAmh3EzzFXcd2wkNuO2OcGdBGv")
+      .headers(Headers.commonHeader)
+      .header("accept", "application/json")
+      .check(jsonPath("$.header.totalresults").ofType[Int].gt(0))
+      .check(regex(""""(?:BUILDING|ORGANISATION)_.+" : "(.+?)",(?s).*?"(?:DEPENDENT_LOCALITY|THOROUGHFARE_NAME)" : "(.+?)",.*?"POST_TOWN" : "(.+?)",.*?"POSTCODE" : "(.+?)"""")
+        .ofType[(String, String, String, String)].findRandom.saveAs("addressLines")))
+
   def healthcheck(path: String) =
     exec(http("XUI_Common_000_Healthcheck")
       .get(s"/api/healthCheck?path=${path}")
@@ -134,6 +154,14 @@ object Common {
       .check(status.in(200, 304, 403)))
 
     .exec(http("XUI_Common_000_ActivityGet")
+      .get(BaseURL + "/activity/cases/#{caseId}/activity")
+      .headers(Headers.commonHeader)
+      .header("accept", "application/json, text/plain, */*")
+      .header("sec-fetch-site", "same-site")
+      .check(status.in(200, 304, 403)))
+
+  val caseActivityOnlyGet =
+    exec(http("XUI_Common_000_ActivityGet")
       .get(BaseURL + "/activity/cases/#{caseId}/activity")
       .headers(Headers.commonHeader)
       .header("accept", "application/json, text/plain, */*")
@@ -224,6 +252,31 @@ object Common {
       .header("accept", "application/json, text/plain, */*")
       .check(regex("name|Organisation route error"))
       .check(status.in(200, 304, 403)))
+
+  val waJurisdictions = 
+    exec(http("XUI_Common_000_WAJurisdictionsGet")
+      .get(BaseURL + "/api/wa-supported-jurisdiction/get")
+			.headers(Headers.commonHeader)
+      .check(substring("[")))
+
+// CHECK BODY ON THIS REQUEST ********************
+  val waUsersByServiceName = 
+    exec(http("XUI_Common_000_WAUsersByServiceName")
+      .post(BaseURL + "/workallocation/caseworker/getUsersByServiceName")
+			.headers(Headers.commonHeader)
+      .header("Content-Type", "application/json; charset=utf-8")
+      .header("Accept", "application/json, text/plain, */*")
+      .header("x-xsrf-token", "#{XSRFToken}")
+      .check(substring("[")))
+
+  val manageLabellingRoleAssignment =
+    exec(http("XUI_Common_000_ManageLabellingRoleAssignments")
+      .post(BaseURL + "/api/role-access/roles/manageLabellingRoleAssignment/#{caseId}")
+      .headers(Headers.commonHeader)
+      .header("x-xsrf-token", "#{XSRFToken}")
+      .body(StringBody("{}"))
+      .check(status.is(204))) 
+      //No response body is returned, therefore no substring check is possible
 
   /*flowwing def will give random start date and end date based on the given date to use in the
   * cafcas api search cases b

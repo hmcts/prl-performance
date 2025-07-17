@@ -1,0 +1,39 @@
+{
+  "data": {
+     "buffChildAndOtherPeopleRelations": [
+        {
+           "value": {
+              "otherPeopleFullName": "John Smith",
+              "childFullName": "#{childFullName}",
+              "childAndOtherPeopleRelation": "guardian",
+              "childAndOtherPeopleRelationOtherDetails": null,
+              "childLivesWith": "No",
+              "isChildLivesWithPersonConfidential": null,
+              "otherPeopleId": "#{otherPeopleId(0)}",
+              "childId": "#{childId}"
+           },
+           "id": "#{otherPeopleAdditionalId(0)}"
+        },
+        {
+           "value": {
+              "otherPeopleFullName": "Jane Smith",
+              "childFullName": "#{childFullName}",
+              "childAndOtherPeopleRelation": "guardian",
+              "childAndOtherPeopleRelationOtherDetails": null,
+              "childLivesWith": "No",
+              "isChildLivesWithPersonConfidential": null,
+              "otherPeopleId": "#{otherPeopleId(1)}",
+              "childId": "#{childId}"
+           },
+           "id": "#{otherPeopleAdditionalId(1)}"
+        }
+     ]
+  },
+  "event": {
+     "id": "childrenAndOtherPeople",
+     "summary": "",
+     "description": ""
+  },
+  "event_token": "#{event_token}",
+  "ignore_warning": false
+}

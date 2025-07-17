@@ -1,0 +1,32 @@
+{
+  "data": {
+     "respondentBehaviourData": {
+        "otherReasonApplicantWantToStopFromRespondentDoing": "Stop the perf testing",
+        "applicantWantToStopFromRespondentDoing": [
+           "applicantStopFromRespondentEnum_Value_1"
+        ],
+        "applicantWantToStopFromRespondentDoingToChild": [
+           "applicantStopFromRespondentDoingToChildEnum_Value_1"
+        ]
+     }
+  },
+  "event": {
+     "id": "respondentBehaviour",
+     "summary": "",
+     "description": ""
+  },
+  "event_data": {
+     "respondentBehaviourData": {
+        "otherReasonApplicantWantToStopFromRespondentDoing": "Stop the perf testing",
+        "applicantWantToStopFromRespondentDoing": [
+           "applicantStopFromRespondentEnum_Value_1"
+        ],
+        "applicantWantToStopFromRespondentDoingToChild": [
+           "applicantStopFromRespondentDoingToChildEnum_Value_1"
+        ]
+     }
+  },
+  "event_token": "#{event_token}",
+  "ignore_warning": false,
+  "case_reference": "#{caseId}"
+}

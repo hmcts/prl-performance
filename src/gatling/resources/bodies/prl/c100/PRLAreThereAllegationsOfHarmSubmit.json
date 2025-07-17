@@ -1,0 +1,39 @@
+{
+  "data": {
+     "newAllegationsOfHarmYesNo": "Yes",
+     "newAllegationsOfHarmDomesticAbuseYesNo": "Yes",
+     "newAllegationsOfHarmChildAbuseYesNo": "No",
+     "newAllegationsOfHarmChildAbductionYesNo": "No",
+     "newAllegationsOfHarmSubstanceAbuseYesNo": "No",
+     "newAllegationsOfHarmOtherConcerns": "No",
+     "newOrdersNonMolestation": "No",
+     "newOrdersOccupation": "No",
+     "newOrdersForcedMarriageProtection": "No",
+     "newOrdersRestraining": "No",
+     "newOrdersOtherInjunctive": "No",
+     "newOrdersUndertakingInPlace": "No",
+     "domesticBehaviours": [
+        {
+           "value": {
+              "typeOfAbuse": "TypeOfAbuseEnum_value_1",
+              "newAbuseNatureDescription": "Perf test",
+              "newBehavioursStartDateAndLength": "2024",
+              "newBehavioursApplicantSoughtHelp": "No",
+              "newBehavioursApplicantHelpSoughtWho": null
+           },
+           "id": null
+        }
+     ],
+     "newAllegationsOfHarmOtherConcernsCourtActions": "N/A",
+     "newAgreeChildUnsupervisedTime": "Yes",
+     "newAgreeChildSupervisedTime": "Yes",
+     "newAgreeChildOtherContact": "Yes"
+  },
+  "event": {
+     "id": "allegationsOfHarmRevised",
+     "summary": "",
+     "description": ""
+  },
+  "event_token": "#{event_token}",
+  "ignore_warning": false
+}

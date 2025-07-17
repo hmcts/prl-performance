@@ -1,0 +1,55 @@
+{
+  "data": {
+     "amendOrderSelectCheckOptions": "noCheck"
+  },
+  "event": {
+     "id": "manageOrders",
+     "summary": "",
+     "description": ""
+  },
+  "event_data": {
+     "manageOrderHeader1": null,
+     "manageOrdersOptions": "createAnOrder",
+     "isSdoSelected": "No",
+     "sdoPreamblesTempList": null,
+     "sdoCafcassOrCymruTempList": null,
+     "sdoLocalAuthorityTempList": null,
+     "sdoCourtTempList": null,
+     "sdoDocumentationAndEvidenceTempList": null,
+     "sdoOtherTempList": null,
+     "sdoHearingsAndNextStepsTempList": null,
+     "listElementsSetToDefaultValue": null,
+     "createSelectOrderOptions": "specialGuardianShip",
+     "selectedOrder": "<span class='heading-h3'>Special guardianship order (C43A)\n\n<\/span>",
+     "daOrderForCaCase": "No",
+     "typeOfC21Order": "",
+     "isTheOrderByConsent": "Yes",
+     "wasTheOrderApprovedAtHearing": "No",
+     "judgeOrMagistrateTitle": "districtJudge",
+     "judgeOrMagistratesLastName": "#{JudgeLastName}",
+     "justiceLegalAdviserFullName": "#{LegalAdviserName}",
+     "dateOrderMade": "#{todayDate}",
+     "isTheOrderAboutAllChildren": "Yes",
+     "recitalsOrPreamble": "Some details",
+     "orderDirections": null,
+     "appointedGuardianName": [
+        {
+           "value": {
+              "guardianFullName": "#{PRLRandomString}First #{PRLRandomString}Last"
+           },
+           "id": "#{guardianId}"
+        }
+     ],
+     "previewOrderDocWelsh": null,
+     "previewOrderDoc": {
+        "document_url": "#{document_url}",
+        "document_binary_url": "#{document_url}/binary",
+        "document_filename": "Special_Guardianship_Order_C43A_Draft.pdf",
+        "document_hash": "#{document_hash}"
+     },
+     "amendOrderSelectCheckOptions": "noCheck"
+  },
+  "event_token": "#{event_token}",
+  "ignore_warning": false,
+  "case_reference": "#{caseId}"
+}

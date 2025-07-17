@@ -1,0 +1,25 @@
+{
+  "data": {
+     "buffChildAndRespondentRelations": [
+        {
+           "value": {
+              "respondentFullName": "#{C100RespondentFirstName} #{C100RespondentLastName}",
+              "childFullName": "#{C100ChildFirstName} #{C100ChildLastName}",
+              "childAndRespondentRelation": "guardian",
+              "childAndRespondentRelationOtherDetails": null,
+              "childLivesWith": "No",
+              "respondentId": "#{respondentId(0)}",
+              "childId": "#{childId(0)}"
+           },
+           "id": "#{additionalRespondentId(0)}"
+        }
+     ]
+  },
+  "event": {
+     "id": "childrenAndRespondents",
+     "summary": "",
+     "description": ""
+  },
+  "event_token": "#{event_token}",
+  "ignore_warning": false
+}

@@ -1,0 +1,11 @@
+{
+  "email": "#{userType}_#{email}",
+  "forename": "#{PRLRandomString}First",
+  "surname": "#{PRLRandomStringLast}Last",
+  "password": "CitizenPassword1",
+  "roles": [
+    {
+      "code": "citizen"
+    }
+  ]
+}

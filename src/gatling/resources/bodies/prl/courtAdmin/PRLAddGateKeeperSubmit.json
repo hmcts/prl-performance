@@ -1,0 +1,241 @@
+{
+  "data": {
+     "isSpecificGateKeeperNeeded": "Yes",
+     "isJudgeOrLegalAdviserGatekeeping": "legalAdviser",
+     "legalAdviserList": {
+        "value": {
+           "code": "Legal advisors(prl_pt_la_swansea@justice.gov.uk)",
+           "label": "Legal advisors(prl_pt_la_swansea@justice.gov.uk)"
+        },
+        "list_items": [
+           {
+              "code": "am test la(prl_perftest_am_test_la@justice.gov.uk)",
+              "label": "am test la(prl_perftest_am_test_la@justice.gov.uk)"
+           },
+           {
+              "code": "Caseworker(perfsupervisorcw_007@justice.gov.uk)",
+              "label": "Caseworker(perfsupervisorcw_007@justice.gov.uk)"
+           },
+           {
+              "code": "Caseworker(perfsupervisorcw_008@justice.gov.uk)",
+              "label": "Caseworker(perfsupervisorcw_008@justice.gov.uk)"
+           },
+           {
+              "code": "Caseworker(perfsupervisorcw_009@justice.gov.uk)",
+              "label": "Caseworker(perfsupervisorcw_009@justice.gov.uk)"
+           },
+           {
+              "code": "Caseworker(perfsupervisorcw_010@justice.gov.uk)",
+              "label": "Caseworker(perfsupervisorcw_010@justice.gov.uk)"
+           },
+           {
+              "code": "Caseworker(perfsupervisorcw_011@justice.gov.uk)",
+              "label": "Caseworker(perfsupervisorcw_011@justice.gov.uk)"
+           },
+           {
+              "code": "Caseworker(perfsupervisorcw_012@justice.gov.uk)",
+              "label": "Caseworker(perfsupervisorcw_012@justice.gov.uk)"
+           },
+           {
+              "code": "Caseworker(perfsupervisorcw_013@justice.gov.uk)",
+              "label": "Caseworker(perfsupervisorcw_013@justice.gov.uk)"
+           },
+           {
+              "code": "Caseworker(perfsupervisorcw_014@justice.gov.uk)",
+              "label": "Caseworker(perfsupervisorcw_014@justice.gov.uk)"
+           },
+           {
+              "code": "Caseworker(perfsupervisorcw_015@justice.gov.uk)",
+              "label": "Caseworker(perfsupervisorcw_015@justice.gov.uk)"
+           },
+           {
+              "code": "Caseworker(perfsupervisorcw_002@justice.gov.uk)",
+              "label": "Caseworker(perfsupervisorcw_002@justice.gov.uk)"
+           },
+           {
+              "code": "Caseworker(perfsupervisorcw_016@justice.gov.uk)",
+              "label": "Caseworker(perfsupervisorcw_016@justice.gov.uk)"
+           },
+           {
+              "code": "Caseworker(perfsupervisorcw_018@justice.gov.uk)",
+              "label": "Caseworker(perfsupervisorcw_018@justice.gov.uk)"
+           },
+           {
+              "code": "Caseworker(perfsupervisorcw_019@justice.gov.uk)",
+              "label": "Caseworker(perfsupervisorcw_019@justice.gov.uk)"
+           },
+           {
+              "code": "Caseworker(perfsupervisorcw_020@justice.gov.uk)",
+              "label": "Caseworker(perfsupervisorcw_020@justice.gov.uk)"
+           },
+           {
+              "code": "Caseworker(perfsupervisorcw_021@justice.gov.uk)",
+              "label": "Caseworker(perfsupervisorcw_021@justice.gov.uk)"
+           },
+           {
+              "code": "Caseworker(perfsupervisorcw_022@justice.gov.uk)",
+              "label": "Caseworker(perfsupervisorcw_022@justice.gov.uk)"
+           },
+           {
+              "code": "Caseworker(perfsupervisorcw_023@justice.gov.uk)",
+              "label": "Caseworker(perfsupervisorcw_023@justice.gov.uk)"
+           },
+           {
+              "code": "Caseworker(perfsupervisorcw_024@justice.gov.uk)",
+              "label": "Caseworker(perfsupervisorcw_024@justice.gov.uk)"
+           },
+           {
+              "code": "Caseworker(perfsupervisorcw_025@justice.gov.uk)",
+              "label": "Caseworker(perfsupervisorcw_025@justice.gov.uk)"
+           },
+           {
+              "code": "Caseworker(perfsupervisorcw_026@justice.gov.uk)",
+              "label": "Caseworker(perfsupervisorcw_026@justice.gov.uk)"
+           },
+           {
+              "code": "Caseworker(perfsupervisorcw_027@justice.gov.uk)",
+              "label": "Caseworker(perfsupervisorcw_027@justice.gov.uk)"
+           },
+           {
+              "code": "Caseworker(perfsupervisorcw_028@justice.gov.uk)",
+              "label": "Caseworker(perfsupervisorcw_028@justice.gov.uk)"
+           },
+           {
+              "code": "Caseworker(perfsupervisorcw_029@justice.gov.uk)",
+              "label": "Caseworker(perfsupervisorcw_029@justice.gov.uk)"
+           },
+           {
+              "code": "Caseworker(perfsupervisorcw_030@justice.gov.uk)",
+              "label": "Caseworker(perfsupervisorcw_030@justice.gov.uk)"
+           },
+           {
+              "code": "Caseworker(perfsupervisorcw_031@justice.gov.uk)",
+              "label": "Caseworker(perfsupervisorcw_031@justice.gov.uk)"
+           },
+           {
+              "code": "Caseworker(perfsupervisorcw_032@justice.gov.uk)",
+              "label": "Caseworker(perfsupervisorcw_032@justice.gov.uk)"
+           },
+           {
+              "code": "Caseworker(perfsupervisorcw_033@justice.gov.uk)",
+              "label": "Caseworker(perfsupervisorcw_033@justice.gov.uk)"
+           },
+           {
+              "code": "Caseworker(perfsupervisorcw_034@justice.gov.uk)",
+              "label": "Caseworker(perfsupervisorcw_034@justice.gov.uk)"
+           },
+           {
+              "code": "Caseworker(perfsupervisorcw_035@justice.gov.uk)",
+              "label": "Caseworker(perfsupervisorcw_035@justice.gov.uk)"
+           },
+           {
+              "code": "Caseworker(perfsupervisorcw_036@justice.gov.uk)",
+              "label": "Caseworker(perfsupervisorcw_036@justice.gov.uk)"
+           },
+           {
+              "code": "Caseworker(perfsupervisorcw_037@justice.gov.uk)",
+              "label": "Caseworker(perfsupervisorcw_037@justice.gov.uk)"
+           },
+           {
+              "code": "Caseworker(perfsupervisorcw_038@justice.gov.uk)",
+              "label": "Caseworker(perfsupervisorcw_038@justice.gov.uk)"
+           },
+           {
+              "code": "Caseworker(perfsupervisorcw_039@justice.gov.uk)",
+              "label": "Caseworker(perfsupervisorcw_039@justice.gov.uk)"
+           },
+           {
+              "code": "Caseworker(perfsupervisorcw_040@justice.gov.uk)",
+              "label": "Caseworker(perfsupervisorcw_040@justice.gov.uk)"
+           },
+           {
+              "code": "Caseworker(perfsupervisorcw_041@justice.gov.uk)",
+              "label": "Caseworker(perfsupervisorcw_041@justice.gov.uk)"
+           },
+           {
+              "code": "Caseworker(perfsupervisorcw_042@justice.gov.uk)",
+              "label": "Caseworker(perfsupervisorcw_042@justice.gov.uk)"
+           },
+           {
+              "code": "Caseworker(perfsupervisorcw_043@justice.gov.uk)",
+              "label": "Caseworker(perfsupervisorcw_043@justice.gov.uk)"
+           },
+           {
+              "code": "Caseworker(perfsupervisorcw_044@justice.gov.uk)",
+              "label": "Caseworker(perfsupervisorcw_044@justice.gov.uk)"
+           },
+           {
+              "code": "Caseworker(perfsupervisorcw_017@justice.gov.uk)",
+              "label": "Caseworker(perfsupervisorcw_017@justice.gov.uk)"
+           },
+           {
+              "code": "Caseworker(perftribunalcw_001@justice.gov.uk)",
+              "label": "Caseworker(perftribunalcw_001@justice.gov.uk)"
+           },
+           {
+              "code": "Caseworker(perfsupervisorcw_001@justice.gov.uk)",
+              "label": "Caseworker(perfsupervisorcw_001@justice.gov.uk)"
+           },
+           {
+              "code": "Caseworker(perfsupervisorcw_003@justice.gov.uk)",
+              "label": "Caseworker(perfsupervisorcw_003@justice.gov.uk)"
+           },
+           {
+              "code": "Caseworker(perfsupervisorcw_004@justice.gov.uk)",
+              "label": "Caseworker(perfsupervisorcw_004@justice.gov.uk)"
+           },
+           {
+              "code": "Caseworker(perfsupervisorcw_005@justice.gov.uk)",
+              "label": "Caseworker(perfsupervisorcw_005@justice.gov.uk)"
+           },
+           {
+              "code": "Caseworker(perfsupervisorcw_006@justice.gov.uk)",
+              "label": "Caseworker(perfsupervisorcw_006@justice.gov.uk)"
+           },
+           {
+              "code": "FPL(perfsupervisorfpl_001@justice.gov.uk)",
+              "label": "FPL(perfsupervisorfpl_001@justice.gov.uk)"
+           },
+           {
+              "code": "Legal advisors(prl_pt_la_swansea@justice.gov.uk)",
+              "label": "Legal advisors(prl_pt_la_swansea@justice.gov.uk)"
+           },
+           {
+              "code": "Legal Leader(prl_legalopsleader@justice.gov.uk)",
+              "label": "Legal Leader(prl_legalopsleader@justice.gov.uk)"
+           },
+           {
+              "code": "Legal ops(prl_legalops_swansea@justice.gov.uk)",
+              "label": "Legal ops(prl_legalops_swansea@justice.gov.uk)"
+           },
+           {
+              "code": "Legal ops(prl_legal_ops@justice.gov.uk)",
+              "label": "Legal ops(prl_legal_ops@justice.gov.uk)"
+           },
+           {
+              "code": "Legal Ops Leader(prl_legal_leader@justice.gov.uk)",
+              "label": "Legal Ops Leader(prl_legal_leader@justice.gov.uk)"
+           },
+           {
+              "code": "Legal Ops One(prl_legalopstwo@justice.gov.uk)",
+              "label": "Legal Ops One(prl_legalopstwo@justice.gov.uk)"
+           },
+           {
+              "code": "Officer(crd_func_test_demo_tcw@justice.gov.uk)",
+              "label": "Officer(crd_func_test_demo_tcw@justice.gov.uk)"
+           },
+           {
+              "code": "Officer(crd_func_test_demo_tcw1@justice.gov.uk)",
+              "label": "Officer(crd_func_test_demo_tcw1@justice.gov.uk)"
+           }
+        ]
+     }
+  },
+  "event": {
+     "id": "sendToGateKeeper",
+     "summary": "",
+     "description": ""
+  },
+  "event_token": "#{event_token}",
+  "ignore_warning": false
+}

@@ -1,0 +1,32 @@
+{
+  "data": {
+    "fl401StmtOfTruth": {
+      "date": "#{todayDate}",
+      "fullname": "Perf Solicitor",
+      "nameOfFirm": "#{orgname}",
+      "signOnBehalf": "Solicitor",
+      "applicantConsent": [
+        "fl401Consent"
+      ]
+    }
+  },
+  "event": {
+    "id": "fl401StatementOfTruthAndSubmit",
+    "summary": "",
+    "description": ""
+  },
+  "event_data": {
+    "fl401StmtOfTruth": {
+      "date": "#{todayDate}",
+      "fullname": "Perf Solicitor",
+      "nameOfFirm": "#{orgname}",
+      "signOnBehalf": "Solicitor",
+      "applicantConsent": [
+        "fl401Consent"
+      ]
+    }
+  },
+  "event_token": "#{event_token}",
+  "ignore_warning": false,
+  "case_reference": "#{caseId}"
+}

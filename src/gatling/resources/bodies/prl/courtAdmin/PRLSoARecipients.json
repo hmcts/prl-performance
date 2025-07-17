@@ -1,0 +1,95 @@
+{
+  "data": {
+    "soaServeToRespondentOptions": "No",
+    "soaRecipientsOptions": {
+        "value": [
+           {
+              "code": "#{serviceOfApplicationApplicantCode}",
+              "label": "#{serviceOfApplicationApplicantName}"
+           },
+           {
+              "code": "#{serviceOfApplicationRespondentCode}",
+              "label": "#{serviceOfApplicationRespondentName}"
+           }
+        ],
+        "list_items": [
+           {
+              "code": "#{serviceOfApplicationApplicantCode}",
+              "label": "#{serviceOfApplicationApplicantName}"
+           },
+           {
+              "code": "#{serviceOfApplicationRespondentCode}",
+              "label": "#{serviceOfApplicationRespondentName}"
+           }
+        ]
+     },
+    "soaCafcassCymruServedOptions": "Yes",
+    "soaCafcassCymruEmail": "test@testcafcass.com",
+     "soaServeLocalAuthorityYesOrNo": "No"
+  },
+  "event": {
+     "id": "serviceOfApplication",
+     "summary": "",
+     "description": ""
+  },
+  "event_data": {
+     "serviceOfApplicationHeader": null,
+     "isConfidential": "No",
+     "serviceOfApplicationScreen1": {
+        "value": [
+           {
+              "code": "#{serviceOfApplicationScreenCode}",
+              "label": "#{serviceOfApplicationScreenLabel}"
+           }
+        ],
+        "list_items": [
+           {
+              "code": "#{serviceOfApplicationScreenCode}",
+              "label": "#{serviceOfApplicationScreenLabel}"
+           }
+        ]
+     },
+     "pd36qLetter": {
+        "document_url": "#{DocumentURLPD36Q}",
+        "document_binary_url": "#{DocumentURLPD36Q}/binary",
+        "document_filename": "120KB.pdf"
+     },
+     "specialArrangementsLetter": {
+        "document_url": "#{DocumentURLSpecial}",
+        "document_binary_url": "#{DocumentURLSpecial}/binary",
+        "document_filename": "TestFile.pdf"
+     },
+     "additionalDocumentsList": [],
+     "soaIsOrderListEmpty": "No",
+     "missingAddressWarningText": "",
+     "soaServeToRespondentOptions": "No",
+     "soaRecipientsOptions": {
+         "value": [
+            {
+               "code": "#{serviceOfApplicationApplicantCode}",
+               "label": "#{serviceOfApplicationApplicantName}"
+            },
+            {
+               "code": "#{serviceOfApplicationRespondentCode}",
+               "label": "#{serviceOfApplicationRespondentName}"
+            }
+         ],
+         "list_items": [
+            {
+               "code": "#{serviceOfApplicationApplicantCode}",
+               "label": "#{serviceOfApplicationApplicantName}"
+            },
+            {
+               "code": "#{serviceOfApplicationRespondentCode}",
+               "label": "#{serviceOfApplicationRespondentName}"
+            }
+         ]
+      },
+     "soaCafcassCymruServedOptions": "Yes",
+     "soaCafcassCymruEmail": "test@testcafcass.com",
+     "soaServeLocalAuthorityYesOrNo": "No"
+  },
+  "event_token": "#{event_token}",
+  "ignore_warning": false,
+  "case_reference": "#{caseId}"
+}

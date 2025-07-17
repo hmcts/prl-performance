@@ -1,0 +1,12 @@
+{
+  "data": {
+     "mpuChildInvolvedInMiam": "Yes"
+  },
+  "event": {
+     "id": "miamPolicyUpgrade",
+     "summary": "",
+     "description": ""
+  },
+  "event_token": "#{event_token}",
+  "ignore_warning": false
+}

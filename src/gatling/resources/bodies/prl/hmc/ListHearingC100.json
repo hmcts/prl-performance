@@ -1,0 +1,114 @@
+{
+  "hearingResponse":{
+     "meta":{
+        "transactionIdCaseHQ":"#{LARandomString}-1667-4e33-8048-perf000#{LARandomNumber}",
+        "timestamp":"#{todayDate}T10:00:00Z"
+     },
+     "hearing":{
+        "hearingCaseIdHMCTS":"#{caseId}",
+        "hearingCaseVersionId":1,
+        "hearingCaseStatus":{
+           "code":"100",
+           "description":"Listed"
+        },
+        "hearingCaseJurisdiction":{
+           "code":"AB",
+           "description":"Family"
+        },
+        "listingRequestId":"#{hearingRequestId}",
+        "hearingCreatedDate":"#{todayDate}T09:00:00Z",
+        "hearingCreatedBy":"Perf.Test@hmcts.net",
+        "hearingIdCaseHQ":"4511#{LARandomNumber}",
+        "hearingType":{
+           "code":"243",
+           "description":"Case Management Conference (Private Law)"
+        },
+        "hearingStatus":{
+           "code":"FIXED",
+           "description":"Fixed - Unlikely to be moved"
+        },
+        "hearingStartTime":"#{futureDate}T10:00:00Z",
+        "hearingEndTime":"#{futureDate}T11:00:00Z",
+        "hearingPrivate":false,
+        "hearingRisk":false,
+        "hearingTranslatorRequired":false,
+        "hearingLanguage":"eng",
+        "hearingVenue":{
+           "locationIdCaseHQ":"21000",
+           "locationName":"Brentford County Court",
+           "locationRegion":{
+              "code":"1",
+              "description":"London"
+           },
+           "locationCluster":{
+              "code":"5",
+              "description":"London Civil and Family"
+           },
+           "locationReferences":[
+              {
+                 "key":"EPIMS",
+                 "value":"234946"
+              },
+              {
+                 "key":"EXTERNAL",
+                 "value":"21000"
+              }
+           ]
+        },
+        "hearingRoom":{
+           "locationIdCaseHQ":"21008",
+           "locationName":"Brentford County Court Counter",
+           "locationRegion":{
+              "code":"1",
+              "description":"London"
+           },
+           "locationCluster":{
+              "code":"5",
+              "description":"London Civil and Family"
+           },
+           "locationReferences":[
+              {
+                 "key":"EXTERNAL",
+                 "value":"21008"
+              }
+           ]
+        },
+        "hearingVhStatus":"VH Not Required",
+        "hearingAttendees":[
+           {
+              "entityIdCaseHQ":"4511#{LARandomNumber}",
+              "entityId":"#{applicantId(0)}",
+              "entityType":"IND",
+              "entityClass":"PERSON",
+              "entityName":"#{applicantFirstName(0)} #{applicantLastName(0)}",
+              "entityYouth":false,
+              "entityRole":{
+                 "code":"APPL",
+                 "description":"Applicant"
+              },
+              "hearingChannel":{
+                 "code":"INTER",
+                 "description":" In Person (child)"
+              }
+           },
+           {
+              "entityIdCaseHQ":"4511#{LARandomNumber}",
+              "entityId":"#{respondentId(0)}",  
+              "entityType":"IND",
+              "entityClass":"PERSON",
+              "entityName":"#{respondentFirstName(0)} #{respondentLastName(0)}",
+              "entityYouth":false,
+              "entityRole":{
+                 "code":"RESP",
+                 "description":"Respondent"
+              },
+              "hearingChannel":{
+                 "code":"INTER",
+                 "description":" In Person (child)"
+              }
+           }
+          
+        ]
+     }
+  }
+}

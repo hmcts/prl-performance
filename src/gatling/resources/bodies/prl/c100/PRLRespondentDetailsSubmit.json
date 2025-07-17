@@ -1,0 +1,75 @@
+{
+  "data": {
+    "respondents": [
+      {
+        "value": {
+          "firstName": "#{C100RespondentFirstName}",
+          "lastName": "#{C100RespondentLastName}",
+          "previousName": null,
+          "isDateOfBirthKnown": "Yes",
+          "dateOfBirth": "#{C100RespDobYear}-#{C100RespDobMonth}-#{C100RespDobDay}",
+          "gender": "male",
+          "otherGender": null,
+          "isPlaceOfBirthKnown": "Yes",
+          "placeOfBirth": "London",
+          "isCurrentAddressKnown": "Yes",
+          "isAtAddressLessThan5YearsWithDontKnow": "yes",
+          "addressLivedLessThan5YearsDetails": "asdfg",
+          "canYouProvideEmailAddress": "Yes",
+          "email": "Perftest1@gmail.com",
+          "canYouProvidePhoneNumber": "Yes",
+          "phoneNumber": "0123456789",
+          "doTheyHaveLegalRepresentation": "yes",
+          "representativeFirstName": "#{C100RepresentativeFirstName}",
+          "representativeLastName": "#{C100RepresentativeLastName}",
+          "solicitorEmail": "Solicitor@gmail.com",
+          "dxNumber": null,
+          "sendSignUpLink": null,
+          "isDateOfBirthUnknown": null,
+          "isAddressUnknown": null,
+          "isAddressConfidential": null,
+          "isAtAddressLessThan5Years": null,
+          "isEmailAddressConfidential": null,
+          "landline": null,
+          "isPhoneNumberConfidential": null,
+          "relationshipToChildren": null,
+          "solicitorReference": null,
+          "solicitorTelephone": null,
+          "respondentLivedWithApplicant": null,
+          "address": {
+            "AddressLine1": "#{addressLines(0)}",
+            "AddressLine2": "#{addressLines(1)}",
+            "AddressLine3": "",
+            "PostTown": "#{addressLines(2)}",
+            "County": "",
+            "PostCode": "#{addressLines(3)}",
+            "Country": "United Kingdom"
+          },
+          "solicitorOrg": {
+            "OrganisationID": "#{orgref}",
+            "OrganisationName": "#{orgname}"
+          },
+          "solicitorAddress": {
+            "AddressLine1": null,
+            "AddressLine2": null,
+            "AddressLine3": null,
+            "PostTown": null,
+            "County": null,
+            "PostCode": null,
+            "Country": null
+          },
+          "otherPersonRelationshipToChildren": []
+        },
+        "id": null
+      }
+    ],
+    "caseTypeOfApplication": "C100"
+  },
+  "event": {
+    "id": "respondentsDetails",
+    "summary": "",
+    "description": ""
+  },
+  "event_token": "#{event_token}",
+  "ignore_warning": false
+}
