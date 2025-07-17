@@ -630,7 +630,7 @@ class PRL_Simulation extends Simulation {
               //details("PRL_C100Respondent_480_ViewCourtHearings").successfulRequests.percent.gte(80),
               //details("PRL_C100ApplicantDashboard_460_ViewCourtHearings").successfulRequests.percent.gte(80),
               //details("PRL_FL401ApplicantDashboard_470_ViewCourtHearings").successfulRequests.percent.gte(80),
-              details("PRL_CitizenC100_790_Logout").successfulRequests.percent.gte(80),
+              details("PRL_CitizenC100_790_Logout").successfulRequests.percent.gte(80))
               //details("PRL_RA-Add_180_SubmitReasonableAdjustments").successfulRequests.percent.gte(80),
               //details("PRL_RA-Modify_110_ConfirmRAModify").successfulRequests.percent.gte(80))
         }
@@ -641,7 +641,7 @@ class PRL_Simulation extends Simulation {
               //details("PRL_C100Respondent_480_ViewCourtHearings").successfulRequests.percent.gte(80),
               //details("PRL_C100ApplicantDashboard_460_ViewCourtHearings").successfulRequests.percent.gte(80),
               //details("PRL_FL401ApplicantDashboard_470_ViewCourtHearings").successfulRequests.percent.gte(80),
-              details("PRL_CitizenC100_790_Logout").successfulRequests.percent.gte(80),
+              details("PRL_CitizenC100_790_Logout").successfulRequests.percent.gte(80))
               //details("PRL_RA-Add_180_SubmitReasonableAdjustments").successfulRequests.percent.gte(80),
               //details("PRL_RA-Modify_110_ConfirmRAModify").successfulRequests.percent.gte(80))
         }
