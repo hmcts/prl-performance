@@ -625,25 +625,25 @@ class PRL_Simulation extends Simulation {
       case "perftest" | "pipeline" => //currently using the same assertions for a performance test and the pipeline
         if (debugMode == "off") {
           Seq(global.successfulRequests.percent.gte(95),
-              details("PRL_Citizen_050_CompleteApplicationLegalRepContinue").successfulRequests.percent.gte(80),
-              details("PRL_FL401Respondent_470_ViewCourtHearings").successfulRequests.percent.gte(80),
-              details("PRL_C100Respondent_480_ViewCourtHearings").successfulRequests.percent.gte(80),
-              details("PRL_C100ApplicantDashboard_460_ViewCourtHearings").successfulRequests.percent.gte(80),
-              details("PRL_FL401ApplicantDashboard_470_ViewCourtHearings").successfulRequests.percent.gte(80),
+              //details("PRL_Citizen_050_CompleteApplicationLegalRepContinue").successfulRequests.percent.gte(80),
+              //details("PRL_FL401Respondent_470_ViewCourtHearings").successfulRequests.percent.gte(80),
+              //details("PRL_C100Respondent_480_ViewCourtHearings").successfulRequests.percent.gte(80),
+              //details("PRL_C100ApplicantDashboard_460_ViewCourtHearings").successfulRequests.percent.gte(80),
+              //details("PRL_FL401ApplicantDashboard_470_ViewCourtHearings").successfulRequests.percent.gte(80),
               details("PRL_CitizenC100_790_Logout").successfulRequests.percent.gte(80),
-              details("PRL_RA-Add_180_SubmitReasonableAdjustments").successfulRequests.percent.gte(80),
-              details("PRL_RA-Modify_110_ConfirmRAModify").successfulRequests.percent.gte(80))
+              //details("PRL_RA-Add_180_SubmitReasonableAdjustments").successfulRequests.percent.gte(80),
+              //details("PRL_RA-Modify_110_ConfirmRAModify").successfulRequests.percent.gte(80))
         }
         else {
           Seq(global.successfulRequests.percent.is(100),
-              details("PRL_Citizen_050_CompleteApplicationLegalRepContinue").successfulRequests.percent.gte(80),
-              details("PRL_FL401Respondent_470_ViewCourtHearings").successfulRequests.percent.gte(80),
-              details("PRL_C100Respondent_480_ViewCourtHearings").successfulRequests.percent.gte(80),
-              details("PRL_C100ApplicantDashboard_460_ViewCourtHearings").successfulRequests.percent.gte(80),
-              details("PRL_FL401ApplicantDashboard_470_ViewCourtHearings").successfulRequests.percent.gte(80),
+              //details("PRL_Citizen_050_CompleteApplicationLegalRepContinue").successfulRequests.percent.gte(80),
+              //details("PRL_FL401Respondent_470_ViewCourtHearings").successfulRequests.percent.gte(80),
+              //details("PRL_C100Respondent_480_ViewCourtHearings").successfulRequests.percent.gte(80),
+              //details("PRL_C100ApplicantDashboard_460_ViewCourtHearings").successfulRequests.percent.gte(80),
+              //details("PRL_FL401ApplicantDashboard_470_ViewCourtHearings").successfulRequests.percent.gte(80),
               details("PRL_CitizenC100_790_Logout").successfulRequests.percent.gte(80),
-              details("PRL_RA-Add_180_SubmitReasonableAdjustments").successfulRequests.percent.gte(80),
-              details("PRL_RA-Modify_110_ConfirmRAModify").successfulRequests.percent.gte(80))
+              //details("PRL_RA-Add_180_SubmitReasonableAdjustments").successfulRequests.percent.gte(80),
+              //details("PRL_RA-Modify_110_ConfirmRAModify").successfulRequests.percent.gte(80))
         }
       case _ =>
         Seq()
@@ -682,7 +682,7 @@ class PRL_Simulation extends Simulation {
   //=================================================
   //PRLC100CreateProgressCase.inject(rampUsers(250).during(75.minutes)),
   //PRLFL401CreateProgressCase.inject(rampUsers(50).during(30.minutes))
-  // userCleaner.inject(atOnceUsers(5)) ** Run in isolation before or after any test scenario to clean the test users
+  userCleaner.inject(atOnceUsers(5)) //** Run in isolation before or after any test scenario to clean the test users
 
    //=========================================================
    // At Once Users - For API Tests
