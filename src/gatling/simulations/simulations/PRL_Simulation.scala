@@ -688,12 +688,10 @@ class PRL_Simulation extends Simulation {
    // At Once Users - For API Tests
    //=========================================================
    //PRLAPICAFCASSGetDocument.inject(atOnceUsers(100)),
-    //PRLFL401RespondentScenario.inject(atOnceUsers(4)),
-    //PRLFL401ApplicantDashboardScenario.inject(atOnceUsers(4))
-    //userCleaner.inject(atOnceUsers(5))
-    //testHearings.inject(atOnceUsers(1))
-    //PRLC100CaseworkerScenario.inject(atOnceUsers(1))
-    //PRLFL401CreateProgressRespondent.inject(atOnceUsers(1))
+   //userCleaner.inject(atOnceUsers(5))
+ 
+ 
+ 
 
   ).protocols(httpProtocol)
     .assertions(assertions(testType))
