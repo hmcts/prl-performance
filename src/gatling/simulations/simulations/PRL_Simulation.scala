@@ -15,18 +15,14 @@ import scala.util.Random
 class PRL_Simulation extends Simulation {
 
   val UserFeederPRL = csv("UserDataPRL.csv").circular
-  val UserCitizenPRL = csv("UserDataPRLCitizen.csv").circular
   val UserCourtAdminPRL = csv("UserDataCourtAdmin.csv").circular
   val UserCaseManagerPRL = csv("UserDataCaseManager.csv").circular
-  val UserFeederPRLRespondent = csv("UserDataRespondent.csv").circular
-  val fl401caseFeeder = csv("FL401CourtAdminData.csv")
-  val c100CaseFeeder = csv("C100CourtAdminData.csv")
   val c100RespondentData = csv("C100RespondentData.csv")
   val c100ApplicantDashData = csv("C100ApplicantDashData.csv")
   val fl401ApplicantDashData = csv("FL401ApplicantDashData.csv")
   val fl401RespondentData = csv("FL401RespondentData.csv")
   val RAData_Add = csv("ReasonableAdjustments_Add.csv")
-  val RAData_Modify = csv("ReasonableAdjustments_Modify.csv") //.circular
+  val RAData_Modify = csv("ReasonableAdjustments_Modify.csv")
   val cafcassCaseFeeder = csv("CasesForDocUpload.csv").queue
   val cleanUserFeeder = csv("UserFeederCleaner.csv")
 
@@ -84,8 +80,8 @@ class PRL_Simulation extends Simulation {
 
   val httpProtocol = http
     .baseUrl(Environment.baseURL.replace("${env}", s"${env}"))
-    //.inferHtmlResources()
-    .inferHtmlResources(AllowList(), DenyList()) //*** ONLY TO BE USED FOR DATA PREP ****
+    .inferHtmlResources()
+    //.inferHtmlResources(AllowList(), DenyList()) //*** ONLY TO BE USED FOR DATA PREP ****
     .silentResources
     .header("experimental", "true") //used to send through client id, s2s and bearer tokens. Might be temporary
 
@@ -137,81 +133,6 @@ class PRL_Simulation extends Simulation {
       .exec(API_IDAM.DeleteUserInIdam)
     }
 
-/*===============================================================================================
-* PRL Caseworker Journey - Progress C100 Case for Respondent                    ** CAN DELETE **
-===============================================================================================*/
-
-  val PRLC100CaseworkerScenario = scenario("***** PRL C100 Caseworker Journey *****")
-    .exitBlockOnFail {
-      exec(_.set("env", s"${env}")
-      .set("caseType", "PRLAPPS"))
-      .feed(UserCourtAdminPRL)
-      .exec(Homepage.XUIHomePage)
-      .exec(Login.XUILogin)
-      .repeat(1) {
-        feed(c100CaseFeeder)
-        .exec(Caseworker_PRL_C100_ProgressCase.CourtAdminCheckApplication)
-        .exec(Caseworker_PRL_C100_ProgressCase.IssueAndSendToLocalCourt)
-        .exec(Caseworker_PRL_C100_ProgressCase.CourtAdminSendToGateKeeper)
-        .exec(Caseworker_PRL_C100_ProgressCase.CourtAdminManageOrders)
-        .exec(Caseworker_PRL_C100_ProgressCase.CourtAdminServiceApplication)
-      }
-      .exec(Logout.XUILogout)
-    }
-
-/*===============================================================================================
-* PRL Caseworker Journey - Progress FL401 Case                                  ** CAN DELETE **
-===============================================================================================*/
-
-  val PRLFL401CaseworkerScenario = scenario("***** PRL FL401 Caseworker Journey *****")
-    .exitBlockOnFail {
-      exec(_.set("env", s"${env}")
-      .set("caseType", "PRLAPPS"))
-      .feed(UserCourtAdminPRL)
-      .exec(Homepage.XUIHomePage)
-      .exec(Login.XUILogin)
-      .repeat(10) {
-        feed(fl401caseFeeder)
-        .exec(Caseworker_PRL_FL401_ProgressCase.CourtAdminCheckApplication)
-        .exec(Caseworker_PRL_FL401_ProgressCase.CourtAdminSendToGateKeeper)
-        .exec(Caseworker_PRL_FL401_ProgressCase.CourtAdminManageOrders)
-        .exec(Caseworker_PRL_FL401_ProgressCase.CourtAdminServiceApplication)
-      }
-    }
-
-/*===============================================================================================
-* PRL CaseManager Journey - Progress FL401 Case                                 ** CAN DELETE **
-===============================================================================================*/
-
-  val PRLFL401CaseManagerScenario = scenario("***** PRL FL401 CaseManager Journey *****")
-    .exitBlockOnFail {
-      exec(_.set("env", s"${env}")
-      .set("caseType", "PRLAPPS"))
-      .feed(UserCaseManagerPRL)
-      .exec(Homepage.XUIHomePage)
-      .exec(Login.XUILogin)
-      .repeat(1) {
-        feed(fl401caseFeeder)
-        .exec(CaseManager_PRL_FL401_ProgressCase.CaseManagerConfidentialityCheck)
-      }
-    }
-
-/*===============================================================================================
-* PRL Citizen Journey                                                           ** CAN DELETE **
-===============================================================================================*/
-
-  val PrlDataPrep = scenario("***** PRL Case DataPrep Journey *****")
-    .exitBlockOnFail {
-      feed(UserFeederPRL)
-      .exec(_.set("env", s"${env}")
-      .set("caseType", "PRLAPPS"))
-      .exec(Homepage.XUIHomePage)
-      .exec(Login.XUILogin)
-      .repeat(1) {
-          exec(Solicitor_PRL_CitizenDataPrep.CompleteDataPrep)
-      }
-    }
-
   /*===============================================================================================
   * PRL Solicitor FL401 Create
   ===============================================================================================*/
@@ -251,7 +172,6 @@ class PRL_Simulation extends Simulation {
       // Create Citizen User
       //=======================
       .exec(API_IDAM.CreateUserInIdam("Resp"))
-      //.feed(UserFeederPRLRespondent)
       .exec(Homepage.PRLHomePage)
       .exec(Login.PrlLogin)
       .repeat(1) {
@@ -303,8 +223,8 @@ class PRL_Simulation extends Simulation {
         .exec(Citizen_PRL_C100_ApplicantDashboard.MakeRequestToCourtAboutCase)            //New for R6.0/7.0
         .exec(Citizen_PRL_C100_ApplicantDashboard.UploadDocumentsApplicationsStatements)  //New for R6.0
         .exec(Citizen_PRL_C100_ApplicantDashboard.ViewAllDocuments)                       //New for R6.0
-        //.exec(Citizen_PRL_C100_ApplicantDashboard.ViewServedAppPack)                      //16/04/2025 - Not available within CUI anymore - commenting out
-        //.exec(Citizen_PRL_C100_ApplicantDashboard.ViewAllDocuments)                       //As above not needed if ServedAppPack is not available
+        //.exec(Citizen_PRL_C100_ApplicantDashboard.ViewServedAppPack)                 //16/04/2025 - Not available within CUI anymore - commenting out
+        //.exec(Citizen_PRL_C100_ApplicantDashboard.ViewAllDocuments)                     //As above not needed if ServedAppPack is not available
         //.exec(Citizen_PRL_C100_ApplicantDashboard.ViewRespondentsDocuments)             //Not needed in this journey
         .exec(Citizen_PRL_C100_ApplicantDashboard.ViewApplicantsDocuments)                //New for R6.0
         .exec(Citizen_PRL_C100_ApplicantDashboard.ViewAllDocuments)                       //New for R6.0
@@ -386,7 +306,6 @@ class PRL_Simulation extends Simulation {
       // Create Citizen User
       //=======================
       .exec(API_IDAM.CreateUserInIdam("Resp"))
-      //.feed(UserFeederPRLRespondent)
       .exec(Homepage.PRLHomePage)
       .exec(Login.PrlLogin)
       .repeat(1) {
@@ -424,13 +343,12 @@ class PRL_Simulation extends Simulation {
       // Create Citizen User
       //=======================
       .exec(API_IDAM.CreateUserInIdam("App"))
-      //.feed(UserCitizenPRL)
       .exec(Homepage.PRLHomePage)
       .exec(Login.PrlLogin)
       .repeat(1) {
         feed(fl401ApplicantDashData)
         .exec(Citizen_PRL_FL401_ApplicantDashboard.RetrieveCase)
-        //.exec(Citizen_PRL_FL401_ApplicantDashboard.GetCase)                                // Not needed in this journey as once linked you are redirected to the dashboard (Use for script deb and debugging)
+        //.exec(Citizen_PRL_FL401_ApplicantDashboard.GetCase)                               // Not needed in this journey as once linked you are redirected to the dashboard (Use for script deb and debugging)
         .exec(Citizen_PRL_FL401_ApplicantDashboard.ConfirmEditContactDetails)               // New for R6.0
         .exec(Citizen_PRL_FL401_ApplicantDashboard.ContactPreferences)
         .exec(Citizen_PRL_FL401_ApplicantDashboard.KeepDetailsPrivate)
@@ -453,45 +371,6 @@ class PRL_Simulation extends Simulation {
       }
     .exec(API_IDAM.DeleteUserInIdam)
     }
-
-
-  /*==================================================================================================================================================
-  * PRL FL401 Create Case (Solicitor), Progress Case (CourtAdmin, CaseManager), FL401 Respondent, FL401 Applicant (Split 50/50 by VuserID modulo 2)  ** CAN DELETE **
-  ===================================================================================================================================================*/
-
-  val PRLFL401CreateProgressRespondent = scenario("***** PRL FL401 Create, process and respond to cases *****")
-    .exitBlockOnFail {
-        feed(UserFeederPRL)
-        .exec(_.set("env", s"${env}")
-        .set("caseType", "PRLAPPS"))
-        // Solicitor XUI FL401 Create
-        .exec(
-          Homepage.XUIHomePage,
-          Login.XUILogin,
-            Solicitor_PRL_FL401_CaseCreate.CreatePrivateLawCase,
-            Solicitor_PRL_FL401_CaseCreate.TypeOfApplication,
-            Solicitor_PRL_FL401_CaseCreate.WithoutNoticeOrder,
-            Solicitor_PRL_FL401_CaseCreate.ApplicantDetails,
-            Solicitor_PRL_FL401_CaseCreate.RespondentDetails,
-            Solicitor_PRL_FL401_CaseCreate.ApplicantsFamily,
-            Solicitor_PRL_FL401_CaseCreate.Relationship,
-            Solicitor_PRL_FL401_CaseCreate.Behaviour,
-            Solicitor_PRL_FL401_CaseCreate.TheHome,
-            Solicitor_PRL_FL401_CaseCreate.UploadDocuments,
-            Solicitor_PRL_FL401_CaseCreate.ViewPDF,
-            Solicitor_PRL_FL401_CaseCreate.StatementOfTruth,
-          Logout.XUILogout)
-        // CourtAdmin - Progress Case - Issue & Send to Local Court
-        .feed(UserCourtAdminPRL)
-        .exec(
-          CCDAPI.CreateEvent("CourtAdmin", "PRIVATELAW", "PRLAPPS", "issueAndSendToLocalCourtCallback", "bodies/prl/courtAdmin/PRLLocalCourtSubmit.json"))
-        // CourtAdmin - Progress Case - Send to GateKeeper
-        .exec(
-          Homepage.XUIHomePage,
-          Login.XUILogin,
-            Caseworker_PRL_FL401_ProgressCase.CourtAdminSendToGateKeeper,
-          Logout.XUILogout)
-     }
 
   //===============================================================================================
   // Solicitor Create & Progress FL401 Case via CCD API Calls (where applicable/possible)
@@ -664,8 +543,6 @@ class PRL_Simulation extends Simulation {
         //==========================
         //Court Admin Progression
         //==========================
-        //.exec(flushHttpCache)
-        //.exec(flushCookieJar)
         .feed(UserCourtAdminPRL)
         .exec(
           Homepage.XUIHomePage,
@@ -705,77 +582,6 @@ class PRL_Simulation extends Simulation {
       .exec(Caseworker_PRL_C100_ProgressCase.WriteAccessCodesToFile)
     } // end of repeat
     } 
-
-  /*===============================================================================================
-  * PRL Citizen C100 Create & Progress by Caseworker  ** OLD DELETE SOON **
-  ===============================================================================================*/
-
-   val PRLC100CitizenCreateProgressCase = scenario("***** PRL Citizen Journey & Case Progression *****")
-    .exitBlockOnFail {
-      exec(_.set("env", s"${env}")
-      .set("caseType", "PRLAPPS")
-      set("caseId", "1751622484620398")) //comment out when running e2e
-      .repeat(1) {
-        // Create Citizen User
-        exec(API_IDAM.CreateUserInIdam("App"))
-        // Citizen CUI Create Steps
-        //.exec(Citizen_PRL_C100_Applicant.C100Case)
-        //.exec(Citizen_PRL_C100_Applicant.C100Case2)
-        //.exec(Logout.CUILogout)
-        // CaseWorker Progression XUI Steps
-       .feed(UserCourtAdminPRL)
-       .exec(
-          Homepage.XUIHomePage,
-          Login.XUILogin,
-            //  Caseworker_PRL_C100_ProgressCase.CourtAdminCheckApplication,
-            //  CCDAPI.CreateEvent("CourtAdmin", "PRIVATELAW", "PRLAPPS", "issueAndSendToLocalCourtCallback", "bodies/prl/courtAdmin/PRLLocalCourtSubmit.json"),
-            //  Caseworker_PRL_C100_ProgressCase.CourtAdminSendToGateKeeper,
-            //  Caseworker_PRL_C100_ProgressCase.CourtAdminManageOrders,
-            //  CCDAPI.UploadDocument("CourtAdmin", "PRIVATELAW", "PRLAPPS", "TestFile.pdf",
-            //          Seq(
-            //            jsonPath("$.documents[0].hashToken").saveAs("documentHashPD36Q"),
-            //            jsonPath("$.documents[0]._links.self.href").saveAs("DocumentURLPD36Q"))),
-            //  CCDAPI.UploadDocument("CourtAdmin", "PRIVATELAW", "PRLAPPS", "TestFile2.pdf",
-            //          Seq(
-            //           jsonPath("$.documents[0].hashToken").saveAs("documentHashSpecial"),
-            //           jsonPath("$.documents[0]._links.self.href").saveAs("DocumentURLSpecial"))),
-            //  Caseworker_PRL_C100_ProgressCase.CourtAdminServiceApplicationExtract,
-            //  CCDAPI.CreateEvent("CourtAdmin", "PRIVATELAW", "PRLAPPS", "serviceOfApplication", "bodies/prl/courtAdmin/PRLSoASubmit.json",
-            //          Seq(
-            //            jsonPath("$.case_data.caseInvites[0].value.accessCode").saveAs("prlAccessCodeApplicant"),
-            //            jsonPath("$.case_data.caseInvites[1].value.accessCode").saveAs("prlAccessCodeRespondent"))),
-            // Caseworker_PRL_C100_ProgressCase.WriteAccessCodesToFile,
-            Caseworker_PRL_C100_ProgressCase.ListHearing,
-          Logout.XUILogout)
-    } // end of repeat
-    }
-
-    // ===========================
-    // TEST HEARINGS
-    // ===========================
-    
-    val testHearings = scenario("***** TEST HEARINGS *****")
-     .exitBlockOnFail {
-      exec(_.set("env", s"${env}")
-      .set("caseId", "1752609822768756") //comment out when running e2e
-      .set("caseType", "PRLAPPS"))
-        //set session variables
-      .exec(_.setAll(
-      "LARandomString" -> Common.randomString(5),
-      "LARandomNumber" -> Common.randomNumber(4),
-      "futureDate" -> Common.getFutureDate(),
-      "todayDate" -> Common.getDate()))
-      .exec(
-        API_HMCHearings.Auth("ccdUser"),
-        API_HMCHearings.GetCaseDetailsFL401,
-        API_HMCHearings.Auth("hmcHearingRequest"),
-        API_HMCHearings.RequestHearing("FL401"), 
-          //List the hearing (Mimic request back from List Assist)
-          API_HMCHearings.Auth("hmcHearingList"),
-          API_HMCHearings.ListHearing("FL401"))
-        //View hearings tab once listed 
-        //CourtAdmin_PRL_C100.CourtAdminHearingsTab
-      }
 
   // ===========================
   // User Cleaner Scenario
@@ -857,7 +663,7 @@ class PRL_Simulation extends Simulation {
 //  PRLReasonableAdjustmentsAdd.inject(simulationProfile(testType, reasonableAdjustmentTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
 //  PRLReasonableAdjustmentsModify.inject(simulationProfile(testType, reasonableAdjustmentTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
 
-    //=================================================
+  //=================================================
   //C100 & CUIRA Release Scenarios - SMOKE TEST
   //=================================================
    //PRLC100CitizenScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
@@ -868,22 +674,22 @@ class PRL_Simulation extends Simulation {
    //PRLC100ApplicantDashboardScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
    //PRLFL401ApplicantDashboardScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
 
-
   //=================================================
   // Data Prep Scenario (3 x test's data):
-  // Set C100 Users to 250 over 120mins
+  // Set C100 Users to 250 over 75mins
   // Set FL401 Users to 50 over 30mins
   // Uncomment from Protocol definition:  .inferHtmlResources(AllowList(), DenyList())
   //=================================================
-  PRLC100CreateProgressCase.inject(rampUsers(250).during(120.minutes)),
-  PRLFL401CreateProgressCase.inject(rampUsers(50).during(30.minutes))
+  //PRLC100CreateProgressCase.inject(rampUsers(250).during(75.minutes)),
+  //PRLFL401CreateProgressCase.inject(rampUsers(50).during(30.minutes))
   // userCleaner.inject(atOnceUsers(5)) ** Run in isolation before or after any test scenario to clean the test users
 
    //=========================================================
    // At Once Users - For API Tests
    //=========================================================
    //PRLAPICAFCASSGetDocument.inject(atOnceUsers(100)),
-    //PRLFL401CreateProgressCase.inject(atOnceUsers(10))
+    //PRLFL401RespondentScenario.inject(atOnceUsers(4)),
+    //PRLFL401ApplicantDashboardScenario.inject(atOnceUsers(4))
     //userCleaner.inject(atOnceUsers(5))
     //testHearings.inject(atOnceUsers(1))
     //PRLC100CaseworkerScenario.inject(atOnceUsers(1))
@@ -891,6 +697,6 @@ class PRL_Simulation extends Simulation {
 
   ).protocols(httpProtocol)
     .assertions(assertions(testType))
-    .maxDuration(75 minutes) 
+    .maxDuration(90 minutes) 
 
 }

@@ -24,7 +24,7 @@ object API_IDAM {
 
     .feed(userFeeder)
 
-    .exec(http("CreateUser:#{email}")
+    .exec(http("CreateUser:#{userType}_#{email}")
       .post(Environment.idamAPIURL + "/testing-support/accounts")
       .header("Content-Type", "application/json")
       .body(ElFileBody("bodies/prl/idam/Idam_CreateUserBody.json"))
