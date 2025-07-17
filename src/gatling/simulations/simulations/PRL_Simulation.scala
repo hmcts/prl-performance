@@ -654,7 +654,7 @@ class PRL_Simulation extends Simulation {
   //=================================================
   //C100 & CUIRA Release Scenarios
   //=================================================
-    PRLC100CitizenScenario.inject(simulationProfile(testType, c100AppTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    PRLC100CitizenScenario.inject(simulationProfile(testType, c100AppTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption)
 //  PRLC100RespondentScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
 //  PRLFL401RespondentScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
 //  PRLC100ApplicantDashboardScenario.inject(simulationProfile(testType, c100AppTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
@@ -689,6 +689,7 @@ class PRL_Simulation extends Simulation {
    //=========================================================
    //PRLAPICAFCASSGetDocument.inject(atOnceUsers(100)),
    //userCleaner.inject(atOnceUsers(5))
+   //PRLC100CitizenScenario.inject(atOnceUsers(5))
  
  
  

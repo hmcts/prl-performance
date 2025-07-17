@@ -48,20 +48,6 @@ object API_IDAM {
       }
      }
 
-
-    // //Outputs the user email and idam id to a CSV, can be commented out if not needed  
-    // .doIf(session=>session("statusvalue").as[String].contains("201")) {
-    //   exec {
-        // session =>
-        //   val fw = new BufferedWriter(new FileWriter("CreatedIdamUsers.csv", true))
-        //   try {
-            // fw.write(session("email").as[String] + "," + "Password12,IA,Asylum," + session("idamNewId").as[String] + "\r\n")
-        //   }
-        //   finally fw.close()
-        //   session
-    //   }
-    // }
-
     .pause(1.seconds)
 
   val DeleteUserInIdam =
