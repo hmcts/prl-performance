@@ -654,7 +654,7 @@ class PRL_Simulation extends Simulation {
   //=================================================
   //C100 & CUIRA Release Scenarios
   //=================================================
-//  PRLC100CitizenScenario.inject(simulationProfile(testType, c100AppTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+    PRLC100CitizenScenario.inject(simulationProfile(testType, c100AppTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
 //  PRLC100RespondentScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
 //  PRLFL401RespondentScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
 //  PRLC100ApplicantDashboardScenario.inject(simulationProfile(testType, c100AppTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
@@ -682,7 +682,7 @@ class PRL_Simulation extends Simulation {
   //=================================================
   //PRLC100CreateProgressCase.inject(rampUsers(250).during(75.minutes)),
   //PRLFL401CreateProgressCase.inject(rampUsers(50).during(30.minutes))
-  userCleaner.inject(atOnceUsers(5)) //** Run in isolation before or after any test scenario to clean the test users
+  //userCleaner.inject(atOnceUsers(5)) //** Run in isolation before or after any test scenario to clean the test users
 
    //=========================================================
    // At Once Users - For API Tests
