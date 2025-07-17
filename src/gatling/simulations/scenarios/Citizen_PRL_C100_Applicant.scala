@@ -2383,14 +2383,14 @@ object Citizen_PRL_C100_Applicant {
 
   } // End of If
 
-    //Write case to file
-    .exec { session =>
-      val fw = new BufferedWriter(new FileWriter("C100Cases.csv", true))
-      try {
-        fw.write(session("caseId").as[String] + "\r\n")
-      } finally fw.close()
-      session
-    }
+    // //Write case to file (if needed uncomment)
+    // .exec { session =>
+    //   val fw = new BufferedWriter(new FileWriter("C100Cases.csv", true))
+    //   try {
+    //     fw.write(session("caseId").as[String] + "\r\n")
+    //   } finally fw.close()
+    //   session
+    // }
 
     /*======================================================================================
     * Logout
