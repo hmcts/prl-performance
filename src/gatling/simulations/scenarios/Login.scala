@@ -64,7 +64,7 @@ object Login {
     // Add cookie to jar manually
     .exec(
       addCookie(
-        Cookie("xui-webapp", "${xuiWebAppCookie}")
+        Cookie("xui-webapp", "#{xuiWebAppCookie}")
           .withDomain("manage-case.perftest.platform.hmcts.net") 
           .withPath("/") 
       )

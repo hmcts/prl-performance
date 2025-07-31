@@ -56,7 +56,7 @@ object CaseManager_PRL_FL401_ProgressCase {
       // Add cookie to jar manually from session
     .exec(
       addCookie(
-        Cookie("xui-webapp", "${xuiWebAppCookie}")
+        Cookie("xui-webapp", "#{xuiWebAppCookie}")
           .withDomain("manage-case.perftest.platform.hmcts.net") // match exactly
           .withPath("/") // match what the cookie requires
       )
