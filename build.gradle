@@ -25,6 +25,7 @@ gatling {
     gatlingVersion '3.14.3'
     scalaVersion '2.13.11'
     jvmArgs = ['-Xms2048m', '-Xmx4096m']
+    jvmArgs = ["--add-opens=java.base/java.lang=ALL-UNNAMED"]
 }
 
 sourceSets {
