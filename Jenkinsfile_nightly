@@ -34,7 +34,7 @@ withNightlyPipeline("java", product, component) {
 
     loadVaultSecrets(secrets)
 
-    enablePerformanceTest(30)
+    enablePerformanceTest(timeout=30, perfGatlingAlerts=true, perfRerunOnFail=true)
 
     after('performanceTest') {
         steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
