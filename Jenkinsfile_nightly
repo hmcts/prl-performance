@@ -30,7 +30,7 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
     ]
 }
 
-withNightlyPipeline("nodejs", product, component) {
+withNightlyPipeline("java", product, component) {
 
     loadVaultSecrets(secrets)
 
