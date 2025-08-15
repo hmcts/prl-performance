@@ -174,7 +174,7 @@ def RequestHearing(caseType: String) =
         "dateNow" -> Common.getDate()))
 
     .exec(http("RequestHearing#{caseType}")
-      .post(HmcAPIURL + "/hearing/")
+      .post(HmcAPIURL + "/hearing")
       .header("Authorization", "Bearer #{bearerToken}")
       .header("ServiceAuthorization", "#{authToken}")
       .header("Content-Type", "application/json")

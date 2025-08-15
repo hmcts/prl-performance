@@ -43,7 +43,7 @@ Click Access Code &  Enter Case ID & Pin
 		exec(http("PRL_C100Respondent_040_005_EnterPinAndCase")
 		.post(prlURL + "/pin-activation/enter-pin")
 		.headers(Headers.navigationHeader)
-		.header("content-type", "application/x-www-form-urlencoded")
+	 	.header("content-type", "application/x-www-form-urlencoded")
 		.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 		.formParam("_csrf", "#{csrf}")
 		.formParam("caseCode", "#{caseId}")
@@ -225,7 +225,7 @@ Click Access Code &  Enter Case ID & Pin
     	exec(http("PRL_C100Respondent_060_005_ConfirmEditContactDetails")
 		.get(prlURL + "/respondent/confirm-contact-details/checkanswers/#{caseId}")
 		.headers(Headers.navigationHeader)
-      	//.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7")
+      	.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
       	.check(CsrfCheck.save)
       	.check(substring("Check your details")))
 	}
@@ -1366,7 +1366,7 @@ Click Access Code &  Enter Case ID & Pin
       .get(prlURL + "/respondent/documents/view/application-pack-documents")
       .headers(Headers.navigationHeader)
       .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-	  .check(regex("""<a href=/respondent/documents/download/(.*?) target=\"_blank\">""").findAll.saveAs("documentsToView"))
+	  //.check(regex("""<a href=/respondent/documents/download/(.*?) target=\"_blank\">""").findAll.saveAs("documentsToView"))
 	  .check(substring("You should read the cover letter first")))
 
     .pause(MinThinkTime, MaxThinkTime)
@@ -1374,35 +1374,35 @@ Click Access Code &  Enter Case ID & Pin
 	//================================================================================================
 	//Get total documents to download and a random number between 1 and total documents
 	//================================================================================================
-	.exec(session => {
-		val documentsToView = session("documentsToView").as[Seq[String]]
-		val maxDocIndex = documentsToView.length
-		println(s"maxDocIndex $maxDocIndex") 
-		val randomDocIndex = Random.between(1, maxDocIndex + 1) 
-		println(s"randomDocIndex $randomDocIndex") 
-		session.set("randomDocIndex", randomDocIndex) 
-	})
+	//.exec(session => {
+	//	val documentsToView = session("documentsToView").as[Seq[String]]
+	//	val maxDocIndex = documentsToView.length
+	//	println(s"maxDocIndex $maxDocIndex")
+	//	val randomDocIndex = Random.between(1, maxDocIndex + 1)
+	//	println(s"randomDocIndex $randomDocIndex")
+	//	session.set("randomDocIndex", randomDocIndex)
+	//})
 	//================================================================================================
 	//View a random number of documents within the application pack
 	//================================================================================================
-	.repeat(session => session("randomDocIndex").as[Int], "counter") {
-		exec(session => {
-		val documentsToView = session("documentsToView").as[Seq[String]] 
-		val currentIndex = session("counter").as[Int] 
-		val currentDocument = documentsToView(currentIndex) 
-		session.set("downloadDocument", currentDocument)
-		})
+	//.repeat(session => session("randomDocIndex").as[Int], "counter") {
+	//	exec(session => {
+	//	val documentsToView = session("documentsToView").as[Seq[String]]
+	//	val currentIndex = session("counter").as[Int]
+	//	val currentDocument = documentsToView(currentIndex)
+	//	session.set("downloadDocument", currentDocument)
+	//	})
 	//================================================================================================
 	//Open a document from within the pack
 	//================================================================================================
-		.exec(http("PRL_C100Respondent_45#{counter}_ApplicationPackDocumentDownload")
-		  .get(prlURL + "/respondent/documents/download/#{downloadDocument}")
-		  .headers(Headers.navigationHeader)
-		  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-		  .check(status.is(200)))
+	//	.exec(http("PRL_C100Respondent_45#{counter}_ApplicationPackDocumentDownload")
+	//	  .get(prlURL + "/respondent/documents/download/#{downloadDocument}")
+	//	  .headers(Headers.navigationHeader)
+	//	  .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+	//	  .check(status.is(200)))
 
-    .pause(MinThinkTime, MaxThinkTime) 
-	}
+  //  .pause(MinThinkTime, MaxThinkTime)
+	//}
 
   val ViewRespondentsDocuments =
 

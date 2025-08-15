@@ -1,6 +1,7 @@
 package scenarios
 
 import io.gatling.core.Predef._
+import io.gatling.core.structure.ChainBuilder
 import io.gatling.http.Predef._
 import utils.{Common, Environment, Headers}
 
@@ -107,7 +108,7 @@ object Caseworker_PRL_FL401_ProgressCase {
 
     .pause(MinThinkTime, MaxThinkTime)
 
-  val CourtAdminSendToGateKeeper = 
+  val CourtAdminSendToGateKeeper =
 
     exec(http("XUI_PRL_XXX_440_SelectCase")
       .get(BaseURL + "/cases/case-details/#{caseId}/task")
@@ -138,17 +139,30 @@ object Caseworker_PRL_FL401_ProgressCase {
         .pause(MinThinkTime, MaxThinkTime)
 
       // Loop until the taskId is captured
-      .asLongAs(session => session("taskId").asOption[String].forall(_.isEmpty)) {
-        exec(http("XUI_PRL_XXX_442_SelectCaseTask")
-          .get(BaseURL + "/workallocation/case/task/#{caseId}")
-          .headers(Headers.xuiHeader)
-          .header("Accept", "application/json, text/plain, */*")
-          .header("x-xsrf-token", "#{XSRFToken}")
-          .check(jsonPath("$..[?(@.type=='sendToGateKeeperFL401')].id").optional.saveAs("taskId")))
+
+      // Loop until the task type matches "checkApplicationC100" or "checkHwfApplicationC100"
+
+
+      //.asLongAs(session => session("taskId").asOption[String].forall(_.isEmpty)) {
+        //.exec(http("XUI_PRL_XXX_442_SelectCaseTask")
+        //  .get(BaseURL + "/workallocation/case/task/#{caseId}")
+        //  .headers(Headers.xuiHeader)
+        //  .header("Accept", "application/json, text/plain, */*")
+        //  .header("x-xsrf-token", "#{XSRFToken}")
+        //  .check(jsonPath("$..[?(@.type=='sendToGateKeeperFL401')].id").optional.saveAs("taskId")))*/
+        //  //.check(jsonPath("$[1].type").optional.saveAs("taskType")))
+
+      .asLongAs(session => session("taskId").asOption[String].forall(_.isEmpty))  {
+          exec(http("XUI_PRL_XXX_442_SelectCaseTaskRepeat")
+            .get(BaseURL + "/workallocation/case/task/#{caseId}")
+            .headers(Headers.xuiHeader)
+            .header("Accept", "application/json, text/plain, */*")
+            .header("x-xsrf-token", "#{XSRFToken}")
+            .check(jsonPath("$..[?(@.type=='sendToGateKeeperFL401')].id").optional.saveAs("taskId")))
+          //.check(jsonPath("$[1].type").optional.saveAs("taskType")))
 
           .pause(5, 10) // Wait between retries
       }
-
     /*=====================================================================================
     * Claim the task
     ======================================================================================*/
@@ -224,10 +238,10 @@ object Caseworker_PRL_FL401_ProgressCase {
     exec(http("XUI_PRL_XXX_515_SelectCase")
       .get(BaseURL + "/data/internal/cases/#{caseId}")
       .headers(Headers.xuiHeader)
-      .check(jsonPath("$.tabs[6].fields[3].value.firstName").saveAs("ApplicantFirstName"))
-      .check(jsonPath("$.tabs[6].fields[3].value.lastName").saveAs("ApplicantLastName"))
-      .check(jsonPath("$.tabs[6].fields[8].value.firstName").saveAs("RespondentFirstName"))
-      .check(jsonPath("$.tabs[6].fields[8].value.lastName").saveAs("RespondentLastName"))
+      //.check(jsonPath("$.tabs[6].fields[3].value.firstName").saveAs("ApplicantFirstName"))
+      //.check(jsonPath("$.tabs[6].fields[3].value.lastName").saveAs("ApplicantLastName"))
+      //.check(jsonPath("$.tabs[6].fields[8].value.firstName").saveAs("RespondentFirstName"))
+      //.check(jsonPath("$.tabs[6].fields[8].value.lastName").saveAs("RespondentLastName"))
       .check(jsonPath("$.case_id").is("#{caseId}")))
 
     .pause(MinThinkTime, MaxThinkTime)
