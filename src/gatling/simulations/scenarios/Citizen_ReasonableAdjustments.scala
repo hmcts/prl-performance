@@ -374,7 +374,7 @@ object Citizen_ReasonableAdjustments {
 		.headers(Headers.navigationHeader)
 		.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 		.check(substring("Review the support"))
-		.check(regex("""id="remove-(.+?)" class='govuk-link govuk-link--no-visited-state'""").saveAs("reasonableAdjustmentToRemove")))
+		.check(regex("""<a class="govuk-link govuk-link--no-visited-state" id="remove-(.+?)" aria-labelledby="remove""").saveAs("reasonableAdjustmentToRemove")))
 
     .pause(MinThinkTime, MaxThinkTime)
 
