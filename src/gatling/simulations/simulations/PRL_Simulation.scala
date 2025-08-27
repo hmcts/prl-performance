@@ -710,6 +710,8 @@ class PRL_Simulation extends Simulation {
         List(
           PRLC100CreateProgressCase.inject(rampUsers(250).during(75.minutes)),
           PRLFL401CreateProgressCase.inject(rampUsers(50).during(30.minutes)))
+          //PRLC100RespondentScenario.inject(rampUsers(20).during(5.minutes)),
+        //PRLFL401RespondentScenario.inject(rampUsers(20).during(5.minutes)))
           //PRLC100CreateProgressCase.inject(rampUsers(1).during(1)))
 
       case "clear" =>
