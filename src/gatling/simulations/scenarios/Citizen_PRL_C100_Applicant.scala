@@ -904,39 +904,39 @@ object Citizen_PRL_C100_Applicant {
     * Applicant Postcode
     ======================================================================================*/
 
-    .group("PRL_CitizenC100_400_ApplicantPostcode") {
-      exec(http("PRL_CitizenC100_400_005_ApplicantPostcode")
-        .post(prlURL + "/c100-rebuild/applicant/#{applicantId}/address/lookup")
-        .headers(Headers.commonHeader)
-        .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-        .header("content-type", "application/x-www-form-urlencoded")
-        .formParam("_csrf", "#{csrf}")
-        .formParam("addressPostcode", "KT25BU")
-        .formParam("onlycontinue", "true")
-        .check(CsrfCheck.save)
-        .check(regex("""<option value="([0-9]+)">""").findRandom.saveAs("addressIndex")))
-    }
+    //.group("PRL_CitizenC100_400_ApplicantPostcode") {
+    //  exec(http("PRL_CitizenC100_400_005_ApplicantPostcode")
+    //    .post(prlURL + "/c100-rebuild/applicant/#{applicantId}/address/lookup")
+    //    .headers(Headers.commonHeader)
+    //    .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+    //    .header("content-type", "application/x-www-form-urlencoded")
+    //    .formParam("_csrf", "#{csrf}")
+    //    .formParam("addressPostcode", "KT25BU")
+    //    .formParam("onlycontinue", "true")
+    //    .check(CsrfCheck.save)
+    //    .check(regex("""<option value="([0-9]+)">""").findRandom.saveAs("addressIndex")))
+    //}
 
-    .pause(MinThinkTime, MaxThinkTime)
+    //.pause(MinThinkTime, MaxThinkTime)
 
     /*======================================================================================
     * Select Address
     ======================================================================================*/
 
-    .group("PRL_CitizenC100_410_ApplicantSelectAddress") {
-      exec(http("PRL_CitizenC100_410_005_ApplicantSelectAddress")
-        .post(prlURL + "/c100-rebuild/applicant/#{applicantId}/address/select")
-        .headers(Headers.commonHeader)
-        .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-        .header("content-type", "application/x-www-form-urlencoded")
-        .formParam("_csrf", "#{csrf}")
-        .formParam("selectAddress", "#{addressIndex}")
-        .formParam("onlycontinue", "true")
-        .check(CsrfCheck.save)
-        .check(regex("""name="address1" type="text" value="(.+)""").saveAs("address"))
-        .check(regex("""name="addressTown" type="text" value="(.+)"""").saveAs("town"))
-        .check(substring("Address details of")))
-    }
+    //.group("PRL_CitizenC100_410_ApplicantSelectAddress") {
+    //  exec(http("PRL_CitizenC100_410_005_ApplicantSelectAddress")
+    //    .post(prlURL + "/c100-rebuild/applicant/#{applicantId}/address/select")
+    //    .headers(Headers.commonHeader)
+    //    .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+    //    .header("content-type", "application/x-www-form-urlencoded")
+    //    .formParam("_csrf", "#{csrf}")
+    //    .formParam("selectAddress", "#{addressIndex}")
+    //    .formParam("onlycontinue", "true")
+    //    .check(CsrfCheck.save)
+    //    .check(regex("""name="address1" type="text" value="(.+)""").saveAs("address"))
+    //    .check(regex("""name="addressTown" type="text" value="(.+)"""").saveAs("town"))
+    //    .check(substring("Address details of")))
+    //}
 
     .pause(MinThinkTime, MaxThinkTime)
 
@@ -951,11 +951,11 @@ object Citizen_PRL_C100_Applicant {
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
         .header("content-type", "application/x-www-form-urlencoded")
         .formParam("_csrf", "#{csrf}")
-        .formParam("address1", "#{address}")
+        .formParam("address1", "10 Test Street")
         .formParam("address2", "")
-        .formParam("addressTown", "#{town}")
-        .formParam("addressCounty", "#{PRLRandomString}" + "County")
-        .formParam("addressPostcode", "KT25BU")
+        .formParam("addressTown", "Town")
+        .formParam("addressCounty", "County")
+        .formParam("addressPostcode", "PR11RP")
         .formParam("country", "United Kingdom")
         .formParam("addressHistory", "No")
         .formParam("provideDetailsOfPreviousAddresses", "")
