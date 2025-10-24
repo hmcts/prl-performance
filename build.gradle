@@ -11,6 +11,15 @@ java {
     }
 }
 
+dependencies {
+    gatlingImplementation project(':common-performance')
+}
+
+dependencyCheck {
+    suppressionFile = "common/common-performance/owasp/owasp-suppressions.xml"
+    analyzers.assemblyEnabled = false
+}
+
 tasks.withType(Copy).all{
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
