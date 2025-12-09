@@ -203,7 +203,27 @@ class PRL_Simulation extends Simulation {
             .exec(Citizen_PRL_C100_Respondent.ViewCourtHearings) //New for R6.0
             .exec(Citizen_PRL_C100_Respondent.WriteDataToFile)
             .exec(Logout.CUILogout)
-        }
+
+            //****Reasonable Adjustments***
+
+            // 🎯 **50% Users Exit Here**
+            .randomSwitch(
+              50.0 -> exec(session => session)
+            )
+
+            .exec(Homepage.PRLHomePage)
+            .exec(Login.PrlLogin)
+            .exec(Citizen_ReasonableAdjustments.GetCase)
+            .exec(Citizen_ReasonableAdjustments.ReasonableAdjustmentsAdd)
+            .exec(Logout.CUILogout)
+
+            .exec(Homepage.PRLHomePage)
+            .exec(Login.PrlLogin)
+            .exec(Citizen_ReasonableAdjustments.GetCase)
+            .exec(Citizen_ReasonableAdjustments.ReasonableAdjustmentsModify)
+            .exec(Logout.CUILogout)
+          }
+
         .exec(API_IDAM.DeleteUserInIdam)
     }
 
@@ -243,6 +263,8 @@ class PRL_Simulation extends Simulation {
             .exec(Citizen_PRL_C100_ApplicantDashboard.WriteDataToFile)
             .exec(Logout.CUILogout)
         }
+
+
         .exec(API_IDAM.DeleteUserInIdam)
     }
 
@@ -335,6 +357,25 @@ class PRL_Simulation extends Simulation {
               .exec(Citizen_PRL_FL401_Respondent.ViewAllDocuments) //New for R6.0
               .exec(Citizen_PRL_FL401_Respondent.ViewCourtHearings) //New for R6.0
               .exec(Citizen_PRL_FL401_Respondent.WriteDataToFile)
+              .exec(Logout.CUILogout)
+
+              //****Reasonable Adjustments***
+
+              // 🎯 **50% Users Exit Here**
+              .randomSwitch(
+                50.0 -> exec(session => session)
+              )
+
+              .exec(Homepage.PRLHomePage)
+              .exec(Login.PrlLogin)
+              .exec(Citizen_ReasonableAdjustments.GetCase)
+              .exec(Citizen_ReasonableAdjustments.ReasonableAdjustmentsAdd)
+              .exec(Logout.CUILogout)
+
+              .exec(Homepage.PRLHomePage)
+              .exec(Login.PrlLogin)
+              .exec(Citizen_ReasonableAdjustments.GetCase)
+              .exec(Citizen_ReasonableAdjustments.ReasonableAdjustmentsModify)
               .exec(Logout.CUILogout)
           }
           .exec(API_IDAM.DeleteUserInIdam)
@@ -688,9 +729,9 @@ class PRL_Simulation extends Simulation {
           PRLFL401RespondentScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
           PRLC100ApplicantDashboardScenario.inject(simulationProfile(testType, c100AppTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
           PRLFL401ApplicantDashboardScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-          PRLCitizenApplicationGuidance.inject(simulationProfile(testType, c100AppTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-          PRLReasonableAdjustmentsAdd.inject(simulationProfile(testType, reasonableAdjustmentTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-          PRLReasonableAdjustmentsModify.inject(simulationProfile(testType, reasonableAdjustmentTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption))
+          PRLCitizenApplicationGuidance.inject(simulationProfile(testType, c100AppTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption))
+          //PRLReasonableAdjustmentsAdd.inject(simulationProfile(testType, reasonableAdjustmentTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+          //PRLReasonableAdjustmentsModify.inject(simulationProfile(testType, reasonableAdjustmentTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption))
 
       case "pipeline" =>
         List(
@@ -701,8 +742,8 @@ class PRL_Simulation extends Simulation {
           PRLC100CitizenScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
           PRLC100RespondentScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
           PRLFL401RespondentScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
-          PRLReasonableAdjustmentsAdd.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
-          PRLReasonableAdjustmentsModify.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
+          //PRLReasonableAdjustmentsAdd.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
+          //PRLReasonableAdjustmentsModify.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
           PRLC100ApplicantDashboardScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
           PRLFL401ApplicantDashboardScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption))
 
@@ -710,9 +751,6 @@ class PRL_Simulation extends Simulation {
         List(
           PRLC100CreateProgressCase.inject(rampUsers(250).during(75.minutes)),
           PRLFL401CreateProgressCase.inject(rampUsers(50).during(30.minutes)))
-          //PRLC100RespondentScenario.inject(rampUsers(20).during(5.minutes)),
-        //PRLFL401RespondentScenario.inject(rampUsers(20).during(5.minutes)))
-          //PRLC100CreateProgressCase.inject(rampUsers(1).during(1)))
 
       case "clear" =>
         List(
