@@ -202,15 +202,14 @@ class PRL_Simulation extends Simulation {
             //.exec(Citizen_PRL_C100_Respondent.ViewAllDocuments) //New for R6.0
             .exec(Citizen_PRL_C100_Respondent.ViewCourtHearings) //New for R6.0
             .exec(Citizen_PRL_C100_Respondent.WriteDataToFile)
-            //.exec(Logout.CUILogout)
 
             //****Reasonable Adjustments***
 
-            //**50% Users Exit Here**
             .randomSwitch(
-              50.0 -> exec { session =>
-                session.markAsFailed
-              }
+              30.0 ->
+                exec(Logout.CUILogout)
+                .exec(API_IDAM.DeleteUserInIdam)
+                .exec {session => session.markAsFailed}
             )
 
             .exec(Citizen_ReasonableAdjustments.GetCase)
@@ -360,9 +359,10 @@ class PRL_Simulation extends Simulation {
 
               //**50% Users Exit Here**
               .randomSwitch(
-                50.0 -> exec { session =>
-                  session.markAsFailed
-                }
+                30.0 ->
+                  exec(Logout.CUILogout)
+                    .exec(API_IDAM.DeleteUserInIdam)
+                    .exec {session => session.markAsFailed}
               )
 
               .exec(Citizen_ReasonableAdjustments.GetCase)
