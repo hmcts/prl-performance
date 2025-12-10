@@ -41,7 +41,7 @@ object Citizen_ReasonableAdjustments {
 	exec(http("PRL_RA-Add_040_OpenAdditionalSupport")
 	.get(prlURL + "/respondent/reasonable-adjustments/intro")
 	.headers(Headers.navigationHeader)
-	.check(substring("Tell us if you need support"))
+	.check(substring("If you need support before a hearing"))
 	.check(CsrfCheck.save))
       
 	.pause(MinThinkTime, MaxThinkTime)

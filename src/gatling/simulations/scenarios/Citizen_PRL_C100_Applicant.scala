@@ -788,7 +788,7 @@ object Citizen_PRL_C100_Applicant {
         .formParam("_ctx", "appl_detailsknow")
         .formParam("saveAndContinue", "true")
         .check(CsrfCheck.save)
-        .check(substring("Do you want to keep your contact details private from ")))
+        .check(substring("Do you want to keep your contact details private from")))
     }
 
     .pause(MinThinkTime, MaxThinkTime)
