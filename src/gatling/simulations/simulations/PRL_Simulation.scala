@@ -204,7 +204,7 @@ class PRL_Simulation extends Simulation {
             .exec(Citizen_PRL_C100_Respondent.WriteDataToFile)
 
             //****Reasonable Adjustments***
-
+            //The following random switch will ensure a proportion of users will progress to Reasonable Adjustments
             .randomSwitch(
               30.0 ->
                 exec(Logout.CUILogout)
@@ -353,11 +353,10 @@ class PRL_Simulation extends Simulation {
               .exec(Citizen_PRL_FL401_Respondent.ViewAllDocuments) //New for R6.0
               .exec(Citizen_PRL_FL401_Respondent.ViewCourtHearings) //New for R6.0
               .exec(Citizen_PRL_FL401_Respondent.WriteDataToFile)
-              //.exec(Logout.CUILogout)
 
               //****Reasonable Adjustments***
 
-              //**50% Users Exit Here**
+              //The following random switch will ensure a proportion of users will progress to Reasonable Adjustments
               .randomSwitch(
                 30.0 ->
                   exec(Logout.CUILogout)
