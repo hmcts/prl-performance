@@ -70,7 +70,7 @@ class PRL_Simulation extends Simulation {
 
   val rampUpDurationMins = 5
   val rampDownDurationMins = 5
-  val testDurationMins = 30
+  val testDurationMins = 60
 
   val numberOfPipelineUsers = 5
   val pipelinePausesMillis: Long = 3000 //3 seconds
@@ -642,7 +642,7 @@ class PRL_Simulation extends Simulation {
    ===============================================================================================*/
 
   def simulationProfile(testType: String, userPerHourRate: Double, numberOfPipelineUsers: Double): Seq[OpenInjectionStep] = {
-    val userPerSecRate = userPerHourRate / 1800 //Remember to change back to 3600
+    val userPerSecRate = userPerHourRate / 3600 //Remember to change back to 3600
     testType match {
       case "perftest" =>
         if (debugMode == "off") {
