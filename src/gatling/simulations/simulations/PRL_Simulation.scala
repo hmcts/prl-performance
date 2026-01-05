@@ -656,8 +656,6 @@ class PRL_Simulation extends Simulation {
         Seq(rampUsers(numberOfPipelineUsers.toInt) during (2 minutes))
       case "smoke" =>
         Seq(rampUsers(smokeTarget.toInt) during (2 minutes))
-      case "clear" =>
-        Seq(rampUsers(smokeTarget.toInt) during (2 minutes))
       case _ =>
         Seq(nothingFor(0))
     }
@@ -700,8 +698,6 @@ class PRL_Simulation extends Simulation {
         }
       case "smoke" =>
         Seq(global.successfulRequests.percent.gte(90))
-      case "clear" =>
-        Seq(global.successfulRequests.percent.is(100))
       case _ =>
         Seq()
 
@@ -735,10 +731,6 @@ class PRL_Simulation extends Simulation {
         List(
           PRLC100CreateProgressCase.inject(rampUsers(250).during(75.minutes)),
           PRLFL401CreateProgressCase.inject(rampUsers(50).during(30.minutes)))
-
-      case "clear" =>
-        List(
-          userCleaner.inject(atOnceUsers(5)))
 
     }
   }
