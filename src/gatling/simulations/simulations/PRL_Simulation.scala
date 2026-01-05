@@ -25,7 +25,6 @@ class PRL_Simulation extends Simulation {
   val RAData_Add = csv("ReasonableAdjustments_Add.csv")
   val RAData_Modify = csv("ReasonableAdjustments_Modify.csv")
   val cafcassCaseFeeder = csv("CasesForDocUpload.csv").queue
-  val cleanUserFeeder = csv("UserFeederCleaner.csv")
 
   val WaitTime = Environment.waitTime
 
@@ -631,17 +630,6 @@ class PRL_Simulation extends Simulation {
             //Write codes to file for Citizen UI Flows
             .exec(Caseworker_PRL_C100_ProgressCase.WriteAccessCodesToFile)
         } // end of repeat
-    }
-
-  // ===========================
-  // User Cleaner Scenario
-  // ===========================
-
-  val userCleaner = scenario("***** User Cleaner *****")
-    .exec(_.set("env", s"${env}"))
-    .repeat(400) {
-      feed(cleanUserFeeder)
-        .exec(API_IDAM.DeleteUserInIdam)
     }
 
   /*===============================================================================================
