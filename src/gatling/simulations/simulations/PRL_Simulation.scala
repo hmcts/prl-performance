@@ -25,7 +25,6 @@ class PRL_Simulation extends Simulation {
   val RAData_Add = csv("ReasonableAdjustments_Add.csv")
   val RAData_Modify = csv("ReasonableAdjustments_Modify.csv")
   val cafcassCaseFeeder = csv("CasesForDocUpload.csv").queue
-  val cleanUserFeeder = csv("UserFeederCleaner.csv")
 
   val WaitTime = Environment.waitTime
 
@@ -137,7 +136,9 @@ class PRL_Simulation extends Simulation {
           exec(Citizen_PRL_C100_Applicant.C100Case)
             .exec(Citizen_PRL_C100_Applicant.C100Case2)
         }
-        .exec(API_IDAM.DeleteUserInIdam)
+    }
+    .doIf("#{email}.exists()}") {
+      exec(API_IDAM.DeleteUserInIdam)
     }
 
   /*===============================================================================================
@@ -198,17 +199,19 @@ class PRL_Simulation extends Simulation {
             .exec(Citizen_PRL_C100_Respondent.ViewAllDocuments)
             .exec(Citizen_PRL_C100_Respondent.ViewServedAppPack) //New for R6.0
             //.exec(Citizen_PRL_C100_Respondent.ViewAllDocuments) //New for R6.0
-            .exec(Citizen_PRL_C100_Respondent.ViewRespondentsDocuments) //New for R6.0
+            .exec(Citizen_PRL_C100_Respondent.ViewRespondentsDocuments)
+            //New for R6.0
             //.exec(Citizen_PRL_C100_Respondent.ViewAllDocuments) //New for R6.0
-            .exec(Citizen_PRL_C100_Respondent.ViewCourtHearings) //New for R6.0
+            .exec(Citizen_PRL_C100_Respondent.ViewCourtHearings)
+            //New for R6.0
 
             //****Reasonable Adjustments***
             //The following random switch will ensure a proportion of users will progress to Reasonable Adjustments
+            //session.markAsFailed will mark session as failed so that it doesn't continue, doesn't fail transaction or test
             .randomSwitch(
               30.0 ->
                 exec(Logout.CUILogout)
-                .exec(API_IDAM.DeleteUserInIdam)
-                .exec {session => session.markAsFailed}
+                  .exec { session => session.markAsFailed }
             )
 
             .exec(Citizen_ReasonableAdjustments.GetCase)
@@ -218,11 +221,11 @@ class PRL_Simulation extends Simulation {
             .exec(Citizen_ReasonableAdjustments.ReasonableAdjustmentsModify)
 
             .exec(Logout.CUILogout)
-          }
-
-        .exec(API_IDAM.DeleteUserInIdam)
+        }
     }
-
+    .doIf("#{email.exists()}") {
+      exec(API_IDAM.DeleteUserInIdam)
+    }
 
   /*===============================================================================================
   * PRL Citizen C100 ApplicantDashboard Journey
@@ -252,16 +255,17 @@ class PRL_Simulation extends Simulation {
             //.exec(Citizen_PRL_C100_ApplicantDashboard.ViewRespondentsDocuments)             //Not needed in this journey
             .exec(Citizen_PRL_C100_ApplicantDashboard.ViewApplicantsDocuments)
             //New for R6.0
-            .exec(Citizen_PRL_C100_ApplicantDashboard.ViewAllDocuments) //New for R6.0
+            .exec(Citizen_PRL_C100_ApplicantDashboard.ViewAllDocuments)
+            //New for R6.0
             .exec(Citizen_PRL_C100_ApplicantDashboard.ViewOrdersFromTheCourt) //New for R6.0
             .exec(Citizen_PRL_C100_ApplicantDashboard.ViewAllDocuments) //New for R6.0
             .exec(Citizen_PRL_C100_ApplicantDashboard.ViewCourtHearings) //New for R6.0
             .exec(Citizen_PRL_C100_ApplicantDashboard.WriteDataToFile)
             .exec(Logout.CUILogout)
         }
-
-
-        .exec(API_IDAM.DeleteUserInIdam)
+    }
+    .doIf("#{email.exists()}") {
+      exec(API_IDAM.DeleteUserInIdam)
     }
 
   /*===============================================================================================
@@ -326,51 +330,53 @@ class PRL_Simulation extends Simulation {
 
   val PRLFL401RespondentScenario = scenario("***** PRL Citizen FL401 Respondent Journey *****")
     .exitBlockOnFail {
-        exec(_.set("env", s"${env}")
-          .set("caseType", "PRLAPPS"))
-          //=======================
-          // Create Citizen User
-          //=======================
-          .exec(API_IDAM.CreateUserInIdam("Resp"))
-          .exec(Homepage.PRLHomePage)
-          .exec(Login.PrlLogin)
-          .repeat(1) {
-            feed(fl401RespondentData)
-              .exec(Citizen_PRL_FL401_Respondent.RetrieveCase)
-              //.exec(Citizen_PRL_FL401_Respondent.GetCase)                             // Not needed as case link takes you through to open the case
-              .exec(Citizen_PRL_FL401_Respondent.ConfirmEditContactDetails)
-              // New for R6.0
-              .exec(Citizen_PRL_FL401_Respondent.ContactPreferences) // New for R6.0
-              .exec(Citizen_PRL_FL401_Respondent.KeepDetailsPrivate)
-              //.exec(Citizen_PRL_FL401_Respondent.ContactDetails)                      // No longer visible
-              .exec(Citizen_PRL_FL401_Respondent.SupportYouNeed)
-              .exec(Citizen_PRL_FL401_Respondent.CheckApplication)
-              .exec(Citizen_PRL_FL401_Respondent.MakeRequestToCourtAboutCase) //New for R6.0/7.0
-              .exec(Citizen_PRL_FL401_Respondent.UploadDocumentsApplicationsStatements) //New for R6.0
-              .exec(Citizen_PRL_FL401_Respondent.ViewAllDocuments) //New for R6.0
-              .exec(Citizen_PRL_FL401_Respondent.ViewApplicantsDocuments) //New for R6.0
-              .exec(Citizen_PRL_FL401_Respondent.ViewAllDocuments) //New for R6.0
-              .exec(Citizen_PRL_FL401_Respondent.ViewCourtHearings) //New for R6.0
+      exec(_.set("env", s"${env}")
+        .set("caseType", "PRLAPPS"))
+        //=======================
+        // Create Citizen User
+        //=======================
+        .exec(API_IDAM.CreateUserInIdam("Resp"))
+        .exec(Homepage.PRLHomePage)
+        .exec(Login.PrlLogin)
+        .repeat(1) {
+          feed(fl401RespondentData)
+            .exec(Citizen_PRL_FL401_Respondent.RetrieveCase)
+            //.exec(Citizen_PRL_FL401_Respondent.GetCase)                             // Not needed as case link takes you through to open the case
+            .exec(Citizen_PRL_FL401_Respondent.ConfirmEditContactDetails)
+            // New for R6.0
+            .exec(Citizen_PRL_FL401_Respondent.ContactPreferences)
+            // New for R6.0
+            .exec(Citizen_PRL_FL401_Respondent.KeepDetailsPrivate)
+            //.exec(Citizen_PRL_FL401_Respondent.ContactDetails)                      // No longer visible
+            .exec(Citizen_PRL_FL401_Respondent.SupportYouNeed)
+            .exec(Citizen_PRL_FL401_Respondent.CheckApplication)
+            .exec(Citizen_PRL_FL401_Respondent.MakeRequestToCourtAboutCase) //New for R6.0/7.0
+            .exec(Citizen_PRL_FL401_Respondent.UploadDocumentsApplicationsStatements) //New for R6.0
+            .exec(Citizen_PRL_FL401_Respondent.ViewAllDocuments) //New for R6.0
+            .exec(Citizen_PRL_FL401_Respondent.ViewApplicantsDocuments) //New for R6.0
+            .exec(Citizen_PRL_FL401_Respondent.ViewAllDocuments) //New for R6.0
+            .exec(Citizen_PRL_FL401_Respondent.ViewCourtHearings) //New for R6.0
 
-              //****Reasonable Adjustments***
-              //The following random switch will ensure a proportion of users will progress to Reasonable Adjustments
-              .randomSwitch(
-                30.0 ->
-                  exec(Logout.CUILogout)
-                    .exec(API_IDAM.DeleteUserInIdam)
-                    .exec {session => session.markAsFailed}
-              )
+            //****Reasonable Adjustments***
+            //The following random switch will ensure a proportion of users will progress to Reasonable Adjustments
+            //session.markAsFailed will mark session as failed so that it doesn't continue, doesn't fail transaction or test
+            .randomSwitch(
+              30.0 ->
+                exec(Logout.CUILogout)
+                  .exec { session => session.markAsFailed }
+            )
 
-              .exec(Citizen_ReasonableAdjustments.GetCase)
-              .exec(Citizen_ReasonableAdjustments.ReasonableAdjustmentsAdd)
+            .exec(Citizen_ReasonableAdjustments.GetCase)
+            .exec(Citizen_ReasonableAdjustments.ReasonableAdjustmentsAdd)
 
-              .exec(Citizen_ReasonableAdjustments.GetCase)
-              .exec(Citizen_ReasonableAdjustments.ReasonableAdjustmentsModify)
+            .exec(Citizen_ReasonableAdjustments.GetCase)
+            .exec(Citizen_ReasonableAdjustments.ReasonableAdjustmentsModify)
 
-              .exec(Logout.CUILogout)
-          }
-
-          .exec(API_IDAM.DeleteUserInIdam)
+            .exec(Logout.CUILogout)
+        }
+    }
+    .doIf("#{email.exists()}") {
+      exec(API_IDAM.DeleteUserInIdam)
     }
 
   /*===============================================================================================
@@ -412,7 +418,9 @@ class PRL_Simulation extends Simulation {
           //.exec(Citizen_PRL_FL401_ApplicantDashboard.ViewServedAppPack) //Not needed in this journey
           //.exec(Citizen_PRL_FL401_ApplicantDashboard.ViewRespondentsDocuments) //Not needed in this journey
         }
-        .exec(API_IDAM.DeleteUserInIdam)
+    }
+    .doIf("#{email.exists()}") {
+      exec(API_IDAM.DeleteUserInIdam)
     }
 
   //===============================================================================================
@@ -626,17 +634,6 @@ class PRL_Simulation extends Simulation {
         } // end of repeat
     }
 
-  // ===========================
-  // User Cleaner Scenario
-  // ===========================
-
-  val userCleaner = scenario("***** User Cleaner *****")
-    .exec(_.set("env", s"${env}"))
-    .repeat(200) {
-      feed(cleanUserFeeder)
-        .exec(API_IDAM.DeleteUserInIdam)
-    }
-
   /*===============================================================================================
   * Simulation Configuration
    ===============================================================================================*/
@@ -658,8 +655,6 @@ class PRL_Simulation extends Simulation {
       case "pipeline" =>
         Seq(rampUsers(numberOfPipelineUsers.toInt) during (2 minutes))
       case "smoke" =>
-        Seq(rampUsers(smokeTarget.toInt) during (2 minutes))
-      case "clear" =>
         Seq(rampUsers(smokeTarget.toInt) during (2 minutes))
       case _ =>
         Seq(nothingFor(0))
@@ -703,8 +698,6 @@ class PRL_Simulation extends Simulation {
         }
       case "smoke" =>
         Seq(global.successfulRequests.percent.gte(90))
-      case "clear" =>
-        Seq(global.successfulRequests.percent.is(100))
       case _ =>
         Seq()
 
@@ -738,10 +731,6 @@ class PRL_Simulation extends Simulation {
         List(
           PRLC100CreateProgressCase.inject(rampUsers(250).during(75.minutes)),
           PRLFL401CreateProgressCase.inject(rampUsers(50).during(30.minutes)))
-
-      case "clear" =>
-        List(
-          userCleaner.inject(atOnceUsers(5)))
 
     }
   }

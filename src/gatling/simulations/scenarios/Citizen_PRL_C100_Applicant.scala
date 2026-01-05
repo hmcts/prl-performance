@@ -286,7 +286,7 @@ object Citizen_PRL_C100_Applicant {
         .formParam("sq_permissionsRequest", "Perf test details")
         .formParam("onlycontinue", "true")
         .check(CsrfCheck.save)
-        .check(substring("Are the children involved in any emergency protection, care or supervision proceedings (or have they been)?")))
+        .check(substring("Has any application been made")))
     }
 
     .pause(MinThinkTime, MaxThinkTime)
