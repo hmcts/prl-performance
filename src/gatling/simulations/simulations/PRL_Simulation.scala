@@ -207,6 +207,7 @@ class PRL_Simulation extends Simulation {
 
             //****Reasonable Adjustments***
             //The following random switch will ensure a proportion of users will progress to Reasonable Adjustments
+            //session.markAsFailed will mark session as failed so that it doesn't continue, doesn't fail transaction or test
             .randomSwitch(
               30.0 ->
                 exec(Logout.CUILogout)
@@ -358,6 +359,7 @@ class PRL_Simulation extends Simulation {
 
             //****Reasonable Adjustments***
             //The following random switch will ensure a proportion of users will progress to Reasonable Adjustments
+            //session.markAsFailed will mark session as failed so that it doesn't continue, doesn't fail transaction or test
             .randomSwitch(
               30.0 ->
                 exec(Logout.CUILogout)
