@@ -749,6 +749,6 @@ class PRL_Simulation extends Simulation {
   setUp(setUpType(testType))
     .protocols(httpProtocol)
     .assertions(assertions(testType))
-    .maxDuration(75 minutes)
+    .maxDuration(90 minutes)
 
 }
