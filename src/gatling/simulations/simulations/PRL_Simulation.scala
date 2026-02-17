@@ -62,7 +62,7 @@ class PRL_Simulation extends Simulation {
   val reasonableAdjustmentTargetPerHour = 10 //12
   val defaultTargetPerHour: Double = 10 //12
   // Smoke Configuration
-  val smokeTarget: Double = 5
+  val smokeTarget: Double = 1
 
   //This determines the percentage split of PRL journeys, by C100 or FL401
   val prlC100Percentage = 100 //Percentage of C100s (the rest will be FL401s) - should be 66 for the 2:1 ratio
@@ -709,10 +709,10 @@ class PRL_Simulation extends Simulation {
       case "perftest" =>
         List(
           PRLC100CitizenScenario.inject(simulationProfile(testType, c100AppTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-          PRLC100RespondentScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-          PRLFL401RespondentScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+          //PRLC100RespondentScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+          //PRLFL401RespondentScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
           PRLC100ApplicantDashboardScenario.inject(simulationProfile(testType, c100AppTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-          PRLFL401ApplicantDashboardScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+          //PRLFL401ApplicantDashboardScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
           PRLCitizenApplicationGuidance.inject(simulationProfile(testType, c100AppTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption))
 
       case "pipeline" =>
@@ -722,11 +722,11 @@ class PRL_Simulation extends Simulation {
       case "smoke" =>
         List(
           PRLC100CitizenScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
-          PRLC100RespondentScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
-          PRLFL401RespondentScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
+          //PRLC100RespondentScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
+          //PRLFL401RespondentScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
           PRLC100ApplicantDashboardScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
-          PRLFL401ApplicantDashboardScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption))
-
+          //PRLFL401ApplicantDashboardScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption))
+        )
       case "dataprep" =>
         List(
           PRLC100CreateProgressCase.inject(rampUsers(250).during(75.minutes)),
