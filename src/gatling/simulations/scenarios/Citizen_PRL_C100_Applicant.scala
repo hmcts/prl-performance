@@ -247,6 +247,34 @@ object Citizen_PRL_C100_Applicant {
 
     .pause(MinThinkTime, MaxThinkTime)
 
+/*======================================================================================
+* Upload Permissions Document
+======================================================================================*/
+
+       .group("PRL_CitizenC100_120_PermissionUploadDoc") {
+         exec(http("PRL_CitizenC100_120_005_PermissionUploadDoc")
+           .post(prlURL + "/c100-rebuild/screening-questions/permissions-why")
+           .headers(Headers.uploadHeader)
+           .header("accept", "application/json")
+           .header("accept-encoding", "gzip, deflate, br")
+           .header("accept-language", "en-GB,en;q=0.9")
+           .header("content-type", "multipart/form-data")
+           .header("sec-fetch-dest", "document")
+           .header("sec-fetch-mode", "cors")
+           .header("sec-fetch-site", "same-origin")
+           .header("x-requested-with", "XMLHttpRequest")
+           .formParam("_csrf", "#{csrf}")
+           .bodyPart(RawFileBodyPart("file", "7PageDoc.pdf")
+             .contentType("application/pdf")
+             .fileName("7PageDoc.pdf")
+             .transferEncoding("binary"))
+           .asMultipartForm
+           .check(CsrfCheck.save)
+           .check(substring("7PageDoc.pdf")))
+       }
+
+       .pause(MinThinkTime, MaxThinkTime)
+
     /*======================================================================================
     * Why do you need a permission from the court to make this application? - "I do not have parental responsibility for the children"
     ======================================================================================*/
@@ -261,14 +289,13 @@ object Citizen_PRL_C100_Applicant {
         .formParam("sq_permissionsWhy", "")
         .formParam("sq_permissionsWhy", "")
         .formParam("sq_permissionsWhy", "")
-        .formParam("sq_permissionsWhy", "doNotHaveParentalResponsibility")
-        .formParam("sq_doNotHaveParentalResponsibility_subfield", "No Parental Responsibility")
-        .formParam("sq_courtOrderPrevent_subfield", "")
+        .formParam("sq_doNotHaveParentalResponsibility_subfield", "")
+        .formParam("sq_permissionsWhy", "courtOrderPrevent")
+        .formParam("sq_courtOrderPrevent_subfield", "Random text")
         .formParam("sq_anotherReason_subfield", "")
         .formParam("onlycontinue", "true")
         .check(CsrfCheck.save)
         .check(substring("Explain why the court should grant you permission to submit this application")))
-    }
 
     .pause(MinThinkTime, MaxThinkTime)
 
