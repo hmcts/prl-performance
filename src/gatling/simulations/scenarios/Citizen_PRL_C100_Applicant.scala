@@ -258,10 +258,7 @@ object Citizen_PRL_C100_Applicant {
            .header("accept", "application/json")
            .header("accept-encoding", "gzip, deflate, br")
            .header("accept-language", "en-GB,en;q=0.9")
-           .header("content-type", "multipart/form-data")
-           .header("sec-fetch-dest", "document")
            .header("sec-fetch-mode", "cors")
-           .header("sec-fetch-site", "same-origin")
            .header("x-requested-with", "XMLHttpRequest")
            .formParam("_csrf", "#{csrf}")
            .bodyPart(RawFileBodyPart("file", "7PageDoc.pdf")
@@ -279,8 +276,8 @@ object Citizen_PRL_C100_Applicant {
     * Why do you need a permission from the court to make this application? - "I do not have parental responsibility for the children"
     ======================================================================================*/
 
-    .group("PRL_CitizenC100_120_WhyPermissionFromCourt") {
-      exec(http("PRL_CitizenC100_120_005_WhyPermissionFromCourt")
+    .group("PRL_CitizenC100_135_WhyPermissionFromCourt") {
+      exec(http("PRL_CitizenC100_135_005_WhyPermissionFromCourt")
         .post(prlURL + "/c100-rebuild/screening-questions/permissions-why")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -297,14 +294,14 @@ object Citizen_PRL_C100_Applicant {
         .check(CsrfCheck.save)
         .check(substring("Explain why the court should grant you permission to submit this application")))
 
-    .pause(MinThinkTime, MaxThinkTime)
-
+        .pause(MinThinkTime, MaxThinkTime)
+    }
     /*======================================================================================
     * Explain why the court should grant you permission to submit this application
     ======================================================================================*/
 
-    .group("PRL_CitizenC100_130_WhyCourtShouldGrant") {
-      exec(http("PRL_CitizenC100_130_005_WhyCourtShouldGrant")
+    .group("PRL_CitizenC100_135_WhyCourtShouldGrant") {
+      exec(http("PRL_CitizenC100_135_005_WhyCourtShouldGrant")
         .post(prlURL + "/c100-rebuild/screening-questions/permissions-request")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
