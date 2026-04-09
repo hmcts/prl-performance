@@ -251,26 +251,26 @@ object Citizen_PRL_C100_Applicant {
     * Upload Permissions Document
     ======================================================================================*/
 
-       .group("PRL_CitizenC100_115_PermissionUploadDoc") {
-         exec(http("PRL_CitizenC100_115_005_PermissionUploadDoc")
-           .post(prlURL + "/c100-rebuild/screening-questions/permissions-why")
-           .headers(Headers.uploadHeader)
-           .header("accept", "application/json")
-           .header("accept-encoding", "gzip, deflate, br")
-           .header("accept-language", "en-GB,en;q=0.9")
-           .header("sec-fetch-mode", "cors")
-           .header("x-requested-with", "XMLHttpRequest")
-           .formParam("_csrf", "#{csrf}")
-           .bodyPart(RawFileBodyPart("file", "7PageDoc.pdf")
-             .contentType("application/pdf")
-             .fileName("7PageDoc.pdf")
-             .transferEncoding("binary"))
-           .asMultipartForm
-           .check(CsrfCheck.save)
-           .check(substring("7PageDoc.pdf")))
-       }
+    .group("PRL_CitizenC100_115_PermissionUploadDoc") {
+      exec(http("PRL_CitizenC100_115_005_PermissionUploadDoc")
+        .post(prlURL + "/c100-rebuild/screening-questions/permissions-why")
+        .headers(Headers.uploadHeader)
+        .header("accept", "application/json")
+        .header("accept-encoding", "gzip, deflate, br")
+        .header("accept-language", "en-GB,en;q=0.9")
+        .header("sec-fetch-mode", "cors")
+        .header("x-requested-with", "XMLHttpRequest")
+        .formParam("_csrf", "#{csrf}")
+        .bodyPart(RawFileBodyPart("file", "7PageDoc.pdf")
+          .contentType("application/pdf")
+          .fileName("7PageDoc.pdf")
+          .transferEncoding("binary"))
+        .asMultipartForm
+        .check(CsrfCheck.save)
+        .check(substring("7PageDoc.pdf")))
+    }
 
-       .pause(MinThinkTime, MaxThinkTime)
+    .pause(MinThinkTime, MaxThinkTime)
 
     /*======================================================================================
     * Why do you need a permission from the court to make this application? - "I do not have parental responsibility for the children"
@@ -295,7 +295,7 @@ object Citizen_PRL_C100_Applicant {
         .check(substring("Explain why the court should grant you permission to submit this application")))
     }
 
-     .pause(MinThinkTime, MaxThinkTime)
+    .pause(MinThinkTime, MaxThinkTime)
 
     /*======================================================================================
     * Explain why the court should grant you permission to submit this application
