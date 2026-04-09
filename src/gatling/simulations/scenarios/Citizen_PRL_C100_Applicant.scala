@@ -293,9 +293,10 @@ object Citizen_PRL_C100_Applicant {
         .formParam("onlycontinue", "true")
         .check(CsrfCheck.save)
         .check(substring("Explain why the court should grant you permission to submit this application")))
-
-        .pause(MinThinkTime, MaxThinkTime)
     }
+
+     .pause(MinThinkTime, MaxThinkTime)
+
     /*======================================================================================
     * Explain why the court should grant you permission to submit this application
     ======================================================================================*/
