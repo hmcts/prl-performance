@@ -18,25 +18,23 @@ object Login {
 
   val XUILogin =
 
-    exec(getCookieValue(CookieKey("xui-webapp").withDomain(BaseURL.replace("https://", "")).saveAs("xuiWebAppCookie")))
+    //exec(getCookieValue(CookieKey("xui-webapp").withDomain(BaseURL.replace("https://", "")).saveAs("xuiWebAppCookie")))
 
-    .group("XUI_020_Login") {
+    group("XUI_020_Login") {
       exec(http("XUI_020_005_Login")
-        .post(IdamUrl + "/login?client_id=xuiwebapp&redirect_uri=" + BaseURL + "/oauth2/callback&state=#{state}&nonce=#{nonce}&response_type=code&scope=profile%20openid%20roles%20manage-user%20create-user%20search-user&prompt=")
+        .post(IdamUrl + "/login?client_id=xuiwebapp&redirect_uri=" + BaseURL + "/oauth2/callback&state=#{state}&nonce=#{nonce}&response_type=code&scope=profile%20openid%20roles%20manage-user%20create-user%20search-user&code_challenge=#{code_challenge}&code_challenge_method=S256&prompt=")
         .formParam("username", "#{user}")
         .formParam("password", "#{password}")
-        .formParam("azureLoginEnabled", "true")
-        .formParam("mojLoginEnabled", "true")
         .formParam("azureLoginEnabled", "true")
         .formParam("mojLoginEnabled", "true")
         .formParam("selfRegistrationEnabled", "false")
         .formParam("_csrf", "#{csrf}")
         .headers(Headers.navigationHeader)
-//        .headers(Headers.postHeader)
+        .headers(Headers.postHeader)
         .check(regex("Manage cases")))
 
       //see xui-webapp cookie capture in the Homepage scenario for details of why this is being used
-      .exec(addCookie(Cookie("xui-webapp", "#{xuiWebAppCookie}").withMaxAge(28800)))
+      .exec(addCookie(Cookie("xui-webapp", "#{xuiWebAppCookie}").withMaxAge(28800).withSecure(false).withDomain(BaseURL.replace("https://", ""))))
 
       .exec(session => {
         val response = session("xuiWebAppCookie").as[String]
@@ -44,22 +42,10 @@ object Login {
         session
       })
 
-
-
-      //see xui-webapp cookie capture in the Homepage scenario for details of why this is being used
-      .exec(addCookie(Cookie("xui-webapp", "#{xuiWebAppCookie}")
-        .withMaxAge(28800)
-        .withSecure(true)))
-
       .exec(Common.configurationui)
       .exec(Common.configJson)
       .exec(Common.TsAndCs)
       .exec(Common.configUI)
-
-    //see xui-webapp cookie capture in the Homepage scenario for details of why this is being used
-    .exec(addCookie(Cookie("xui-webapp", "#{xuiWebAppCookie}")
-      .withMaxAge(28800)
-      .withSecure(true)))
 
     // Add cookie to jar manually
     .exec(
@@ -69,7 +55,12 @@ object Login {
           .withPath("/") 
       )
     )
-      .exec(Common.userDetails)
+      .exec(http("XUI_Login_UserDetails")
+        .get(BaseURL + "/api/user/details?refreshRoleAssignments=undefined")
+        .headers(Headers.commonHeader)
+        .header("accept", "application/json, text/plain, */*")
+        .check(status.in(200, 304)))
+
       .exec(Common.isAuthenticated)
       .exec(Common.monitoringTools)
     }

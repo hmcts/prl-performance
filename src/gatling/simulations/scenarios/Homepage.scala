@@ -47,7 +47,8 @@ object Homepage {
         .headers(Headers.navigationHeader)
         .check(CsrfCheck.save)
         .check(regex("/oauth2/callback&amp;state=(.*)&amp;nonce=").saveAs("state"))
-        .check(regex("nonce=(.*)&amp;response_type").saveAs("nonce")))
+        .check(regex("nonce=(.*)&amp;response_type").saveAs("nonce"))
+        .check(regex("code_challenge=(.*)&amp;code_challenge_method").saveAs("code_challenge")))
     }
 
     //Nov 2023: required to capture the xui-webapp cookie and feed it back in after login. We were facing an issue whereby after the first login,

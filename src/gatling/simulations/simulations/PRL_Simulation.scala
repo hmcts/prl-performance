@@ -8,6 +8,7 @@ import io.gatling.http.Predef._
 import scenarios._
 import utils._
 import io.gatling.core.structure.PopulationBuilder
+import xui._
 
 import scala.concurrent.duration._
 import scala.language.postfixOps
@@ -18,12 +19,12 @@ class PRL_Simulation extends Simulation {
   val UserFeederPRL = csv("UserDataPRL.csv").circular
   val UserCourtAdminPRL = csv("UserDataCourtAdmin.csv").circular
   val UserCaseManagerPRL = csv("UserDataCaseManager.csv").circular
-  val c100RespondentData = csv("C100RespondentData.csv")
-  val c100ApplicantDashData = csv("C100ApplicantDashData.csv")
-  val fl401ApplicantDashData = csv("FL401ApplicantDashData.csv")
-  val fl401RespondentData = csv("FL401RespondentData.csv")
-  val RAData_Add = csv("ReasonableAdjustments_Add.csv")
-  val RAData_Modify = csv("ReasonableAdjustments_Modify.csv")
+  val c100RespondentData = csv("C100RespondentData.csv").circular
+  val c100ApplicantDashData = csv("C100ApplicantDashData.csv").circular
+  val fl401ApplicantDashData = csv("FL401ApplicantDashData.csv").circular
+  val fl401RespondentData = csv("FL401RespondentData.csv").circular
+  val RAData_Add = csv("ReasonableAdjustments_Add.csv").circular
+  val RAData_Modify = csv("ReasonableAdjustments_Modify.csv").circular
   val cafcassCaseFeeder = csv("CasesForDocUpload.csv").queue
 
   val WaitTime = Environment.waitTime
@@ -62,7 +63,7 @@ class PRL_Simulation extends Simulation {
   val reasonableAdjustmentTargetPerHour = 10 //12
   val defaultTargetPerHour: Double = 10 //12
   // Smoke Configuration
-  val smokeTarget: Double = 5
+  val smokeTarget: Double = 1
 
   //This determines the percentage split of PRL journeys, by C100 or FL401
   val prlC100Percentage = 100 //Percentage of C100s (the rest will be FL401s) - should be 66 for the 2:1 ratio
@@ -137,7 +138,7 @@ class PRL_Simulation extends Simulation {
             .exec(Citizen_PRL_C100_Applicant.C100Case2)
         }
     }
-    .doIf("#{email}.exists()}") {
+    .doIf("#{email.exists()}") {
       exec(API_IDAM.DeleteUserInIdam)
     }
 
@@ -596,8 +597,8 @@ class PRL_Simulation extends Simulation {
             //==========================
             .feed(UserCourtAdminPRL)
             .exec(
-              Homepage.XUIHomePage,
-              Login.XUILogin,
+              XuiHelper.Homepage,
+              XuiHelper.Login("#{user}", "#{password}"),
               Caseworker_PRL_C100_ProgressCase.CourtAdminCheckApplication,
               CCDAPI.CreateEvent("CourtAdmin", "PRIVATELAW", "PRLAPPS", "issueAndSendToLocalCourtCallback", "bodies/prl/courtAdmin/PRLLocalCourtSubmit.json"),
               Caseworker_PRL_C100_ProgressCase.CourtAdminSendToGateKeeper,
