@@ -1110,6 +1110,25 @@ object Citizen_PRL_C100_Applicant {
         .formParam("otherRelationshipTypeDetails", "")
         .formParam("onlycontinue", "true")
         .check(CsrfCheck.save)
+        .check(substring("Staying in a refuge")))
+    }
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+    /*======================================================================================
+    ** Staying in a refuge --> No --> Continue
+    ======================================================================================*/
+
+    .group("PRL_CitizenC100_475_StayingInARefuge") {
+      exec(http("PRL_CitizenC100_475_005_StayingInARefuge")
+        .post(prlURL + "/c100-rebuild/refuge/staying-in-refuge/#{respondentId}")
+        .headers(Headers.commonHeader)
+        .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+        .header("content-type", "application/x-www-form-urlencoded")
+        .formParam("_csrf", "#{csrf}")
+        .formParam("isCitizenLivingInRefuge", "No")
+        .formParam("onlyContinue", "true")
+        .check(CsrfCheck.save)
         .check(substring("Address of")))
     }
 
