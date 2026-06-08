@@ -24,13 +24,15 @@ object API_IDAM {
 
     .feed(userFeeder)
 
-    .exec(http("CreateUser:#{userType}_#{email}")
-      .post(Environment.idamAPIURL + "/testing-support/accounts")
-      .header("Content-Type", "application/json")
-      .body(ElFileBody("bodies/prl/idam/Idam_CreateUserBody.json"))
-      .check(jsonPath("$.id").saveAs("idamNewId"))
-      .check(jsonPath("$.email").saveAs("email"))
-      .check(status.saveAs("statusvalue")))
+    .group("CreateUser_CreateSolicitor") {
+      exec(http("CreateUser:#{userType}_#{email}")
+        .post(Environment.idamAPIURL + "/testing-support/accounts")
+        .header("Content-Type", "application/json")
+        .body(ElFileBody("bodies/prl/idam/Idam_CreateUserBody.json"))
+        .check(jsonPath("$.id").saveAs("idamNewId"))
+        .check(jsonPath("$.email").saveAs("email"))
+        .check(status.saveAs("statusvalue")))
+    }
 
     .exec { session =>
      println(s"Saved status value: ${session("statusvalue").as[Int]}")
@@ -52,10 +54,12 @@ object API_IDAM {
 
   val DeleteUserInIdam =
 
-    exec(http("DeleteUser:#{email}")
-      .delete(Environment.idamAPIURL + "/testing-support/accounts/#{email}")
-      .header("Content-Type", "application/json")
-      .header("Accept", "application/json"))
+    group("DeleteUser") {
+      exec(http("DeleteUser:#{email}")
+        .delete(Environment.idamAPIURL + "/testing-support/accounts/#{email}")
+        .header("Content-Type", "application/json")
+        .header("Accept", "application/json"))
+    }
       
     .pause(1.seconds)
 
