@@ -81,7 +81,7 @@ object Citizen_PRL_C100_Applicant {
         .formParam("save", "Sign in")
         .formParam("selfRegistrationEnabled", "true")
         .formParam("_csrf", "#{csrf}")
-        .check(substring("Child arrangements and family injunction cases!!!!!!!!!")))
+        .check(substring("Child arrangements and family injunction cases")))
     }
 
     .pause(MinThinkTime, MaxThinkTime)
