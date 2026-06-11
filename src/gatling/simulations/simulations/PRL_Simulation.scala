@@ -683,7 +683,7 @@ class PRL_Simulation extends Simulation {
         }
       case "pipeline" => //currently using the same assertions for a performance test and the pipeline
         if (debugMode == "off") {
-          Seq(global.successfulRequests.percent.gte(95),
+          Seq(global.successfulRequests.percent.gte(95))//,
             //details("PRL_Citizen_050_CompleteApplicationLegalRepContinue").successfulRequests.percent.gte(80),
             //details("PRL_FL401Respondent_470_ViewCourtHearings").successfulRequests.percent.gte(80),
             //details("PRL_CitizenC100_780_FinalSubmit").successfulRequests.percent.gte(80))
