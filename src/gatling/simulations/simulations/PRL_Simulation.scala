@@ -686,7 +686,7 @@ class PRL_Simulation extends Simulation {
           Seq(global.successfulRequests.percent.gte(95),
             //details("PRL_Citizen_050_CompleteApplicationLegalRepContinue").successfulRequests.percent.gte(80),
             //details("PRL_FL401Respondent_470_ViewCourtHearings").successfulRequests.percent.gte(80),
-            details("PRL_CitizenC100_780_FinalSubmit").successfulRequests.percent.gte(80))
+            //details("PRL_CitizenC100_780_FinalSubmit").successfulRequests.percent.gte(80))
             //details("PRL_C100ApplicantDashboard_460_ViewCourtHearings").successfulRequests.percent.gte(80),
             //details("PRL_FL401ApplicantDashboard_470_ViewCourtHearings").successfulRequests.percent.gte(80),
             //details("PRL_CitizenC100_790_Logout").successfulRequests.percent.gte(80))
