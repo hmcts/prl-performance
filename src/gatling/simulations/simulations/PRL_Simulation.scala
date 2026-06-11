@@ -133,10 +133,10 @@ class PRL_Simulation extends Simulation {
         // Create Citizen User
         //=======================
         .exec(API_IDAM.CreateUserInIdam("App"))
-        .repeat(1) {
-          exec(Citizen_PRL_C100_Applicant.C100Case)
-            .exec(Citizen_PRL_C100_Applicant.C100Case2)
-        }
+        //.repeat(1) {
+        //  exec(Citizen_PRL_C100_Applicant.C100Case)
+            //.exec(Citizen_PRL_C100_Applicant.C100Case2)
+        //}
     }
     .doIf("#{email.exists()}") {
       exec(API_IDAM.DeleteUserInIdam)

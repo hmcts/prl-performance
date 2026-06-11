@@ -61,7 +61,7 @@ object Citizen_PRL_C100_Applicant {
         .headers(Headers.navigationHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
         .check(CsrfCheck.save)
-        .check(substring("Sign in or create an account11111111")))
+        .check(substring("Sign in or create an account")))
       }
 
     .pause(MinThinkTime, MaxThinkTime)
