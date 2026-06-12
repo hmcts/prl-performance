@@ -133,10 +133,10 @@ class PRL_Simulation extends Simulation {
         // Create Citizen User
         //=======================
         .exec(API_IDAM.CreateUserInIdam("App"))
-        //.repeat(1) {
-        //  exec(Citizen_PRL_C100_Applicant.C100Case)
-            //.exec(Citizen_PRL_C100_Applicant.C100Case2)
-        //}
+        .repeat(1) {
+          exec(Citizen_PRL_C100_Applicant.C100Case)
+            .exec(Citizen_PRL_C100_Applicant.C100Case2)
+        }
     }
     .doIf("#{email.exists()}") {
       exec(API_IDAM.DeleteUserInIdam)
@@ -683,10 +683,10 @@ class PRL_Simulation extends Simulation {
         }
       case "pipeline" => //currently using the same assertions for a performance test and the pipeline
         if (debugMode == "off") {
-          Seq(global.successfulRequests.percent.gte(95))//,
+          Seq(global.successfulRequests.percent.gte(95),
             //details("PRL_Citizen_050_CompleteApplicationLegalRepContinue").successfulRequests.percent.gte(80),
             //details("PRL_FL401Respondent_470_ViewCourtHearings").successfulRequests.percent.gte(80),
-            //details("PRL_CitizenC100_780_FinalSubmit").successfulRequests.percent.gte(80))
+            details("PRL_CitizenC100_780_FinalSubmit").successfulRequests.percent.gte(80))
             //details("PRL_C100ApplicantDashboard_460_ViewCourtHearings").successfulRequests.percent.gte(80),
             //details("PRL_FL401ApplicantDashboard_470_ViewCourtHearings").successfulRequests.percent.gte(80),
             //details("PRL_CitizenC100_790_Logout").successfulRequests.percent.gte(80))
@@ -718,7 +718,7 @@ class PRL_Simulation extends Simulation {
 
       case "pipeline" =>
         List(
-          PRLC100CitizenScenario.inject(simulationProfile(testType, 1, 1)).pauses(pauseOption))
+          PRLC100CitizenScenario.inject(simulationProfile(testType, c100AppTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption))
 
       case "smoke" =>
         List(
