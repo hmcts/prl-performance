@@ -718,7 +718,7 @@ class PRL_Simulation extends Simulation {
 
       case "pipeline" =>
         List(
-          PRLC100CitizenScenario.inject(simulationProfile(testType, c100AppTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption))
+          PRLC100CitizenScenario.inject(simulationProfile(testType, 1, 1)).pauses(pauseOption))
 
       case "smoke" =>
         List(
