@@ -9,8 +9,7 @@ properties([
 ])
 
 
-//@Library("Infrastructure")
-@Library('Infrastructure@GatlingSmartAlerts')
+@Library("Infrastructure")
 
 def product = "prl"
 def component = "citizen-frontend"
