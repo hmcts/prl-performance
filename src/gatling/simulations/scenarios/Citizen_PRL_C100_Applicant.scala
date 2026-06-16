@@ -1974,66 +1974,81 @@ object Citizen_PRL_C100_Applicant {
         .formParam("ra_specialArrangementsOther_subfield", "")
         .formParam("onlycontinue", "true")
         .check(CsrfCheck.save)
-        .check(substring("Do you have a physical, mental or learning disability or health condition that means you need support during your case?")))
+        .check(substring("Are you aware of whether an intermediary")))
     }
 
     .pause(MinThinkTime, MaxThinkTime)
 
     /*======================================================================================
-    * DG Do you have a physical, mental or learning disability or health condition that means you need support during your case?
+    * Are you aware of whether an intermediary will be required? - No
     ======================================================================================*/
 
-    .group("PRL_CitizenC100_730_010_SpecialArrangements") {
-      exec(http("PRL_CitizenC100_730_010_support-during-your-case")
+    .group("PRL_CitizenC100_730_Intermediary") {
+      exec(http("PRL_CitizenC100_730_005_Intermediary")
+        .post(prlURL + "/c100-rebuild/reasonable-adjustments/intermediary")
+        .headers(Headers.commonHeader)
+        .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+        .header("content-type", "application/x-www-form-urlencoded")
+        .formParam("_csrf", "#{csrf}")
+        .formParam("ra_intermediaryRequired_subfield", "")
+        .formParam("ra_intermediaryRequirements", "No")
+        .formParam("onlycontinue", "true")
+        .check(CsrfCheck.save)
+        .check(substring("If attending the court, do you or any of the parties involved have a disability")))
+    }
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+    /*======================================================================================
+    * If attending the court, do you or any of the parties involved have a disability - No
+    ======================================================================================*/
+
+    .group("PRL_CitizenC100_740_010_SpecialArrangements") {
+      exec(http("PRL_CitizenC100_740_010_support-during-your-case")
         .post(prlURL + "/c100-rebuild/reasonable-adjustments/support-during-your-case")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
         .header("content-type", "application/x-www-form-urlencoded")
         .formParam("_csrf", "#{csrf}")
-        .formParam("ra_disabilityRequirements", "")
-        .formParam("ra_disabilityRequirements", "")
-        .formParam("ra_disabilityRequirements", "")
-        .formParam("ra_disabilityRequirements", "")
-        .formParam("ra_disabilityRequirements", "")
-        .formParam("ra_disabilityRequirements", "")
-        .formParam("ra_disabilityRequirements", "documentsHelp")
-        .formParam("onlycontinue", "true")
-        .check(CsrfCheck.save)
-        .check(substring("I need documents in an alternative format")))
-    }
-
-    .pause(MinThinkTime, MaxThinkTime)
-
-    /*======================================================================================
-    * Do I need documents in an alternative format
-    ======================================================================================*/
-
-    .group("PRL_CitizenC100_740_015_SpecialArrangements") {
-      exec(http("PRL_CitizenC100_740_015_documents-support")
-        .post(prlURL + "/c100-rebuild/reasonable-adjustments/documents-support")
-        .headers(Headers.commonHeader)
-        .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-        .header("content-type", "application/x-www-form-urlencoded")
-        .formParam("_csrf", "#{csrf}")
-        .formParam("ra_documentInformation", "")
-        .formParam("ra_documentInformation", "")
-        .formParam("ra_documentInformation", "")
-        .formParam("ra_documentInformation", "")
-        .formParam("ra_documentInformation", "")
-        .formParam("ra_documentInformation", "")
-        .formParam("ra_documentInformation", "")
-        .formParam("ra_documentInformation", "")
-        .formParam("ra_documentInformation", "")
-        .formParam("ra_documentInformation", "specifiedColorDocuments")
-        .formParam("ra_specifiedColorDocuments_subfield", "In Colour Blue")
-        .formParam("ra_largePrintDocuments_subfield", "")
-        .formParam("ra_documentHelpOther_subfield", "")
+        .formParam("ra_assistanceRequirements_subfield", "")
+        .formParam("ra_assistanceRequirements", "No")
         .formParam("onlycontinue", "true")
         .check(CsrfCheck.save)
         .check(substring("Do you need help with paying the fee for this application?")))
     }
 
     .pause(MinThinkTime, MaxThinkTime)
+
+    /*======================================================================================
+    * Do I need documents in an alternative format - Removed from journey 06/2026
+    ======================================================================================*/
+
+//    .group("PRL_CitizenC100_740_015_SpecialArrangements") {
+//      exec(http("PRL_CitizenC100_740_015_documents-support")
+//        .post(prlURL + "/c100-rebuild/reasonable-adjustments/documents-support")
+//        .headers(Headers.commonHeader)
+//        .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+//        .header("content-type", "application/x-www-form-urlencoded")
+//        .formParam("_csrf", "#{csrf}")
+//        .formParam("ra_documentInformation", "")
+//        .formParam("ra_documentInformation", "")
+//        .formParam("ra_documentInformation", "")
+//        .formParam("ra_documentInformation", "")
+//        .formParam("ra_documentInformation", "")
+//        .formParam("ra_documentInformation", "")
+//        .formParam("ra_documentInformation", "")
+//        .formParam("ra_documentInformation", "")
+//        .formParam("ra_documentInformation", "")
+//        .formParam("ra_documentInformation", "specifiedColorDocuments")
+//        .formParam("ra_specifiedColorDocuments_subfield", "In Colour Blue")
+//        .formParam("ra_largePrintDocuments_subfield", "")
+//        .formParam("ra_documentHelpOther_subfield", "")
+//        .formParam("onlycontinue", "true")
+//        .check(CsrfCheck.save)
+//        .check(substring("Do you need help with paying the fee for this application?")))
+//    }
+//
+//    .pause(MinThinkTime, MaxThinkTime)
 
 
     /*======================================================================================
