@@ -55,7 +55,7 @@ object Citizen_ReasonableAdjustments {
 		.formParam("_csrf", "#{csrf}")
 		.formParam("ra_languageReqAndSpecialArrangements", "Perf Test - Add Reasonable Adjustments")
 		.formParam("onlyContinue", "true")
-		.check(substring("Review your language requirements and special arrangements"))
+		.check(substring("Review language requirements and support needs"))
 		.check(CsrfCheck.save))
 	}
 
@@ -64,9 +64,9 @@ object Citizen_ReasonableAdjustments {
     .exec(http("PRL_RA-Add_060_LaunchReasonableAdjustments")
 	 	.get(prlURL + "/reasonable-adjustments/launch")
 		.headers(Headers.navigationHeader)
-      	.check(substring("Select all that apply to you"))
-      	.check(CsrfCheck.save)
-      	.check(substring("Do you have a physical, mental or learning disability")))
+		.check(substring("Select all that apply to you"))
+		.check(CsrfCheck.save)
+		.check(substring("Do you have a physical, mental or learning disability")))
       
 	.pause(MinThinkTime, MaxThinkTime)
 
@@ -342,7 +342,7 @@ object Citizen_ReasonableAdjustments {
 		.formParam("_csrf", "#{csrf}")
 		.formParam("ra_languageReqAndSpecialArrangements", "Perf Test - Modify Reasonable Adjustments")
 		.formParam("onlyContinue", "true")
-		.check(substring("Review your language requirements and special arrangements"))
+		.check(substring("Review language requirements and support needs"))
 		.check(CsrfCheck.save))
 	}
 	

@@ -329,35 +329,22 @@ Click Access Code &  Enter Case ID & Pin
 		.header("content-type", "application/x-www-form-urlencoded")
 		.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 		.formParam("_csrf", "#{csrf}")
-		.formParam("ra_languageReqAndSpecialArrangements", "")
+		.formParam("ra_languageReqAndSpecialArrangements", "Special arrangements")
 		.formParam("onlyContinue", "true")
 		.check(CsrfCheck.save)
-		.check(substring("Do you have a physical, mental or learning disability")))
-	}
-
-	.pause(MinThinkTime, MaxThinkTime)
-
-	.group("PRL_C100Respondent_220_NoDisabilities") {
-		exec(http("PRL_C100Respondent_220_005_NoDisabilities")
-		.post(cuiRaURL + "/journey/flags/display/PF0001-RA0001")
-		.headers(Headers.navigationHeader)
-		.header("content-type", "application/x-www-form-urlencoded")
-		.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-		.formParam("enabled", "none")
-		.formParam("_csrf", "#{csrf}")
-		.check(CsrfCheck.save)
-		.check(substring("Review the support")))
+		.check(substring("Review language requirements and support needs")))
 	}
 
 	.pause(MinThinkTime, MaxThinkTime)
 
 	.group("PRL_C100Respondent_230_ReviewSupport") {
 		exec(http("PRL_C100Respondent_230_005_ReviewSupport")
-		.post(cuiRaURL + "/review")
+		.post(prlURL + "/respondent/reasonable-adjustments/language-requirements-and-special-arrangements/review")
 		.headers(Headers.navigationHeader)
 		.header("content-type", "application/x-www-form-urlencoded")
 		.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 		.formParam("_csrf", "#{csrf}")
+		.formParam("onlyContinue", "true")
 		.check(CsrfCheck.save)
 		.check(substring("You have submitted your request to the court")))
 	}
