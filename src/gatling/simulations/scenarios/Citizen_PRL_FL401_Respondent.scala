@@ -420,37 +420,37 @@ object Citizen_PRL_FL401_Respondent {
 	  .formParam("_csrf", "#{csrf}")
 	  .formParam("onlyContinue", "true")
       .check(CsrfCheck.save)
-	  .check(substring("Reasonable adjustment for")))
-	}
-
-	.pause(MinThinkTime, MaxThinkTime)
-
-	.group("PRL_FL401Respondent_240_NoDisabilities") {
-	  exec(http("PRL_FL401Respondent_124_005_NoDisabilities")
-	  .post(cuiRaURL + "/journey/flags/display/PF0001-RA0001")
-	  .headers(Headers.navigationHeader)
-	  .header("content-type", "application/x-www-form-urlencoded")
-      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-	  .formParam("enabled", "none")
-	  .formParam("_csrf", "#{csrf}")
-      .check(CsrfCheck.save)
-	  .check(substring("Review the support")))
-	}
-      
-	.pause(MinThinkTime, MaxThinkTime)
-
-	.group("PRL_FL401Respondent_250_ReviewSupport") {
-	  exec(http("PRL_FL401Respondent_250_005_ReviewSupport")
-	  .post(cuiRaURL + "/review")
-	  .headers(Headers.navigationHeader)
-	  .header("content-type", "application/x-www-form-urlencoded")
-      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-	  .formParam("_csrf", "#{csrf}")
-      .check(CsrfCheck.save)
 	  .check(substring("You have submitted your request to the court")))
 	}
-      
+
 	.pause(MinThinkTime, MaxThinkTime)
+
+//	.group("PRL_FL401Respondent_240_NoDisabilities") {
+//	  exec(http("PRL_FL401Respondent_124_005_NoDisabilities")
+//	  .post(cuiRaURL + "/journey/flags/display/PF0001-RA0001")
+//	  .headers(Headers.navigationHeader)
+//	  .header("content-type", "application/x-www-form-urlencoded")
+//      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+//	  .formParam("enabled", "none")
+//	  .formParam("_csrf", "#{csrf}")
+//      .check(CsrfCheck.save)
+//	  .check(substring("Review the support")))
+//	}
+//
+//	.pause(MinThinkTime, MaxThinkTime)
+//
+//	.group("PRL_FL401Respondent_250_ReviewSupport") {
+//	  exec(http("PRL_FL401Respondent_250_005_ReviewSupport")
+//	  .post(cuiRaURL + "/review")
+//	  .headers(Headers.navigationHeader)
+//	  .header("content-type", "application/x-www-form-urlencoded")
+//      .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+//	  .formParam("_csrf", "#{csrf}")
+//      .check(CsrfCheck.save)
+//	  .check(substring("You have submitted your request to the court")))
+//	}
+//
+//	.pause(MinThinkTime, MaxThinkTime)
 
 	.group("PRL_FL401Respondent_260_ConfirmSupport") {
 	  exec(http("PRL_FL401Respondent_260_005_ConfirmSupport")

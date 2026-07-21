@@ -1320,7 +1320,7 @@ object Citizen_PRL_C100_Applicant {
       .pause(MinThinkTime, MaxThinkTime)
 
     /*======================================================================================
-    ** Other person relatonship to child --> Guardian
+    ** Other person relationship to child --> Guardian
     ======================================================================================*/
 
     .group("PRL_CitizenC100_523_RelationshipToChild") {
@@ -1401,7 +1401,7 @@ object Citizen_PRL_C100_Applicant {
       .pause(MinThinkTime, MaxThinkTime)
 
     /*======================================================================================
-    * Applicant address input for Respondent
+    * Applicant address input for Other Person
     ======================================================================================*/
 
     .group("PRL_CitizenC100_527_AddressManualContinue") {
@@ -1421,6 +1421,43 @@ object Citizen_PRL_C100_Applicant {
         .formParam("_ctx", "opAddressManual")
         .formParam("onlycontinue", "true")
         .check(CsrfCheck.save)
+        .check(substring("Keeping address private")))
+    }
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+    /*======================================================================================
+    * Keeping address private - No
+    ======================================================================================*/
+
+    .group("PRL_CitizenC100_528_KeepDetailsPrivate") {
+      exec(http("PRL_CitizenC100_528_005_KeepDetailsPrivate")
+        .post(prlURL + "/c100-rebuild/other-person-details/#{applicantId}/confidentiality/start-alternative")
+        .headers(Headers.commonHeader)
+        .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+        .header("content-type", "application/x-www-form-urlencoded")
+        .formParam("_csrf", "#{csrf}")
+        .formParam("confidentiality", "No")
+        .formParam("onlyContinue", "true")
+        .check(CsrfCheck.save)
+        .check(substring("address private")))
+    }
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+    /*======================================================================================
+    * The court will not keep your contact details private
+    ======================================================================================*/
+
+    .group("PRL_CitizenC100_529_KeepDetailsPrivateContinue") {
+      exec(http("PRL_CitizenC100_529_005_KeepDetailsPrivateContinue")
+        .post(prlURL + "/c100-rebuild/other-person-details/#{applicantId}/confidentiality/feedback-no")
+        .headers(Headers.commonHeader)
+        .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+        .header("content-type", "application/x-www-form-urlencoded")
+        .formParam("_csrf", "#{csrf}")
+        .formParam("onlycontinue", "true")
+        .check(CsrfCheck.save)
         .check(substring("Select the person that the child lives with most of the time")))
     }
 
@@ -1430,8 +1467,8 @@ object Citizen_PRL_C100_Applicant {
     * Who does child mainly live with ? --> Other Person --> Continue
     ======================================================================================*/
 
-    .group("PRL_CitizenC100_528_MainlyLiveWith") {
-      exec(http("PRL_CitizenC100_528_005_MainlyLiveWith")
+    .group("PRL_CitizenC100_530_MainlyLiveWith") {
+      exec(http("PRL_CitizenC100_530_005_MainlyLiveWith")
         .post(prlURL + "/c100-rebuild/child-details/#{childId}/live-with/mainly-live-with")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -1449,8 +1486,8 @@ object Citizen_PRL_C100_Applicant {
     * Living arrangements ? --> Other Person --> Continue
     ======================================================================================*/
 
-    .group("PRL_CitizenC100_529_LivingArrangements") {
-      exec(http("PRL_CitizenC100_529_005_LivingArrangements")
+    .group("PRL_CitizenC100_531_LivingArrangements") {
+      exec(http("PRL_CitizenC100_531_005_LivingArrangements")
         .post(prlURL + "/c100-rebuild/child-details/#{childId}/live-with/living-arrangements")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -1471,8 +1508,8 @@ object Citizen_PRL_C100_Applicant {
     * Keeping Identity Private  --> Yes --> Continue
     ======================================================================================*/
 
-    .group("PRL_CitizenC100_530_Confidentiality") {
-      exec(http("PRL_CitizenC100_530_005_Confidentiality")
+    .group("PRL_CitizenC100_532_Confidentiality") {
+      exec(http("PRL_CitizenC100_532_005_Confidentiality")
         .post(prlURL + "/c100-rebuild/other-person-details/#{otherPersonId}/confidentiality")
         .headers(Headers.commonHeader)
         .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
@@ -2162,7 +2199,7 @@ object Citizen_PRL_C100_Applicant {
   /*======================================================================================
   // Do only for every 3rd user (Volume for these parts of the journey is lower)
     ======================================================================================*/
-  .doIfOrElse(session => session("userId").as[Long] % 3 == 0) {
+  .doIfOrElse(session => session("userId").as[Long] % 100 == 0) {
     /*======================================================================================
     * Equality and diversity questions - I don't want to answer these questions 
     ======================================================================================*/
