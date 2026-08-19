@@ -215,11 +215,11 @@ class PRL_Simulation extends Simulation {
                   .exec { session => session.markAsFailed }
             )
 
-            .exec(Citizen_ReasonableAdjustments.GetCase)
-            .exec(Citizen_ReasonableAdjustments.ReasonableAdjustmentsAdd)
+            //.exec(Citizen_ReasonableAdjustments.GetCase)
+            //.exec(Citizen_ReasonableAdjustments.ReasonableAdjustmentsAdd)
 
-            .exec(Citizen_ReasonableAdjustments.GetCase)
-            .exec(Citizen_ReasonableAdjustments.ReasonableAdjustmentsModify)
+            //.exec(Citizen_ReasonableAdjustments.GetCase)
+            //.exec(Citizen_ReasonableAdjustments.ReasonableAdjustmentsModify)
 
             .exec(Logout.CUILogout)
         }
@@ -367,11 +367,11 @@ class PRL_Simulation extends Simulation {
                   .exec { session => session.markAsFailed }
             )
 
-            .exec(Citizen_ReasonableAdjustments.GetCase)
-            .exec(Citizen_ReasonableAdjustments.ReasonableAdjustmentsAdd)
+            //.exec(Citizen_ReasonableAdjustments.GetCase)
+            //.exec(Citizen_ReasonableAdjustments.ReasonableAdjustmentsAdd)
 
-            .exec(Citizen_ReasonableAdjustments.GetCase)
-            .exec(Citizen_ReasonableAdjustments.ReasonableAdjustmentsModify)
+            //.exec(Citizen_ReasonableAdjustments.GetCase)
+            //.exec(Citizen_ReasonableAdjustments.ReasonableAdjustmentsModify)
 
             .exec(Logout.CUILogout)
         }

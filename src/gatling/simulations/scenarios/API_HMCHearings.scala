@@ -5,6 +5,7 @@ import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import utils._
 import io.gatling.http.check.HttpCheck
+import utilities.AzureKeyVault
 
 object API_HMCHearings {
 
@@ -17,9 +18,9 @@ object API_HMCHearings {
   val MinThinkTime = Environment.minThinkTime
   val MaxThinkTime = Environment.maxThinkTime
 
-  val clientSecret = ConfigFactory.load.getString("auth.clientSecret")
-  val clientSecretHMC = ConfigFactory.load.getString("auth.hmcHmiInboundAdapter.clientSecret")
-          
+  val clientSecret = AzureKeyVault.loadClientSecret("ccd-perftest", "ccd-api-gateway-oauth2-client-secret")
+  val clientSecretHMC = AzureKeyVault.loadClientSecret("hmc-perftest", "idam-hmc-hmi-inbound-adapter-client-secret")
+
   //userType must be "Caseworker", "Legal", "Citizen" or "Solicitor"
   def Auth(userType: String) =
 

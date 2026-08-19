@@ -1320,7 +1320,7 @@ object Citizen_PRL_C100_Applicant {
       .pause(MinThinkTime, MaxThinkTime)
 
     /*======================================================================================
-    ** Other person relatonship to child --> Guardian
+    ** Other person relationship to child --> Guardian
     ======================================================================================*/
 
     .group("PRL_CitizenC100_523_RelationshipToChild") {
@@ -1401,7 +1401,7 @@ object Citizen_PRL_C100_Applicant {
       .pause(MinThinkTime, MaxThinkTime)
 
     /*======================================================================================
-    * Applicant address input for Respondent
+    * Applicant address input for Other Person
     ======================================================================================*/
 
     .group("PRL_CitizenC100_527_AddressManualContinue") {

@@ -25,7 +25,7 @@ object API_IDAM {
     .feed(userFeeder)
 
     .group("CreateUser_CreateSolicitor") {
-      exec(http("CreateUser:#{userType}_#{email}")
+      exec(http("CreateUser")
         .post(Environment.idamAPIURL + "/testing-support/accounts")
         .header("Content-Type", "application/json")
         .body(ElFileBody("bodies/prl/idam/Idam_CreateUserBody.json"))
@@ -55,7 +55,7 @@ object API_IDAM {
   val DeleteUserInIdam =
 
     group("DeleteUser") {
-      exec(http("DeleteUser:#{email}")
+      exec(http("DeleteUser")
         .delete(Environment.idamAPIURL + "/testing-support/accounts/#{email}")
         .header("Content-Type", "application/json")
         .header("Accept", "application/json"))
