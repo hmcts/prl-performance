@@ -2,7 +2,7 @@ package scenarios
 
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
-import utils.{Common, Environment, Headers}
+import utils.{Common, CsrfCheck, Environment, Headers}
 
 object Login {
   
@@ -100,14 +100,33 @@ object Login {
 
     group("PRL_CUI_020_Login") {
       exec(http("PRL_CUI_020_005_Login")
-        .post(IdamUrl + "/login?client_id=prl-citizen-frontend&response_type=code&redirect_uri=" + Environment.prlURL + "/receiver")
+        .get(IdamUrl + "/enter-email")
         .headers(Headers.commonHeader)
-        .header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-        .header("content-type", "application/x-www-form-urlencoded")
+        .check(CsrfCheck.save)
+        .check(substring("Enter your email address")))
+    }
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+    .group("PRL_CUI_023_Login_EnterEmail") {
+      exec(http("PRL_CUI_023_005_Login_EnterEmail")
+        .post(IdamUrl + "/enter-email")
+        .headers(Headers.postHeader)
+        .formParam("email", "#{user}")
+        .formParam("_csrf", "#{csrf}")
+        .check(CsrfCheck.save)
+        .check(substring("Enter your password")))
+    }
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+    .group("PRL_CUI_026_Login_EnterPassword") {
+      exec(http("PRL_CUI_026_Login_EnterPassword")
+        .post(IdamUrl + "/enter-password")
+        .headers(Headers.postHeader)
+        .formParam("action", "_submit")
         .formParam("username", "#{user}")
         .formParam("password", "#{password}")
-        .formParam("save", "Sign in")
-        .formParam("selfRegistrationEnabled", "true")
         .formParam("_csrf", "#{csrf}")
         .check(substring("Child arrangements and family injunctions")))
     }

@@ -406,7 +406,7 @@ object Citizen_PRL_FL401_Respondent {
 	  .formParam("ra_languageReqAndSpecialArrangements", "Perf Test - Add Reasonable Adjustments")
 	  .formParam("onlyContinue", "true")
       .check(CsrfCheck.save)
-	  .check(substring("Review your language requirements and special arrangements")))
+	  .check(substring("Review language requirements and support needs")))
 	}
 
 	 .pause(MinThinkTime, MaxThinkTime)
