@@ -329,7 +329,7 @@ Click Access Code &  Enter Case ID & Pin
 		.header("content-type", "application/x-www-form-urlencoded")
 		.header("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 		.formParam("_csrf", "#{csrf}")
-		.formParam("ra_languageReqAndSpecialArrangements", "")
+		.formParam("ra_languageReqAndSpecialArrangements", "Special arrangements")
 		.formParam("onlyContinue", "true")
 		.check(CsrfCheck.save)
 		.check(substring("Review language requirements and support needs")))

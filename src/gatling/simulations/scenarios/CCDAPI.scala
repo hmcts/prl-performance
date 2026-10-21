@@ -5,6 +5,7 @@ import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import utils._
 import io.gatling.http.check.HttpCheck
+import utilities.AzureKeyVault
 
 object CCDAPI {
 
@@ -16,7 +17,7 @@ object CCDAPI {
   val MinThinkTime = Environment.minThinkTime
   val MaxThinkTime = Environment.maxThinkTime
 
-  val clientSecret = ConfigFactory.load.getString("auth.clientSecret")
+  val clientSecret = AzureKeyVault.loadClientSecret("ccd-perftest", "ccd-api-gateway-oauth2-client-secret")
           
   //userType must be "Caseworker", "Legal", "Citizen" or "Solicitor"
   def Auth(userType: String) =
