@@ -1,7 +1,6 @@
 {
    "data": {
-      "createSelectOrderOptions": "specialGuardianShip",
-      "selectedOrder": null
+      "createSelectOrderOptions": "specialGuardianShip"
    },
    "event": {
       "id": "manageOrders",
@@ -11,6 +10,7 @@
    "event_data": {
       "manageOrderHeader1": null,
       "manageOrdersOptions": "createAnOrder",
+      "selectedOrder": null,
       "isSdoSelected": "No",
       "sdoPreamblesTempList": null,
       "sdoCafcassOrCymruTempList": null,
@@ -18,10 +18,10 @@
       "sdoCourtTempList": null,
       "sdoDocumentationAndEvidenceTempList": null,
       "sdoOtherTempList": null,
-      "sdoHearingsAndNextStepsTempList": null,
       "listElementsSetToDefaultValue": null,
-      "createSelectOrderOptions": "specialGuardianShip",
-      "selectedOrder": null
+      "sdoHearingsAndNextStepsTempList": null,
+      "isInvokedFromTask": "No",
+      "createSelectOrderOptions": "specialGuardianShip"
    },
   "event_token": "#{event_token}",
   "ignore_warning": false,

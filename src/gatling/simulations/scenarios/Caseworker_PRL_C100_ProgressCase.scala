@@ -420,8 +420,24 @@ object Caseworker_PRL_C100_ProgressCase {
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
         .header("x-xsrf-token", "#{XSRFToken}")
         .body(ElFileBody("bodies/prl/courtAdmin/PRLOrderDetails.json"))
-        .check(jsonPath("$.data.appointedGuardianName[0].id").saveAs("guardianId"))
         .check(substring("isEngDocGen")))
+    }
+
+    .pause(MinThinkTime, MaxThinkTime)
+
+    /*======================================================================================
+    * Add recitals, preamble or directions
+    ======================================================================================*/
+
+    .group("XUI_PRL_XXX_515_AddRecitals") {
+      exec(http("XUI_PRL_XXX_515_005_AddRecitals")
+        .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=manageOrders6")
+        .headers(Headers.xuiHeader)
+        .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
+        .header("x-xsrf-token", "#{XSRFToken}")
+        .body(ElFileBody("bodies/prl/courtAdmin/PRLAddRecitals.json"))
+        .check(jsonPath("$.data.appointedGuardianName[0].id").saveAs("guardianId"))
+        .check(substring("recitalsOrPreamble")))
     }
 
     .pause(MinThinkTime, MaxThinkTime)
@@ -432,7 +448,7 @@ object Caseworker_PRL_C100_ProgressCase {
 
     .group("XUI_PRL_XXX_520_GuardianName") {
       exec(http("XUI_PRL_XXX_520_005_GuardianName")
-        .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=manageOrders11")
+        .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=manageOrders12")
         .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
         .header("x-xsrf-token", "#{XSRFToken}")
@@ -450,7 +466,7 @@ object Caseworker_PRL_C100_ProgressCase {
 
     .group("XUI_PRL_XXX_530_CheckYourOrder") {
       exec(http("XUI_PRL_XXX_530_005_CheckYourOrder")
-        .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=manageOrders20")
+        .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=manageOrders21")
         .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
         .header("x-xsrf-token", "#{XSRFToken}")
@@ -466,7 +482,7 @@ object Caseworker_PRL_C100_ProgressCase {
 
     .group("XUI_PRL_XXX_540_OrderRecipients") {
       exec(http("XUI_PRL_XXX_540_005_OrderRecipients")
-        .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=manageOrders24")
+        .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=manageOrders25")
         .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
         .header("x-xsrf-token", "#{XSRFToken}")
@@ -482,7 +498,7 @@ object Caseworker_PRL_C100_ProgressCase {
 
     .group("XUI_PRL_XXX_550_OrderServe") {
       exec(http("XUI_PRL_XXX_550_005_OrderServe")
-        .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=manageOrders26")
+        .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=manageOrders27")
         .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
         .header("x-xsrf-token", "#{XSRFToken}")
@@ -500,7 +516,7 @@ object Caseworker_PRL_C100_ProgressCase {
 
     .group("XUI_PRL_XXX_560_OrderServe") {
       exec(http("XUI_PRL_XXX_560_005_OrderToServeList")
-        .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=manageOrders27")
+        .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=manageOrders28")
         .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
         .header("x-xsrf-token", "#{XSRFToken}")
@@ -516,7 +532,7 @@ object Caseworker_PRL_C100_ProgressCase {
 
     .group("XUI_PRL_XXX_570_ServeToRespondentOptions") {
       exec(http("XUI_PRL_XXX_570_005_ServeToRespondentOptions")
-        .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=manageOrders28")
+        .post(BaseURL + "/data/case-types/PRLAPPS/validate?pageId=manageOrders29")
         .headers(Headers.xuiHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.case-data-validate.v2+json;charset=UTF-8")
         .header("x-xsrf-token", "#{XSRFToken}")
@@ -554,12 +570,12 @@ object Caseworker_PRL_C100_ProgressCase {
         .headers(Headers.navigationHeader)
         .header("accept", "application/vnd.uk.gov.hmcts.ccd-data-store-api.ui-start-event-trigger.v2+json;charset=UTF-8")
         .check(jsonPath("$.event_token").saveAs("event_token"))
-        .check(jsonPath("$.case_fields[7].value.list_items[0].code")saveAs("serviceOfApplicationScreenCode"))
-        .check(jsonPath("$.case_fields[7].value.list_items[0].label")saveAs("serviceOfApplicationScreenLabel"))
-        .check(jsonPath("$.case_fields[31].value.list_items[0].code")saveAs("serviceOfApplicationApplicantCode"))
-        .check(jsonPath("$.case_fields[31].value.list_items[0].label")saveAs("serviceOfApplicationApplicantName"))
-        .check(jsonPath("$.case_fields[31].value.list_items[2].code")saveAs("serviceOfApplicationRespondentCode"))
-        .check(jsonPath("$.case_fields[31].value.list_items[2].label")saveAs("serviceOfApplicationRespondentName"))
+        .check(jsonPath("$.case_fields[?(@.id=='serviceOfApplicationScreen1')].value.list_items[0].code")saveAs("serviceOfApplicationScreenCode"))
+        .check(jsonPath("$.case_fields[?(@.id=='serviceOfApplicationScreen1')].value.list_items[0].label")saveAs("serviceOfApplicationScreenLabel"))
+        .check(jsonPath("$.case_fields[?(@.id=='soaRecipientsOptions')].value.list_items[0].code")saveAs("serviceOfApplicationApplicantCode"))
+        .check(jsonPath("$.case_fields[?(@.id=='soaRecipientsOptions')].value.list_items[0].label")saveAs("serviceOfApplicationApplicantName"))
+        .check(jsonPath("$.case_fields[?(@.id=='soaRecipientsOptions')].value.list_items[2].code")saveAs("serviceOfApplicationRespondentCode"))
+        .check(jsonPath("$.case_fields[?(@.id=='soaRecipientsOptions')].value.list_items[2].label")saveAs("serviceOfApplicationRespondentName"))
         .check(jsonPath("$.id").is("serviceOfApplication")))
 
         .exec(Common.userDetails)
