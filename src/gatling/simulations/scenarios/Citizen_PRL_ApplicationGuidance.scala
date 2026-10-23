@@ -99,7 +99,6 @@ object Citizen_PRL_ApplicationGuidance {
         .formParam("_csrf", "#{csrf}")
         .formParam("legalRepresentativeForApplication", "No")
         .formParam("saveAndContinue", "true")
-        .check(CsrfCheck.save)
         .check(substring("Sign in or create an account")))
     }
 
