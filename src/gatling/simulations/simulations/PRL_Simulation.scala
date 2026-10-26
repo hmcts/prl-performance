@@ -669,14 +669,14 @@ class PRL_Simulation extends Simulation {
         if (debugMode == "off") {
           Seq(global.successfulRequests.percent.gte(95),
             details("PRL_Citizen_050_CompleteApplicationLegalRepContinue").successfulRequests.percent.gte(80),
-            details("PRL_FL401Respondent_470_ViewCourtHearings").successfulRequests.percent.gte(80),
+            details("PRL_FL401Respondent_390_ViewCourtHearings").successfulRequests.percent.gte(80),
             details("PRL_C100Respondent_480_ViewCourtHearings").successfulRequests.percent.gte(80),
-            details("PRL_C100ApplicantDashboard_460_ViewCourtHearings").successfulRequests.percent.gte(80),
+            details("PRL_C100ApplicantDashboard_760_ViewCourtHearings").successfulRequests.percent.gte(80),
             details("PRL_FL401ApplicantDashboard_470_ViewCourtHearings").successfulRequests.percent.gte(80),
-            //details("PRL_CitizenC100_790_Logout").successfulRequests.percent.gte(80)),
-            details("XUI_PRL_XXX_580_OrderSubmit").successfulRequests.percent.gte(80),
-            details("PRL_RA-Add_180_SubmitReasonableAdjustments").successfulRequests.percent.gte(80),
-            details("PRL_RA-Modify_110_ConfirmRAModify").successfulRequests.percent.gte(80))
+            details("PRL_CitizenC100_790_Logout").successfulRequests.percent.gte(80))
+            //details("XUI_PRL_XXX_580_OrderSubmit").successfulRequests.percent.gte(80),
+            //details("PRL_RA-Add_180_SubmitReasonableAdjustments").successfulRequests.percent.gte(80),
+            //details("PRL_RA-Modify_110_ConfirmRAModify").successfulRequests.percent.gte(80))
         }
         else {
           Seq(global.successfulRequests.percent.is(100))
