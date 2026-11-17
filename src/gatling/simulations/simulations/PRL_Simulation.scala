@@ -15,7 +15,16 @@ import scala.language.postfixOps
 import scala.util.Random
 
 class PRL_Simulation extends Simulation {
-
+  
+  /*===============================================================================================
+  * PCS TEMP - TEMPORARY PCS MULTI-FILE UPLOAD TEST (remove once PRL has multi-file upload)
+  *
+  * PCS code has been added to this PRL simulation only to run the PCS volume test from this repo.
+  *
+  * Nothing else in the PRL repo was changed for PCS - existing PRL test types are unaffected.
+  * PCS TEMP 1/6 - END
+  ===============================================================================================*/
+  
   val UserFeederPRL = csv("UserDataPRL.csv").circular
   val UserCourtAdminPRL = csv("UserDataCourtAdmin.csv").circular
   val UserCaseManagerPRL = csv("UserDataCaseManager.csv").circular
@@ -26,19 +35,19 @@ class PRL_Simulation extends Simulation {
   val RAData_Add = csv("ReasonableAdjustments_Add.csv").circular
   val RAData_Modify = csv("ReasonableAdjustments_Modify.csv").circular
   val cafcassCaseFeeder = csv("CasesForDocUpload.csv").queue
-
+  
   val WaitTime = Environment.waitTime
-
+  
   val randomFeeder = Iterator.continually(Map("prl-percentage" -> Random.nextInt(100)))
-
+  
   /* TEST TYPE DEFINITION */
   /* pipeline = nightly pipeline against the AAT environment (see the Jenkins_nightly file) */
   /* perftest (default) = performance test against the perftest environment */
-
+  
   //val testType = System.getProperty("TEST_TYPE", "perftest")
   //var testType = scala.util.Properties.envOrElse("TEST_TYPE", "perftest")
   val testType = System.getProperty("TEST_TYPE", "pipeline")
-
+  
   //set the environment based on the test type
   val environment = testType match {
     case "perftest" => "perftest"
@@ -47,15 +56,16 @@ class PRL_Simulation extends Simulation {
     case "smoke" => "perftest"
     case "dataprep" => "perftest"
     case "clear" => "perftest"
+    case "pcs" => "perftest" // PCS TEMP 2/6 - remove after PCS testing
     case _ => "**INVALID**"
   }
-
+  
   /* ******************************** */
   /* ADDITIONAL COMMAND LINE ARGUMENT OPTIONS */
   val debugMode = System.getProperty("debug", "off") //runs a single user e.g. ./gradle gatlingRun -Ddebug=on (default: off)
   val env = System.getProperty("env", environment) //manually override the environment aat|perftest e.g. ./gradle gatlingRun -Denv=aat
   /* ******************************** */
-
+  
   /* PERFORMANCE TEST CONFIGURATION */
   val prlTargetPerHour: Double = 32 //30
   val caseworkerTargetPerHour: Double = 30 //30
@@ -64,55 +74,159 @@ class PRL_Simulation extends Simulation {
   val defaultTargetPerHour: Double = 10 //12
   // Smoke Configuration
   val smokeTarget: Double = 1
-
+  
+  // ===== PCS TEMP 3/6 START ===== (remove after PCS testing)
+  // Single PCS user only - one virtual user repeats the journey
+  //   -DpcsCaseId=<claim number>  overrides the caseId in PCSUploadDocsData.csv (must belong to the user)
+  //   -DpcsIterations=<n>         how many times the user runs login > upload > logout (default 1)
+  val pcsCaseId = System.getProperty("pcsCaseId", "").trim
+  val pcsIterations = Integer.getInteger("pcsIterations", 1).intValue
+  //   -DpcsRelatedTo=MAIN_CLAIM|COUNTERCLAIM  answer to "Confirm if these documents relate to an existing application"
+  //                                           (only shown for claims with a counterclaim - default MAIN_CLAIM)
+  val pcsRelatedTo = System.getProperty("pcsRelatedTo", "MAIN_CLAIM").trim
+  //   -DpcsFiles=<file[:count],...>           files from src/gatling/resources/pcs/, e.g. 1MB.pdf:10,2MB.pdf:5,10MB.pdf:3
+  //                                           not set = the 3 files in pcsUploadFiles
+  val pcsFiles = System.getProperty("pcsFiles", "").trim
+  
+  val pcsDefaultProfileCounts = "LIGHT:40,MEDIUM:20,HEAVY:6,MAX:2"
+  val pcsProfileCountsArg = System.getProperty("pcsProfileCounts", "").trim
+  val pcsProfileMode = System.getProperty("pcsProfiles", "off").trim.equalsIgnoreCase("on") || pcsProfileCountsArg.nonEmpty
+  val pcsProfileCounts = if (pcsProfileCountsArg.nonEmpty) pcsProfileCountsArg else pcsDefaultProfileCounts
+  val pcsDurationMins = Integer.getInteger("pcsDurationMins", 60).intValue
+  // ===== PCS TEMP 3/6 END =====
+  
   //This determines the percentage split of PRL journeys, by C100 or FL401
   val prlC100Percentage = 100 //Percentage of C100s (the rest will be FL401s) - should be 66 for the 2:1 ratio
-
+  
   val rampUpDurationMins = 5
   val rampDownDurationMins = 5
   val testDurationMins = 60
-
+  
   val numberOfPipelineUsers = 5
   val pipelinePausesMillis: Long = 3000 //3 seconds
-
-  //Determine the pause pattern to use:
-  //Performance test = use the pauses defined in the scripts
-  //Pipeline = override pauses in the script with a fixed value (pipelinePauseMillis)
-  //Debug mode = disable all pauses
+  
+  
   val pauseOption: PauseType = debugMode match {
     case "off" if testType == "perftest" => constantPauses
     case "off" if testType == "pipeline" => customPauses(pipelinePausesMillis)
     case _ => constantPauses //disabledPauses
   }
-
+  
   val httpProtocol = http
     .baseUrl(Environment.baseURL.replace("${env}", s"${env}"))
     .inferHtmlResources()
     //.inferHtmlResources(AllowList(), DenyList()) //*** ONLY TO BE USED FOR DATA PREP ****
     .silentResources
     .header("experimental", "true") //used to send through client id, s2s and bearer tokens. Might be temporary
-
+  
   before {
     println(s"Test Type: ${testType}")
     println(s"Test Environment: ${env}")
     println(s"Debug Mode: ${debugMode}")
   }
-
+  
   /*===============================================================================================
 * API CAFCASS - UploadDocument
 ===============================================================================================*/
-
+  
   val PRLAPICAFCASSGetDocument = scenario("***** API CAFCASS Get Document *****")
     .exitBlockOnFail {
       exec(_.set("env", s"${env}"))
         .feed(cafcassCaseFeeder)
         .exec(API_CAFCASS.UploadDocument)
     }
-
+  
+  
+  // ===== PCS TEMP 4/6 START ===== (remove after PCS testing)
+  /*===============================================================================================
+* PCS Citizen - Upload additional documents (multi-file)
+* Feeder: PCSUploadDocsData.csv (user,password,caseId) - single user, caseId can be overridden with -DpcsCaseId
+===============================================================================================*/
+  
+  val pcsUploadDocsData = csv("PCSUploadDocsData.csv").circular
+  val pcsUploadFiles = Seq("7PageDoc.pdf", "120KB.pdf", "3MB.pdf")
+  // Files uploaded per iteration - -DpcsFiles if set, otherwise the 3 files above
+  val pcsFilesToUpload: Seq[String] =
+    if (pcsFiles.nonEmpty) Citizen_PCS_UploadDocuments.filesFromList(pcsFiles) else pcsUploadFiles
+  
+  val PCSCitizenMultiUploadScenario = scenario("***** PCS Citizen Multi File Upload *****")
+    .exitBlockOnFail {
+      exec(_.set("env", s"${env}"))
+        .feed(pcsUploadDocsData)
+        .exec(session => if (pcsCaseId.nonEmpty) session.set("caseId", pcsCaseId) else session)
+        .exec(session => {
+          println(s"PCS upload - user: ${session("user").as[String]}, case: ${session("caseId").as[String]}, iterations: $pcsIterations, relatedTo: $pcsRelatedTo")
+          println(s"PCS upload - ${pcsFilesToUpload.size} files per iteration: ${pcsFilesToUpload.mkString(", ")}")
+          session
+        })
+        .repeat(pcsIterations, "pcsIteration") {
+          exec(
+            Citizen_PCS_UploadDocuments.PCSLogin,
+            Citizen_PCS_UploadDocuments.PCSDashboard,
+            Citizen_PCS_UploadDocuments.UploadDocuments(pcsFilesToUpload, pcsRelatedTo),
+            Citizen_PCS_UploadDocuments.PCSLogout)
+        }
+    }
+  
+  /*-----------------------------------------------------------------------------------------------
+  * PCS volume test - file profiles (same file[:count] format as -DpcsFiles, files in resources/pcs/)
+  * Change the files here; change the number of users per profile with -DpcsProfileCounts
+  -----------------------------------------------------------------------------------------------*/
+  val pcsProfileDefinitions: Map[String, String] = Map(
+    "LIGHT"  -> "1MB.pdf:3",                                    //  3 files,  ~3 MB
+    "MEDIUM" -> "1MB.pdf:5,2MB.pdf:3,5MB.pdf:2",                // 10 files, ~21 MB
+    "HEAVY"  -> "1MB.pdf:10,2MB.pdf:5,10MB.pdf:3,5MB.pdf:1",    // 19 files, ~58 MB
+    "MAX"    -> "10MB.pdf:10,20MB.pdf:10")                      // 20 files, ~300 MB (needs an approved 20MB.pdf)
+  
+  // e.g. "LIGHT:40,MEDIUM:20" -> Seq(LIGHT -> 40, MEDIUM -> 20)
+  lazy val pcsProfileUserCounts: Seq[(String, Int)] =
+    pcsProfileCounts.split(",").map(_.trim).filter(_.nonEmpty).toSeq.map { entry =>
+      entry.split(":").map(_.trim) match {
+        case Array(name, count) if pcsProfileDefinitions.contains(name.toUpperCase) => (name.toUpperCase, count.toInt)
+        case _ => throw new IllegalArgumentException(
+          s"Invalid -DpcsProfileCounts entry '$entry' - expected e.g. LIGHT:40 using ${pcsProfileDefinitions.keys.mkString("/")}")
+      }
+    }.filter(_._2 > 0)
+  
+  // Resolved upload file names per profile (only profiles that are used - fails at start-up if a file is missing)
+  lazy val pcsProfileFiles: Map[String, Seq[String]] =
+    pcsProfileUserCounts.map { case (name, _) =>
+      try name -> Citizen_PCS_UploadDocuments.filesFromList(pcsProfileDefinitions(name))
+      catch { case e: IllegalArgumentException => throw new IllegalArgumentException(
+        s"PCS profile $name: ${e.getMessage}. Add the file to src/gatling/resources/pcs/ or set $name:0 in -DpcsProfileCounts", e) }
+    }.toMap
+  
+  // Exact number of users per profile, shuffled with a fixed seed so heavy users are spread across
+  // the run but the order (and total volume) is the same every run
+  lazy val pcsProfileOrder: Seq[String] =
+  new Random(20261113).shuffle(pcsProfileUserCounts.flatMap { case (name, count) => Seq.fill(count)(name) })
+  
+  lazy val pcsProfileFeeder = pcsProfileOrder.map(profile => Map("pcsProfile" -> profile)).iterator
+  
+  val PCSProfileUploadScenario = scenario("***** PCS Citizen Multi File Upload - Profiles *****")
+    .exitBlockOnFail {
+      exec(_.set("env", s"${env}"))
+        .feed(pcsUploadDocsData)
+        .feed(pcsProfileFeeder)
+        .exec(session => if (pcsCaseId.nonEmpty) session.set("caseId", pcsCaseId) else session)
+        .exec(session => {
+          val profile = session("pcsProfile").as[String]
+          val files = pcsProfileFiles(profile)
+          println(s"PCS profile user ${session.userId} - profile: $profile, case: ${session("caseId").as[String]}, files: ${files.size}")
+          session.set("pcsFiles", files)
+        })
+        .exec(
+          Citizen_PCS_UploadDocuments.PCSLogin,
+          Citizen_PCS_UploadDocuments.PCSDashboard,
+          Citizen_PCS_UploadDocuments.UploadDocumentsFromSession(pcsRelatedTo),
+          Citizen_PCS_UploadDocuments.PCSLogout)
+    }
+  // ===== PCS TEMP 4/6 END =====
+  
   /*===============================================================================================
 * Citizen Application Guidance Screens
 ===============================================================================================*/
-
+  
   val PRLCitizenApplicationGuidance = scenario("***** PRL Citizen Application Guidance *****")
     .exitBlockOnFail {
       exec(_.set("env", s"${env}"))
@@ -120,11 +234,11 @@ class PRL_Simulation extends Simulation {
           exec(Citizen_PRL_ApplicationGuidance.CompleteApplicationGuidance)
         }
     }
-
+  
   /*===============================================================================================
 * PRL Citizen Journey - Create C100 Case
 ===============================================================================================*/
-
+  
   val PRLC100CitizenScenario = scenario("***** PRL Citizen Journey *****")
     .exitBlockOnFail {
       exec(_.set("env", s"${env}")
@@ -141,11 +255,11 @@ class PRL_Simulation extends Simulation {
     .doIf("#{email.exists()}") {
       exec(API_IDAM.DeleteUserInIdam)
     }
-
+  
   /*===============================================================================================
   * PRL Solicitor FL401 Create
   ===============================================================================================*/
-
+  
   val PrlFL401Create = scenario("***** PRL FL401 DataPrep *****")
     .exitBlockOnFail {
       feed(UserFeederPRL)
@@ -168,11 +282,11 @@ class PRL_Simulation extends Simulation {
             .exec(Solicitor_PRL_FL401_CaseCreate.StatementOfTruth)
         }
     }
-
+  
   /*===============================================================================================
   * PRL Citizen C100 Respondent Journey
   ===============================================================================================*/
-
+  
   val PRLC100RespondentScenario = scenario("***** PRL Citizen C100 Respondent Journey *****")
     .exitBlockOnFail {
       exec(_.set("env", s"${env}")
@@ -205,7 +319,7 @@ class PRL_Simulation extends Simulation {
             //.exec(Citizen_PRL_C100_Respondent.ViewAllDocuments) //New for R6.0
             .exec(Citizen_PRL_C100_Respondent.ViewCourtHearings)
             //New for R6.0
-
+            
             //****Reasonable Adjustments***
             //The following random switch will ensure a proportion of users will progress to Reasonable Adjustments
             //session.markAsFailed will mark session as failed so that it doesn't continue, doesn't fail transaction or test
@@ -214,24 +328,24 @@ class PRL_Simulation extends Simulation {
                 exec(Logout.CUILogout)
                   .exec { session => session.markAsFailed }
             )
-
+            
             .exec(Citizen_ReasonableAdjustments.GetCase)
             .exec(Citizen_ReasonableAdjustments.ReasonableAdjustmentsAdd)
-
+            
             .exec(Citizen_ReasonableAdjustments.GetCase)
             .exec(Citizen_ReasonableAdjustments.ReasonableAdjustmentsModify)
-
+            
             .exec(Logout.CUILogout)
         }
     }
     .doIf("#{email.exists()}") {
       exec(API_IDAM.DeleteUserInIdam)
     }
-
+  
   /*===============================================================================================
   * PRL Citizen C100 ApplicantDashboard Journey
   ===============================================================================================*/
-
+  
   val PRLC100ApplicantDashboardScenario = scenario("***** PRL Citizen C100 Applicant Dashboard Journey *****")
     .exitBlockOnFail {
       exec(_.set("env", s"${env}")
@@ -268,11 +382,11 @@ class PRL_Simulation extends Simulation {
     .doIf("#{email.exists()}") {
       exec(API_IDAM.DeleteUserInIdam)
     }
-
+  
   /*===============================================================================================
-  * PRL Citizen Reasonable Adjustments Journey - Add                           
+  * PRL Citizen Reasonable Adjustments Journey - Add
   ===============================================================================================*/
-
+  
   val PRLReasonableAdjustmentsAdd = scenario("***** PRL Citizen Reasonable Adjustments Journey - Add *****")
     .exitBlockOnFail {
       repeat(1) {
@@ -286,11 +400,11 @@ class PRL_Simulation extends Simulation {
           .exec(Logout.CUILogout)
       }
     }
-
+  
   /*===============================================================================================
   * PRL Citizen Reasonable Adjustments Journey - Modify
   ===============================================================================================*/
-
+  
   val PRLReasonableAdjustmentsModify = scenario("***** PRL Citizen Reasonable Adjustments Journey - Modify *****")
     .exitBlockOnFail {
       repeat(1) {
@@ -304,11 +418,11 @@ class PRL_Simulation extends Simulation {
       }
         .exec(Logout.CUILogout)
     }
-
+  
   /*===============================================================================================
   * PRL Citizen Reasonable Adjustments Journey - Add & Modify
   ===============================================================================================*/
-
+  
   val PRLReasonableAdjustmentsAddModify = scenario("***** PRL Citizen Reasonable Adjustments Journey - Add *****")
     .exitBlockOnFail {
       repeat(1) {
@@ -323,12 +437,12 @@ class PRL_Simulation extends Simulation {
           .exec(Logout.CUILogout)
       }
     }
-
-
+  
+  
   /*===============================================================================================
   * PRL Citizen FL401 Respondent Journey
   ===============================================================================================*/
-
+  
   val PRLFL401RespondentScenario = scenario("***** PRL Citizen FL401 Respondent Journey *****")
     .exitBlockOnFail {
       exec(_.set("env", s"${env}")
@@ -357,7 +471,7 @@ class PRL_Simulation extends Simulation {
             .exec(Citizen_PRL_FL401_Respondent.ViewApplicantsDocuments) //New for R6.0
             .exec(Citizen_PRL_FL401_Respondent.ViewAllDocuments) //New for R6.0
             .exec(Citizen_PRL_FL401_Respondent.ViewCourtHearings) //New for R6.0
-
+            
             //****Reasonable Adjustments***
             //The following random switch will ensure a proportion of users will progress to Reasonable Adjustments
             //session.markAsFailed will mark session as failed so that it doesn't continue, doesn't fail transaction or test
@@ -366,24 +480,24 @@ class PRL_Simulation extends Simulation {
                 exec(Logout.CUILogout)
                   .exec { session => session.markAsFailed }
             )
-
+            
             .exec(Citizen_ReasonableAdjustments.GetCase)
             .exec(Citizen_ReasonableAdjustments.ReasonableAdjustmentsAdd)
-
+            
             .exec(Citizen_ReasonableAdjustments.GetCase)
             .exec(Citizen_ReasonableAdjustments.ReasonableAdjustmentsModify)
-
+            
             .exec(Logout.CUILogout)
         }
     }
     .doIf("#{email.exists()}") {
       exec(API_IDAM.DeleteUserInIdam)
     }
-
+  
   /*===============================================================================================
   * PRL Citizen FL401 ApplicantDashboard Journey
   ===============================================================================================*/
-
+  
   val PRLFL401ApplicantDashboardScenario = scenario("***** PRL Citizen FL401 Applicant Dashboard Journey *****")
     .exitBlockOnFail {
       exec(_.set("env", s"${env}")
@@ -423,7 +537,7 @@ class PRL_Simulation extends Simulation {
     .doIf("#{email.exists()}") {
       exec(API_IDAM.DeleteUserInIdam)
     }
-
+  
   //===============================================================================================
   // Solicitor Create & Progress FL401 Case via CCD API Calls (where applicable/possible)
   //===============================================================================================
@@ -509,7 +623,7 @@ class PRL_Simulation extends Simulation {
             .exec(Caseworker_PRL_FL401_ProgressCase.WriteAccessCodesToFile)
         } //end of repeat
     }
-
+  
   //===============================================================================================
   // Solicitor Create & Progress C100 Case via CCD API Calls (where applicable/possible)
   //===============================================================================================
@@ -634,11 +748,11 @@ class PRL_Simulation extends Simulation {
             .exec(Caseworker_PRL_C100_ProgressCase.WriteAccessCodesToFile)
         } // end of repeat
     }
-
+  
   /*===============================================================================================
   * Simulation Configuration
    ===============================================================================================*/
-
+  
   def simulationProfile(testType: String, userPerHourRate: Double, numberOfPipelineUsers: Double): Seq[OpenInjectionStep] = {
     val userPerSecRate = userPerHourRate / 3600 //Remember to change back to 3600
     testType match {
@@ -661,7 +775,7 @@ class PRL_Simulation extends Simulation {
         Seq(nothingFor(0))
     }
   }
-
+  
   //defines the test assertions, based on the test type
   def assertions(testType: String): Seq[Assertion] = {
     testType match {
@@ -687,10 +801,10 @@ class PRL_Simulation extends Simulation {
             //details("PRL_Citizen_050_CompleteApplicationLegalRepContinue").successfulRequests.percent.gte(80),
             //details("PRL_FL401Respondent_470_ViewCourtHearings").successfulRequests.percent.gte(80),
             details("PRL_CitizenC100_780_FinalSubmit").successfulRequests.percent.gte(80))
-            //details("PRL_C100ApplicantDashboard_460_ViewCourtHearings").successfulRequests.percent.gte(80),
-            //details("PRL_FL401ApplicantDashboard_470_ViewCourtHearings").successfulRequests.percent.gte(80),
-            //details("PRL_CitizenC100_790_Logout").successfulRequests.percent.gte(80))
-            //details("XUI_PRL_XXX_580_OrderSubmit").successfulRequests.percent.gte(80))
+          //details("PRL_C100ApplicantDashboard_460_ViewCourtHearings").successfulRequests.percent.gte(80),
+          //details("PRL_FL401ApplicantDashboard_470_ViewCourtHearings").successfulRequests.percent.gte(80),
+          //details("PRL_CitizenC100_790_Logout").successfulRequests.percent.gte(80))
+          //details("XUI_PRL_XXX_580_OrderSubmit").successfulRequests.percent.gte(80))
           //details("PRL_RA-Add_180_SubmitReasonableAdjustments").successfulRequests.percent.gte(80),
           //details("PRL_RA-Modify_110_ConfirmRAModify").successfulRequests.percent.gte(80))
         }
@@ -699,27 +813,38 @@ class PRL_Simulation extends Simulation {
         }
       case "smoke" =>
         Seq(global.successfulRequests.percent.gte(90))
+      
+      // ===== PCS TEMP 5/6 START ===== (remove after PCS testing)
+      case "pcs" =>
+        if (debugMode == "off") {
+          Seq(global.successfulRequests.percent.gte(95),
+            details("PCS_UploadDocs_060_UploadFile").successfulRequests.percent.gte(95),
+            details("PCS_UploadDocs_080_CheckYourAnswersSubmit").successfulRequests.percent.gte(95))
+        }
+        else {
+          Seq(global.successfulRequests.percent.is(100))
+        }
+      // ===== PCS TEMP 5/6 END =====
       case _ =>
         Seq()
-
+      
     }
   }
-
+  
   def setUpType(testType: String): List[PopulationBuilder] = {
     testType match {
       case "perftest" =>
         List(
-          PRLC100CitizenScenario.inject(simulationProfile(testType, c100AppTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-          PRLC100RespondentScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
+          PRLC100CitizenScenario.inject(simulationProfile(testType, c100AppTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption))         /* PRLC100RespondentScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
           PRLFL401RespondentScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
           PRLC100ApplicantDashboardScenario.inject(simulationProfile(testType, c100AppTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
           PRLFL401ApplicantDashboardScenario.inject(simulationProfile(testType, defaultTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption),
-          PRLCitizenApplicationGuidance.inject(simulationProfile(testType, c100AppTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption))
-
+          PRLCitizenApplicationGuidance.inject(simulationProfile(testType, c100AppTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption))*/
+      
       case "pipeline" =>
         List(
           PRLC100CitizenScenario.inject(simulationProfile(testType, c100AppTargetPerHour, numberOfPipelineUsers)).pauses(pauseOption))
-
+      
       case "smoke" =>
         List(
           PRLC100CitizenScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
@@ -727,18 +852,35 @@ class PRL_Simulation extends Simulation {
           PRLFL401RespondentScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
           PRLC100ApplicantDashboardScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption),
           PRLFL401ApplicantDashboardScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption))
-
+      
       case "dataprep" =>
         List(
           PRLC100CreateProgressCase.inject(rampUsers(250).during(75.minutes)),
           PRLFL401CreateProgressCase.inject(rampUsers(50).during(30.minutes)))
-
+      
+      // ===== PCS TEMP 6/6 START ===== (remove after PCS testing)
+      case "pcs" =>
+        if (pcsProfileMode) {
+          // Volume test: exact users per profile, started evenly over pcsDurationMins
+          val totalUsers = pcsProfileOrder.size
+          println(s"PCS profile volume test - $totalUsers users over $pcsDurationMins minutes: " +
+            pcsProfileUserCounts.map { case (n, c) => s"$n x $c (${pcsProfileFiles(n).size} files each)" }.mkString(", ") +
+            s" - ${pcsProfileUserCounts.map { case (n, c) => c * pcsProfileFiles(n).size }.sum} uploads in total")
+          List(
+            PCSProfileUploadScenario.inject(rampUsers(totalUsers).during(pcsDurationMins.minutes)).pauses(pauseOption))
+        }
+        else {
+          List(
+            PCSCitizenMultiUploadScenario.inject(atOnceUsers(1)).pauses(pauseOption)) // single user, -DpcsIterations repeats
+        }
+      // ===== PCS TEMP 6/6 END =====
+      
     }
   }
-
+  
   setUp(setUpType(testType))
     .protocols(httpProtocol)
     .assertions(assertions(testType))
     .maxDuration(90 minutes)
-
+  
 }
