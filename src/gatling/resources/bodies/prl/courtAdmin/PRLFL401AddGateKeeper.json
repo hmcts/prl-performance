@@ -1,0 +1,22 @@
+{
+   "data": {
+      "whoToSendTheCaseToForGatekeeping": "SEND_TO_A_SPECIFIC_LEGAL_ADVISER",
+      "legalAdviser": {
+         "idamId": "692ae012-c8b1-45ab-a7d3-ee8d4b331345"
+      }
+   },
+   "event": {
+      "id": "fl401SendToGateKeeper",
+      "summary": "",
+      "description": ""
+   },
+   "event_data": {
+      "whoToSendTheCaseToForGatekeeping": "SEND_TO_A_SPECIFIC_LEGAL_ADVISER",
+      "legalAdviser": {
+         "idamId": "692ae012-c8b1-45ab-a7d3-ee8d4b331345"
+      }
+   },
+   "event_token": "#{event_token}",
+   "ignore_warning": false,
+   "case_reference": "#{caseId}"
+}

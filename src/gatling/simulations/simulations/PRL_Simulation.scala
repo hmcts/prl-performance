@@ -65,6 +65,17 @@ class PRL_Simulation extends Simulation {
   // Smoke Configuration
   val smokeTarget: Double = 1
 
+  // Data prep options (-DTEST_TYPE=dataprep) - run C100 and FL401 data prep separately and set volumes
+  //   -DdataprepScenario=c100|fl401|both   which data prep to run (default both, as before)
+  //   -DdataprepC100Users=250  -DdataprepC100Mins=75    C100 cases to create / minutes to spread them over
+  //   -DdataprepFL401Users=50  -DdataprepFL401Mins=30   FL401 cases to create / minutes to spread them over
+  //   Use e.g. -DdataprepC100Users=1 -DdataprepC100Mins=1 for a single-case check run
+  val dataprepScenario = System.getProperty("dataprepScenario", "both").trim.toLowerCase
+  val dataprepC100Users = Integer.getInteger("dataprepC100Users", 250).intValue
+  val dataprepC100Mins = Integer.getInteger("dataprepC100Mins", 75).intValue
+  val dataprepFL401Users = Integer.getInteger("dataprepFL401Users", 50).intValue
+  val dataprepFL401Mins = Integer.getInteger("dataprepFL401Mins", 30).intValue
+
   //This determines the percentage split of PRL journeys, by C100 or FL401
   val prlC100Percentage = 100 //Percentage of C100s (the rest will be FL401s) - should be 66 for the 2:1 ratio
 
@@ -96,6 +107,10 @@ class PRL_Simulation extends Simulation {
     println(s"Test Type: ${testType}")
     println(s"Test Environment: ${env}")
     println(s"Debug Mode: ${debugMode}")
+    if (testType == "dataprep") {
+      if (dataprepScenario != "fl401") println(s"Data prep C100: $dataprepC100Users cases over $dataprepC100Mins minutes")
+      if (dataprepScenario != "c100") println(s"Data prep FL401: $dataprepFL401Users cases over $dataprepFL401Mins minutes")
+    }
   }
 
   /*===============================================================================================
@@ -469,9 +484,9 @@ class PRL_Simulation extends Simulation {
             //======================================
             .feed(UserCourtAdminPRL)
             .exec(
-              CCDAPI.CreateEvent("CourtAdmin", "PRIVATELAW", "PRLAPPS", "issueAndSendToLocalCourtCallback", "bodies/prl/courtAdmin/PRLLocalCourtSubmit.json"),
-              Homepage.XUIHomePage,
-              Login.XUILogin,
+              CCDAPI.CreateEvent("CourtAdmin", "PRIVATELAW", "PRLAPPS", "fl401AddCaseNumber", "bodies/prl/courtAdmin/PRLFL401AddCaseNumber.json"), // FL401 no longer uses issueAndSendToLocalCourtCallback (Nov 2026) - court admin adds the FamilyMan case number instead
+              XuiHelper.Homepage,                       // new IDAM (HMCTS Access) login - same as C100
+              XuiHelper.Login("#{user}", "#{password}"),
               Caseworker_PRL_FL401_ProgressCase.CourtAdminSendToGateKeeper,
               Caseworker_PRL_FL401_ProgressCase.CourtAdminManageOrders,
               Caseworker_PRL_FL401_ProgressCase.CourtAdminServiceApplicationExtract,
@@ -488,8 +503,8 @@ class PRL_Simulation extends Simulation {
             .exec(flushCookieJar)
             .feed(UserCaseManagerPRL)
             .exec(
-              Homepage.XUIHomePage,
-              Login.XUILogin,
+              XuiHelper.Homepage,                       // new IDAM (HMCTS Access) login - same as C100
+              XuiHelper.Login("#{user}", "#{password}"),
               CaseManager_PRL_FL401_ProgressCase.CaseManagerConfidentialityCheck,
               Logout.XUILogout)
             //================================
@@ -729,9 +744,14 @@ class PRL_Simulation extends Simulation {
           PRLFL401ApplicantDashboardScenario.inject(simulationProfile(testType, smokeTarget, numberOfPipelineUsers)).pauses(pauseOption))
 
       case "dataprep" =>
-        List(
-          PRLC100CreateProgressCase.inject(rampUsers(250).during(75.minutes)),
-          PRLFL401CreateProgressCase.inject(rampUsers(50).during(30.minutes)))
+        val c100 = PRLC100CreateProgressCase.inject(rampUsers(dataprepC100Users).during(dataprepC100Mins.minutes))
+        val fl401 = PRLFL401CreateProgressCase.inject(rampUsers(dataprepFL401Users).during(dataprepFL401Mins.minutes))
+        dataprepScenario match {
+          case "c100"  => List(c100)
+          case "fl401" => List(fl401)
+          case "both"  => List(c100, fl401)
+          case other   => throw new IllegalArgumentException(s"Invalid -DdataprepScenario=$other - use c100, fl401 or both")
+        }
 
     }
   }

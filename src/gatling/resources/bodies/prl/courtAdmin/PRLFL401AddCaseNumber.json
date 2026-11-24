@@ -1,0 +1,12 @@
+{
+   "data": {
+      "familymanCaseNumber": "PT1#{LARandomNumber}"
+   },
+   "event": {
+      "id": "fl401AddCaseNumber",
+      "summary": "",
+      "description": ""
+   },
+   "event_token": "#{event_token}",
+   "ignore_warning": false
+}

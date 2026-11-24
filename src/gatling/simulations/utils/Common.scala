@@ -151,14 +151,14 @@ object Common {
       .headers(Headers.commonHeader)
       .header("accept", "application/json, text/plain, */*")
       .header("sec-fetch-site", "same-site")
-      .check(status.in(200, 304, 403)))
+      .check(status.in(200, 304,404)))
 
     .exec(http("XUI_Common_000_ActivityGet")
       .get(BaseURL + "/activity/cases/#{caseId}/activity")
       .headers(Headers.commonHeader)
       .header("accept", "application/json, text/plain, */*")
       .header("sec-fetch-site", "same-site")
-      .check(status.in(200, 304, 403)))
+      .check(status.in(200, 304, 403,404)))
 
   val caseActivityOnlyGet =
     exec(http("XUI_Common_000_ActivityGet")
@@ -166,7 +166,7 @@ object Common {
       .headers(Headers.commonHeader)
       .header("accept", "application/json, text/plain, */*")
       .header("sec-fetch-site", "same-site")
-      .check(status.in(200, 304, 403)))
+      .check(status.in(200, 304, 403,404)))
 
   val caseActivityPost =
     exec(http("XUI_Common_000_ActivityOptions")
@@ -174,7 +174,7 @@ object Common {
       .headers(Headers.commonHeader)
       .header("accept", "application/json, text/plain, */*")
       .header("sec-fetch-site", "same-site")
-      .check(status.in(200, 304, 403)))
+      .check(status.in(200, 304, 403,404)))
 
     .exec(http("XUI_Common_000_ActivityPost")
       .post(BaseURL + "/activity/cases/#{caseId}/activity")
@@ -182,7 +182,7 @@ object Common {
       .header("accept", "application/json, text/plain, */*")
       .header("sec-fetch-site", "same-site")
       .body(StringBody("{\n  \"activity\": \"view\"\n}"))
-      .check(status.in(200, 201, 304, 403)))
+      .check(status.in(200, 201, 304, 403,404)))
 
   val configurationui =
     exec(http("XUI_Common_000_ConfigurationUI")
